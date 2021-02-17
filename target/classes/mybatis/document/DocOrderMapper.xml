@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.documentcenter.mapper.DocOrderMapper">
+
+    <resultMap type="DocOrder" id="DocOrderResult">
+        <result property="id" column="id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="orderNumber" column="order_number"/>
+        <result property="classDate" column="class_date"/>
+        <result property="auditTime" column="audit_time"/>
+        <result property="fileTypeKey" column="file_type_key"/>
+        <result property="fileTypeText" column="file_type_text"/>
+        <result property="normalSupplyNode" column="normal_supply_node"/>
+        <result property="actualSupplyTime" column="actual_supply_time"/>
+        <result property="actualSupply" column="actual_supply"/>
+        <result property="emailStatus" column="email_status"/>
+    </resultMap>
+
+    <sql id="selectDocOrderVo">
+        select dod.id, dod.order_id, dod.order_number, dod.class_date, dod.audit_time, dod.file_type_key, dod.file_type_text, dod.normal_supply_node,
+         dod.actual_supply_time, dod.actual_supply, dod.email_status from doc_order dod
+    </sql>
+
+    <select id="selectByOrderidTypeKey" parameterType="String" resultMap="DocOrderResult">
+        <include refid="selectDocOrderVo"></include>
+        where order_id = #{orderId} and file_type_key = #{fileTypeKey}
+    </select>
+
+    <update id="updateByorderidTypeKey" parameterType="DocOrder">
+        update doc_order
+            set
+            normal_supply_node = #{normalSupplyNode}
+        where order_id = #{orderId} and file_type_key = #{fileTypeKey}
+    </update>
+
+    <update id="updateActualSupply" parameterType="String">
+        update doc_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="actualSupplyTime != null and orderId != ''">actual_supply_time = #{actualSupplyTime},</if>
+            <if test="actualSupply != null ">actual_supply = #{actualSupply},</if>
+            <if test="emailStatus != null ">email_status = #{emailStatus},</if>
+        </trim>
+        where order_id = #{orderId} and file_type_key = #{fileTypeKey}
+    </update>
+
+    <select id="selectDocOrderList" parameterType="DocOrder" resultMap="DocOrderResult">
+        <include refid="selectDocOrderVo"/>
+        left join busi_shippingorder bso on bso.order_ID = dod.order_id
+        left join busi_clients c on c.client_ID = bso.client_ID
+        <where>
+            <if test="orderId != null  and orderId != ''">and dod.order_id = #{orderId}</if>
+            <if test="orderNumber != null  and orderNumber != ''">and dod.order_number = #{orderNumber}</if>
+            <if test="classDate != null ">and dod.class_date = #{classDate}</if>
+            <if test="auditTime != null ">and dod.audit_time = #{auditTime}</if>
+            <if test="fileTypeKey != null  and fileTypeKey != ''">and dod.file_type_key = #{fileTypeKey}</if>
+            <if test="fileTypeText != null  and fileTypeText != ''">and dod.file_type_text = #{fileTypeText}</if>
+            <if test="normalSupplyNode != null ">and dod.normal_supply_node = #{normalSupplyNode}</if>
+            <if test="readType != null  and readType != ''">
+               <if test="readType == '0'.toString()">
+                   and c.client_tjr_id in (
+                   SELECT
+                   tjr_id
+                   FROM
+                   sys_user
+                   WHERE
+                   user_id = #{userid}
+                   )
+               </if>
+                <if test="readType == '1'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code LIKE concat('%', #{deptCode}, '%')
+                    )
+                </if>
+                <if test="readType == '2'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000100%' or dept.dept_code like '%YWB1000103%'
+                )
+                </if>
+                <if test="readType == '3'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000101%' or dept.dept_code  like '%YWB1000104%'
+                    )
+                </if>
+                <if test="readType == '4'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000200%' or dept.dept_code like '%YWB1000202%'
+                    )
+                </if>
+                <if test="readType == '5'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000201%' or dept.dept_code like '%YWB1000203%'
+                    )
+
+                </if>
+            </if>
+        </where>
+    </select>
+
+    <select id="selectDocOrderByOrderId" parameterType="String" resultMap="DocOrderResult">
+        <include refid="selectDocOrderVo"/>
+        where order_id = #{orderId}
+    </select>
+
+    <insert id="insertDocOrderMatch">
+        insert into doc_order
+        (order_id, order_number, class_date, audit_time, file_type_key, file_type_text, normal_supply_node)
+        VALUES
+        <foreach collection="docOrderList" item="docOrder" separator=",">
+            (#{docOrder.orderId},
+            #{docOrder.orderNumber},
+            #{docOrder.classDate},
+            #{docOrder.auditTime},
+            #{docOrder.fileTypeKey},
+            #{docOrder.fileTypeText},
+            #{docOrder.normalSupplyNode})
+        </foreach>
+    </insert>
+
+    <insert id="insertDocOrder" parameterType="DocOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into doc_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id,</if>
+            <if test="orderNumber != null  and orderNumber != ''">order_number,</if>
+            <if test="classDate != null ">class_date,</if>
+            <if test="auditTime != null ">audit_time,</if>
+            <if test="fileTypeKey != null  and fileTypeKey != ''">file_type_key,</if>
+            <if test="fileTypeText != null  and fileTypeText != ''">file_type_text,</if>
+            <if test="normalSupplyNode != null ">normal_supply_node,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">#{orderId},</if>
+            <if test="orderNumber != null  and orderNumber != ''">#{orderNumber},</if>
+            <if test="classDate != null ">#{classDate},</if>
+            <if test="auditTime != null ">#{auditTime},</if>
+            <if test="fileTypeKey != null  and fileTypeKey != ''">#{fileTypeKey},</if>
+            <if test="fileTypeText != null  and fileTypeText != ''">#{fileTypeText},</if>
+            <if test="normalSupplyNode != null ">#{normalSupplyNode},</if>
+        </trim>
+    </insert>
+
+    <delete id="deleteDocOrderByOrderId" parameterType="String">
+        delete from doc_order where order_id = #{orderId}
+    </delete>
+
+</mapper>

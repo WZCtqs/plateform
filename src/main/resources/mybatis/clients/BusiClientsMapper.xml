@@ -1,0 +1,809 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.client.mapper.BusiClientsMapper">
+    
+    <resultMap type="BusiClients" id="BusiClientsResult">
+        <result property="clientId"    column="client_ID"    />
+        <result property="clientUnit"    column="client_unit"    />
+        <result property="clientAddress"    column="client_address"    />
+        <result property="clientLegalperson"    column="client_legalPerson"    />
+        <result property="clientContacts"    column="client_Contacts"    />
+        <result property="clientTel"    column="client_tel"    />
+        <result property="clientPhone"    column="client_phone"    />
+        <result property="clientEmail"    column="client_Email"    />
+        <result property="clientDept"    column="client_dept"    />
+        <result property="clientZw"    column="client_zw"    />
+        <result property="clientTjr"    column="client_tjr"    />
+        <result property="clientTjrId"    column="client_tjr_id"    />
+        <result property="remark"    column="remark"    />
+        <result property="clientLicense"    column="client_license"    />
+        <result property="clientCode"    column="client_code"    />
+        <result property="clientTax"    column="client_tax"    />
+        <result property="clientLoginuser"    column="client_loginUser"    />
+        <result property="clientLoginpwd"    column="client_loginPwd"    />
+        <result property="clientValiditydate"    column="client_validityDate"    />
+        <result property="clientDisableddate"    column="client_disabledDate"    />
+        <result property="clientExampersonid"    column="client_examPersonID"    />
+        <result property="clientExamperson"    column="client_examPerson"    />
+        <result property="userinfoId"    column="userInfo_ID"    />
+        <result property="userinfoName"    column="userInfo_name"    />
+        <result property="examinfo"    column="ExamInfo"    />
+        <result property="isexamline"    column="IsExamline"    />
+        <result property="cancelaccount"    column="cancelAccount"    />
+        <result property="createdate"    column="createdate"    />
+        <result property="createuserid"    column="createuserid"    />
+        <result property="createusername"    column="createusername"    />
+        <result property="clientJb"    column="client_jb"    />
+        <result property="engChinese"    column="Eng_Chinese"    />
+        <result property="enPrename"    column="en_prename"    />
+        <result property="enGender"    column="en_gender"    />
+        <result property="enNo"    column="en_no"    />
+        <result property="enPlace"    column="en_place"    />
+        <result property="registerPhone"    column="Register_phone"    />
+        <result property="alias"    column="alias"    />
+        <result property="state"    column="state"    />
+        <result property="isNormal"    column="is_normal"    />
+        <result property="isDirect"    column="is_direct"    />
+        <result property="isSign"    column="is_sign"    />
+        <result property="wMerchandiserId"    column="w_Merchandiser_id"    />
+        <result property="wMerchandiser"    column="w_Merchandiser"    />
+        <result property="eMerchandiserId"    column="e_Merchandiser_id"    />
+        <result property="eMerchandiser"    column="e_Merchandiser"    />
+        <result property="isVip"    column="is_vip"    />
+        <result property="signDate"    column="Sign_Date"    />
+        <result property="signDisableddate"    column="Sign_disabledDate"    />
+        <result property="clientGrade"    column="client_grade"    />
+        <result property="totalturncountavg"    column="TotalTurnCountAvg"    />
+        <result property="deadBeatType"    column="dead_beat_type"    />
+        <result property="wMerchandiserNumber"    column="w_Merchandiser_number"    />
+        <result property="eMerchandiserNumber"    column="e_Merchandiser_number"    />
+        <result property="powerType"    column="power_type"    />
+        <result property="contractNum"    column="contract_num"    />
+        <result property="contractName"    column="contract_name"    />
+        <result property="contractSubject"    column="contract_subject"    />
+        <result property="contractTime"    column="contract_time"    />
+        <result property="remindTime"    column="remind_time"    />
+        <result property="contractStatus"    column="contract_status"    />
+        <result property="contractAnnex"    column="contract_annex"    />
+        <result property="contractRemark"    column="contract_remark"    />
+        <result property="nickName"    column="nick_name"    />
+        <result property="deptName"    column="dept_name"    />
+    </resultMap>
+
+    <sql id="selectBusiClientsVo">
+         select
+        c.client_ID AS "clientId",
+        c.client_unit AS "clientUnit",
+        c.client_address AS "clientAddress",
+        c.client_legalPerson AS "clientLegalperson",
+        c.client_Contacts AS "clientContacts",
+        c.client_tel AS "clientTel",
+        c.client_phone AS "clientPhone",
+        c.client_Email AS "clientEmail",
+        c.client_dept AS "clientDept",
+        c.client_zw AS "clientZw",
+        c.client_tjr AS "clientTjr",
+        c.client_tjr_id AS "clientTjrId",
+        c.remark AS "remark",
+        c.client_license AS "clientLicense",
+        c.client_code AS "clientCode",
+        c.client_tax AS "clientTax",
+        c.client_loginUser AS "clientLoginuser",
+        c.client_loginPwd AS "clientLoginpwd",
+        c.client_validityDate AS "clientValiditydate",
+        c.client_disabledDate AS "clientDisableddate",
+        c.client_examPersonID AS "clientExampersonid",
+        c.client_examPerson AS "clientExamperson",
+        c.userInfo_ID AS "userinfoId",
+        c.userInfo_name AS "userinfoName",
+        c.ExamInfo AS "examinfo",
+        c.IsExamline AS "isexamline",
+        c.cancelAccount AS "cancelaccount",
+        c.createdate AS "createdate",
+        c.createuserid AS "createuserid",
+        c.createusername AS "createusername",
+        c.client_jb AS "clientJb",
+        c.Eng_Chinese AS "engChinese",
+        c.en_prename AS "enPrename",
+        c.en_gender AS "enGender",
+        c.en_no AS "enNo",
+        c.en_place AS "enPlace",
+        c.Register_phone AS "registerPhone",
+        c.alias AS "alias",
+        c.state AS "state",
+        c.is_normal AS "isNormal",
+        c.is_direct AS "isDirect",
+        c.is_sign AS "isSign",
+        c.w_Merchandiser_id AS "wMerchandiserId",
+        c.w_Merchandiser AS "wMerchandiser",
+        c.w_Merchandiser_number AS "wMerchandiserNumber",
+        c.e_Merchandiser_id AS "eMerchandiserId",
+        c.e_Merchandiser AS "eMerchandiser",
+        c.e_Merchandiser_number AS "eMerchandiserNumber",
+        c.is_vip AS "isVip",
+        c.Sign_Date AS "signDate",
+        c.Sign_disabledDate AS "signDisableddate",
+        c.client_grade AS "clientGrade",
+        c.TotalTurnCountAvg AS "totalturncountavg",
+        c.dead_beat_type AS "deadBeatType",
+        c.power_type AS "powerType",
+        c.contract_num AS "contractNum",
+        c.contract_name AS "contractName",
+        c.contract_subject AS "contractSubject",
+        c.contract_time AS "contractTime",
+        c.remind_time AS "remindTime",
+        c.contract_status AS "contractStatus",
+        c.contract_annex AS "contractAnnex",
+        c.contract_remark AS "contractRemark"
+    </sql>
+
+    <select id="selectBusiClientsList" parameterType="BusiClients" resultType="BusiClients">
+        <include refid="selectBusiClientsVo"/>
+        ,sd.dept_name as deptName,
+        su.nick_name as nickName
+        from busi_clients c
+        left join sys_user su on su.tjr_id=c.client_tjr_id
+        left join sys_dept sd on sd.dept_id=su.dept_id
+        <where>
+            c.cancelAccount !='2' and su.reference_type=1
+            <if test="clients != null  and clients != ''">
+            and c.client_ID in
+                <foreach collection="clients" item="id" index="index" open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="powerType != null "> and c.power_type = #{powerType}</if>
+
+            <if test="contractNum != null  and contractNum != '' "> and c.contract_num like concat('%', #{contractNum}, '%')</if>
+            <if test="contractStatus != null "> and c.contract_status = #{contractStatus}</if>
+            <if test="deptName != null and deptName != ''">
+            and sd.dept_id in (select dept_id from sys_dept where dept_name like concat ('%', #{deptName}, '%'))
+            </if>
+            <if test="nickName != null and nickName != ''">
+            and c.client_tjr_id in (select su.tjr_id from sys_user su  where su.reference_type = '1' and su.nick_name like concat('%', #{nickName}, '%'))</if>
+
+            <if test="clientUnit != null  and clientUnit != ''"> and c.client_unit like concat('%', #{clientUnit}, '%')</if>
+            <if test="clientDept != null  and clientDept != ''"> and c.client_dept = #{clientDept}</if>
+            <if test="clientTjrId != null  and clientTjrId != ''"> and c.client_tjr_id = #{clientTjrId}</if>
+            <if test="cancelaccount != null  and cancelaccount != ''"> and c.cancelAccount = #{cancelaccount}</if>
+            <if test="engChinese != null  and engChinese != ''"> and c.Eng_Chinese = #{engChinese}</if>
+            <if test="isNormal != null  and isNormal != ''"> and c.is_normal = #{isNormal}</if>
+            <if test="isDirect != null  and isDirect != ''"> and c.is_direct = #{isDirect}</if>
+            <if test="isSign != null  and isSign != ''"> and c.is_sign = #{isSign}</if>
+            <if test="clientTjr != null  and clientTjr != ''"> and c.client_tjr like concat('%', #{clientTjr}, '%')</if>
+            <if test="clientContacts != null  and clientContacts != ''"> and c.client_Contacts like concat('%', #{clientContacts}, '%')</if>
+            <if test="clientLoginuser != null  and clientLoginuser != ''"> and c.client_loginUser = #{clientLoginuser}</if>
+            <if test="wMerchandiserNumber != null  and wMerchandiserNumber != ''">
+                and (c.w_Merchandiser_number like concat ('%', #{wMerchandiserNumber}, '%') or c.e_Merchandiser_number LIKE concat('%', #{wMerchandiserNumber}, '%'))
+            </if>
+            <if test="wMerchandiser != null  and wMerchandiser != ''">
+                and (c.w_Merchandiser like concat('%', #{wMerchandiser}, '%') or c.e_Merchandiser like concat('%', #{wMerchandiser}, '%'))
+            </if>
+            <if test="isexamline != null  and isexamline != ''"> and c.IsExamline = #{isexamline}</if>
+            <if test="clientLegalperson != null  and clientLegalperson != ''"> and c.client_legalPerson LIKE concat ('%',#{clientLegalperson}, '%')</if>
+
+            <if test="registerStartTime != null  and registerStartTime != ''">
+                and DATE_FORMAT(c.createdate,'%Y-%m-%d') <![CDATA[>= ]]> #{registerStartTime}
+            </if>
+            <if test="registerEndTime != null  and registerEndTime != ''">
+                and DATE_FORMAT(c.createdate,'%Y-%m-%d') <![CDATA[<= ]]> #{registerEndTime}
+            </if>
+            <if test="readType != null  and readType != ''">
+               <if test="readType == '0'.toString()">
+                   and c.client_tjr_id in (
+                   SELECT
+                   tjr_id
+                   FROM
+                   sys_user
+                   WHERE
+                   user_id = #{userid}
+                   )
+               </if>
+                <if test="readType == '1'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code LIKE concat('%', #{deptCode}, '%') and usr.reference_type = '1'
+                    )
+                </if>
+                <if test="readType == '2'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000100%' or dept.dept_code like '%YWB1000103%' and usr.reference_type = '1'
+                )
+                </if>
+                <if test="readType == '3'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000101%' or dept.dept_code  like '%YWB1000104%' and usr.reference_type = '1'
+                    )
+                </if>
+                <if test="readType == '4'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000200%' or dept.dept_code like '%YWB1000202%' and usr.reference_type = '1'
+                    )
+                </if>
+                <if test="readType == '5'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000201%' or dept.dept_code like '%YWB1000203%' and usr.reference_type = '1'
+                    )
+
+                </if>
+            </if>
+        </where>
+        order by c.createdate desc
+    </select>
+
+    <select id="selectBusiClientsListByUser" parameterType="String" resultType="com.szhbl.project.client.domain.BusiClients">
+        select client_ID as clientId,client_unit as clientUnit,client_loginUser as clientLoginuser,IsExamline as isexamline,cancelAccount as cancelaccount
+        from busi_clients where client_loginUser = #{clientLoginuser} and cancelAccount!="2" and cancelAccount!="3" and IsExamline!='2'
+    </select>
+
+    <select id="selectBusiClientsById" parameterType="String" resultType="BusiClients">
+        <include refid="selectBusiClientsVo"/>
+        from busi_clients c
+        where c.client_ID = #{clientId}
+    </select>
+    <select id="selectBusiClientsByName" parameterType="String" resultType="BusiClients">
+        <include refid="selectBusiClientsVo"/>
+        from busi_clients c
+        where c.client_loginUser = #{userName} and c.IsExamline!="2"
+    </select>
+
+    <select id="selectBusiClientsWithIds" resultType="BusiClients">
+        <include refid="selectBusiClientsVo"/>
+        from busi_clients c
+        WHERE c.client_ID in
+        <foreach item="clientId" collection="array" open="(" separator="," close=")">
+            #{clientId}
+        </foreach>
+    </select>
+
+<!--查询在注册有效时间范围内的客户-->
+    <select id="selectBusiClientsListWithValidate" parameterType="map" resultType="BusiClients">
+        <include refid="selectBusiClientsVo"/>
+        from busi_clients c
+        WHERE
+        c.is_normal = 0 and c.cancelAccount!='2' and c.cancelAccount!='3' and c.IsExamline='1'
+        <if test="registerStartTime != null  and registerStartTime != ''">
+            and DATE_FORMAT(c.client_validityDate,'%Y-%m-%d') <![CDATA[>= ]]> #{registerStartTime}
+        </if>
+        <if test="registerEndTime != null  and registerEndTime != ''">
+            and DATE_FORMAT(c.client_validityDate,'%Y-%m-%d') <![CDATA[<= ]]> #{registerEndTime}
+        </if>
+    </select>
+
+    <select id="selectBusiClientsGNCountNum" parameterType="BusiClients" resultType="int">
+       SELECT COUNT(c.Eng_Chinese)
+       FROM busi_clients c
+        <where>
+            c.cancelAccount !='2'
+            and c.Eng_Chinese = '0'
+            <if test="clients != null  and clients != ''">
+                and c.client_ID in
+
+                <foreach collection="clients" item="id" index="index" open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="powerType != null "> and c.power_type = #{powerType}</if>
+            <if test="clientUnit != null  and clientUnit != ''"> and c.client_unit like concat('%', #{clientUnit}, '%')</if>
+            <if test="clientDept != null  and clientDept != ''"> and c.client_dept = #{clientDept}</if>
+            <if test="clientTjrId != null  and clientTjrId != ''"> and c.client_tjr_id = #{clientTjrId}</if>
+            <if test="cancelaccount != null  and cancelaccount != ''"> and c.cancelAccount = #{cancelaccount}</if>
+            <if test="engChinese != null  and engChinese != ''"> and c.Eng_Chinese = #{engChinese}</if>
+            <if test="isNormal != null  and isNormal != ''"> and c.is_normal = #{isNormal}</if>
+            <if test="isDirect != null  and isDirect != ''"> and c.is_direct = #{isDirect}</if>
+            <if test="isSign != null  and isSign != ''"> and c.is_sign = #{isSign}</if>
+            <if test="clientTjr != null  and clientTjr != ''"> and c.client_tjr = #{clientTjr}</if>
+            <if test="clientContacts != null  and clientContacts != ''"> and c.client_Contacts = #{clientContacts}</if>
+            <if test="clientLoginuser != null  and clientLoginuser != ''"> and c.client_loginUser = #{clientLoginuser}</if>
+            <if test="wMerchandiserNumber != null  and wMerchandiserNumber != ''">
+                and (c.w_Merchandiser_number like concat ('%', #{wMerchandiserNumber}, '%') or c.e_Merchandiser_number LIKE concat('%', #{wMerchandiserNumber}, '%'))
+            </if>
+            <if test="wMerchandiser != null  and wMerchandiser != ''">
+                and (c.w_Merchandiser like concat('%', #{wMerchandiser}, '%') or c.e_Merchandiser like concat('%', #{wMerchandiser}, '%'))
+            </if>
+            <if test="isexamline != null  and isexamline != ''"> and c.IsExamline = #{isexamline}</if>
+            <if test="clientLegalperson != null  and clientLegalperson != ''"> and c.client_legalPerson LIKE concat ('%',#{clientLegalperson}, '%')</if>
+
+            <if test="registerStartTime != null  and registerStartTime != ''">
+
+                and DATE_FORMAT(c.client_validityDate,'%Y-%m-%d') <![CDATA[>= ]]> #{registerStartTime}
+            </if>
+            <if test="registerEndTime != null  and registerEndTime != ''">
+                and DATE_FORMAT(c.client_validityDate,'%Y-%m-%d') <![CDATA[<= ]]> #{registerEndTime}
+            </if>
+            <if test="readType != null  and readType != ''">
+                <if test="readType == '0'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    tjr_id
+                    FROM
+                    sys_user
+                    WHERE
+                    user_id = #{userid}
+                    )
+                </if>
+                <if test="readType == '1'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code LIKE concat('%', #{deptCode}, '%') and usr.reference_type = '1'
+                    )
+                </if>
+                <if test="readType == '2'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000100%' or dept.dept_code like '%YWB1000103%' and usr.reference_type = '1'
+                    )
+                </if>
+                <if test="readType == '3'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000101%' or dept.dept_code  like '%YWB1000104%' and usr.reference_type = '1'
+                    )
+                </if>
+                <if test="readType == '4'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000200%' or dept.dept_code like '%YWB1000202%' and usr.reference_type = '1'
+                    )
+                </if>
+                <if test="readType == '5'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000201%' or dept.dept_code like '%YWB1000203%' and usr.reference_type = '1'
+                    )
+
+                </if>
+            </if>
+
+        </where>
+
+    </select>
+
+    <select id="selectBusiClientsGWCountNum" parameterType="BusiClients" resultType="int">
+        SELECT
+        COUNT(c.Eng_Chinese)
+        FROM busi_clients c
+        <where>
+            c.cancelAccount !='2'
+            and c.Eng_Chinese = '1'
+            <if test="clients != null  and clients != ''">
+                and c.client_ID in
+                <foreach collection="clients" item="id" index="index" open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="powerType != null "> and c.power_type = #{powerType}</if>
+            <if test="clientUnit != null  and clientUnit != ''"> and c.client_unit like concat('%', #{clientUnit}, '%')</if>
+            <if test="clientDept != null  and clientDept != ''"> and c.client_dept = #{clientDept}</if>
+            <if test="clientTjrId != null  and clientTjrId != ''"> and c.client_tjr_id = #{clientTjrId}</if>
+            <if test="cancelaccount != null  and cancelaccount != ''"> and c.cancelAccount = #{cancelaccount}</if>
+            <if test="engChinese != null  and engChinese != ''"> and c.Eng_Chinese = #{engChinese}</if>
+            <if test="isNormal != null  and isNormal != ''"> and c.is_normal = #{isNormal}</if>
+            <if test="isDirect != null  and isDirect != ''"> and c.is_direct = #{isDirect}</if>
+            <if test="isSign != null  and isSign != ''"> and c.is_sign = #{isSign}</if>
+            <if test="clientTjr != null  and clientTjr != ''"> and c.client_tjr = #{clientTjr}</if>
+            <if test="clientContacts != null  and clientContacts != ''"> and c.client_Contacts = #{clientContacts}</if>
+            <if test="clientLoginuser != null  and clientLoginuser != ''"> and c.client_loginUser = #{clientLoginuser}</if>
+            <if test="wMerchandiserNumber != null  and wMerchandiserNumber != ''">
+                and (c.w_Merchandiser_number like concat ('%', #{wMerchandiserNumber}, '%') or c.e_Merchandiser_number LIKE concat('%', #{wMerchandiserNumber}, '%'))
+            </if>
+            <if test="wMerchandiser != null  and wMerchandiser != ''">
+                and (c.w_Merchandiser like concat('%', #{wMerchandiser}, '%') or c.e_Merchandiser like concat('%', #{wMerchandiser}, '%'))
+            </if>
+            <if test="isexamline != null  and isexamline != ''"> and c.IsExamline = #{isexamline}</if>
+            <if test="clientLegalperson != null  and clientLegalperson != ''"> and c.client_legalPerson LIKE concat ('%',#{clientLegalperson}, '%')</if>
+
+            <if test="registerStartTime != null  and registerStartTime != ''">
+
+                and DATE_FORMAT(c.client_validityDate,'%Y-%m-%d') <![CDATA[>= ]]> #{registerStartTime}
+            </if>
+            <if test="registerEndTime != null  and registerEndTime != ''">
+                and DATE_FORMAT(c.client_validityDate,'%Y-%m-%d') <![CDATA[<= ]]> #{registerEndTime}
+            </if>
+            <if test="readType != null  and readType != ''">
+                <if test="readType == '0'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    tjr_id
+                    FROM
+                    sys_user
+                    WHERE
+                    user_id = #{userid}
+                    )
+                </if>
+                <if test="readType == '1'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code LIKE concat('%', #{deptCode}, '%') and usr.reference_type = '1'
+                    )
+                </if>
+                <if test="readType == '2'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000100%' or dept.dept_code like '%YWB1000103%' and usr.reference_type = '1'
+                    )
+                </if>
+                <if test="readType == '3'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000101%' or dept.dept_code  like '%YWB1000104%' and usr.reference_type = '1'
+                    )
+                </if>
+                <if test="readType == '4'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000200%' or dept.dept_code like '%YWB1000202%' and usr.reference_type = '1'
+                    )
+                </if>
+                <if test="readType == '5'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000201%' or dept.dept_code like '%YWB1000203%' and usr.reference_type = '1'
+                    )
+
+                </if>
+            </if>
+
+        </where>
+
+    </select>
+    <select id="selectBusiClientsListByName" resultType="com.szhbl.project.client.domain.BusiClients">
+        <include refid="selectBusiClientsVo"/>
+        from busi_clients c
+        where c.client_loginUser = #{userName} and c.cancelAccount!="2"  and c.cancelAccount!="3" and c.IsExamline='1'
+    </select>
+    <insert id="insertBusiClients" parameterType="BusiClients">
+        insert into busi_clients
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="clientId != null  and clientId != ''">client_ID,</if>
+            <if test="clientUnit != null  and clientUnit != ''">client_unit,</if>
+            <if test="clientAddress != null  and clientAddress != ''">client_address,</if>
+            <if test="clientLegalperson != null  and clientLegalperson != ''">client_legalPerson,</if>
+            <if test="clientContacts != null  and clientContacts != ''">client_Contacts,</if>
+            <if test="clientTel != null  and clientTel != ''">client_tel,</if>
+            <if test="clientPhone != null  and clientPhone != ''">client_phone,</if>
+            <if test="clientEmail != null  and clientEmail != ''">client_Email,</if>
+            <if test="clientDept != null  and clientDept != ''">client_dept,</if>
+            <if test="clientZw != null  and clientZw != ''">client_zw,</if>
+            <if test="clientTjr != null  and clientTjr != ''">client_tjr,</if>
+            <if test="clientTjrId != null  and clientTjrId != ''">client_tjr_id,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="clientLicense != null  and clientLicense != ''">client_license,</if>
+            <if test="clientCode != null  and clientCode != ''">client_code,</if>
+            <if test="clientTax != null  and clientTax != ''">client_tax,</if>
+            <if test="clientLoginuser != null  and clientLoginuser != ''">client_loginUser,</if>
+            <if test="clientLoginpwd != null  and clientLoginpwd != ''">client_loginPwd,</if>
+            <if test="clientValiditydate != null ">client_validityDate,</if>
+            <if test="clientDisableddate != null ">client_disabledDate,</if>
+            <if test="clientExampersonid != null  and clientExampersonid != ''">client_examPersonID,</if>
+            <if test="clientExamperson != null  and clientExamperson != ''">client_examPerson,</if>
+            <if test="userinfoId != null  and userinfoId != ''">userInfo_ID,</if>
+            <if test="userinfoName != null  and userinfoName != ''">userInfo_name,</if>
+            <if test="examinfo != null  and examinfo != ''">ExamInfo,</if>
+            <if test="isexamline != null  and isexamline != ''">IsExamline,</if>
+            <if test="cancelaccount != null  and cancelaccount != ''">cancelAccount,</if>
+            <if test="createdate != null ">createdate,</if>
+            <if test="createuserid != null  and createuserid != ''">createuserid,</if>
+            <if test="createusername != null  and createusername != ''">createusername,</if>
+            <if test="clientJb != null  and clientJb != ''">client_jb,</if>
+            <if test="engChinese != null  and engChinese != ''">Eng_Chinese,</if>
+            <if test="enPrename != null  and enPrename != ''">en_prename,</if>
+            <if test="enGender != null  and enGender != ''">en_gender,</if>
+            <if test="enNo != null  and enNo != ''">en_no,</if>
+            <if test="enPlace != null  and enPlace != ''">en_place,</if>
+            <if test="registerPhone != null  and registerPhone != ''">Register_phone,</if>
+            <if test="alias != null  and alias != ''">alias,</if>
+            <if test="state != null  and state != ''">state,</if>
+            <if test="isNormal != null  and isNormal != ''">is_normal,</if>
+            <if test="isDirect != null  and isDirect != ''">is_direct,</if>
+            <if test="isSign != null  and isSign != ''">is_sign,</if>
+            <if test="wMerchandiserId != null  and wMerchandiserId != ''">w_Merchandiser_id,</if>
+            <if test="wMerchandiser != null  and wMerchandiser != ''">w_Merchandiser,</if>
+            <if test="wMerchandiserNumber != null  and wMerchandiserNumber != ''">w_Merchandiser_number,</if>
+            <if test="eMerchandiserId != null  and eMerchandiserId != ''">e_Merchandiser_id,</if>
+            <if test="eMerchandiser != null  and eMerchandiser != ''">e_Merchandiser,</if>
+            <if test="eMerchandiserNumber != null  and eMerchandiserNumber != ''">e_Merchandiser_number,</if>
+            <if test="isVip != null  and isVip != ''">is_vip,</if>
+            <if test="signDate != null ">Sign_Date,</if>
+            <if test="signDisableddate != null ">Sign_disabledDate,</if>
+            <if test="clientGrade != null  and clientGrade != ''">client_grade,</if>
+            <if test="totalturncountavg != null  and totalturncountavg != ''">TotalTurnCountAvg,</if>
+            <if test="powerType != null ">power_type,</if>
+            <if test="contractNum != null and contractNum != '' ">contract_num,</if>
+            <if test="contractName != null and contractName != ''">contract_name,</if>
+            <if test="contractSubject != null and contractSubject != '' ">contract_subject,</if>
+            <if test="contractTime != null and contractTime != '' ">contract_time,</if>
+            <if test="remindTime != null  and remindTime != ''">remind_time,</if>
+            <if test="contractStatus != null ">contract_status,</if>
+            <if test="contractAnnex != null and contractAnnex != ''">contract_annex,</if>
+            <if test="contractRemark != null and contractRemark != ''">contract_remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="clientId != null  and clientId != ''">#{clientId},</if>
+            <if test="clientUnit != null  and clientUnit != ''">#{clientUnit},</if>
+            <if test="clientAddress != null  and clientAddress != ''">#{clientAddress},</if>
+            <if test="clientLegalperson != null  and clientLegalperson != ''">#{clientLegalperson},</if>
+            <if test="clientContacts != null  and clientContacts != ''">#{clientContacts},</if>
+            <if test="clientTel != null  and clientTel != ''">#{clientTel},</if>
+            <if test="clientPhone != null  and clientPhone != ''">#{clientPhone},</if>
+            <if test="clientEmail != null  and clientEmail != ''">#{clientEmail},</if>
+            <if test="clientDept != null  and clientDept != ''">#{clientDept},</if>
+            <if test="clientZw != null  and clientZw != ''">#{clientZw},</if>
+            <if test="clientTjr != null  and clientTjr != ''">#{clientTjr},</if>
+            <if test="clientTjrId != null  and clientTjrId != ''">#{clientTjrId},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="clientLicense != null  and clientLicense != ''">#{clientLicense},</if>
+            <if test="clientCode != null  and clientCode != ''">#{clientCode},</if>
+            <if test="clientTax != null  and clientTax != ''">#{clientTax},</if>
+            <if test="clientLoginuser != null  and clientLoginuser != ''">#{clientLoginuser},</if>
+            <if test="clientLoginpwd != null  and clientLoginpwd != ''">#{clientLoginpwd},</if>
+            <if test="clientValiditydate != null ">#{clientValiditydate},</if>
+            <if test="clientDisableddate != null ">#{clientDisableddate},</if>
+            <if test="clientExampersonid != null  and clientExampersonid != ''">#{clientExampersonid},</if>
+            <if test="clientExamperson != null  and clientExamperson != ''">#{clientExamperson},</if>
+            <if test="userinfoId != null  and userinfoId != ''">#{userinfoId},</if>
+            <if test="userinfoName != null  and userinfoName != ''">#{userinfoName},</if>
+            <if test="examinfo != null  and examinfo != ''">#{examinfo},</if>
+            <if test="isexamline != null  and isexamline != ''">#{isexamline},</if>
+            <if test="cancelaccount != null  and cancelaccount != ''">#{cancelaccount},</if>
+            <if test="createdate != null ">#{createdate},</if>
+            <if test="createuserid != null  and createuserid != ''">#{createuserid},</if>
+            <if test="createusername != null  and createusername != ''">#{createusername},</if>
+            <if test="clientJb != null  and clientJb != ''">#{clientJb},</if>
+            <if test="engChinese != null  and engChinese != ''">#{engChinese},</if>
+            <if test="enPrename != null  and enPrename != ''">#{enPrename},</if>
+            <if test="enGender != null  and enGender != ''">#{enGender},</if>
+            <if test="enNo != null  and enNo != ''">#{enNo},</if>
+            <if test="enPlace != null  and enPlace != ''">#{enPlace},</if>
+            <if test="registerPhone != null  and registerPhone != ''">#{registerPhone},</if>
+            <if test="alias != null  and alias != ''">#{alias},</if>
+            <if test="state != null  and state != ''">#{state},</if>
+            <if test="isNormal != null  and isNormal != ''">#{isNormal},</if>
+            <if test="isDirect != null  and isDirect != ''">#{isDirect},</if>
+            <if test="isSign != null  and isSign != ''">#{isSign},</if>
+            <if test="wMerchandiserId != null  and wMerchandiserId != ''">#{wMerchandiserId},</if>
+            <if test="wMerchandiser != null  and wMerchandiser != ''">#{wMerchandiser},</if>
+            <if test="wMerchandiserNumber != null  and wMerchandiserNumber != ''">#{wMerchandiserNumber},</if>
+            <if test="eMerchandiserId != null  and eMerchandiserId != ''">#{eMerchandiserId},</if>
+            <if test="eMerchandiserNumber != null  and eMerchandiserNumber != ''">#{eMerchandiserNumber},</if>
+            <if test="eMerchandiser != null  and eMerchandiser != ''">#{eMerchandiser},</if>
+            <if test="isVip != null  and isVip != ''">#{isVip},</if>
+            <if test="signDate != null ">#{signDate},</if>
+            <if test="signDisableddate != null ">#{signDisableddate},</if>
+            <if test="clientGrade != null  and clientGrade != ''">#{clientGrade},</if>
+            <if test="totalturncountavg != null  and totalturncountavg != ''">#{totalturncountavg},</if>
+            <if test="powerType != null ">#{powerType},</if>
+            <if test="contractNum != null  and contractNum != ''">#{contractNum},</if>
+            <if test="contractName != null and contractName != '' ">#{contractName},</if>
+            <if test="contractSubject != null and contractSubject != '' ">#{contractSubject},</if>
+            <if test="contractTime != null and contractTime != '' ">#{contractTime},</if>
+            <if test="remindTime != null  and remindTime != ''">#{remindTime},</if>
+            <if test="contractStatus != null ">#{contractStatus},</if>
+            <if test="contractAnnex != null and contractAnnex != '' ">#{contractAnnex},</if>
+            <if test="contractRemark != null  and contractRemark != ''">#{contractRemark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateBusiClients" parameterType="BusiClients">
+        update busi_clients
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="clientUnit != null  and clientUnit != ''">client_unit = #{clientUnit},</if>
+            <if test="clientAddress != null  and clientAddress != ''">client_address = #{clientAddress},</if>
+            <if test="clientLegalperson != null  and clientLegalperson != ''">client_legalPerson = #{clientLegalperson},</if>
+            <if test="clientContacts != null  and clientContacts != ''">client_Contacts = #{clientContacts},</if>
+            <if test="clientTel != null  and clientTel != ''">client_tel = #{clientTel},</if>
+            <if test="clientPhone != null  and clientPhone != ''">client_phone = #{clientPhone},</if>
+            <if test="clientEmail != null  and clientEmail != ''">client_Email = #{clientEmail},</if>
+            <if test="clientDept != null  and clientDept != ''">client_dept = #{clientDept},</if>
+            <if test="clientZw != null  and clientZw != ''">client_zw = #{clientZw},</if>
+            <if test="clientTjr != null  and clientTjr != ''">client_tjr = #{clientTjr},</if>
+            <if test="clientTjrId != null  and clientTjrId != ''">client_tjr_id = #{clientTjrId},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="clientLicense != null  and clientLicense != ''">client_license = #{clientLicense},</if>
+            <if test="clientCode != null  and clientCode != ''">client_code = #{clientCode},</if>
+            <if test="clientTax != null  and clientTax != ''">client_tax = #{clientTax},</if>
+            <if test="clientLoginuser != null  and clientLoginuser != ''">client_loginUser = #{clientLoginuser},</if>
+            <if test="clientLoginpwd != null  and clientLoginpwd != ''">client_loginPwd = #{clientLoginpwd},</if>
+            <if test="clientValiditydate != null ">client_validityDate = #{clientValiditydate},</if>
+            <if test="clientDisableddate != null ">client_disabledDate = #{clientDisableddate},</if>
+            <if test="clientExampersonid != null  and clientExampersonid != ''">client_examPersonID = #{clientExampersonid},</if>
+            <if test="clientExamperson != null  and clientExamperson != ''">client_examPerson = #{clientExamperson},</if>
+            <if test="userinfoId != null  and userinfoId != ''">userInfo_ID = #{userinfoId},</if>
+            <if test="userinfoName != null  and userinfoName != ''">userInfo_name = #{userinfoName},</if>
+            <if test="examinfo != null  and examinfo != ''">ExamInfo = #{examinfo},</if>
+            <if test="isexamline != null  and isexamline != ''">IsExamline = #{isexamline},</if>
+            <if test="cancelaccount != null  and cancelaccount != ''">cancelAccount = #{cancelaccount},</if>
+            <if test="createdate != null ">createdate = #{createdate},</if>
+            <if test="createuserid != null  and createuserid != ''">createuserid = #{createuserid},</if>
+            <if test="createusername != null  and createusername != ''">createusername = #{createusername},</if>
+            <if test="clientJb != null  and clientJb != ''">client_jb = #{clientJb},</if>
+            <if test="engChinese != null  and engChinese != ''">Eng_Chinese = #{engChinese},</if>
+            <if test="enPrename != null  and enPrename != ''">en_prename = #{enPrename},</if>
+            <if test="enGender != null  and enGender != ''">en_gender = #{enGender},</if>
+            <if test="enNo != null  and enNo != ''">en_no = #{enNo},</if>
+            <if test="enPlace != null  and enPlace != ''">en_place = #{enPlace},</if>
+            <if test="registerPhone != null  and registerPhone != ''">Register_phone = #{registerPhone},</if>
+            <if test="alias != null  and alias != ''">alias = #{alias},</if>
+            <if test="state != null  and state != ''">state = #{state},</if>
+            <if test="isNormal != null  and isNormal != ''">is_normal = #{isNormal},</if>
+            <if test="isDirect != null  and isDirect != ''">is_direct = #{isDirect},</if>
+            <if test="isSign != null  and isSign != ''">is_sign = #{isSign},</if>
+            <if test="wMerchandiserId != null  and wMerchandiserId != ''">w_Merchandiser_id = #{wMerchandiserId},</if>
+            <if test="wMerchandiser != null  and wMerchandiser != ''">w_Merchandiser = #{wMerchandiser},</if>
+            <if test="wMerchandiserNumber != null  and wMerchandiserNumber != ''">w_Merchandiser_number = #{wMerchandiserNumber},</if>
+            <if test="eMerchandiserId != null  and eMerchandiserId != ''">e_Merchandiser_id = #{eMerchandiserId},</if>
+            <if test="eMerchandiser != null  and eMerchandiser != ''">e_Merchandiser = #{eMerchandiser},</if>
+            <if test="eMerchandiserNumber != null  and eMerchandiserNumber != ''">e_Merchandiser_number = #{eMerchandiserNumber},</if>
+            <if test="wMerchandiserId == null and wMerclear == 0">
+                w_Merchandiser_id = null, w_Merchandiser = null, w_Merchandiser_number = null,
+            </if>
+            <if test="eMerchandiserId == null and eMerclear == 0">
+                e_Merchandiser_id = null, e_Merchandiser = null, e_Merchandiser_number = null,
+            </if>
+            <if test="isVip != null  and isVip != ''">is_vip = #{isVip},</if>
+            <if test="signDate != null ">Sign_Date = #{signDate},</if>
+            <if test="signDisableddate != null ">Sign_disabledDate = #{signDisableddate},</if>
+            <if test="clientGrade != null  and clientGrade != ''">client_grade = #{clientGrade},</if>
+            <if test="totalturncountavg != null  and totalturncountavg != ''">TotalTurnCountAvg = #{totalturncountavg},</if>
+            <if test="powerType != null">power_type = #{powerType},</if>
+            <if test="contractNum != null and contractNum != ''">contract_num = #{contractNum},</if>
+            <if test="contractName != null and contractName != ''">contract_name = #{contractName},</if>
+            <if test="contractSubject != null and contractSubject != ''">contract_subject = #{contractSubject},</if>
+            <if test="contractTime != null and contractTime != ''">contract_time = #{contractTime},</if>
+            <if test="remindTime != null and remindTime != ''">remind_time = #{remindTime},</if>
+            <if test="contractStatus != null">contract_status = #{contractStatus},</if>
+            <if test="contractAnnex != null and contractAnnex != ''">contract_annex = #{contractAnnex},</if>
+            <if test="contractRemark != null and contractRemark != ''">contract_remark = #{contractRemark},</if>
+        </trim>
+        where client_ID = #{clientId}
+    </update>
+
+    <!--批量修改跟单员（根据推荐人）-->
+    <update id="updateWMerchandiserByTjr" parameterType="com.szhbl.project.client.domain.BusiClientsByTjr">
+        update busi_clients
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="wMerchandiserId != null  and wMerchandiserId != ''">w_Merchandiser_id = #{wMerchandiserId},</if>
+            <if test="wMerchandiser != null  and wMerchandiser != ''">w_Merchandiser = #{wMerchandiser},</if>
+            <if test="eMerchandiserId != null  and eMerchandiserId != ''">e_Merchandiser_id = #{eMerchandiserId},</if>
+            <if test="eMerchandiser != null  and eMerchandiser != ''">e_Merchandiser = #{eMerchandiser},</if>
+        </trim>
+        where client_ID = #{clientId}
+    </update>
+
+   <!--更新西向跟单员-->
+    <update id="updateWMerchandiser" parameterType="BusiClients">
+        UPDATE  busi_clients set w_Merchandiser_id = #{wMerchandiserId},w_Merchandiser = #{wMerchandiser},w_Merchandiser_number= #{wMerchandiserNumber} WHERE client_ID = #{clientId}
+    </update>
+    <!--更新东向跟单员-->
+    <update id="updateEMerchandiser" parameterType="BusiClients">
+        UPDATE  busi_clients set e_Merchandiser_id = #{eMerchandiserId},e_Merchandiser = #{eMerchandiser},e_Merchandiser_number= #{eMerchandiserNumber} WHERE client_ID = #{clientId}
+    </update>
+
+    <!--用户端更改推荐人姓名-->
+
+    <update id="updateBusiClientsTjrWithTjrId" parameterType="BusiClients">
+        UPDATE  busi_clients set client_tjr = #{clientTjr}  WHERE client_tjr_id = #{clientTjrId}
+    </update>
+<!--删除客户-->
+    <delete id="deleteBusiClientsById" parameterType="String">
+       UPDATE  busi_clients set cancelAccount = '2' WHERE client_ID = #{clientId}
+    </delete>
+    <!--批量删除客户-->
+    <delete id="deleteBusiClientsByIds" parameterType="String">
+        UPDATE  busi_clients set cancelAccount = '2' WHERE client_ID in
+        <foreach item="clientId" collection="array" open="(" separator="," close=")">
+            #{clientId}
+        </foreach>
+    </delete>
+
+    <select id="selectClinent" resultType="com.szhbl.project.client.domain.BusiClients">
+       select client_ID as clientId from busi_clients where cancelAccount in (0,1) and IsExamline='1'
+    </select>
+
+    <select id="selectAorB" parameterType="String"  resultType="java.lang.Integer">
+       select count(*) from busi_shippingorder where IsExamline='1'and client_ID = #{clientId}
+    </select>
+
+    <select id="selectDays" parameterType="String" resultType="java.lang.Integer">
+         select TIMESTAMPDIFF(day,DATE_FORMAT((IFNULL((SELECT max(inquiry_time) from booking_inquiry WHERE client_id=#{clientId}),
+         (SELECT createdate from busi_clients WHERE client_ID=#{clientId}))) ,'%Y-%m-%d'),DATE_FORMAT(now(),'%Y-%m-%d'))
+    </select>
+
+    <select id="getPowerClients"  resultType="java.lang.String">
+        select client_loginUser
+        from busi_clients
+        where power_type = #{powerType}
+    </select>
+
+    <select id="getPowerById" parameterType="string"  resultType="java.lang.String">
+        select power_type
+        from busi_clients
+        where client_ID = #{clientId}
+    </select>
+
+    <select id="selectClientEmailForDoc" parameterType="String" resultType="java.lang.String">
+        select client_Email from busi_clients where client_ID = #{clientId}
+    </select>
+
+</mapper>

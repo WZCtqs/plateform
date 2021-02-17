@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.trains.mapper.BusiClassesTemplateMapper">
+    
+    <resultMap type="BusiClassesTemplate" id="BusiClassesTemplateResult">
+        <result property="classTId"    column="class_t_ID"    />
+        <result property="classTNumber"    column="class_t_Number"    />
+        <result property="classTBlocktrainCn"    column="class_t_BlockTrain_cn"    />
+        <result property="classTBlocktrainEn"    column="class_t_BlockTrain_En"    />
+        <result property="classTClasstype"    column="class_t_ClassType"    />
+        <result property="classTEastandwest"    column="class_t_EastAndWest"    />
+        <result property="classTStationofdepartureCode"    column="class_t_StationOfDeparture_code"    />
+        <result property="classTStationofdeparture"    column="class_t_StationOfDeparture"    />
+        <result property="classTStationofdepartureEn"    column="class_t_StationOfDeparture_en"    />
+        <result property="classTStationofdestinationCode"    column="class_t_StationOfDestination_code"    />
+        <result property="classTStationofdestination"    column="class_t_StationOfDestination"    />
+        <result property="classTStationofdestinationEn"    column="class_t_StationOfDestination_en"    />
+        <result property="classTTransporttime"    column="class_t_TransportTime"    />
+        <result property="classTPath"    column="class_t_path"    />
+        <result property="createdate"    column="createdate"    />
+        <result property="createuserid"    column="createuserid"    />
+        <result property="createusername"    column="createusername"    />
+        <result property="classTSstie"    column="class_t_SStie"    />
+        <result property="classTEstie"    column="class_t_EStie"    />
+        <result property="lineId"    column="line_id"    />
+        <result property="lineName"    column="line_name"    />
+        <result property="lineTypeid"    column="line_typeid"    />
+        <result property="yuyan"    column="yuyan"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectBusiClassesTemplateVo">
+        select class_t_ID, class_t_Number, class_t_BlockTrain_cn, class_t_BlockTrain_en, class_t_ClassType, class_t_EastAndWest, class_t_StationOfDeparture_code, class_t_StationOfDeparture, class_t_StationOfDeparture_en, class_t_StationOfDestination_code, class_t_StationOfDestination, class_t_StationOfDestination_en, class_t_TransportTime, class_t_path, createdate, createuserid, createusername, class_t_SStie, class_t_EStie, line_id, line_name, line_typeid, yuyan,del_flag from busi_classes_template
+    </sql>
+
+    <select id="selectBusiClassesTemplateList" parameterType="BusiClassesTemplate" resultMap="BusiClassesTemplateResult">
+        <include refid="selectBusiClassesTemplateVo"/>
+        <where>  
+            <if test="classTNumber != null  and classTNumber != ''"> and class_t_Number = #{classTNumber}</if>
+            <if test="classTBlocktrainCn != null  and classTBlocktrainCn != ''"> and class_t_BlockTrain_cn = #{classTBlocktrainCn}</if>
+            <if test="classTBlocktrainEn != null  and classTBlocktrainEn != ''"> and class_t_BlockTrain_en = #{classTBlocktrainEn}</if>
+            <if test="classTClasstype != null  and classTClasstype != ''"> and class_t_ClassType = #{classTClasstype}</if>
+            <if test="classTEastandwest != null  and classTEastandwest != ''"> and class_t_EastAndWest = #{classTEastandwest}</if>
+            <if test="classTStationofdepartureCode != null  and classTStationofdepartureCode != ''"> and class_t_StationOfDeparture_code = #{classTStationofdepartureCode}</if>
+            <if test="classTStationofdeparture != null  and classTStationofdeparture != ''"> and class_t_StationOfDeparture = #{classTStationofdeparture}</if>
+            <if test="classTStationofdepartureEn != null  and classTStationofdepartureEn != ''"> and class_t_StationOfDeparture_en = #{classTStationofdepartureEn}</if>
+            <if test="classTStationofdestinationCode != null  and classTStationofdestinationCode != ''"> and class_t_StationOfDestination_code = #{classTStationofdestinationCode}</if>
+            <if test="classTStationofdestination != null  and classTStationofdestination != ''"> and class_t_StationOfDestination = #{classTStationofdestination}</if>
+            <if test="classTStationofdestinationEn != null  and classTStationofdestinationEn != ''"> and class_t_StationOfDestination_en = #{classTStationofdestinationEn}</if>
+            <if test="classTTransporttime != null  and classTTransporttime != ''"> and class_t_TransportTime = #{classTTransporttime}</if>
+            <if test="classTPath != null  and classTPath != ''"> and class_t_path = #{classTPath}</if>
+            <if test="createdate != null "> and createdate = #{createdate}</if>
+            <if test="createuserid != null  and createuserid != ''"> and createuserid = #{createuserid}</if>
+            <if test="createusername != null  and createusername != ''"> and createusername like concat('%', #{createusername}, '%')</if>
+            <if test="classTSstie != null  and classTSstie != ''"> and class_t_SStie = #{classTSstie}</if>
+            <if test="classTEstie != null  and classTEstie != ''"> and class_t_EStie = #{classTEstie}</if>
+            <if test="lineId != null "> and line_id = #{lineId}</if>
+            <if test="lineName != null  and lineName != ''"> and line_name like concat('%', #{lineName}, '%')</if>
+            <if test="lineTypeid != null "> and line_typeid = #{lineTypeid}</if>
+            <if test="yuyan != null  and yuyan != ''"> and yuyan = #{yuyan}</if>
+            and del_flag = '0'
+        </where>
+    </select>
+    
+    <select id="selectBusiClassesTemplateById" parameterType="String" resultMap="BusiClassesTemplateResult">
+        <include refid="selectBusiClassesTemplateVo"/>
+        where class_t_ID = #{classTId}
+    </select>
+
+    <select id="checkNumberUnique" parameterType="String" resultType="int">
+		select count(1) from busi_classes_template where class_t_Number = #{classTNumber} and del_flag = '0'
+	</select>
+
+    <select id="checkTrainCnUnique" parameterType="String" resultType="int">
+		select count(1) from busi_classes_template where class_t_BlockTrain_cn = #{classTBlocktrainCn} and del_flag = '0'
+	</select>
+
+    <select id="checkTrainEnUnique" parameterType="String" resultType="int">
+		select count(1) from busi_classes_template where class_t_BlockTrain_En = #{classTBlocktrainEn} and del_flag = '0'
+	</select>
+
+    <select id="checkNumberUniqueUpd" parameterType="String" resultMap="BusiClassesTemplateResult">
+		select class_t_ID, class_t_Number from busi_classes_template where class_t_Number = #{classTNumber} and del_flag = '0'
+	</select>
+
+    <select id="checkTrainCnUniqueUpd" parameterType="String" resultMap="BusiClassesTemplateResult">
+		select class_t_ID, class_t_BlockTrain_cn from busi_classes_template where class_t_BlockTrain_cn = #{classTBlocktrainCn} and del_flag = '0'
+	</select>
+
+    <select id="checkTrainEnUniqueUpd" parameterType="String" resultMap="BusiClassesTemplateResult">
+		select class_t_ID, class_t_BlockTrain_En from busi_classes_template where class_t_BlockTrain_En = #{classTBlocktrainEn} and del_flag = '0'
+	</select>
+
+    <select id="hasChildByLineId" parameterType="Long" resultType="int">
+		select count(1) from busi_classes_template
+		where del_flag = '0' and line_id = #{lineId}
+	</select>
+        
+    <insert id="insertBusiClassesTemplate" parameterType="BusiClassesTemplate">
+        insert into busi_classes_template
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="classTId != null  and classTId != ''">class_t_ID,</if>
+            <if test="classTNumber != null  and classTNumber != ''">class_t_Number,</if>
+            <if test="classTBlocktrainCn != null  and classTBlocktrainCn != ''">class_t_BlockTrain_cn,</if>
+            <if test="classTBlocktrainEn != null  and classTBlocktrainEn != ''">class_t_BlockTrain_en,</if>
+            <if test="classTClasstype != null  and classTClasstype != ''">class_t_ClassType,</if>
+            <if test="classTEastandwest != null  and classTEastandwest != ''">class_t_EastAndWest,</if>
+            <if test="classTStationofdepartureCode != null  and classTStationofdepartureCode != ''">class_t_StationOfDeparture_code,</if>
+            <if test="classTStationofdeparture != null  and classTStationofdeparture != ''">class_t_StationOfDeparture,</if>
+            <if test="classTStationofdepartureEn != null  and classTStationofdepartureEn != ''">class_t_StationOfDeparture_en,</if>
+            <if test="classTStationofdestinationCode != null  and classTStationofdestinationCode != ''">class_t_StationOfDestination_code,</if>
+            <if test="classTStationofdestination != null  and classTStationofdestination != ''">class_t_StationOfDestination,</if>
+            <if test="classTStationofdestinationEn != null  and classTStationofdestinationEn != ''">class_t_StationOfDestination_en,</if>
+            <if test="classTTransporttime != null  and classTTransporttime != ''">class_t_TransportTime,</if>
+            <if test="classTPath != null  and classTPath != ''">class_t_path,</if>
+            <if test="createdate != null ">createdate,</if>
+            <if test="createuserid != null  and createuserid != ''">createuserid,</if>
+            <if test="createusername != null  and createusername != ''">createusername,</if>
+            <if test="classTSstie != null  and classTSstie != ''">class_t_SStie,</if>
+            <if test="classTEstie != null  and classTEstie != ''">class_t_EStie,</if>
+            <if test="lineId != null ">line_id,</if>
+            <if test="lineName != null  and lineName != ''">line_name,</if>
+            <if test="lineTypeid != null ">line_typeid,</if>
+            <if test="yuyan != null  and yuyan != ''">yuyan,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="classTId != null  and classTId != ''">#{classTId},</if>
+            <if test="classTNumber != null  and classTNumber != ''">#{classTNumber},</if>
+            <if test="classTBlocktrainCn != null  and classTBlocktrainCn != ''">#{classTBlocktrainCn},</if>
+            <if test="classTBlocktrainEn != null  and classTBlocktrainEn != ''">#{classTBlocktrainEn},</if>
+            <if test="classTClasstype != null  and classTClasstype != ''">#{classTClasstype},</if>
+            <if test="classTEastandwest != null  and classTEastandwest != ''">#{classTEastandwest},</if>
+            <if test="classTStationofdepartureCode != null  and classTStationofdepartureCode != ''">#{classTStationofdepartureCode},</if>
+            <if test="classTStationofdeparture != null  and classTStationofdeparture != ''">#{classTStationofdeparture},</if>
+            <if test="classTStationofdepartureEn != null  and classTStationofdepartureEn != ''">#{classTStationofdepartureEn},</if>
+            <if test="classTStationofdestinationCode != null  and classTStationofdestinationCode != ''">#{classTStationofdestinationCode},</if>
+            <if test="classTStationofdestination != null  and classTStationofdestination != ''">#{classTStationofdestination},</if>
+            <if test="classTStationofdestinationEn != null  and classTStationofdestinationEn != ''">#{classTStationofdestinationEn},</if>
+            <if test="classTTransporttime != null  and classTTransporttime != ''">#{classTTransporttime},</if>
+            <if test="classTPath != null  and classTPath != ''">#{classTPath},</if>
+            <if test="createdate != null ">#{createdate},</if>
+            <if test="createuserid != null  and createuserid != ''">#{createuserid},</if>
+            <if test="createusername != null  and createusername != ''">#{createusername},</if>
+            <if test="classTSstie != null  and classTSstie != ''">#{classTSstie},</if>
+            <if test="classTEstie != null  and classTEstie != ''">#{classTEstie},</if>
+            <if test="lineId != null ">#{lineId},</if>
+            <if test="lineName != null  and lineName != ''">#{lineName},</if>
+            <if test="lineTypeid != null ">#{lineTypeid},</if>
+            <if test="yuyan != null  and yuyan != ''">#{yuyan},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBusiClassesTemplate" parameterType="BusiClassesTemplate">
+        update busi_classes_template
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="classTNumber != null  and classTNumber != ''">class_t_Number = #{classTNumber},</if>
+            <if test="classTBlocktrainCn != null  and classTBlocktrainCn != ''">class_t_BlockTrain_cn = #{classTBlocktrainCn},</if>
+            <if test="classTBlocktrainEn != null  and classTBlocktrainEn != ''">class_t_BlockTrain_en = #{classTBlocktrainEn},</if>
+            <if test="classTClasstype != null  and classTClasstype != ''">class_t_ClassType = #{classTClasstype},</if>
+            <if test="classTEastandwest != null  and classTEastandwest != ''">class_t_EastAndWest = #{classTEastandwest},</if>
+            <if test="classTStationofdepartureCode != null  and classTStationofdepartureCode != ''">class_t_StationOfDeparture_code = #{classTStationofdepartureCode},</if>
+            <if test="classTStationofdeparture != null  and classTStationofdeparture != ''">class_t_StationOfDeparture = #{classTStationofdeparture},</if>
+            <if test="classTStationofdepartureEn != null  and classTStationofdepartureEn != ''">class_t_StationOfDeparture_en = #{classTStationofdepartureEn},</if>
+            <if test="classTStationofdestinationCode != null  and classTStationofdestinationCode != ''">class_t_StationOfDestination_code = #{classTStationofdestinationCode},</if>
+            <if test="classTStationofdestination != null  and classTStationofdestination != ''">class_t_StationOfDestination = #{classTStationofdestination},</if>
+            <if test="classTStationofdestinationEn != null  and classTStationofdestinationEn != ''">class_t_StationOfDestination_en = #{classTStationofdestinationEn},</if>
+            <if test="classTTransporttime != null  and classTTransporttime != ''">class_t_TransportTime = #{classTTransporttime},</if>
+            <if test="classTPath != null  and classTPath != ''">class_t_path = #{classTPath},</if>
+            <if test="createdate != null ">createdate = #{createdate},</if>
+            <if test="createuserid != null  and createuserid != ''">createuserid = #{createuserid},</if>
+            <if test="createusername != null  and createusername != ''">createusername = #{createusername},</if>
+            <if test="classTSstie != null  and classTSstie != ''">class_t_SStie = #{classTSstie},</if>
+            <if test="classTEstie != null  and classTEstie != ''">class_t_EStie = #{classTEstie},</if>
+            <if test="lineId != null ">line_id = #{lineId},</if>
+            <if test="lineName != null  and lineName != ''">line_name = #{lineName},</if>
+            <if test="lineTypeid != null ">line_typeid = #{lineTypeid},</if>
+            <if test="yuyan != null  and yuyan != ''">yuyan = #{yuyan},</if>
+        </trim>
+        where class_t_ID = #{classTId}
+    </update>
+
+    <delete id="deleteBusiClassesTemplateById" parameterType="String">
+        update busi_classes_template set del_flag = '1' where class_t_ID = #{classTId}
+    </delete>
+
+    <delete id="deleteBusiClassesTemplateByIds" parameterType="String">
+        update busi_classes_template
+        SET del_flag = '1'
+        where class_t_ID in
+        <foreach item="classTId" collection="array" open="(" separator="," close=")">
+            #{classTId}
+        </foreach>
+    </delete>
+    
+</mapper>

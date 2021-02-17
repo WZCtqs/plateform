@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.documentcenter.mapper.DocOrderConexamineMapper">
+    
+    <resultMap type="com.szhbl.project.documentcenter.domain.DocOrderConexamine" id="DocOrderConexamineResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="container"    column="container"    />
+        <result property="ConAreviewer_suiche"    column="conareviewer_suiche"    />
+        <result property="ConStatus_suiche"    column="constatus_suiche"    />
+        <result property="Number_suiche"    column="number_suiche"    />
+        <result property="shuihao_suiche"    column="shuihao_suiche"    />
+        <result property="Number_cost"    column="number_cost"    />
+        <result property="shuihao_cost"    column="shuihao_cost"    />
+        <result property="ConRemark_suiche"    column="conremark_suiche"    />
+    </resultMap>
+
+    <sql id="selectDocOrderConexamineVo">
+        select id, order_id, container, conareviewer_suiche, constatus_suiche, number_suiche, shuihao_suiche, number_cost, shuihao_cost, conremark_suiche from doc_order_conexamine
+    </sql>
+
+    <select id="selectDocOrderConexamineList" parameterType="DocOrderConexamine" resultMap="DocOrderConexamineResult">
+        <include refid="selectDocOrderConexamineVo"/>
+        <where>  
+            <if test="orderId != null  and orderId != ''"> and order_id = #{orderId}</if>
+            <if test="container != null  and container != ''"> and container = #{container}</if>
+            <if test="ConAreviewer_suiche != null  and ConAreviewer_suiche != ''"> and conareviewer_suiche = #{ConAreviewer_suiche}</if>
+            <if test="ConStatus_suiche != null  and ConStatus_suiche != ''"> and constatus_suiche = #{ConStatus_suiche}</if>
+            <if test="Number_suiche != null  and Number_suiche != ''"> and number_suiche = #{Number_suiche}</if>
+            <if test="shuihao_suiche != null  and shuihao_suiche != ''"> and shuihao_suiche = #{shuihao_suiche}</if>
+            <if test="Number_cost != null  and Number_cost != ''"> and number_cost = #{Number_cost}</if>
+            <if test="shuihao_cost != null  and shuihao_cost != ''"> and shuihao_cost = #{shuihao_cost}</if>
+            <if test="ConRemark_suiche != null  and ConRemark_suiche != ''"> and conremark_suiche = #{ConRemark_suiche}</if>
+        </where>
+    </select>
+    
+    <select id="selectDocOrderConexamineById" parameterType="Long" resultMap="DocOrderConexamineResult">
+        <include refid="selectDocOrderConexamineVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDocOrderConexamine" parameterType="DocOrderConexamine" useGeneratedKeys="true" keyProperty="id">
+        insert into doc_order_conexamine
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id,</if>
+            <if test="container != null  and container != ''">container,</if>
+            <if test="ConAreviewer_suiche != null  and ConAreviewer_suiche != ''">conareviewer_suiche,</if>
+            <if test="ConStatus_suiche != null  and ConStatus_suiche != ''">constatus_suiche,</if>
+            <if test="Number_suiche != null  and Number_suiche != ''">number_suiche,</if>
+            <if test="shuihao_suiche != null  and shuihao_suiche != ''">shuihao_suiche,</if>
+            <if test="Number_cost != null  and Number_cost != ''">number_cost,</if>
+            <if test="shuihao_cost != null  and shuihao_cost != ''">shuihao_cost,</if>
+            <if test="ConRemark_suiche != null  and ConRemark_suiche != ''">conremark_suiche,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">#{orderId},</if>
+            <if test="container != null  and container != ''">#{container},</if>
+            <if test="ConAreviewer_suiche != null  and ConAreviewer_suiche != ''">#{ConAreviewer_suiche},</if>
+            <if test="ConStatus_suiche != null  and ConStatus_suiche != ''">#{ConStatus_suiche},</if>
+            <if test="Number_suiche != null  and Number_suiche != ''">#{Number_suiche},</if>
+            <if test="shuihao_suiche != null  and shuihao_suiche != ''">#{shuihao_suiche},</if>
+            <if test="Number_cost != null  and Number_cost != ''">#{Number_cost},</if>
+            <if test="shuihao_cost != null  and shuihao_cost != ''">#{shuihao_cost},</if>
+            <if test="ConRemark_suiche != null  and ConRemark_suiche != ''">#{ConRemark_suiche},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDocOrderConexamine" parameterType="DocOrderConexamine">
+        update doc_order_conexamine
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id = #{orderId},</if>
+            <if test="container != null  and container != ''">container = #{container},</if>
+            <if test="ConAreviewer_suiche != null  and ConAreviewer_suiche != ''">conareviewer_suiche = #{ConAreviewer_suiche},</if>
+            <if test="ConStatus_suiche != null  and ConStatus_suiche != ''">constatus_suiche = #{ConStatus_suiche},</if>
+            <if test="Number_suiche != null  and Number_suiche != ''">number_suiche = #{Number_suiche},</if>
+            <if test="shuihao_suiche != null  and shuihao_suiche != ''">shuihao_suiche = #{shuihao_suiche},</if>
+            <if test="Number_cost != null  and Number_cost != ''">number_cost = #{Number_cost},</if>
+            <if test="shuihao_cost != null  and shuihao_cost != ''">shuihao_cost = #{shuihao_cost},</if>
+            <if test="ConRemark_suiche != null  and ConRemark_suiche != ''">conremark_suiche = #{ConRemark_suiche},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDocOrderConexamineById" parameterType="Long">
+        delete from doc_order_conexamine where id = #{id}
+    </delete>
+
+    <delete id="deleteDocOrderConexamineByIds" parameterType="String">
+        delete from doc_order_conexamine where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete><delete id="deleteDocOrderConexamineByOrderId">
+        delete from doc_order_conexamine where order_id = #{orderId}
+    </delete>
+    
+</mapper>

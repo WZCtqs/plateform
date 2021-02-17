@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.enquiry.mapper.ZgReturnNonStandardMapper">
+    
+    <resultMap type="ZgReturnNonStandard" id="ZgReturnNonStandardResult">
+        <result property="id"    column="id"    />
+        <result property="province"    column="province"    />
+        <result property="returnBoxAddress"    column="return_box_address"    />
+        <result property="returnBoxFee"    column="return_box_fee"    />
+        <result property="distance"    column="distance"    />
+        <result property="deliveryFee"    column="delivery_fee"    />
+        <result property="whiteCardDeliveryFee"    column="white_card_delivery_fee"    />
+        <result property="receiptPlace"    column="receipt_place"    />
+        <result property="truckType"    column="truck_type"    />
+
+
+    </resultMap>
+
+    <sql id="selectZgReturnNonStandardVo">
+        select id, province, return_box_address,return_box_fee, distance, delivery_fee, white_card_delivery_fee,receipt_place,truck_type from zg_return_non_standard
+    </sql>
+
+    <select id="selectZgReturnNonStandardList" parameterType="ZgReturnNonStandard" resultMap="ZgReturnNonStandardResult">
+        <include refid="selectZgReturnNonStandardVo"/>
+        <where>  
+            <if test="province != null  and province != ''"> and province = #{province}</if>
+            <if test="returnBoxAddress != null  and returnBoxAddress != ''"> and return_box_address = #{returnBoxAddress}</if>
+            <if test="returnBoxFee != null  and returnBoxFee != ''"> and return_box_fee = #{returnBoxFee}</if>
+            <if test="distance != null "> and distance = #{distance}</if>
+            <if test="deliveryFee != null "> and delivery_fee = #{deliveryFee}</if>
+            <if test="whiteCardDeliveryFee != null "> and white_card_delivery_fee = #{whiteCardDeliveryFee}</if>
+            <if test="receiptPlace != null and receiptPlace!=''"> and receipt_place = #{receiptPlace}</if>
+            <if test="truckType != null and truckType!=''"> and truck_type = #{truckType}</if>
+
+
+        </where>
+    </select>
+    
+    <select id="selectZgReturnNonStandardById" parameterType="Long" resultMap="ZgReturnNonStandardResult">
+        <include refid="selectZgReturnNonStandardVo"/>
+        where id = #{id}
+    </select>
+    <!--根据货源地（收货地）卡车类型查询送货费-->
+    <select id="selectZgReturnNonStandardWithMap" parameterType="map" resultMap="ZgReturnNonStandardResult">
+        <include refid="selectZgReturnNonStandardVo"/>
+        where receipt_place = #{receiptPlace}
+    </select>
+    <select id="selectListByCity" resultMap="ZgReturnNonStandardResult">
+        <include refid="selectZgReturnNonStandardVo"/>
+        where receipt_place = #{receiveCity}
+    </select>
+    <insert id="insertZgReturnNonStandard" parameterType="ZgReturnNonStandard" useGeneratedKeys="true" keyProperty="id">
+        insert into zg_return_non_standard
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="province != null  and province != ''">province,</if>
+            <if test="returnBoxAddress != null  and returnBoxAddress != ''">return_box_address,</if>
+            <if test="returnBoxFee != null  and returnBoxFee != ''">return_box_fee,</if>
+            <if test="distance != null ">distance,</if>
+            <if test="deliveryFee != null ">delivery_fee,</if>
+            <if test="whiteCardDeliveryFee != null ">white_card_delivery_fee,</if>
+            <if test="receiptPlace != null  and receiptPlace != ''">receipt_place,</if>
+            <if test="truckType != null  and truckType != ''">truck_type,</if>
+
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="province != null  and province != ''">#{province},</if>
+            <if test="returnBoxAddress != null  and returnBoxAddress != ''">#{returnBoxAddress},</if>
+            <if test="returnBoxFee != null  and returnBoxFee != ''">#{returnBoxFee},</if>
+            <if test="distance != null ">#{distance},</if>
+            <if test="deliveryFee != null ">#{deliveryFee},</if>
+            <if test="whiteCardDeliveryFee != null ">#{whiteCardDeliveryFee},</if>
+            <if test="receiptPlace != null  and receiptPlace != ''">#{receiptPlace},</if>
+            <if test="truckType != null  and truckType != ''">#{truckType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateZgReturnNonStandard" parameterType="ZgReturnNonStandard">
+        update zg_return_non_standard
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="province != null  and province != ''">province = #{province},</if>
+            <if test="returnBoxAddress != null  and returnBoxAddress != ''">return_box_address = #{returnBoxAddress},</if>
+            <if test="returnBoxFee != null  and returnBoxFee != ''">return_box_fee = #{returnBoxFee},</if>
+            <if test="distance != null ">distance = #{distance},</if>
+            <if test="deliveryFee != null ">delivery_fee = #{deliveryFee},</if>
+            <if test="whiteCardDeliveryFee != null ">white_card_delivery_fee = #{whiteCardDeliveryFee},</if>
+            <if test="receiptPlace != null  and receiptPlace != ''"> receipt_place = #{receiptPlace},</if>
+            <if test="truckType != null  and truckType != ''">truck_type = #{truckType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteZgReturnNonStandardById" parameterType="Long">
+        delete from zg_return_non_standard where id = #{id}
+    </delete>
+
+    <delete id="deleteZgReturnNonStandardByIds" parameterType="String">
+        delete from zg_return_non_standard where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

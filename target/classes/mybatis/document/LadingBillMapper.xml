@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.documentcenter.mapper.LadingBillMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.szhbl.project.documentcenter.domain.LadingBill">
+        <id column="lb_id" property="lbId" />
+        <result column="lb_1" property="lb1" />
+        <result column="lb_2" property="lb2" />
+        <result column="lb_3" property="lb3" />
+        <result column="lb_4" property="lb4" />
+        <result column="lb_5" property="lb5" />
+        <result column="lb_6" property="lb6" />
+        <result column="lb_7" property="lb7" />
+        <result column="lb_8" property="lb8" />
+        <result column="lb_9" property="lb9" />
+        <result column="lb_10" property="lb10" />
+        <result column="lb_11" property="lb11" />
+        <result column="lb_12" property="lb12" />
+        <result column="lb_13_1" property="lb131" />
+        <result column="lb_13_2" property="lb132" />
+        <result column="lb_14" property="lb14" />
+        <result column="lb_15_1" property="lb151" />
+        <result column="lb_15_2" property="lb152" />
+        <result column="lb_15_3" property="lb153" />
+        <result column="lb_16" property="lb16" />
+        <result column="lb_19" property="lb19" />
+        <result column="lb_20" property="lb20" />
+        <result column="lb_remark" property="lbRemark" />
+        <result column="lb_state" property="lbState" />
+        <result column="lb_group1" property="lbGroup1" />
+        <result column="lb_group2" property="lbGroup2" />
+        <result column="lb_container" property="lbContainer" />
+        <result column="lb_number" property="lbNumber" />
+        <result column="lb_mark" property="lbMark" />
+        <result column="lb_url1" property="lbUrl1" />
+        <result column="lb_reason1" property="lbReason1" />
+        <result column="lb_reason2" property="lbReason2" />
+        <result column="lb_letterstate" property="lbLetterstate" />
+        <result column="ci_id" property="ciId" />
+        <result column="lb_eastandwest" property="lbEastandwest" />
+        <result column="order_id" property="orderId" />
+        <result column="ci_startdate" property="ciStartdate" />
+        <result column="lb_client_remark" property="lbClientRemark" />
+    </resultMap>
+
+    <sql id="selectLadingBillVo">
+         select lb_id, lb_1, lb_2, lb_3, lb_4, lb_5, lb_6, lb_7, lb_8, lb_9, lb_10, lb_11, lb_12, lb_13_1, lb_13_2, lb_14, lb_15_1,
+        lb_15_2, lb_15_3, lb_16, lb_19, lb_20, lb_remark, lb_state, lb_group1, lb_group2, lb_container, lb_number,
+        lb_mark, lb_url1, lb_reason1, lb_reason2, lb_letterstate, ci_id, lb_eastandwest, order_id, ci_startdate,lb_client_remark from lading_bill
+    </sql>
+
+    <select id="selectLadingBillByOrderId" parameterType="String" resultMap="BaseResultMap">
+       <include refid="selectLadingBillVo"/>
+        where order_id = #{orderId} limit 1
+    </select>
+</mapper>

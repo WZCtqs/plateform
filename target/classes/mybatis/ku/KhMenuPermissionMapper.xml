@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.kh.mapper.KhMenuPermissionMapper">
+    
+    <resultMap type="KhMenuPermission" id="KhMenuPermissionResult">
+        <result property="id"    column="id"    />
+        <result property="clientId"    column="client_id"    />
+        <result property="menuId"    column="menu_id"    />
+        <result property="halfMenuId"    column="halfmenu_id"    />
+        <result property="permissionName"    column="permission_name"    />
+        <result property="remark"    column="remark"    />
+        <result property="type"    column="type"    />
+    </resultMap>
+
+    <sql id="selectKhMenuPermissionVo">
+        select id, client_id, menu_id,halfmenu_id, permission_name, remark, type from kh_menu_permission
+    </sql>
+
+    <select id="selectKhMenuPermissionList" parameterType="KhMenuPermission" resultMap="KhMenuPermissionResult">
+        <include refid="selectKhMenuPermissionVo"/>
+        <where>
+            <if test="clientId != null  and clientId != ''"> and client_id = #{clientId}</if>
+            <if test="permissionName != null  and permissionName != ''"> and permission_name like concat('%', #{permissionName}, '%')</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+        </where>
+    </select>
+    
+    <select id="selectKhMenuPermissionById" parameterType="Long" resultMap="KhMenuPermissionResult">
+        <include refid="selectKhMenuPermissionVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertKhMenuPermission" parameterType="KhMenuPermission">
+        insert into kh_menu_permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="clientId != null "> client_id,</if>
+            <if test="menuId != null ">menu_id,</if>
+            <if test="halfMenuId != null ">halfmenu_id,</if>
+            <if test="permissionName != null  and permissionName != ''">permission_name,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="type != null  and type != ''">type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="clientId != null "> #{clientId},</if>
+            <if test="menuId != null ">#{menuId},</if>
+            <if test="halfMenuId != null ">#{halfMenuId},</if>
+            <if test="permissionName != null  and permissionName != ''">#{permissionName},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="type != null  and type != ''">#{type},</if>
+         </trim>
+    </insert>
+
+    <update id="updateKhMenuPermission" parameterType="KhMenuPermission">
+        update kh_menu_permission
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="menuId != null ">menu_id = #{menuId},</if>
+            <if test="halfMenuId != null ">halfmenu_id = #{halfMenuId},</if>
+            <if test="permissionName != null  and permissionName != ''">permission_name = #{permissionName},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="type != null  and type != ''">type = #{type},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteKhMenuPermissionById" parameterType="Long">
+        delete from kh_menu_permission where id = #{id}
+    </delete>
+
+    <delete id="deleteKhMenuPermissionByIds" parameterType="String">
+        delete from kh_menu_permission where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

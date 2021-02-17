@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.client.mapper.BusiGendanMapper">
+    
+    <resultMap type="BusiGendan" id="BusiGendanResult">
+        <result property="id"    column="id"    />
+        <result property="username"    column="username"    />
+        <result property="userid"    column="userid"    />
+        <result property="usernumber"    column="usernumber"    />
+        <result property="userdepart"    column="userdepart"    />
+        <result property="delflag"    column="delflag"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBusiGendanVo">
+        select id, username, usernumber, userdepart, userid, delflag, create_time, update_time from busi_gendan
+    </sql>
+
+    <select id="selectBusiGendanList" parameterType="BusiGendan" resultMap="BusiGendanResult">
+        <include refid="selectBusiGendanVo"/>
+        <where>  
+            <if test="username != null  and username != ''"> and username like concat('%', #{username}, '%')</if>
+            <if test="userid != null  and userid != ''"> and userid = #{userid}</if>
+            <if test="usernumber != null  and usernumber != ''"> and usernumber = #{usernumber}</if>
+            <if test="userdepart != null  and userdepart != ''"> and userdepart = #{userdepart}</if>
+            <if test="delflag != null "> and delflag = #{delflag}</if>
+        </where>
+    </select>
+    
+    <select id="selectBusiGendanByUserId" parameterType="Long" resultMap="BusiGendanResult">
+        <include refid="selectBusiGendanVo"/>
+        where userid = #{userid}
+    </select>
+        
+    <insert id="insertBusiGendan" parameterType="BusiGendan" useGeneratedKeys="true" keyProperty="id">
+        insert into busi_gendan
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null  and username != ''">username,</if>
+            <if test="userid != null  and userid != ''">userid,</if>
+            <if test="userdepart != null  and userdepart != ''">userdepart,</if>
+            <if test="usernumber != null  and usernumber != ''">usernumber,</if>
+            <if test="delflag != null ">delflag,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null  and username != ''">#{username},</if>
+            <if test="userid != null  and userid != ''">#{userid},</if>
+            <if test="userdepart != null  and userdepart != ''">#{userdepart},</if>
+            <if test="usernumber != null  and usernumber != ''">#{usernumber},</if>
+            <if test="delflag != null ">#{delflag},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBusiGendanByUserId" parameterType="BusiGendan">
+        update busi_gendan
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="username != null  and username != ''">username = #{username},</if>
+            <if test="usernumber != null  and usernumber != ''">userdenumber = #{usernumber},</if>
+            <if test="userdepart != null  and userdepart != ''">userdepart = #{userdepart},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where userid = #{userid}
+    </update>
+
+    <delete id="deleteBusiGendanByUserId" parameterType="String">
+        update busi_gendan set delflag = 1 where userid = #{userid} and delflag = 0
+    </delete>
+    
+</mapper>

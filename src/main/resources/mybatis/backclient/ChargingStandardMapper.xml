@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.backclient.mapper.ChargingStandardMapper">
+    
+    <resultMap type="ChargingStandard" id="ChargingStandardResult">
+        <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
+        <result property="content"    column="content"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="validStartDate"    column="valid_start_date"    />
+        <result property="validEndDate"    column="valid_end_date"    />
+        <result property="language"    column="language"    />
+    </resultMap>
+
+    <sql id="selectChargingStandardVo">
+        select id, type, content, create_by, create_time, update_by, update_time, del_flag, valid_start_date, valid_end_date,language from charging_standard
+    </sql>
+
+    <select id="selectChargingStandardList" parameterType="ChargingStandard" resultMap="ChargingStandardResult">
+        <include refid="selectChargingStandardVo"/>
+        <where>  
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="validStartDate != null ">
+                <if test="bookingTimeFlag == null or bookingTimeFlag == '' or bookingTimeFlag == '0'.toString()">
+                  and valid_start_date <![CDATA[<= ]]>  #{validStartDate}
+                  and valid_end_date <![CDATA[>= ]]>  #{validStartDate}
+                </if>
+                <if test="bookingTimeFlag == '1'.toString()">
+                    and DATE_FORMAT(valid_start_date,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(date_add(STR_TO_DATE(#{validStartDate},'%Y-%m-%d')-day(STR_TO_DATE(#{validStartDate},'%Y-%m-%d'))+1,interval 1 month),'%Y-%m-%d')
+                    and DATE_FORMAT(valid_end_date,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(date_add(STR_TO_DATE(#{validStartDate},'%Y-%m-%d')-day(STR_TO_DATE(#{validStartDate},'%Y-%m-%d'))+1,interval 1 month),'%Y-%m-%d')
+                </if>
+            </if>
+            <if test="language != null and language != ''">
+                and language = #{language}
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectChargingStandardById" parameterType="Integer" resultMap="ChargingStandardResult">
+        <include refid="selectChargingStandardVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectSameChargingStandard" parameterType="ChargingStandard" resultMap="ChargingStandardResult">
+        <include refid="selectChargingStandardVo"/>
+        <where>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="validStartDate != null ">
+                and DATE_FORMAT(valid_start_date,'%Y-%m-%d') <![CDATA[ = ]]>  DATE_FORMAT(#{validStartDate},'%Y-%m-%d')
+            </if>
+            <if test="validEndDate != null ">
+                and DATE_FORMAT(valid_end_date,'%Y-%m-%d') <![CDATA[ = ]]>  DATE_FORMAT(#{validEndDate},'%Y-%m-%d')
+            </if>
+            <if test="language != null and language != ''">
+                and language = #{language}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertChargingStandard" parameterType="ChargingStandard" useGeneratedKeys="true" keyProperty="id">
+        insert into charging_standard
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null  and type != ''">type,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="validStartDate != null ">valid_start_date,</if>
+            <if test="validEndDate != null ">valid_end_date,</if>
+            <if test="language != null and language != ''">language,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="type != null  and type != ''">#{type},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="validStartDate != null ">#{validStartDate},</if>
+            <if test="validEndDate != null ">#{validEndDate},</if>
+            <if test="language != null  and language != ''">#{language},</if>
+         </trim>
+    </insert>
+
+    <update id="updateChargingStandard" parameterType="ChargingStandard">
+        update charging_standard
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null  and type != ''">type = #{type},</if>
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="validStartDate != null ">valid_start_date = #{validStartDate},</if>
+            <if test="validEndDate != null ">valid_end_date = #{validEndDate},</if>
+            <if test="language != null  and language != ''">language = #{language},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteChargingStandardById" parameterType="Integer">
+        delete from charging_standard where id = #{id}
+    </delete>
+
+    <delete id="deleteChargingStandardByIds" parameterType="String">
+        delete from charging_standard where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

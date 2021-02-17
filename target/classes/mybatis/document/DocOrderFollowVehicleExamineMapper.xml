@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.documentcenter.mapper.DocOrderFollowVehicleExamineMapper">
+    
+    <resultMap type="com.szhbl.project.documentcenter.domain.DocOrderFollowVehicleExamine" id="DocOrderFollowVehicleExamineResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="orderNumber"    column="order_number"    />
+        <result property="Classdate"    column="class_date"    />
+        <result property="containerType"    column="container_type"    />
+        <result property="containerBoxamount"    column="container_boxamount"    />
+        <result property="clientTjr"    column="client_tjr"    />
+        <result property="orderMerchandiser"    column="order_merchandiser"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="goodsInReport"    column="goods_in_report"    />
+        <result property="goodsNumber"    column="goods_number"    />
+        <result property="goodsCbm"    column="goods_cbm"    />
+        <result property="classBh"    column="class_bh"    />
+        <result property="classPort"    column="class_port"    />
+        <result property="orderUnloadsite"    column="order_unloadsite"    />
+        <result property="Areviewer_suiche"    column="areviewer_suiche"    />
+        <result property="Areviewer_baoguan"    column="areviewer_baoguan"    />
+        <result property="number"    column="number"    />
+        <result property="Status_baoguan"    column="status_baoguan"    />
+        <result property="Remark_baoguan"    column="remark_baoguan"    />
+        <result property="Remark_suiche"    column="remark_suiche"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectDocOrderFollowVehicleExamineVo">
+        select id, order_id, order_number, class_date, container_type, container_boxamount, client_tjr, order_merchandiser, goods_name, goods_in_report, goods_number, goods_cbm, class_bh, class_port, order_unloadsite, areviewer_suiche, areviewer_baoguan, number, status_baoguan, remark_baoguan, remark_suiche, update_time from doc_order_follow_vehicle_examine
+    </sql>
+
+    <select id="selectDocOrderFollowVehicleExamineList" parameterType="DocOrderFollowVehicleExamine" resultMap="DocOrderFollowVehicleExamineResult">
+        <include refid="selectDocOrderFollowVehicleExamineVo"/>
+        <where>  
+            <if test="orderId != null  and orderId != ''"> and order_id = #{orderId}</if>
+            <if test="orderNumber != null  and orderNumber != ''"> and order_number = #{orderNumber}</if>
+            <if test="Classdate != null "> and class_date = #{Classdate}</if>
+            <if test="containerType != null  and containerType != ''"> and container_type = #{containerType}</if>
+            <if test="containerBoxamount != null  and containerBoxamount != ''"> and container_boxamount = #{containerBoxamount}</if>
+            <if test="clientTjr != null  and clientTjr != ''"> and client_tjr = #{clientTjr}</if>
+            <if test="orderMerchandiser != null  and orderMerchandiser != ''"> and order_merchandiser = #{orderMerchandiser}</if>
+            <if test="goodsName != null  and goodsName != ''"> and goods_name like concat('%', #{goodsName}, '%')</if>
+            <if test="goodsInReport != null  and goodsInReport != ''"> and goods_in_report = #{goodsInReport}</if>
+            <if test="goodsNumber != null  and goodsNumber != ''"> and goods_number = #{goodsNumber}</if>
+            <if test="goodsCbm != null  and goodsCbm != ''"> and goods_cbm = #{goodsCbm}</if>
+            <if test="classBh != null  and classBh != ''"> and class_bh = #{classBh}</if>
+            <if test="classPort != null  and classPort != ''"> and class_port = #{classPort}</if>
+            <if test="orderUnloadsite != null  and orderUnloadsite != ''"> and order_unloadsite = #{orderUnloadsite}</if>
+            <if test="Areviewer_suiche != null  and Areviewer_suiche != ''"> and areviewer_suiche = #{Areviewer_suiche}</if>
+            <if test="Areviewer_baoguan != null  and Areviewer_baoguan != ''"> and areviewer_baoguan = #{Areviewer_baoguan}</if>
+            <if test="number != null  and number != ''"> and number = #{number}</if>
+            <if test="Status_baoguan != null  and Status_baoguan != ''"> and status_baoguan = #{Status_baoguan}</if>
+            <if test="Remark_baoguan != null  and Remark_baoguan != ''"> and remark_baoguan = #{Remark_baoguan}</if>
+            <if test="Remark_suiche != null  and Remark_suiche != ''"> and remark_suiche = #{Remark_suiche}</if>
+        </where>
+    </select>
+    
+    <select id="selectDocOrderFollowVehicleExamineById" parameterType="Long" resultMap="DocOrderFollowVehicleExamineResult">
+        <include refid="selectDocOrderFollowVehicleExamineVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDocOrderFollowVehicleExamine" parameterType="DocOrderFollowVehicleExamine" useGeneratedKeys="true" keyProperty="id">
+        insert into doc_order_follow_vehicle_examine
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id,</if>
+            <if test="orderNumber != null  and orderNumber != ''">order_number,</if>
+            <if test="Classdate != null ">class_date,</if>
+            <if test="containerType != null  and containerType != ''">container_type,</if>
+            <if test="containerBoxamount != null  and containerBoxamount != ''">container_boxamount,</if>
+            <if test="clientTjr != null  and clientTjr != ''">client_tjr,</if>
+            <if test="orderMerchandiser != null  and orderMerchandiser != ''">order_merchandiser,</if>
+            <if test="goodsName != null  and goodsName != ''">goods_name,</if>
+            <if test="goodsInReport != null  and goodsInReport != ''">goods_in_report,</if>
+            <if test="goodsNumber != null  and goodsNumber != ''">goods_number,</if>
+            <if test="goodsCbm != null  and goodsCbm != ''">goods_cbm,</if>
+            <if test="classBh != null  and classBh != ''">class_bh,</if>
+            <if test="classPort != null  and classPort != ''">class_port,</if>
+            <if test="orderUnloadsite != null  and orderUnloadsite != ''">order_unloadsite,</if>
+            <if test="Areviewer_suiche != null  and Areviewer_suiche != ''">areviewer_suiche,</if>
+            <if test="Areviewer_baoguan != null  and Areviewer_baoguan != ''">areviewer_baoguan,</if>
+            <if test="number != null  and number != ''">number,</if>
+            <if test="Status_baoguan != null  and Status_baoguan != ''">status_baoguan,</if>
+            <if test="Remark_baoguan != null  and Remark_baoguan != ''">remark_baoguan,</if>
+            <if test="Remark_suiche != null  and Remark_suiche != ''">remark_suiche,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">#{orderId},</if>
+            <if test="orderNumber != null  and orderNumber != ''">#{orderNumber},</if>
+            <if test="Classdate != null ">#{Classdate},</if>
+            <if test="containerType != null  and containerType != ''">#{containerType},</if>
+            <if test="containerBoxamount != null  and containerBoxamount != ''">#{containerBoxamount},</if>
+            <if test="clientTjr != null  and clientTjr != ''">#{clientTjr},</if>
+            <if test="orderMerchandiser != null  and orderMerchandiser != ''">#{orderMerchandiser},</if>
+            <if test="goodsName != null  and goodsName != ''">#{goodsName},</if>
+            <if test="goodsInReport != null  and goodsInReport != ''">#{goodsInReport},</if>
+            <if test="goodsNumber != null  and goodsNumber != ''">#{goodsNumber},</if>
+            <if test="goodsCbm != null  and goodsCbm != ''">#{goodsCbm},</if>
+            <if test="classBh != null  and classBh != ''">#{classBh},</if>
+            <if test="classPort != null  and classPort != ''">#{classPort},</if>
+            <if test="orderUnloadsite != null  and orderUnloadsite != ''">#{orderUnloadsite},</if>
+            <if test="Areviewer_suiche != null  and Areviewer_suiche != ''">#{Areviewer_suiche},</if>
+            <if test="Areviewer_baoguan != null  and Areviewer_baoguan != ''">#{Areviewer_baoguan},</if>
+            <if test="number != null  and number != ''">#{number},</if>
+            <if test="Status_baoguan != null  and Status_baoguan != ''">#{Status_baoguan},</if>
+            <if test="Remark_baoguan != null  and Remark_baoguan != ''">#{Remark_baoguan},</if>
+            <if test="Remark_suiche != null  and Remark_suiche != ''">#{Remark_suiche},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDocOrderFollowVehicleExamine" parameterType="DocOrderFollowVehicleExamine">
+        update doc_order_follow_vehicle_examine
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id = #{orderId},</if>
+            <if test="orderNumber != null  and orderNumber != ''">order_number = #{orderNumber},</if>
+            <if test="Classdate != null ">class_date = #{Classdate},</if>
+            <if test="containerType != null  and containerType != ''">container_type = #{containerType},</if>
+            <if test="containerBoxamount != null  and containerBoxamount != ''">container_boxamount = #{containerBoxamount},</if>
+            <if test="clientTjr != null  and clientTjr != ''">client_tjr = #{clientTjr},</if>
+            <if test="orderMerchandiser != null  and orderMerchandiser != ''">order_merchandiser = #{orderMerchandiser},</if>
+            <if test="goodsName != null  and goodsName != ''">goods_name = #{goodsName},</if>
+            <if test="goodsInReport != null  and goodsInReport != ''">goods_in_report = #{goodsInReport},</if>
+            <if test="goodsNumber != null  and goodsNumber != ''">goods_number = #{goodsNumber},</if>
+            <if test="goodsCbm != null  and goodsCbm != ''">goods_cbm = #{goodsCbm},</if>
+            <if test="classBh != null  and classBh != ''">class_bh = #{classBh},</if>
+            <if test="classPort != null  and classPort != ''">class_port = #{classPort},</if>
+            <if test="orderUnloadsite != null  and orderUnloadsite != ''">order_unloadsite = #{orderUnloadsite},</if>
+            <if test="Areviewer_suiche != null  and Areviewer_suiche != ''">areviewer_suiche = #{Areviewer_suiche},</if>
+            <if test="Areviewer_baoguan != null  and Areviewer_baoguan != ''">areviewer_baoguan = #{Areviewer_baoguan},</if>
+            <if test="number != null  and number != ''">number = #{number},</if>
+            <if test="Status_baoguan != null  and Status_baoguan != ''">status_baoguan = #{Status_baoguan},</if>
+            <if test="Remark_baoguan != null  and Remark_baoguan != ''">remark_baoguan = #{Remark_baoguan},</if>
+            <if test="Remark_suiche != null  and Remark_suiche != ''">remark_suiche = #{Remark_suiche},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDocOrderFollowVehicleExamineById" parameterType="Long">
+        delete from doc_order_follow_vehicle_examine where id = #{id}
+    </delete>
+
+    <delete id="deleteDocOrderFollowVehicleExamineByIds" parameterType="String">
+        delete from doc_order_follow_vehicle_examine where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteDocOrderFollowVehicleExamineByOrderId">
+        delete from doc_order_follow_vehicle_examine where order_id = #{orderId}
+    </delete>
+    
+</mapper>

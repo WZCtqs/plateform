@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.track.mapper.TrackStationToDoorMapper">
+
+    <resultMap type="TrackStationToDoor" id="tstdResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="draftTime"    column="draft_time"    />
+        <result property="cancelBookTime"    column="cancel_book_time"    />
+        <result property="checkPendingTime"    column="check_pending_time"    />
+        <result property="checkResultTime"    column="check_result_time"    />
+        <result property="checkResult"    column="check_result"    />
+        <result property="checkFailReason"    column="check_fail_reason"    />
+        <result property="checkAgainTime"    column="check_again_time"    />
+        <result property="checkAgainResultTime"    column="check_again_result_time"    />
+        <result property="checkAgainResult"    column="check_again_result"    />
+        <result property="checkAgainFailReason"    column="check_again_fail_reason"    />
+        <result property="releaseBoxTime"    column="release_box_time"    />
+        <result property="sendCarTime"    column="send_car_time"    />
+        <result property="driverInformation"    column="driver_information"    />
+        <result property="carryBoxTime"    column="carry_box_time"    />
+        <result property="carryGoodsTime"    column="carry_goods_time"    />
+        <result property="expectArriveTime"    column="expect_arrive_time"    />
+        <result property="arriveTime"    column="arrive_time"    />
+        <result property="inStoreTime"    column="in_store_time"    />
+        <result property="inStationTime"    column="in_station_time"    />
+        <result property="billsProvideTime"    column="bills_provide_time"    />
+        <result property="problemCommunicateTime"    column="problem_communicate_time"    />
+        <result property="strawSureTime"    column="straw_sure_time"    />
+        <result property="originalProvideTime"    column="original_provide_time"    />
+        <result property="applyTime"    column="apply_time"    />
+        <result property="payTaxTime"    column="pay_tax_time"    />
+        <result property="layoutTime"    column="layout_time"    />
+        <result property="layoutReason"    column="layout_reason"    />
+        <result property="weightAbnormal"    column="weight_abnormal"    />
+        <result property="inspectionTime"    column="inspection_time"    />
+        <result property="inspectionReason"    column="inspection_reason"    />
+        <result property="releaseTime"    column="release_time"    />
+        <result property="documentProvideTime"    column="document_provide_time"    />
+        <result property="documentCheckResult"    column="document_check_result"    />
+        <result property="documentCheckTime"    column="document_check_time"    />
+        <result property="trainDepartTime"    column="layout_time"    />
+        <result property="carryBoxInformationTime"    column="carry_box_information_time"    />
+        <result property="carryContainerTime"    column="carry_container_time"    />
+        <result property="driverNews"    column="driver_news"    />
+        <result property="expectReachTime"    column="expect_reach_time"    />
+        <result property="reachTime"    column="reach_time"    />
+        <result property="signTime"    column="sign_time"    />
+        <result property="returnBoxTime"    column="return_box_time"    />
+        <result property="getCargoTime"    column="get_cargo_time"    />
+        <result property="devanningTime"    column="devanning_time"    />
+        <result property="expectCarryCargoTime"    column="expect_carry_cargo_time"    />
+        <result property="carryCargoTime"    column="carry_cargo_time"    />
+        <result property="driverMessage"    column="driver_message"    />
+        <result property="exceptComeTime"    column="except_come_time"    />
+        <result property="comeTime"    column="come_time"    />
+        <result property="receiveTime"    column="receive_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectTstd">
+          select id, order_id, draft_time, cancel_book_time, check_pending_time, check_result_time,
+          check_result, check_fail_reason, check_again_time, check_again_result_time, check_again_result,
+          check_again_fail_reason, release_box_time, send_car_time, driver_information, carry_box_time,
+          carry_goods_time, expect_arrive_time, arrive_time, in_store_time, in_station_time,
+          bills_provide_time, problem_communicate_time, straw_sure_time, original_provide_time, apply_time,
+          pay_tax_time, layout_time, layout_reason, weight_abnormal, inspection_time,
+          inspection_reason, release_time, document_provide_time, document_check_result, document_check_time,
+          train_depart_time, carry_box_information_time, carry_container_time, driver_news, expect_reach_time,
+          reach_time, sign_time, return_box_time, get_cargo_time, devanning_time,
+          expect_carry_cargo_time, carry_cargo_time, driver_message, except_come_time, come_time,
+          receive_time, update_by, update_time, create_time, create_by,
+          remark, del_flag from track_station_to_door
+    </sql>
+
+    <select id="selectByTstd" parameterType="TrackStationToDoor" resultMap="tstdResult">
+        <include refid="selectTstd"/>
+        <where>
+            del_flag=0
+            <if test="id != null">
+                and id= #{id}
+            </if>
+            <if test="orderId != null  and orderId != ''">
+               and order_id= #{orderId}
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+
+    <update id="updateTstd" parameterType="TrackStationToDoor">
+        update track_station_to_door
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id = #{orderId},</if>
+            <if test="draftTime != null  and draftTime != ''">draft_time = #{draftTime},</if>
+            <if test="cancelBookTime != null  and cancelBookTime != ''">cancel_book_time= #{cancelBookTime},</if>
+            <if test="checkPendingTime != null  and checkPendingTime != ''">check_pending_time = #{checkPendingTime},</if>
+            <if test="checkResultTime != null and checkResultTime !='' ">check_result_time = #{checkResultTime},</if>
+            <if test="checkResult != null">check_result = #{checkResult},</if>
+            <if test="checkFailReason != null  and checkFailReason != ''">check_fail_reason = #{checkFailReason},</if>
+            <if test="checkAgainTime != null  and checkAgainTime != ''">check_again_time= #{checkAgainTime},</if>
+            <if test="checkAgainResultTime != null  and checkAgainResultTime != ''">check_again_result_time = #{checkAgainResultTime},</if>
+            <if test="checkAgainResult != null ">check_again_result = #{checkAgainResult},</if>
+            <if test="checkAgainFailReason != null and checkAgainFailReason != ''">check_again_fail_reason = #{checkAgainFailReason},</if>
+            <if test="releaseBoxTime != null  and releaseBoxTime != ''">release_box_time = #{releaseBoxTime},</if>
+            <if test="sendCarTime != null  and sendCarTime != ''">send_car_time= #{sendCarTime},</if>
+            <if test="driverInformation != null  and driverInformation != ''">driver_information = #{driverInformation},</if>
+            <if test="carryBoxTime != null and carryBoxTime != '' ">carry_box_time = #{carryBoxTime},</if>
+            <if test="carryGoodsTime != null and carryGoodsTime != '' ">carry_goods_time = #{carryGoodsTime},</if>
+            <if test="expectArriveTime != null  and expectArriveTime != ''">expect_arrive_time = #{expectArriveTime},</if>
+            <if test="arriveTime != null  and arriveTime != ''">arrive_time= #{arriveTime},</if>
+            <if test="inStoreTime != null  and inStoreTime != ''">in_store_time = #{inStoreTime},</if>
+            <if test="inStationTime != null and inStationTime != '' ">in_station_time = #{inStationTime},</if>
+            <if test="billsProvideTime != null and billsProvideTime != '' ">bills_provide_time = #{billsProvideTime},</if>
+            <if test="problemCommunicateTime != null  and problemCommunicateTime != ''">problem_communicate_time = #{problemCommunicateTime},</if>
+            <if test="strawSureTime != null  and strawSureTime != ''">straw_sure_time= #{strawSureTime},</if>
+            <if test="originalProvideTime != null  and originalProvideTime != ''">original_provide_time = #{originalProvideTime},</if>
+            <if test="applyTime != null  and applyTime != '' ">apply_time = #{applyTime},</if>
+            <if test="payTaxTime != null  and payTaxTime != '' ">pay_tax_time = #{payTaxTime},</if>
+            <if test="layoutTime != null  and layoutTime != ''">layout_time = #{layoutTime},</if>
+            <if test="layoutReason != null  and layoutReason != ''">layout_reason= #{layoutReason},</if>
+            <if test="weightAbnormal != null  and weightAbnormal != ''">weight_abnormal = #{weightAbnormal},</if>
+            <if test="inspectionTime != null and inspectionTime != '' ">inspection_time = #{inspectionTime},</if>
+            <if test="inspectionReason != null and inspectionReason != ''">inspection_reason = #{inspectionReason},</if>
+            <if test="releaseTime != null  and releaseTime != ''">release_time = #{releaseTime},</if>
+            <if test="documentProvideTime != null  and documentProvideTime != ''">document_provide_time= #{documentProvideTime},</if>
+            <if test="documentCheckResult != null ">document_check_result = #{documentCheckResult},</if>
+            <if test="documentCheckTime != null  and documentCheckTime != '' ">document_check_time = #{documentCheckTime},</if>
+            <if test="trainDepartTime != null  and trainDepartTime != ''">train_depart_time = #{trainDepartTime},</if>
+            <if test="carryBoxInformationTime != null  and carryBoxInformationTime != ''">carry_box_information_time = #{carryBoxInformationTime},</if>
+            <if test="carryContainerTime != null  and carryContainerTime != ''">carry_container_time= #{carryContainerTime},</if>
+            <if test="driverNews != null  and driverNews != ''">driver_news = #{driverNews},</if>
+            <if test="expectReachTime != null and expectReachTime != '' ">expect_reach_time = #{expectReachTime},</if>
+            <if test="reachTime != null and reachTime != ''">reach_time = #{reachTime},</if>
+            <if test="signTime != null  and signTime != ''">sign_time = #{signTime},</if>
+            <if test="returnBoxTime != null  and returnBoxTime != ''">return_box_time= #{returnBoxTime},</if>
+            <if test="getCargoTime != null  and getCargoTime != ''">get_cargo_time = #{getCargoTime},</if>
+            <if test="devanningTime != null and devanningTime != '' ">devanning_time = #{devanningTime},</if>
+            <if test="expectCarryCargoTime != null and expectCarryCargoTime != ''">expect_carry_cargo_time = #{expectCarryCargoTime},</if>
+            <if test="carryCargoTime != null  and carryCargoTime != ''">carry_cargo_time = #{carryCargoTime},</if>
+            <if test="driverMessage != null  and driverMessage != ''">driver_message= #{driverMessage},</if>
+            <if test="exceptComeTime != null  and exceptComeTime != ''">except_come_time = #{exceptComeTime},</if>
+            <if test="comeTime != null and comeTime != '' ">come_time = #{comeTime},</if>
+            <if test="receiveTime != null and receiveTime != ''">receive_time = #{receiveTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="delFlag != null">del_flag = #{delFlag}</if>
+        </trim>
+        <where>
+            del_flag=0
+            <if test="id != null">
+                and id= #{id}
+            </if>
+            <if test="orderId != null  and orderId != ''">
+                and order_id= #{orderId}
+            </if>
+        </where>
+    </update>
+
+    <insert id="insertTstd" parameterType="TrackStationToDoor">
+        insert into track_station_to_door
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id ,</if>
+            <if test="draftTime != null  and draftTime != ''">draft_time,</if>
+            <if test="cancelBookTime != null  and cancelBookTime != ''">cancel_book_time,</if>
+            <if test="checkPendingTime != null  and checkPendingTime != ''">check_pending_time,</if>
+            <if test="checkResultTime != null and checkResultTime !='' ">check_result_time,</if>
+            <if test="checkResult != null">check_result,</if>
+            <if test="checkFailReason != null  and checkFailReason != ''">check_fail_reason,</if>
+            <if test="checkAgainTime != null  and checkAgainTime != ''">check_again_time,</if>
+            <if test="checkAgainResultTime != null  and checkAgainResultTime != ''">check_again_result_time,</if>
+            <if test="checkAgainResult != null ">check_again_result,</if>
+            <if test="checkAgainFailReason != null and checkAgainFailReason != ''">check_again_fail_reason,</if>
+            <if test="releaseBoxTime != null  and releaseBoxTime != ''">release_box_time,</if>
+            <if test="sendCarTime != null  and sendCarTime != ''">send_car_time,</if>
+            <if test="driverInformation != null  and driverInformation != ''">driver_information,</if>
+            <if test="carryBoxTime != null and carryBoxTime != '' ">carry_box_time,</if>
+            <if test="carryGoodsTime != null and carryGoodsTime != '' ">carry_goods_time,</if>
+            <if test="expectArriveTime != null  and expectArriveTime != ''">expect_arrive_time,</if>
+            <if test="arriveTime != null  and arriveTime != ''">arrive_time,</if>
+            <if test="inStoreTime != null  and inStoreTime != ''">in_store_time,</if>
+            <if test="inStationTime != null and inStationTime != '' ">in_station_time,</if>
+            <if test="billsProvideTime != null and billsProvideTime != '' ">bills_provide_time,</if>
+            <if test="problemCommunicateTime != null  and problemCommunicateTime != ''">problem_communicate_time,</if>
+            <if test="strawSureTime != null  and strawSureTime != ''">straw_sure_time,</if>
+            <if test="originalProvideTime != null  and originalProvideTime != ''">original_provide_time,</if>
+            <if test="applyTime != null  and applyTime != '' ">apply_time,</if>
+            <if test="payTaxTime != null  and payTaxTime != '' ">pay_tax_time,</if>
+            <if test="layoutTime != null  and layoutTime != ''">layout_time,</if>
+            <if test="layoutReason != null  and layoutReason != ''">layout_reason,</if>
+            <if test="weightAbnormal != null  and weightAbnormal != ''">weight_abnormal,</if>
+            <if test="inspectionTime != null and inspectionTime != '' ">inspection_time,</if>
+            <if test="inspectionReason != null and inspectionReason != ''">inspection_reason,</if>
+            <if test="releaseTime != null  and releaseTime != ''">release_time,</if>
+            <if test="documentProvideTime != null  and documentProvideTime != ''">document_provide_time,</if>
+            <if test="documentCheckResult != null ">document_check_result,</if>
+            <if test="documentCheckTime != null  and documentCheckTime != '' ">document_check_time,</if>
+            <if test="trainDepartTime != null  and trainDepartTime != ''">train_depart_time,</if>
+            <if test="carryBoxInformationTime != null  and carryBoxInformationTime != ''">carry_box_information_time,</if>
+            <if test="carryContainerTime != null  and carryContainerTime != ''">carry_container_time,</if>
+            <if test="driverNews != null  and driverNews != ''">driver_news,</if>
+            <if test="expectReachTime != null and expectReachTime != '' ">expect_reach_time,</if>
+            <if test="reachTime != null and reachTime != ''">reach_time,</if>
+            <if test="signTime != null  and signTime != ''">sign_time,</if>
+            <if test="returnBoxTime != null  and returnBoxTime != ''">return_box_time,</if>
+            <if test="getCargoTime != null  and getCargoTime != ''">get_cargo_time,</if>
+            <if test="devanningTime != null and devanningTime != '' ">devanning_time,</if>
+            <if test="expectCarryCargoTime != null and expectCarryCargoTime != ''">expect_carry_cargo_time,</if>
+            <if test="carryCargoTime != null  and carryCargoTime != ''">carry_cargo_time,</if>
+            <if test="driverMessage != null  and driverMessage != ''">driver_message,</if>
+            <if test="exceptComeTime != null  and exceptComeTime != ''">except_come_time,</if>
+            <if test="comeTime != null and comeTime != '' ">come_time,</if>
+            <if test="receiveTime != null and receiveTime != ''">receive_time,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="createBy != null  and createBy != ''">update_by,</if>
+            <if test="createTime != null ">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''"> #{orderId},</if>
+            <if test="draftTime != null  and draftTime != ''">#{draftTime},</if>
+            <if test="cancelBookTime != null  and cancelBookTime != ''">#{cancelBookTime},</if>
+            <if test="checkPendingTime != null  and checkPendingTime != ''">#{checkPendingTime},</if>
+            <if test="checkResultTime != null and checkResultTime !='' ">#{checkResultTime},</if>
+            <if test="checkResult != null">#{checkResult},</if>
+            <if test="checkFailReason != null  and checkFailReason != ''">#{checkFailReason},</if>
+            <if test="checkAgainTime != null  and checkAgainTime != ''">#{checkAgainTime},</if>
+            <if test="checkAgainResultTime != null  and checkAgainResultTime != ''">#{checkAgainResultTime},</if>
+            <if test="checkAgainResult != null ">#{checkAgainResult},</if>
+            <if test="checkAgainFailReason != null and checkAgainFailReason != ''">#{checkAgainFailReason},</if>
+            <if test="releaseBoxTime != null  and releaseBoxTime != ''">#{releaseBoxTime},</if>
+            <if test="sendCarTime != null  and sendCarTime != ''">#{sendCarTime},</if>
+            <if test="driverInformation != null  and driverInformation != ''">#{driverInformation},</if>
+            <if test="carryBoxTime != null and carryBoxTime != '' ">#{carryBoxTime},</if>
+            <if test="carryGoodsTime != null and carryGoodsTime != '' ">#{carryGoodsTime},</if>
+            <if test="expectArriveTime != null  and expectArriveTime != ''">#{expectArriveTime},</if>
+            <if test="arriveTime != null  and arriveTime != ''">#{arriveTime},</if>
+            <if test="inStoreTime != null  and inStoreTime != ''">#{inStoreTime},</if>
+            <if test="inStationTime != null and inStationTime != '' ">#{inStationTime},</if>
+            <if test="billsProvideTime != null and billsProvideTime != '' ">#{billsProvideTime},</if>
+            <if test="problemCommunicateTime != null  and problemCommunicateTime != ''">#{problemCommunicateTime},</if>
+            <if test="strawSureTime != null  and strawSureTime != ''">#{strawSureTime},</if>
+            <if test="originalProvideTime != null  and originalProvideTime != ''">#{originalProvideTime},</if>
+            <if test="applyTime != null  and applyTime != '' ">#{applyTime},</if>
+            <if test="payTaxTime != null  and payTaxTime != '' ">#{payTaxTime},</if>
+            <if test="layoutTime != null  and layoutTime != ''">#{layoutTime},</if>
+            <if test="layoutReason != null  and layoutReason != ''">#{layoutReason},</if>
+            <if test="weightAbnormal != null  and weightAbnormal != ''">#{weightAbnormal},</if>
+            <if test="inspectionTime != null and inspectionTime != '' ">#{inspectionTime},</if>
+            <if test="inspectionReason != null and inspectionReason != ''">#{inspectionReason},</if>
+            <if test="releaseTime != null  and releaseTime != ''">#{releaseTime},</if>
+            <if test="documentProvideTime != null  and documentProvideTime != ''">#{documentProvideTime},</if>
+            <if test="documentCheckResult != null ">#{documentCheckResult},</if>
+            <if test="documentCheckTime != null  and documentCheckTime != '' ">#{documentCheckTime},</if>
+            <if test="trainDepartTime != null  and trainDepartTime != ''">#{trainDepartTime},</if>
+            <if test="carryBoxInformationTime != null  and carryBoxInformationTime != ''">#{carryBoxInformationTime},</if>
+            <if test="carryContainerTime != null  and carryContainerTime != ''">#{carryContainerTime},</if>
+            <if test="driverNews != null  and driverNews != ''">#{driverNews},</if>
+            <if test="expectReachTime != null and expectReachTime != '' ">#{expectReachTime},</if>
+            <if test="reachTime != null and reachTime != ''">#{reachTime},</if>
+            <if test="signTime != null  and signTime != ''">#{signTime},</if>
+            <if test="returnBoxTime != null  and returnBoxTime != ''">#{returnBoxTime},</if>
+            <if test="getCargoTime != null  and getCargoTime != ''">#{getCargoTime},</if>
+            <if test="devanningTime != null and devanningTime != '' ">#{devanningTime},</if>
+            <if test="expectCarryCargoTime != null and expectCarryCargoTime != ''">#{expectCarryCargoTime},</if>
+            <if test="carryCargoTime != null  and carryCargoTime != ''">#{carryCargoTime},</if>
+            <if test="driverMessage != null  and driverMessage != ''">#{driverMessage},</if>
+            <if test="exceptComeTime != null  and exceptComeTime != ''">#{exceptComeTime},</if>
+            <if test="comeTime != null and comeTime != '' ">#{comeTime},</if>
+            <if test="receiveTime != null and receiveTime != ''">#{receiveTime},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+        </trim>
+    </insert>
+</mapper>

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.order.mapper.ShippingorderExaminfoMapper">
+    
+    <resultMap type="ShippingorderExaminfo" id="ShippingorderExaminfoResult">
+        <result property="examId"    column="exam_ID"    />
+        <result property="orderId"    column="order_ID"    />
+        <result property="examDate"    column="exam_date"    />
+        <result property="examInfo"    column="exam_info"    />
+        <result property="editRecord"    column="edit_record"    />
+        <result property="examSedemail"    column="exam_sedEmail"    />
+        <result property="createuserid"    column="createuserid"    />
+        <result property="createusername"    column="createusername"    />
+        <result property="examType"    column="exam_type"    />
+        <result property="remark"    column="remark"    />
+        <result property="isread"    column="isread"    />
+        <result property="refuseInfo"    column="refuse_info"    />
+        <result property="xgRefuseInfo"    column="xg_refuse_info"    />
+    </resultMap>
+
+    <sql id="selectShippingorderExaminfoVo">
+        select exam_ID, order_ID, exam_date, exam_info,edit_record, exam_sedEmail, createuserid, createusername, exam_type, remark,isread,refuse_info,xg_refuse_info from shippingorder_examinfo
+    </sql>
+
+    <select id="selectShippingorderExaminfoList" parameterType="ShippingorderExaminfo" resultType="ShippingorderExaminfo">
+        select exam.exam_ID as examId,exam.order_ID as orderId,exam.exam_date as examDate,exam.exam_info as examInfo,exam.exam_type as examType,ord.line_typeid as lineTypeid,
+        exam.remark as remark,ord.order_number as orderNumber,ord.createdate as createdate,ord.IsExamline as isexamline,ord.isupdate as isupdate,ord.Exame_time as exameTime,
+        class.class_STime as classDate,ord.client_unit as clientUnit,exam.edit_record as editRecord,exam.refuse_info as refuseInfo,exam.isread as isread,exam.xg_refuse_info as xgRefuseInfo
+        from shippingorder_examinfo exam
+        left join busi_shippingorder ord on ord.order_ID = exam.order_ID
+        left join busi_classes class on class.class_ID = ord.class_ID
+        <where>
+            <if test="orderNumber != null  and orderNumber != ''"> and ord.order_number like concat('%', #{orderNumber}, '%')</if>
+            <if test="clientUnit != null  and clientUnit != ''"> and ord.client_unit like concat('%', #{clientUnit}, '%')</if>
+            <if test="isexamline != null  and isexamline != ''"> and ord.IsExamline = #{isexamline}</if>
+            <if test="shipOrderBinningway != null  and shipOrderBinningway != ''"> and ord.ship_order_binningWay = #{shipOrderBinningway}</if>
+            <if test="isconsolidation != null  and isconsolidation != ''"> and ord.IsConsolidation = #{isconsolidation}</if>
+            <if test="lineTypeid != null  and lineTypeid != ''"> and ord.line_typeid = #{lineTypeid}</if>
+            <if test="isread != null  and isread != ''"> and exam.isread = #{isread}</if>
+            <if test="classEastandwest != null  and classEastandwest != ''"> and class.class_EastAndWest = #{classEastandwest}</if>
+            <if test="classDate != null"> and <![CDATA[class.class_STime = #{classDate,jdbcType=DATE}]]></if>
+            <if test="searchType != null  and searchType != '1'">
+                <if test="searchType == '2'.toString()">
+                    <if test="classDateFive != null"> and <![CDATA[ord.createdate >= #{classDateFive,jdbcType=DATE}]]></if>
+                    <if test="classDateEnd != null"> and <![CDATA[ord.createdate < #{classDateEnd,jdbcType=DATE}]]></if>
+                </if>
+                <if test="searchType == '3'.toString()">
+                    <if test="classDateFour != null"> and <![CDATA[ord.createdate >= #{classDateFour,jdbcType=DATE}]]></if>
+                    <if test="classDateEnd != null"> and <![CDATA[ord.createdate < #{classDateEnd,jdbcType=DATE}]]></if>
+                </if>
+            </if>
+            <if test="changeType != null  and changeType != ''">
+                <if test="changeType == '0'.toString()">
+                    and <![CDATA[class.class_STime >= exam.exam_date]]>
+                </if>
+                <if test="changeType == '1'.toString()">
+                    and <![CDATA[class.class_STime < exam.exam_date]]>
+                </if>
+            </if>
+        </where>
+        order by exam.exam_date desc
+    </select>
+
+    <select id="oneEditRecord" parameterType="string" resultType="string">
+        select edit_record from shippingorder_examinfo where exam_ID = #{examId}
+    </select>
+
+    <select id="selectOrderExaminfoList" parameterType="String" resultType="ShippingorderExaminfo">
+         select exam_date as examDate,exam_info as examInfo from shippingorder_examinfo where order_ID = #{orderId} order by exam_date desc
+    </select>
+
+    <select id="selectShippingorderExaminfoLists" parameterType="ShippingorderExaminfo" resultMap="ShippingorderExaminfoResult">
+        <include refid="selectShippingorderExaminfoVo"/>
+        <where>  
+            <if test="orderId != null and orderId != ''"> and order_ID = #{orderId}</if>
+            <if test="examDate != null "> and exam_date = #{examDate}</if>
+            <if test="examInfo != null  and examInfo != ''"> and exam_info = #{examInfo}</if>
+            <if test="examSedemail != null  and examSedemail != ''"> and exam_sedEmail = #{examSedemail}</if>
+            <if test="createuserid != null  and createuserid != ''"> and createuserid = #{createuserid}</if>
+            <if test="createusername != null  and createusername != ''"> and createusername like concat('%', #{createusername}, '%')</if>
+            <if test="examType != null  and examType != ''"> and exam_type = #{examType}</if>
+        </where>
+    </select>
+    
+    <select id="selectShippingorderExaminfoById" parameterType="String" resultMap="ShippingorderExaminfoResult">
+        <include refid="selectShippingorderExaminfoVo"/>
+        where exam_ID = #{examId}
+    </select>
+
+    <select id="selectShippingorderExaminfoByOrderId" parameterType="String" resultMap="ShippingorderExaminfoResult">
+        <include refid="selectShippingorderExaminfoVo"/>
+        where order_ID = #{orderId} order by exam_date desc limit 1
+    </select>
+
+    <select id="getTimes" resultType="com.szhbl.project.order.domain.vo.OrderExamVo">
+        select
+          exam.exam_ID as examId,
+          exam.order_ID as orderId,
+          exam.exam_date as examDate,
+          ord.class_EastAndWest as eastOrWest,
+          ord.order_number as orderNumber,
+          ord.Class_date as classDate,
+          exam.edit_record as editRecord
+        from shippingorder_examinfo exam
+        left join busi_shippingorder ord on ord.order_ID = exam.order_ID
+        where
+            exam.edit_record is not null
+            <if test="lineType != null  and lineType != ''">
+                and ord.line_typeid = #{lineType}
+            </if>
+            <if test="startDate != null  and startDate != ''">
+                and DATE_FORMAT(ord.Class_date,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(#{startDate},'%Y-%m-%d')
+            </if>
+            <if test="endDate != null  and endDate != ''">
+                and DATE_FORMAT(ord.Class_date,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(#{endDate},'%Y-%m-%d')
+            </if>
+    </select>
+
+    <insert id="insertShippingorderExaminfo" parameterType="ShippingorderExaminfo" useGeneratedKeys="true" keyProperty="examId">
+        insert into shippingorder_examinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null and orderId != ''">order_ID,</if>
+            <if test="examDate != null ">exam_date,</if>
+            <if test="examInfo != null  and examInfo != ''">exam_info,</if>
+            <if test="editRecord != null  and editRecord != ''">edit_record,</if>
+            <if test="examSedemail != null  and examSedemail != ''">exam_sedEmail,</if>
+            <if test="createuserid != null  and createuserid != ''">createuserid,</if>
+            <if test="createusername != null  and createusername != ''">createusername,</if>
+            <if test="examType != null  and examType != ''">exam_type,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="isread != null  and isread != ''">isread,</if>
+            <if test="refuseInfo != null  and refuseInfo != ''">refuse_info,</if>
+            <if test="xgRefuseInfo != null  and xgRefuseInfo != ''">xg_refuse_info,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null and orderId != ''">#{orderId},</if>
+            <if test="examDate != null ">#{examDate},</if>
+            <if test="examInfo != null  and examInfo != ''">#{examInfo},</if>
+            <if test="editRecord != null  and editRecord != ''">#{editRecord},</if>
+            <if test="examSedemail != null  and examSedemail != ''">#{examSedemail},</if>
+            <if test="createuserid != null  and createuserid != ''">#{createuserid},</if>
+            <if test="createusername != null  and createusername != ''">#{createusername},</if>
+            <if test="examType != null  and examType != ''">#{examType},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="isread != null  and isread != ''">#{isread},</if>
+            <if test="refuseInfo != null  and refuseInfo != ''">#{refuseInfo},</if>
+            <if test="xgRefuseInfo != null  and xgRefuseInfo != ''">#{xgRefuseInfo},</if>
+         </trim>
+    </insert>
+
+    <!--根据托书id更新公告-->
+    <update id="updateShippingorderExaminfo" parameterType="ShippingorderExaminfo">
+        update shippingorder_examinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="examDate != null ">exam_date = #{examDate},</if>
+            <if test="examInfo != null  and examInfo != ''">exam_info = concat(IFNULL(exam_info,''),#{examInfo}),</if>
+            <if test="editRecord != null  and editRecord != ''">edit_record = #{editRecord},</if>
+            <if test="examSedemail != null  and examSedemail != ''">exam_sedEmail = #{examSedemail},</if>
+            <if test="createuserid != null  and createuserid != ''">createuserid = #{createuserid},</if>
+            <if test="createusername != null  and createusername != ''">createusername = #{createusername},</if>
+            <if test="examType != null  and examType != ''">exam_type = #{examType},</if>
+            <if test="isread != null  and isread != ''">isread = #{isread},</if>
+            <if test="refuseInfo != null  and refuseInfo != ''">refuse_info = concat(IFNULL(refuse_info,''),#{refuseInfo}),</if>
+            <if test="xgRefuseInfo != null  and xgRefuseInfo != ''">xg_refuse_info = #{xgRefuseInfo},</if>
+        </trim>
+        where order_ID = #{orderId} order by exam_date desc limit 1
+    </update>
+
+    <update id="addRemark" parameterType="ShippingorderExaminfo">
+        update shippingorder_examinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="isread != null  and isread != ''">isread = #{isread},</if>
+            <if test="examDate != null ">exam_date = #{examDate},</if>
+        </trim>
+        where exam_ID = #{examId}
+    </update>
+
+    <delete id="deleteShippingorderExaminfoById" parameterType="String">
+        delete from shippingorder_examinfo where exam_ID = #{examId}
+    </delete>
+
+    <delete id="deleteShippingorderExaminfoByIds" parameterType="String">
+        delete from shippingorder_examinfo where exam_ID in 
+        <foreach item="examId" collection="array" open="(" separator="," close=")">
+            #{examId}
+        </foreach>
+    </delete>
+    
+</mapper>

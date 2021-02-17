@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.backclient.mapper.DocumentsRequiredMapper">
+
+    <resultMap type="DocumentsRequired" id="DocumentsRequiredResult">
+        <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
+        <result property="content"    column="content"    />
+        <result property="enContent"    column="en_content"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="language"    column="language"    />
+    </resultMap>
+
+    <sql id="selectDocumentsRequiredVo">
+        select id, type, content, en_content, create_by, create_time, update_by, update_time, del_flag, language from documents_required
+    </sql>
+
+    <select id="selectDocumentsRequiredList" parameterType="DocumentsRequired" resultMap="DocumentsRequiredResult">
+        <include refid="selectDocumentsRequiredVo"/>
+        <where>  
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+            <if test="enContent != null  and enContent != ''"> and en_content like concat('%', #{enContent}, '%')</if>
+            and del_flag = '0'
+        </where>
+    </select>
+    
+    <select id="selectDocumentsRequiredById" parameterType="Long" resultMap="DocumentsRequiredResult">
+        <include refid="selectDocumentsRequiredVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDocumentsRequired" parameterType="DocumentsRequired">
+        insert into documents_required
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="type != null  and type != ''">type,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="enContent != null  and enContent != ''">en_content,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="language != null  and language != ''">language,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="type != null  and type != ''">#{type},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="enContent != null  and enContent != ''">#{enContent},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="language != null  and language != ''">#{language},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDocumentsRequired" parameterType="DocumentsRequired">
+        update documents_required
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null  and type != ''">type = #{type},</if>
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="enContent != null  and enContent != ''">en_content = #{enContent},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="language != null  and language != ''">language = #{language},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDocumentsRequiredById" parameterType="Long">
+        delete from documents_required where id = #{id}
+    </delete>
+
+    <delete id="deleteDocumentsRequiredByIds" parameterType="String">
+        delete from documents_required where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

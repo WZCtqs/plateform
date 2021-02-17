@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.backclient.mapper.QtOfficeMapper">
+
+    <resultMap type="QtOffice" id="QtOfficeResult">
+        <result property="officeId"    column="office_id"    />
+        <result property="office"    column="office"    />
+        <result property="enOffice"    column="en_office"    />
+        <result property="contacts"    column="contacts"    />
+        <result property="enContacts"    column="en_contacts"    />
+        <result property="area"    column="area"    />
+        <result property="enArea"    column="en_area"    />
+        <result property="tel"    column="tel"    />
+        <result property="email"    column="email"    />
+        <result property="language"    column="language"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectQtOfficeVo">
+        select office_id, office, en_office, contacts, en_contacts, area, en_area, tel, email, language, create_by, create_time, update_by, update_time, del_flag from qt_office
+    </sql>
+
+    <select id="selectQtOfficeList" parameterType="QtOffice" resultMap="QtOfficeResult">
+        <include refid="selectQtOfficeVo"/>
+        <where>
+            <if test="office != null  and office != ''"> and office like concat('%', #{office}, '%')</if>
+            <if test="enOffice != null  and enOffice != ''"> and en_office like concat('%', #{enOffice}, '%')</if>
+            <if test="contacts != null  and contacts != ''"> and contacts like concat('%', #{contacts}, '%')</if>
+            <if test="enContacts != null  and enContacts != ''"> and en_contacts like concat('%', #{enContacts}, '%')</if>
+            <if test="area != null  and area != ''"> and area like concat('%', #{area}, '%')</if>
+            <if test="enArea != null  and enArea != ''"> and like concat('%', #{enArea}, '%')</if>
+            <if test="tel != null  and tel != ''"> and tel like concat('%', #{tel}, '%')</if>
+            <if test="email != null  and email != ''"> and email like concat('%', #{email}, '%')</if>
+            <if test="language != null  and language != ''"> and language = #{language}</if>
+            and del_flag = '0'
+        </where>
+    </select>
+
+    <select id="selectQtOfficeById" parameterType="Integer" resultMap="QtOfficeResult">
+        <include refid="selectQtOfficeVo"/>
+        where office_id = #{officeId}
+    </select>
+
+    <insert id="insertQtOffice" parameterType="QtOffice" useGeneratedKeys="true" keyProperty="officeId">
+        insert into qt_office
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="office != null  and office != ''">office,</if>
+            <if test="enOffice != null  and enOffice != ''">en_office,</if>
+            <if test="contacts != null  and contacts != ''">contacts,</if>
+            <if test="enContacts != null  and enContacts != ''">en_contacts,</if>
+            <if test="area != null  and area != ''">area,</if>
+            <if test="enArea != null  and enArea != ''">en_area,</if>
+            <if test="tel != null  and tel != ''">tel,</if>
+            <if test="email != null  and email != ''">email,</if>
+            <if test="language != null  and language != ''">language,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="office != null  and office != ''">#{office},</if>
+            <if test="enOffice != null  and enOffice != ''">#{enOffice},</if>
+            <if test="contacts != null  and contacts != ''">#{contacts},</if>
+            <if test="enContacts != null  and enContacts != ''">#{enContacts},</if>
+            <if test="area != null  and area != ''">#{area},</if>
+            <if test="enArea != null  and enArea != ''">#{enArea},</if>
+            <if test="tel != null  and tel != ''">#{tel},</if>
+            <if test="email != null  and email != ''">#{email},</if>
+            <if test="language != null  and language != ''">#{language},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+        </trim>
+    </insert>
+
+    <update id="updateQtOffice" parameterType="QtOffice">
+        update qt_office
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="office != null  and office != ''">office = #{office},</if>
+            <if test="enOffice != null  and enOffice != ''">en_office = #{enOffice},</if>
+            <if test="contacts != null  and contacts != ''">contacts = #{contacts},</if>
+            <if test="enContacts != null  and enContacts != ''">en_contacts = #{enContacts},</if>
+            <if test="area != null  and area != ''">area = #{area},</if>
+            <if test="enArea != null  and enArea != ''">en_area = #{enArea},</if>
+            <if test="tel != null  and tel != ''">tel = #{tel},</if>
+            <if test="email != null  and email != ''">email = #{email},</if>
+            <if test="language != null  and language != ''">language = #{language},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+        </trim>
+        where office_id = #{officeId}
+    </update>
+
+    <delete id="deleteQtOfficeById" parameterType="Integer">
+        delete from qt_office where office_id = #{officeId}
+    </delete>
+
+    <delete id="deleteQtOfficeByIds" parameterType="String">
+        delete from qt_office where office_id in
+        <foreach item="officeId" collection="array" open="(" separator="," close=")">
+            #{officeId}
+        </foreach>
+    </delete>
+
+</mapper>

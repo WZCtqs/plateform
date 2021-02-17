@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.documentcenter.mapper.DocNewRemindMapper">
+
+    <resultMap type="DocNewRemind" id="DocNewRemindResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="fileTypeKey"    column="file_type_key"    />
+        <result property="remindTime"    column="remind_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="deleteflag"    column="deleteflag"    />
+    </resultMap>
+
+    <resultMap type="DocRemindPage" id="DocRemindPageResult">
+        <result property="orderId"    column="order_id"    />
+        <result property="orderNumber"    column="order_number"    />
+        <result property="orderClassBh"    column="order_class_bh"    />
+        <result property="classDate"    column="class_date"    />
+        <result property="auditTime"    column="audit_time"    />
+        <result property="fileTypeKey"    column="file_type_key"    />
+        <result property="fileTypeText"    column="file_type_text"    />
+        <result property="normalSupplyNode"    column="normal_supply_node"    />
+        <result property="uploadTime"    column="upload_time"    />
+        <result property="uploaded"    column="uploaded"    />
+        <result property="emailStatus"    column="email_status"    />
+        <result property="emailfail"    column="emailfail"    />
+    </resultMap>
+    <resultMap type="DocRemindPage" id="DocRemindPageResult2">
+        <result property="orderId"    column="order_id"    />
+        <result property="orderNumber"    column="order_number"    />
+        <result property="orderClassBh"    column="order_class_bh"    />
+        <result property="classDate"    column="class_date"    />
+        <result property="auditTime"    column="audit_time"    />
+        <result property="fileTypeKey"    column="file_type_key"    />
+        <result property="fileTypeText"    column="file_type_text"    />
+        <result property="normalSupplyNode"    column="normal_supply_node"    />
+        <result property="uploadTime"    column="upload_time"    />
+        <result property="uploaded"    column="uploaded"    />
+        <result property="emailStatus"    column="email_status"    />
+        <result property="emailfail"    column="emailfail"    />
+        <association property="document" column="{orderId=order_id, fileTypeKey=file_type_key}"
+                     select="com.szhbl.project.documentcenter.mapper.OrderDocumentMapper.getByOrderIdAndFileTypeKey"/>
+    </resultMap>
+
+    <sql id="selectDocNewRemindVo">
+        select id, order_id, file_type_key, remind_time, create_time, deleteflag  from doc_new_remind
+    </sql>
+
+    <select id="selectDocNewRemindList" parameterType="DocNewRemind" resultMap="DocNewRemindResult">
+        <include refid="selectDocNewRemindVo"/>
+        <where>
+            <if test="orderId != null  and orderId != ''"> and order_id = #{orderId}</if>
+            <if test="fileTypeKey != null  and fileTypeKey != ''"> and file_type_key = #{fileTypeKey}</if>
+            <if test="remindTime != null "> and remind_time = #{remindTime}</if>
+            <if test="deleteflag != null "> and deleteflag = #{deleteflag}</if>
+        </where>
+    </select>
+
+    <!--根据托书和单证类型查询未删除的最新设置-->
+    <select id="getDocNewRemind" parameterType="DocNewRemind" resultMap="DocNewRemindResult">
+        <include refid="selectDocNewRemindVo"/>
+        <where>
+            <if test="orderId != null  and orderId != ''"> and order_id = #{orderId}</if>
+            <if test="fileTypeKey != null  and fileTypeKey != ''"> and file_type_key = #{fileTypeKey}</if>
+        </where>
+        and deleteflag = 0
+        order by create_time desc limit 1
+    </select>
+
+    <insert id="insertDocNewRemind" parameterType="DocNewRemind" useGeneratedKeys="true" keyProperty="id">
+        insert into doc_new_remind
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="orderId != null  and orderId != ''">order_id,</if>
+            <if test="fileTypeKey != null  and fileTypeKey != ''">file_type_key,</if>
+            <if test="remindTime != null ">remind_time,</if>
+            <if test="createTime != null ">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="orderId != null  and orderId != ''">#{orderId},</if>
+            <if test="fileTypeKey != null  and fileTypeKey != ''">#{fileTypeKey},</if>
+            <if test="remindTime != null ">#{remindTime},</if>
+            <if test="createTime != null ">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <!--根据订单id和单证类型将新提醒设置删除-->
+    <update id="deleteDocNewRemindByOrder" parameterType="DocNewRemind">
+        update doc_new_remind set deleteflag = 1
+        where order_id = #{orderId} and file_type_key = #{fileTypeKey}
+    </update>
+
+    <select id="selectForRemindPage" parameterType="com.szhbl.project.documentcenter.domain.vo.DocRemindPage" resultMap="DocRemindPageResult">
+        SELECT
+            doco.order_id,
+            bso.order_number,
+            bso.order_class_bh,
+            bso.class_date,
+            bso.Exame_time audit_time,
+            doco.file_type_key,
+            doco.file_type_text,
+            doco.normal_supply_node,
+            doco.actual_supply_time upload_time,
+            doco.actual_supply uploaded,
+            sm.email_status,
+            sm.emailfail
+        FROM
+            doc_order doco
+        left join busi_shippingorder bso on bso.order_ID = doco.order_id
+        LEFT JOIN sys_message sm ON sm.file_type_key = doco.file_type_key
+        AND doco.order_id = sm.order_id
+        left join busi_clients c on c.client_ID = bso.client_ID
+        <where>
+            <if test="orderNumber != null and orderNumber != ''">doco.order_number like concat('',#{orderNumber}, '%')</if>
+            <if test="emailStatus != null ">and sm.email_status = #{emailStatus}</if>
+            <if test="uploaded != null ">and doco.actual_supply = #{uploaded}</if>
+            <if test="classDate != null "> and DATE_FORMAT(bso.class_date,'%Y-%m-%d') = DATE_FORMAT(#{classDate},'%Y-%m-%d')</if>
+            <if test="readType != null  and readType != ''">
+               <if test="readType == '0'.toString()">
+                   and c.client_tjr_id in (
+                   SELECT
+                   tjr_id
+                   FROM
+                   sys_user
+                   WHERE
+                   user_id = #{userid}
+                   )
+               </if>
+                <if test="readType == '1'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code LIKE concat('%', #{deptCode}, '%')
+                    )
+                </if>
+                <if test="readType == '2'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000100%' or dept.dept_code like '%YWB1000103%'
+                )
+                </if>
+                <if test="readType == '3'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000101%' or dept.dept_code  like '%YWB1000104%'
+                    )
+                </if>
+                <if test="readType == '4'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000200%' or dept.dept_code like '%YWB1000202%'
+                    )
+                </if>
+                <if test="readType == '5'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000201%' or dept.dept_code like '%YWB1000203%'
+                    )
+
+                </if>
+            </if>
+        </where>
+    </select>
+
+</mapper>

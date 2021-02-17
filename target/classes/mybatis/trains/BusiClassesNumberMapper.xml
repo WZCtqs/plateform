@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.trains.mapper.BusiClassesNumberMapper">
+    
+    <resultMap type="BusiClassesNumber" id="BusiClassesNumberResult">
+        <result property="classTId"    column="class_t_ID"    />
+        <result property="classTNumber"    column="class_t_Number"    />
+        <result property="lineTypeid"    column="line_Typeid"    />
+        <result property="classTEastandwest"    column="class_t_EastAndWest"    />
+        <result property="state"    column="state"    />
+        <result property="updatename"    column="updatename"    />
+        <result property="updatetime"    column="updatetime"    />
+    </resultMap>
+
+    <sql id="selectBusiClassesNumberVo">
+        select class_t_ID, class_t_Number, line_Typeid, class_t_EastAndWest, state,updatename,updatetime from Busi_Classes_Number
+    </sql>
+
+    <select id="selectBusiClassesNumberList" parameterType="BusiClassesNumber" resultMap="BusiClassesNumberResult">
+        <include refid="selectBusiClassesNumberVo"/>
+        <where>  
+            <if test="classTNumber != null  and classTNumber != ''"> and class_t_Number like concat('%', #{classTNumber}, '%')</if>
+            <if test="lineTypeid != null  and lineTypeid != ''"> and line_Typeid like concat('%', #{lineTypeid}, '%')</if>
+            <if test="classTEastandwest != null  and classTEastandwest != ''"> and class_t_EastAndWest like concat('%', #{classTEastandwest}, '%')</if>
+            <if test="state != null  and state != ''"> and state = #{state}</if>
+        </where>
+        order by updatetime desc
+    </select>
+    
+    <select id="selectBusiClassesNumberById" parameterType="String" resultMap="BusiClassesNumberResult">
+        <include refid="selectBusiClassesNumberVo"/>
+        where class_t_ID = #{classTId}
+    </select>
+
+    <select id="checkNumberUnique" parameterType="String" resultType="int">
+		select count(1) from Busi_Classes_Number where class_t_Number = #{classTNumber}
+	</select>
+
+    <select id="checkNumberUpdUnique" parameterType="String" resultMap="BusiClassesNumberResult">
+		select class_t_ID,class_t_Number from Busi_Classes_Number where class_t_Number = #{classTNumber}
+	</select>
+        
+    <insert id="insertBusiClassesNumber" parameterType="BusiClassesNumber" useGeneratedKeys="true" keyProperty="classTId">
+        insert into Busi_Classes_Number
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="classTId != null  and classTId != ''">class_t_ID,</if>
+            <if test="classTNumber != null  and classTNumber != ''">class_t_Number,</if>
+            <if test="lineTypeid != null  and lineTypeid != ''">line_Typeid,</if>
+            <if test="classTEastandwest != null  and classTEastandwest != ''">class_t_EastAndWest,</if>
+            <if test="state != null  and state != ''">state,</if>
+            <if test="updatename != null  and updatename != ''">updatename,</if>
+            <if test="updatetime != null">updatetime,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="classTId != null  and classTId != ''">#{classTId},</if>
+            <if test="classTNumber != null  and classTNumber != ''">#{classTNumber},</if>
+            <if test="lineTypeid != null  and lineTypeid != ''">#{lineTypeid},</if>
+            <if test="classTEastandwest != null  and classTEastandwest != ''">#{classTEastandwest},</if>
+            <if test="state != null  and state != ''">#{state},</if>
+            <if test="updatename != null  and updatename != ''">#{updatename},</if>
+            <if test="updatetime != null">#{updatetime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBusiClassesNumber" parameterType="BusiClassesNumber">
+        update Busi_Classes_Number
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="classTNumber != null  and classTNumber != ''">class_t_Number = #{classTNumber},</if>
+            <if test="lineTypeid != null  and lineTypeid != ''">line_Typeid = #{lineTypeid},</if>
+            <if test="classTEastandwest != null  and classTEastandwest != ''">class_t_EastAndWest = #{classTEastandwest},</if>
+            <if test="state != null  and state != ''">state = #{state},</if>
+            <if test="updatename != null  and updatename != ''">updatename = #{updatename},</if>
+            <if test="updatetime != null">updatetime = #{updatetime},</if>
+        </trim>
+        where class_t_ID = #{classTId}
+    </update>
+
+    <delete id="deleteBusiClassesNumberById" parameterType="String">
+        delete from Busi_Classes_Number where class_t_ID = #{classTId}
+    </delete>
+
+    <delete id="deleteBusiClassesNumberByIds" parameterType="String">
+        delete from Busi_Classes_Number where class_t_ID in 
+        <foreach item="classTId" collection="array" open="(" separator="," close=")">
+            #{classTId}
+        </foreach>
+    </delete>
+    
+</mapper>

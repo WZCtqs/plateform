@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.system.mapper.MessageSetMapper">
+    
+    <resultMap type="MessageSet" id="MessageSetResult">
+        <result property="id"    column="id"    />
+        <result property="messageType"    column="message_type"    />
+        <result property="emailId"    column="email_id"    />
+        <result property="documentId"    column="document_id"    />
+        <result property="typeName"    column="type_name"    />
+        <result property="emailSubject"    column="email_subject"    />
+        <result property="emailRecipient"    column="email_recipient"    />
+        <result property="emailContent"    column="email_content"    />
+        <result property="siteSubject"    column="site_subject"    />
+        <result property="siteRecipient"    column="site_recipient"    />
+        <result property="siteContent"    column="site_content"    />
+        <result property="emailSend"    column="email_send"    />
+        <result property="siteSend"    column="site_send"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectMessageSetVo">
+        select id, message_type, email_id, document_id, type_name, email_subject, email_recipient, email_content, site_subject, site_recipient, site_content,email_send, site_send,remark, del_flag, create_by, create_time, update_by, update_time from message_set
+    </sql>
+
+    <select id="selectMessageSetList" parameterType="MessageSet" resultMap="MessageSetResult">
+        select ms.id, message_type, email_id, document_id, ifnull(type_name,file_type_text) type_name, email_subject, email_recipient,
+        email_content, site_subject, site_recipient, site_content, email_send, site_send,ms.remark
+        from message_set ms
+        left join doc_documents_type ddt on ddt.id=ms.document_id
+        <where>  
+            <if test="messageType != null "> and ms.message_type = #{messageType}</if>
+            <if test="typeName != null  and typeName != ''"> and (ms.type_name like concat('%', #{typeName}, '%')
+                or ddt.file_type_text like concat('%', #{typeName}, '%'))
+                </if>
+        </where>
+    </select>
+    
+    <select id="selectMessageSetById" parameterType="Long" resultMap="MessageSetResult">
+        <include refid="selectMessageSetVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMessageSet" parameterType="MessageSet" useGeneratedKeys="true" keyProperty="id">
+        insert into message_set
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="messageType != null ">message_type,</if>
+            <if test="emailId != null ">email_id,</if>
+            <if test="documentId != null ">document_id,</if>
+            <if test="typeName != null  and typeName != ''">type_name,</if>
+            <if test="emailSubject != null  and emailSubject != ''">email_subject,</if>
+            <if test="emailRecipient != null  and emailRecipient != ''">email_recipient,</if>
+            <if test="emailContent != null  and emailContent != ''">email_content,</if>
+            <if test="siteSubject != null  and siteSubject != ''">site_subject,</if>
+            <if test="siteRecipient != null  and siteRecipient != ''">site_recipient,</if>
+            <if test="siteContent != null  and siteContent != ''">site_content,</if>
+            <if test="emailSend != null  ">email_send, </if>
+            <if test="siteSend != null  ">site_send,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="delFlag != null ">del_flag,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="messageType != null ">#{messageType},</if>
+            <if test="emailId != null ">#{emailId},</if>
+            <if test="documentId != null ">#{documentId},</if>
+            <if test="typeName != null  and typeName != ''">#{typeName},</if>
+            <if test="emailSubject != null  and emailSubject != ''">#{emailSubject},</if>
+            <if test="emailRecipient != null  and emailRecipient != ''">#{emailRecipient},</if>
+            <if test="emailContent != null  and emailContent != ''">#{emailContent},</if>
+            <if test="siteSubject != null  and siteSubject != ''">#{siteSubject},</if>
+            <if test="siteRecipient != null  and siteRecipient != ''">#{siteRecipient},</if>
+            <if test="siteContent != null  and siteContent != ''">#{siteContent},</if>
+            <if test="emailSend != null  ">#{emailSend},</if>
+            <if test="siteSend != null ">#{siteSend},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="delFlag != null ">#{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMessageSet" parameterType="MessageSet">
+        update message_set
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="messageType != null ">message_type = #{messageType},</if>
+            <if test="emailId != null ">email_id = #{emailId},</if>
+            <if test="documentId != null ">document_id = #{documentId},</if>
+            <if test="typeName != null  and typeName != ''">type_name = #{typeName},</if>
+            <if test="emailSubject != null  and emailSubject != ''">email_subject = #{emailSubject},</if>
+            <if test="emailRecipient != null  and emailRecipient != ''">email_recipient = #{emailRecipient},</if>
+            <if test="emailContent != null  and emailContent != ''">email_content = #{emailContent},</if>
+            <if test="siteSubject != null  and siteSubject != ''">site_subject = #{siteSubject},</if>
+            <if test="siteRecipient != null  and siteRecipient != ''">site_recipient = #{siteRecipient},</if>
+            <if test="siteContent != null  and siteContent != ''">site_content = #{siteContent},</if>
+            <if test="emailSend != null  ">email_send = #{emailSend},</if>
+            <if test="siteSend != null ">site_send = #{siteSend},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="delFlag != null ">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMessageSetById" parameterType="Long">
+        delete from message_set where id = #{id}
+    </delete>
+
+    <delete id="deleteMessageSetByIds" parameterType="String">
+        delete from message_set where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

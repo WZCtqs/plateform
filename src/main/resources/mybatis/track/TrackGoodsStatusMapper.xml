@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.track.mapper.TrackGoodsStatusMapper">
+
+    <resultMap type="TrackGoodsStatus" id="tgsResult">
+    <result property="id"    column="id"    />
+    <result property="actualClassId"    column="actual_class_id"    />
+    <result property="orderId"    column="order_id"    />
+    <result property="boxNum"    column="box_num"    />
+    <result property="isGetin"    column="is_getin"    />
+    <result property="actualClassDate"    column="actual_class_date"    />
+    <result property="isNormal"    column="is_normal"    />
+    <result property="classDate"    column="Class_date"    />
+    <result property="classNum"    column="class_bh"    />
+    <result property="orderNum"    column="order_number"    />
+    <result property="lineTypeId"    column="line_typeid"    />
+    <result property="boxType"    column="box_type"    />
+    <result property="referee"    column="nick_name"    />
+    <result property="eMerchandiserId"    column="e_Merchandiser_id"    />
+    <result property="wMerchandiserId"    column="w_Merchandiser_id"    />
+    <result property="eastAndWest"    column="class_EastAndWest"    />
+    <result property="goodsName"    column="goods_name"    />
+    <result property="uploadSite"    column="order_uploadSite"    />
+    <result property="unloadSite"    column="order_unloadSite"    />
+    <result property="intransitMail"    column="receive_order_receiveEmail"    />
+    <result property="sealNum"    column="seal_num"    />
+    <result property="fromSystem"    column="from_system"    />
+    <result property="withMain"    column="with_main"    />
+    <result property="updateBy"    column="update_by"    />
+    <result property="updateTime"    column="update_time"    />
+    <result property="createTime"    column="create_time"    />
+    <result property="abnormalTime"    column="abnormal_time"    />
+    <result property="batchTime"    column="batch_time"    />
+    <result property="batchDate"    column="batch_date"    />
+    <result property="batchTime2"    column="batch_time2"    />
+    <result property="batchDate2"    column="batch_date2"    />
+    <result property="batchTime3"    column="batch_time3"    />
+    <result property="batchDate3"    column="batch_date3"    />
+    <result property="batchTime4"    column="batch_time4"    />
+    <result property="batchDate4"    column="batch_date4"    />
+    <result property="createBy"    column="create_by"    />
+    <result property="remark"    column="remark"    />
+    <result property="orderType"    column="yuyan"    />
+    <result property="isConsolidation"    column="IsConsolidation"    />
+    <result property="shipOrderBinningway"    column="ship_order_binningWay"    />
+    <result property="receiveOrderIspart"    column="receive_order_isPart"    />
+    <result property="delFlag"    column="del_flag"    />
+</resultMap>
+
+    <resultMap type="OrderGoodsVo" id="ogvResult">
+        <result property="orderNum"    column="order_number"    />
+        <result property="classDate"    column="Class_date"    />
+        <result property="classEastAndWest"    column="class_EastAndWest"    />
+        <result property="goodsZhName"    column="goods_name"    />
+        <result property="goodsEnName"    column="goods_en_name"    />
+        <result property="goodsClearance"    column="goods_clearance"    />
+        <result property="goodsOutClearance"    column="goods_out_clearance"    />
+        <result property="goodsInReport"    column="goods_in_report"    />
+        <result property="goodsReport"    column="goods_report"    />
+    </resultMap>
+
+    <select id="selectGoodsStatusList" parameterType="TrackGoodsStatus" resultMap="tgsResult">
+        select tgs.id,tgs.actual_class_id,tgs.order_id,bs.Class_date,bcs.class_bh,bs.order_number,tgs.box_num,tgs.box_type,su.nick_name,bc.e_Merchandiser_id,
+        bc.w_Merchandiser_id,tgs.is_getin,tgs.actual_class_date,tgs.is_normal,bs.line_typeid,bsg.goods_name,bs.order_uploadSite,
+        bs.yuyan,bs.IsConsolidation,bs.ship_order_binningWay,bs.receive_order_isPart,tgs.abnormal_time,
+        bs.order_unloadSite,bs.receive_order_receiveEmail,bcs.class_EastAndWest,tgs.with_main from track_goods_status tgs
+        left join busi_shippingorder bs on bs.order_ID= tgs.order_id
+        left join busi_shippingorder_goods bsg on bsg.order_ID= tgs.order_id
+        left join busi_clients bc on bc.client_ID= bs.client_ID
+        left join sys_user su on su.tjr_id= bc.client_tjr_id
+        left join busi_classes bcs on bcs.class_ID=tgs.actual_class_id
+        <where>
+            tgs.del_flag=0 and su.reference_type = '1' and bs.IsExamline=1
+            <if test="boxNum != null  and boxNum != ''"> and tgs.box_num =#{boxNum}</if>
+            <if test="eastAndWest != null  and eastAndWest != ''"> and bcs.class_EastAndWest =#{eastAndWest}</if>
+            <if test="orderNum != null  and orderNum != ''">and replace(bs.order_number,' ','')  = replace(#{orderNum},' ','') </if>
+            <if test="classDate != null  and classDate != ''  "> and DATE_FORMAT(bs.Class_date,'%Y-%m-%d') =#{classDate}</if>
+            <if test="lineTypeId != null and lineTypeId != ''"> and bs.line_typeid =#{lineTypeId}</if>
+            <if test="classNum != null and classNum != ''"> and bcs.class_bh =#{classNum}</if>
+            <if test="actualClassDate != null and actualClassDate != ''"> and tgs.actual_class_date =#{actualClassDate}</if>
+            <if test="orderType != null and orderType != ''"> and bs.yuyan =#{orderType}</if>
+            <if test="isConsolidation != null and isConsolidation != ''"> and bs.IsConsolidation =#{isConsolidation}</if>
+            <if test="shipOrderBinningway != null and shipOrderBinningway != ''"> and bs.ship_order_binningWay =#{shipOrderBinningway}</if>
+            <if test="receiveOrderIspart != null and receiveOrderIspart != ''"> and bs.receive_order_isPart =#{receiveOrderIspart}</if>
+            <if test="goodsName != null and goodsName != ''"> and bsg.goods_name  like concat('%', #{goodsName}, '%')</if>
+        </where>
+        order by bcs.class_bh desc
+    </select>
+
+    <select id="selectById" parameterType="Long" resultMap="tgsResult">
+        select tgs.*,bs.order_number from track_goods_status tgs
+        left join busi_shippingorder bs on bs.order_ID= tgs.order_id
+        where del_flag=0 and id=#{id}
+    </select>
+
+    <update id="updateTgs" parameterType="TrackGoodsStatus">
+        update track_goods_status
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="actualClassDate != null  and actualClassDate != ''">actual_class_date = #{actualClassDate},</if>
+            <if test="actualClassId != null  and actualClassId != ''">actual_class_id = #{actualClassId},</if>
+            <if test="boxNum != null  and boxNum != ''">box_num = #{boxNum},</if>
+            <if test="isGetin != null ">is_getin = #{isGetin},</if>
+            <if test="isNormal != null  ">is_normal = #{isNormal},</if>
+            <if test="remark != null  ">remark = #{remark},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="goodsVolume != null  and goodsVolume != ''">goods_volume = #{goodsVolume},</if>
+            <if test="isBalance != null  and isBalance != ''">is_balance = #{isBalance},</if>
+            <if test="isStable != null  and isStable != ''">is_stable = #{isStable},</if>
+            <if test="inStationDate != null ">in_station_date = #{inStationDate},</if>
+            <if test="inStationTime != null  and inStationTime != ''">in_station_time = #{inStationTime},</if>
+            <if test="inSpaceDate != null  ">in_space_date = #{inSpaceDate},</if>
+            <if test="inSpaceTime != null  and inSpaceTime != ''">in_space_time = #{inSpaceTime},</if>
+            <if test="boxType != null  and boxType != ''">box_type = #{boxType},</if>
+            <if test="sealNum != null ">seal_num = #{sealNum},</if>
+            <if test="fromSystem != null  ">from_system = #{fromSystem},</if>
+            <if test="withMain != null  ">with_main = #{withMain},</if>
+            <if test="abnormalTime != null  "> abnormal_time= #{abnormalTime},</if>
+            <if test="batchTime != null  ">batch_time = #{batchTime},</if>
+            <if test="batchDate != null  and batchDate != ''">batch_date = #{batchDate},</if>
+            <if test="batchTime2 != null ">batch_time2 = #{batchTime2},</if>
+            <if test="batchDate2 != null  and batchDate2 != ''">batch_date2 = #{batchDate2},</if>
+            <if test="batchTime3 != null ">batch_time3 = #{batchTime3},</if>
+            <if test="batchDate3 != null  and batchDate3 != ''">batch_date3 = #{batchDate3},</if>
+            <if test="batchTime4 != null ">batch_time4 = #{batchTime4},</if>
+            <if test="batchDate4 != null  and batchDate4 != ''">batch_date4 = #{batchDate4},</if>
+            <if test="delFlag != null  ">del_flag = #{delFlag},</if>
+        </trim>
+        <where>
+            del_flag=0
+            <if test="id != null  "> and id =#{id}</if>
+            <if test="boxNum != null and boxNum != ''"> and box_num =#{boxNum}</if>
+            <if test="orderId != null and orderId != ''"> and order_id =#{orderId}</if>
+        </where>
+    </update>
+
+    <insert id="insertTgs" parameterType="TrackGoodsStatus" useGeneratedKeys="true" keyProperty="id">
+        insert into track_goods_status (order_id ,actual_class_id,box_num,actual_class_date,create_by,create_time,update_by,update_time)
+        select order_ID,class_ID, #{boxNum}, #{actualClassDate},#{createBy},#{createTime},#{createBy},#{createTime}
+        from busi_shippingorder where order_number=#{orderNum}
+    </insert>
+
+    <insert id="addTgs" parameterType="TrackGoodsStatus">
+        insert into track_goods_status (order_id,actual_class_id,box_num,create_time,update_time)
+        select #{orderId},class_ID,#{boxNum},#{createTime},#{createTime}
+        from busi_shippingorder where order_ID=#{orderId}
+    </insert>
+
+    <select id="selectGoodsList" parameterType="OrderGoodsVo" resultMap="ogvResult">
+        select bs.order_number,bs.Class_date,bs.class_EastAndWest,bsg.goods_name,bsg.goods_en_name,bsg.goods_clearance,
+        bsg.goods_out_clearance,bsg.goods_in_report,bsg.goods_report  from busi_shippingorder_goods bsg
+        left join busi_shippingorder bs on bs.order_ID= bsg.order_ID
+        <where>
+            <if test="goodsName != null and goodsName != ''"> and (bsg.goods_name like CONCAT('%',#{goodsName},'%')
+                or bsg.goods_en_name like CONCAT('%',#{goodsName},'%') )</if>
+            <if test="hsCode != null and hsCode != ''"> and (bsg.goods_clearance like CONCAT('%',#{hsCode},'%')
+                or bsg.goods_out_clearance like CONCAT('%',#{hsCode},'%')
+                or bsg.goods_in_report like CONCAT('%',#{hsCode},'%')
+                or bsg.goods_report like CONCAT('%',#{hsCode},'%') )</if>
+        </where>
+    </select>
+
+    <select id="checkTgs" parameterType="TrackGoodsStatus" resultMap="tgsResult">
+        select * from track_goods_status
+        where del_flag=0
+        <if test="boxNum != null and boxNum != ''"> and box_num =#{boxNum}</if>
+        <if test="orderId != null and orderId != ''"> and order_id =#{orderId}</if>
+        order by id desc limit 1
+    </select>
+
+    <insert id="insertXcppTgs" parameterType="TrackGoodsStatus" useGeneratedKeys="true" keyProperty="id">
+        insert into track_goods_status (order_id,actual_class_id,box_num,box_type,goods_volume,is_balance,is_stable,in_station_date,in_station_time,in_space_date,in_space_time,
+        create_by,create_time,update_by,update_time,seal_num,from_system)
+        select #{orderId},class_ID,#{boxNum},#{boxType},#{goodsVolume},#{isBalance},#{isStable},#{inStationDate},#{inStationTime},#{inSpaceDate},#{inSpaceTime},
+        #{createBy},#{createTime},#{createBy},#{createTime},#{sealNum},#{fromSystem}
+        from busi_shippingorder where order_ID=#{orderId}
+    </insert>
+
+    <select id="getTgs"  resultMap="tgsResult">
+       select * from track_goods_status where del_flag = 0 and from_system is not null and order_id is not null and order_id !="" and box_num is not null and box_num !=""
+    </select>
+
+    <select id="checkTgsList"  parameterType="TrackGoodsStatus" resultMap="tgsResult">
+        select * from track_goods_status
+        <where>
+        <if test="boxNum != null and boxNum != ''"> and box_num =#{boxNum}</if>
+        <if test="orderId != null and orderId != ''"> and order_id =#{orderId}</if>
+        </where>
+        order by from_system
+    </select>
+
+</mapper>

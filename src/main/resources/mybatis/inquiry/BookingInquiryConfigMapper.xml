@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.inquiry.mapper.BookingInquiryConfigMapper">
+    
+    <resultMap type="com.szhbl.project.inquiry.domain.BookingInquiryConfig" id="BookingInquiryConfigResult">
+        <result property="id"    column="id"    />
+        <result property="typeKey"    column="type_key"    />
+        <result property="typeText"    column="type_text"    />
+        <result property="typeValue"    column="type_value"    />
+        <result property="lineType"    column="line_type"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectBookingInquiryConfigVo">
+        select id, type_key, type_text, type_value, line_type, create_time, update_time, create_by, update_by from booking_inquiry_config
+    </sql>
+
+    <select id="selectBookingInquiryConfigList" parameterType="BookingInquiryConfig" resultMap="BookingInquiryConfigResult">
+        <include refid="selectBookingInquiryConfigVo"/>
+        <where>  
+            <if test="typeKey != null  and typeKey != ''"> and type_key = #{typeKey}</if>
+            <if test="typeValue != null "> and type_value = #{typeValue}</if>
+            <if test="lineType != null "> and line_type = #{lineType}</if>
+        </where>
+    </select>
+    
+    <select id="selectBookingInquiryConfigById" parameterType="Long" resultMap="BookingInquiryConfigResult">
+        <include refid="selectBookingInquiryConfigVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBookingInquiryConfig" parameterType="BookingInquiryConfig" useGeneratedKeys="true" keyProperty="id">
+        insert into booking_inquiry_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="typeKey != null  and typeKey != ''">type_key,</if>
+            <if test="typeText != null  and typeText != ''">type_text,</if>
+            <if test="typeValue != null ">type_value,</if>
+            <if test="lineType != null ">line_type,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="updateBy != null ">update_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="typeKey != null  and typeKey != ''">#{typeKey},</if>
+            <if test="typeText != null  and typeText != ''">#{typeText},</if>
+            <if test="typeValue != null ">#{typeValue},</if>
+            <if test="lineType != null ">#{lineType},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="updateBy != null ">#{updateBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBookingInquiryConfig" parameterType="BookingInquiryConfig">
+        update booking_inquiry_config
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="typeKey != null  and typeKey != ''">type_key = #{typeKey},</if>
+            <if test="typeText != null  and typeText != ''">type_text = #{typeText},</if>
+            <if test="typeValue != null ">type_value = #{typeValue},</if>
+            <if test="lineType != null ">line_type = #{lineType},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="updateBy != null ">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBookingInquiryConfigById" parameterType="Long">
+        delete from booking_inquiry_config where id = #{id}
+    </delete>
+
+    <delete id="deleteBookingInquiryConfigByIds" parameterType="String">
+        delete from booking_inquiry_config where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectBookingInquiryConfigByKey" resultMap="BookingInquiryConfigResult">
+        <include refid="selectBookingInquiryConfigVo"/>
+           where type_key = #{typeKey}
+           <if test="lineType != null">
+               and line_type = #{lineType}
+           </if>
+    </select>
+    
+</mapper>

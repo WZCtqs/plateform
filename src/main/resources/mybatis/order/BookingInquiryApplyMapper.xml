@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.order.mapper.BookingInquiryApplyMapper">
+    
+    <resultMap type="BookingInquiryApply" id="BookingInquiryApplyResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="inquiryId"    column="inquiry_id"    />
+        <result property="inquiryRecordId"    column="inquiry_record_id"    />
+        <result property="senderProvince"    column="sender_province"    />
+        <result property="senderCity"    column="sender_city"    />
+        <result property="senderArea"    column="sender_area"    />
+        <result property="shipmentPlace"    column="shipment_place"    />
+        <result property="uploadStation"    column="upload_station"    />
+        <result property="receiveProvince"    column="receive_province"    />
+        <result property="receiveCity"    column="receive_city"    />
+        <result property="receiveArea"    column="receive_area"    />
+        <result property="receiptPlace"    column="receipt_place"    />
+        <result property="dropStation"    column="drop_station"    />
+        <result property="bookingService"    column="booking_service"    />
+        <result property="isPickUp"    column="is_pick_up"    />
+        <result property="isDelivery"    column="is_delivery"    />
+        <result property="isOrderCustoms"    column="is_order_customs"    />
+        <result property="isClearCustoms"    column="is_clear_customs"    />
+        <result property="containerBelong"    column="container_belong"    />
+        <result property="goodsType"    column="goods_type"    />
+        <result property="containerType"    column="container_type"    />
+        <result property="containerNum"    column="container_num"    />
+        <result property="packageType"    column="package_type"    />
+        <result property="isStack"    column="is_stack"    />
+        <result property="totalAmount"    column="total_amount"    />
+        <result property="totalWeight"    column="total_weight"    />
+        <result property="totalVolume"    column="total_volume"    />
+        <result property="inquiryTime"    column="inquiry_time"    />
+        <result property="clientId"    column="client_id"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="lineType"    column="line_type"    />
+        <result property="hxAddress"    column="hx_address"    />
+        <result property="eastOrWest"    column="east_or_west"    />
+        <result property="uploadStationNum"    column="upload_station_num"    />
+        <result property="dropStationNum"    column="drop_station_num"    />
+        <result property="remark"    column="remark"    />
+        <result property="truckType"    column="truck_type"    />
+        <result property="limitation"    column="limitation"    />
+        <result property="deliveryType"    column="delivery_type"    />
+        <result property="clientType"    column="client_type"    />
+        <result property="clientUnit"    column="client_unit"    />
+        <result property="goodsFragile"    column="goods_fragile"    />
+        <result property="inquiryState"    column="inquiry_state"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="hxaddressId"    column="hxAddress_id"    />
+        <result property="qgfy"    column="qgfy"    />
+        <result property="czfy"    column="czfy"    />
+        <result property="turndownReason"    column="turndown_reason"    />
+        <result property="goodsDetail"    column="goods_detail"    />
+    </resultMap>
+
+    <sql id="selectBookingInquiryApplyVo">
+        select id, order_id,inquiry_id, inquiry_record_id, sender_province, sender_city, sender_area, shipment_place, upload_station, receive_province, receive_city, receive_area, receipt_place, drop_station, booking_service, is_pick_up, is_delivery, is_order_customs, is_clear_customs, container_belong, goods_type, container_type, container_num, package_type, is_stack, total_amount, total_weight, total_volume, inquiry_time, client_id, del_flag, line_type, hx_address, east_or_west, upload_station_num, drop_station_num, remark, truck_type, limitation, delivery_type, client_type, client_unit, goods_fragile, inquiry_state, create_time, hxAddress_id, qgfy, czfy, turndown_reason, goods_detail from booking_inquiry_apply
+    </sql>
+
+    <select id="selectBookingInquiryApplyList" parameterType="BookingInquiryApply" resultMap="BookingInquiryApplyResult">
+        <include refid="selectBookingInquiryApplyVo"/>
+        <where>
+            <if test="orderId != null  and orderId != ''"> and order_id = #{orderId}</if>
+            <if test="inquiryId != null"> and inquiry_id = #{inquiryId}</if>
+            <if test="inquiryRecordId != null"> and inquiry_record_id = #{inquiryRecordId}</if>
+            <if test="senderProvince != null  and senderProvince != ''"> and sender_province = #{senderProvince}</if>
+            <if test="senderCity != null  and senderCity != ''"> and sender_city = #{senderCity}</if>
+            <if test="senderArea != null  and senderArea != ''"> and sender_area = #{senderArea}</if>
+            <if test="shipmentPlace != null  and shipmentPlace != ''"> and shipment_place = #{shipmentPlace}</if>
+            <if test="uploadStation != null  and uploadStation != ''"> and upload_station = #{uploadStation}</if>
+            <if test="receiveProvince != null  and receiveProvince != ''"> and receive_province = #{receiveProvince}</if>
+            <if test="receiveCity != null  and receiveCity != ''"> and receive_city = #{receiveCity}</if>
+            <if test="receiveArea != null  and receiveArea != ''"> and receive_area = #{receiveArea}</if>
+            <if test="receiptPlace != null  and receiptPlace != ''"> and receipt_place = #{receiptPlace}</if>
+            <if test="dropStation != null  and dropStation != ''"> and drop_station = #{dropStation}</if>
+            <if test="bookingService != null  and bookingService != ''"> and booking_service = #{bookingService}</if>
+            <if test="isPickUp != null  and isPickUp != ''"> and is_pick_up = #{isPickUp}</if>
+            <if test="isDelivery != null  and isDelivery != ''"> and is_delivery = #{isDelivery}</if>
+            <if test="isOrderCustoms != null  and isOrderCustoms != ''"> and is_order_customs = #{isOrderCustoms}</if>
+            <if test="isClearCustoms != null  and isClearCustoms != ''"> and is_clear_customs = #{isClearCustoms}</if>
+            <if test="containerBelong != null  and containerBelong != ''"> and container_belong = #{containerBelong}</if>
+            <if test="goodsType != null  and goodsType != ''"> and goods_type = #{goodsType}</if>
+            <if test="containerType != null  and containerType != ''"> and container_type = #{containerType}</if>
+            <if test="containerNum != null "> and container_num = #{containerNum}</if>
+            <if test="packageType != null  and packageType != ''"> and package_type = #{packageType}</if>
+            <if test="isStack != null  and isStack != ''"> and is_stack = #{isStack}</if>
+            <if test="totalAmount != null  and totalAmount != ''"> and total_amount = #{totalAmount}</if>
+            <if test="totalWeight != null  and totalWeight != ''"> and total_weight = #{totalWeight}</if>
+            <if test="totalVolume != null  and totalVolume != ''"> and total_volume = #{totalVolume}</if>
+            <if test="inquiryTime != null "> and inquiry_time = #{inquiryTime}</if>
+            <if test="clientId != null  and clientId != ''"> and client_id = #{clientId}</if>
+            <if test="lineType != null  and lineType != ''"> and line_type = #{lineType}</if>
+            <if test="hxAddress != null  and hxAddress != ''"> and hx_address = #{hxAddress}</if>
+            <if test="eastOrWest != null  and eastOrWest != ''"> and east_or_west = #{eastOrWest}</if>
+            <if test="uploadStationNum != null  and uploadStationNum != ''"> and upload_station_num = #{uploadStationNum}</if>
+            <if test="dropStationNum != null  and dropStationNum != ''"> and drop_station_num = #{dropStationNum}</if>
+            <if test="truckType != null  and truckType != ''"> and truck_type = #{truckType}</if>
+            <if test="limitation != null  and limitation != ''"> and limitation = #{limitation}</if>
+            <if test="deliveryType != null  and deliveryType != ''"> and delivery_type = #{deliveryType}</if>
+            <if test="clientType != null  and clientType != ''"> and client_type = #{clientType}</if>
+            <if test="clientUnit != null  and clientUnit != ''"> and client_unit = #{clientUnit}</if>
+            <if test="goodsFragile != null  and goodsFragile != ''"> and goods_fragile = #{goodsFragile}</if>
+            <if test="inquiryState != null  and inquiryState != ''"> and inquiry_state = #{inquiryState}</if>
+            <if test="hxaddressId != null  and hxaddressId != ''"> and hxAddress_id = #{hxaddressId}</if>
+            <if test="qgfy != null  and qgfy != ''"> and qgfy = #{qgfy}</if>
+            <if test="czfy != null  and czfy != ''"> and czfy = #{czfy}</if>
+            <if test="turndownReason != null  and turndownReason != ''"> and turndown_reason = #{turndownReason}</if>
+            <if test="goodsDetail != null  and goodsDetail != ''"> and goods_detail = #{goodsDetail}</if>
+        </where>
+    </select>
+    
+    <select id="selectBookingInquiryApplyById" parameterType="Long" resultMap="BookingInquiryApplyResult">
+        <include refid="selectBookingInquiryApplyVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectBookingInquiryApplyByIds" parameterType="String" resultMap="BookingInquiryApplyResult">
+        <include refid="selectBookingInquiryApplyVo"/>
+        where order_id = #{orderId}
+    </select>
+        
+    <insert id="insertBookingInquiryApply" parameterType="BookingInquiryApply" useGeneratedKeys="true" keyProperty="id">
+        insert into booking_inquiry_apply
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id,</if>
+            <if test="inquiryId != null"> and inquiry_id,</if>
+            <if test="inquiryRecordId != null">inquiry_record_id,</if>
+            <if test="senderProvince != null  and senderProvince != ''">sender_province,</if>
+            <if test="senderCity != null  and senderCity != ''">sender_city,</if>
+            <if test="senderArea != null  and senderArea != ''">sender_area,</if>
+            <if test="shipmentPlace != null  and shipmentPlace != ''">shipment_place,</if>
+            <if test="uploadStation != null  and uploadStation != ''">upload_station,</if>
+            <if test="receiveProvince != null  and receiveProvince != ''">receive_province,</if>
+            <if test="receiveCity != null  and receiveCity != ''">receive_city,</if>
+            <if test="receiveArea != null  and receiveArea != ''">receive_area,</if>
+            <if test="receiptPlace != null  and receiptPlace != ''">receipt_place,</if>
+            <if test="dropStation != null  and dropStation != ''">drop_station,</if>
+            <if test="bookingService != null  and bookingService != ''">booking_service,</if>
+            <if test="isPickUp != null  and isPickUp != ''">is_pick_up,</if>
+            <if test="isDelivery != null  and isDelivery != ''">is_delivery,</if>
+            <if test="isOrderCustoms != null  and isOrderCustoms != ''">is_order_customs,</if>
+            <if test="isClearCustoms != null  and isClearCustoms != ''">is_clear_customs,</if>
+            <if test="containerBelong != null  and containerBelong != ''">container_belong,</if>
+            <if test="goodsType != null  and goodsType != ''">goods_type,</if>
+            <if test="containerType != null  and containerType != ''">container_type,</if>
+            <if test="containerNum != null ">container_num,</if>
+            <if test="packageType != null  and packageType != ''">package_type,</if>
+            <if test="isStack != null  and isStack != ''">is_stack,</if>
+            <if test="totalAmount != null  and totalAmount != ''">total_amount,</if>
+            <if test="totalWeight != null  and totalWeight != ''">total_weight,</if>
+            <if test="totalVolume != null  and totalVolume != ''">total_volume,</if>
+            <if test="inquiryTime != null ">inquiry_time,</if>
+            <if test="clientId != null  and clientId != ''">client_id,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="lineType != null  and lineType != ''">line_type,</if>
+            <if test="hxAddress != null  and hxAddress != ''">hx_address,</if>
+            <if test="eastOrWest != null  and eastOrWest != ''">east_or_west,</if>
+            <if test="uploadStationNum != null  and uploadStationNum != ''">upload_station_num,</if>
+            <if test="dropStationNum != null  and dropStationNum != ''">drop_station_num,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="truckType != null  and truckType != ''">truck_type,</if>
+            <if test="limitation != null  and limitation != ''">limitation,</if>
+            <if test="deliveryType != null  and deliveryType != ''">delivery_type,</if>
+            <if test="clientType != null  and clientType != ''">client_type,</if>
+            <if test="clientUnit != null  and clientUnit != ''">client_unit,</if>
+            <if test="goodsFragile != null  and goodsFragile != ''">goods_fragile,</if>
+            <if test="inquiryState != null  and inquiryState != ''">inquiry_state,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="hxaddressId != null  and hxaddressId != ''">hxAddress_id,</if>
+            <if test="qgfy != null  and qgfy != ''">qgfy,</if>
+            <if test="czfy != null  and czfy != ''">czfy,</if>
+            <if test="turndownReason != null  and turndownReason != ''">turndown_reason,</if>
+            <if test="goodsDetail != null  and goodsDetail != ''">goods_detail,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">#{orderId},</if>
+            <if test="inquiryId != null">#{inquiryId},</if>
+            <if test="inquiryRecordId != null">#{inquiryRecordId},</if>
+            <if test="senderProvince != null  and senderProvince != ''">#{senderProvince},</if>
+            <if test="senderCity != null  and senderCity != ''">#{senderCity},</if>
+            <if test="senderArea != null  and senderArea != ''">#{senderArea},</if>
+            <if test="shipmentPlace != null  and shipmentPlace != ''">#{shipmentPlace},</if>
+            <if test="uploadStation != null  and uploadStation != ''">#{uploadStation},</if>
+            <if test="receiveProvince != null  and receiveProvince != ''">#{receiveProvince},</if>
+            <if test="receiveCity != null  and receiveCity != ''">#{receiveCity},</if>
+            <if test="receiveArea != null  and receiveArea != ''">#{receiveArea},</if>
+            <if test="receiptPlace != null  and receiptPlace != ''">#{receiptPlace},</if>
+            <if test="dropStation != null  and dropStation != ''">#{dropStation},</if>
+            <if test="bookingService != null  and bookingService != ''">#{bookingService},</if>
+            <if test="isPickUp != null  and isPickUp != ''">#{isPickUp},</if>
+            <if test="isDelivery != null  and isDelivery != ''">#{isDelivery},</if>
+            <if test="isOrderCustoms != null  and isOrderCustoms != ''">#{isOrderCustoms},</if>
+            <if test="isClearCustoms != null  and isClearCustoms != ''">#{isClearCustoms},</if>
+            <if test="containerBelong != null  and containerBelong != ''">#{containerBelong},</if>
+            <if test="goodsType != null  and goodsType != ''">#{goodsType},</if>
+            <if test="containerType != null  and containerType != ''">#{containerType},</if>
+            <if test="containerNum != null ">#{containerNum},</if>
+            <if test="packageType != null  and packageType != ''">#{packageType},</if>
+            <if test="isStack != null  and isStack != ''">#{isStack},</if>
+            <if test="totalAmount != null  and totalAmount != ''">#{totalAmount},</if>
+            <if test="totalWeight != null  and totalWeight != ''">#{totalWeight},</if>
+            <if test="totalVolume != null  and totalVolume != ''">#{totalVolume},</if>
+            <if test="inquiryTime != null ">#{inquiryTime},</if>
+            <if test="clientId != null  and clientId != ''">#{clientId},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="lineType != null  and lineType != ''">#{lineType},</if>
+            <if test="hxAddress != null  and hxAddress != ''">#{hxAddress},</if>
+            <if test="eastOrWest != null  and eastOrWest != ''">#{eastOrWest},</if>
+            <if test="uploadStationNum != null  and uploadStationNum != ''">#{uploadStationNum},</if>
+            <if test="dropStationNum != null  and dropStationNum != ''">#{dropStationNum},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="truckType != null  and truckType != ''">#{truckType},</if>
+            <if test="limitation != null  and limitation != ''">#{limitation},</if>
+            <if test="deliveryType != null  and deliveryType != ''">#{deliveryType},</if>
+            <if test="clientType != null  and clientType != ''">#{clientType},</if>
+            <if test="clientUnit != null  and clientUnit != ''">#{clientUnit},</if>
+            <if test="goodsFragile != null  and goodsFragile != ''">#{goodsFragile},</if>
+            <if test="inquiryState != null  and inquiryState != ''">#{inquiryState},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="hxaddressId != null  and hxaddressId != ''">#{hxaddressId},</if>
+            <if test="qgfy != null  and qgfy != ''">#{qgfy},</if>
+            <if test="czfy != null  and czfy != ''">#{czfy},</if>
+            <if test="turndownReason != null  and turndownReason != ''">#{turndownReason},</if>
+            <if test="goodsDetail != null  and goodsDetail != ''">#{goodsDetail},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBookingInquiryApply" parameterType="BookingInquiryApply">
+        update booking_inquiry_apply
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id = #{orderId},</if>
+            <if test="inquiryId != null">inquiry_id = #{inquiryId},</if>
+            <if test="inquiryRecordId != null">inquiry_record_id = #{inquiryRecordId},</if>
+            <if test="senderProvince != null  and senderProvince != ''">sender_province = #{senderProvince},</if>
+            <if test="senderCity != null  and senderCity != ''">sender_city = #{senderCity},</if>
+            <if test="senderArea != null  and senderArea != ''">sender_area = #{senderArea},</if>
+            <if test="shipmentPlace != null  and shipmentPlace != ''">shipment_place = #{shipmentPlace},</if>
+            <if test="uploadStation != null  and uploadStation != ''">upload_station = #{uploadStation},</if>
+            <if test="receiveProvince != null  and receiveProvince != ''">receive_province = #{receiveProvince},</if>
+            <if test="receiveCity != null  and receiveCity != ''">receive_city = #{receiveCity},</if>
+            <if test="receiveArea != null  and receiveArea != ''">receive_area = #{receiveArea},</if>
+            <if test="receiptPlace != null  and receiptPlace != ''">receipt_place = #{receiptPlace},</if>
+            <if test="dropStation != null  and dropStation != ''">drop_station = #{dropStation},</if>
+            <if test="bookingService != null  and bookingService != ''">booking_service = #{bookingService},</if>
+            <if test="isPickUp != null  and isPickUp != ''">is_pick_up = #{isPickUp},</if>
+            <if test="isDelivery != null  and isDelivery != ''">is_delivery = #{isDelivery},</if>
+            <if test="isOrderCustoms != null  and isOrderCustoms != ''">is_order_customs = #{isOrderCustoms},</if>
+            <if test="isClearCustoms != null  and isClearCustoms != ''">is_clear_customs = #{isClearCustoms},</if>
+            <if test="containerBelong != null  and containerBelong != ''">container_belong = #{containerBelong},</if>
+            <if test="goodsType != null  and goodsType != ''">goods_type = #{goodsType},</if>
+            <if test="containerType != null  and containerType != ''">container_type = #{containerType},</if>
+            <if test="containerNum != null ">container_num = #{containerNum},</if>
+            <if test="packageType != null  and packageType != ''">package_type = #{packageType},</if>
+            <if test="isStack != null  and isStack != ''">is_stack = #{isStack},</if>
+            <if test="totalAmount != null  and totalAmount != ''">total_amount = #{totalAmount},</if>
+            <if test="totalWeight != null  and totalWeight != ''">total_weight = #{totalWeight},</if>
+            <if test="totalVolume != null  and totalVolume != ''">total_volume = #{totalVolume},</if>
+            <if test="inquiryTime != null ">inquiry_time = #{inquiryTime},</if>
+            <if test="clientId != null  and clientId != ''">client_id = #{clientId},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="lineType != null  and lineType != ''">line_type = #{lineType},</if>
+            <if test="hxAddress != null  and hxAddress != ''">hx_address = #{hxAddress},</if>
+            <if test="eastOrWest != null  and eastOrWest != ''">east_or_west = #{eastOrWest},</if>
+            <if test="uploadStationNum != null  and uploadStationNum != ''">upload_station_num = #{uploadStationNum},</if>
+            <if test="dropStationNum != null  and dropStationNum != ''">drop_station_num = #{dropStationNum},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="truckType != null  and truckType != ''">truck_type = #{truckType},</if>
+            <if test="limitation != null  and limitation != ''">limitation = #{limitation},</if>
+            <if test="deliveryType != null  and deliveryType != ''">delivery_type = #{deliveryType},</if>
+            <if test="clientType != null  and clientType != ''">client_type = #{clientType},</if>
+            <if test="clientUnit != null  and clientUnit != ''">client_unit = #{clientUnit},</if>
+            <if test="goodsFragile != null  and goodsFragile != ''">goods_fragile = #{goodsFragile},</if>
+            <if test="inquiryState != null  and inquiryState != ''">inquiry_state = #{inquiryState},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="hxaddressId != null  and hxaddressId != ''">hxAddress_id = #{hxaddressId},</if>
+            <if test="qgfy != null  and qgfy != ''">qgfy = #{qgfy},</if>
+            <if test="czfy != null  and czfy != ''">czfy = #{czfy},</if>
+            <if test="turndownReason != null  and turndownReason != ''">turndown_reason = #{turndownReason},</if>
+            <if test="goodsDetail != null  and goodsDetail != ''">goods_detail = #{goodsDetail},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBookingInquiryApplyById" parameterType="Long">
+        delete from booking_inquiry_apply where id = #{id}
+    </delete>
+
+    <delete id="deleteBookingInquiryApplyByOrderId" parameterType="String">
+        delete from booking_inquiry_apply where order_id = #{orderId}
+    </delete>
+
+    <delete id="deleteBookingInquiryApplyByIds" parameterType="String">
+        delete from booking_inquiry_apply where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

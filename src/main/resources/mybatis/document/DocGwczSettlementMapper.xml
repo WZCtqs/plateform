@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.documentcenter.mapper.DocGwczSettlementMapper">
+    
+    <resultMap type="DocGwczSettlement" id="DocGwczSettlementResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="orderNumber"    column="order_number"    />
+        <result property="containerNo"    column="container_no"    />
+        <result property="pxVolume"    column="px_volume"    />
+        <result property="pxSettlementVolume"    column="px_settlement_volume"    />
+        <result property="pxWeight"    column="px_weight"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectDocGwczSettlementVo">
+        select id, order_id, order_number, container_no, px_volume, px_settlement_volume, px_weight, create_time, update_time from doc_gwcz_settlement
+    </sql>
+
+    <select id="selectDocGwczSettlementList" parameterType="DocGwczSettlement" resultMap="DocGwczSettlementResult">
+        <include refid="selectDocGwczSettlementVo"/>
+        <where>  
+            <if test="orderId != null  and orderId != ''"> and order_id = #{orderId}</if>
+            <if test="orderNumber != null  and orderNumber != ''"> and order_number = #{orderNumber}</if>
+            <if test="containerNo != null  and containerNo != ''"> and container_no = #{containerNo}</if>
+            <if test="pxVolume != null "> and px_volume = #{pxVolume}</if>
+            <if test="pxSettlementVolume != null "> and px_settlement_volume = #{pxSettlementVolume}</if>
+            <if test="pxWeight != null "> and px_weight = #{pxWeight}</if>
+        </where>
+    </select>
+    
+    <select id="selectDocGwczSettlementById" parameterType="Long" resultMap="DocGwczSettlementResult">
+        <include refid="selectDocGwczSettlementVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDocGwczSettlement" parameterType="DocGwczSettlement" useGeneratedKeys="true" keyProperty="id">
+        insert into doc_gwcz_settlement
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id,</if>
+            <if test="orderNumber != null  and orderNumber != ''">order_number,</if>
+            <if test="containerNo != null  and containerNo != ''">container_no,</if>
+            <if test="pxVolume != null ">px_volume,</if>
+            <if test="pxSettlementVolume != null ">px_settlement_volume,</if>
+            <if test="pxWeight != null ">px_weight,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">#{orderId},</if>
+            <if test="orderNumber != null  and orderNumber != ''">#{orderNumber},</if>
+            <if test="containerNo != null  and containerNo != ''">#{containerNo},</if>
+            <if test="pxVolume != null ">#{pxVolume},</if>
+            <if test="pxSettlementVolume != null ">#{pxSettlementVolume},</if>
+            <if test="pxWeight != null ">#{pxWeight},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDocGwczSettlement" parameterType="DocGwczSettlement">
+        update doc_gwcz_settlement
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id = #{orderId},</if>
+            <if test="orderNumber != null  and orderNumber != ''">order_number = #{orderNumber},</if>
+            <if test="containerNo != null  and containerNo != ''">container_no = #{containerNo},</if>
+            <if test="pxVolume != null ">px_volume = #{pxVolume},</if>
+            <if test="pxSettlementVolume != null ">px_settlement_volume = #{pxSettlementVolume},</if>
+            <if test="pxWeight != null ">px_weight = #{pxWeight},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDocGwczSettlementById" parameterType="Long">
+        delete from doc_gwcz_settlement where id = #{id}
+    </delete>
+
+    <delete id="deleteDocGwczSettlementByIds" parameterType="String">
+        delete from doc_gwcz_settlement where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectSettlementByOrderIdAndConNo" resultType="com.szhbl.project.documentcenter.domain.DocGwczSettlement">
+        select id from doc_gwcz_settlement where order_id = #{orderId} and container_no = #{containerNo}
+    </select>
+    
+</mapper>

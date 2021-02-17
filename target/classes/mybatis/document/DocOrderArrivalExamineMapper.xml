@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.documentcenter.mapper.DocOrderArrivalExamineMapper">
+    
+    <resultMap type="com.szhbl.project.documentcenter.domain.DocOrderArrivalExamine" id="DocOrderArrivalExamineResult">
+        <result property="orderId"    column="order_id"    />
+        <result property="ordernumber"    column="ordernumber"    />
+        <result property="Areviewer"    column="areviewer"    />
+        <result property="AuditTime"    column="audit_time"    />
+        <result property="AuditSituation"    column="audit_situation"    />
+        <result property="ArrivalSituation"    column="arrival_situation"    />
+        <result property="AuditArrivalSituation"    column="audit_arrival_situation"    />
+        <result property="Remark"    column="remark"    />
+        <result property="CreateUser"    column="create_user"    />
+        <result property="CreateTime"    column="create_time"    />
+        <result property="Measurement"    column="measurement"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectDocOrderArrivalExamineVo">
+        select order_id, ordernumber, areviewer, audit_time, audit_situation, arrival_situation, audit_arrival_situation, remark, create_user, create_time, measurement, update_time from doc_order_arrival_examine
+    </sql>
+
+    <select id="selectDocOrderArrivalExamineList" parameterType="DocOrderArrivalExamine" resultMap="DocOrderArrivalExamineResult">
+        <include refid="selectDocOrderArrivalExamineVo"/>
+        <where>  
+            <if test="orderId != null  and orderId != ''"> and order_id = #{orderId}</if>
+            <if test="ordernumber != null  and ordernumber != ''"> and ordernumber = #{ordernumber}</if>
+            <if test="Areviewer != null  and Areviewer != ''"> and areviewer = #{Areviewer}</if>
+            <if test="AuditTime != null "> and audit_time = #{AuditTime}</if>
+            <if test="AuditSituation != null  and AuditSituation != ''"> and audit_situation = #{AuditSituation}</if>
+            <if test="ArrivalSituation != null  and ArrivalSituation != ''"> and arrival_situation = #{ArrivalSituation}</if>
+            <if test="AuditArrivalSituation != null  and AuditArrivalSituation != ''"> and audit_arrival_situation = #{AuditArrivalSituation}</if>
+            <if test="CreateUser != null  and CreateUser != ''"> and create_user = #{CreateUser}</if>
+            <if test="Measurement != null  and Measurement != ''"> and measurement = #{Measurement}</if>
+        </where>
+    </select>
+    
+    <select id="selectDocOrderArrivalExamineById" parameterType="Long" resultMap="DocOrderArrivalExamineResult">
+        <include refid="selectDocOrderArrivalExamineVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDocOrderArrivalExamine" parameterType="DocOrderArrivalExamine" useGeneratedKeys="true" keyProperty="id">
+        insert into doc_order_arrival_examine
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id,</if>
+            <if test="ordernumber != null  and ordernumber != ''">ordernumber,</if>
+            <if test="Areviewer != null  and Areviewer != ''">areviewer,</if>
+            <if test="AuditTime != null ">audit_time,</if>
+            <if test="AuditSituation != null  and AuditSituation != ''">audit_situation,</if>
+            <if test="ArrivalSituation != null  and ArrivalSituation != ''">arrival_situation,</if>
+            <if test="AuditArrivalSituation != null  and AuditArrivalSituation != ''">audit_arrival_situation,</if>
+            <if test="Remark != null  and Remark != ''">remark,</if>
+            <if test="CreateUser != null  and CreateUser != ''">create_user,</if>
+            <if test="CreateTime != null ">Create_time,</if>
+            <if test="Measurement != null  and Measurement != ''">measurement,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">#{orderId},</if>
+            <if test="ordernumber != null  and ordernumber != ''">#{ordernumber},</if>
+            <if test="Areviewer != null  and Areviewer != ''">#{Areviewer},</if>
+            <if test="AuditTime != null ">#{AuditTime},</if>
+            <if test="AuditSituation != null  and AuditSituation != ''">#{AuditSituation},</if>
+            <if test="ArrivalSituation != null  and ArrivalSituation != ''">#{ArrivalSituation},</if>
+            <if test="AuditArrivalSituation != null  and AuditArrivalSituation != ''">#{AuditArrivalSituation},</if>
+            <if test="Remark != null  and Remark != ''">#{Remark},</if>
+            <if test="CreateUser != null  and CreateUser != ''">#{CreateUser},</if>
+            <if test="CreateTime != null ">#{CreateTime},</if>
+            <if test="Measurement != null  and Measurement != ''">#{Measurement},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDocOrderArrivalExamine" parameterType="DocOrderArrivalExamine">
+        update doc_order_arrival_examine
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id = #{orderId},</if>
+            <if test="ordernumber != null  and ordernumber != ''">ordernumber = #{ordernumber},</if>
+            <if test="Areviewer != null  and Areviewer != ''">areviewer = #{Areviewer},</if>
+            <if test="AuditTime != null ">audit_time = #{AuditTime},</if>
+            <if test="AuditSituation != null  and AuditSituation != ''">audit_situation = #{AuditSituation},</if>
+            <if test="ArrivalSituation != null  and ArrivalSituation != ''">arrival_situation = #{ArrivalSituation},</if>
+            <if test="AuditArrivalSituation != null  and AuditArrivalSituation != ''">audit_arrival_situation = #{AuditArrivalSituation},</if>
+            <if test="Remark != null  and Remark != ''">remark = #{Remark},</if>
+            <if test="CreateUser != null  and CreateUser != ''">create_user = #{CreateUser},</if>
+            <if test="CreateTime != null ">create_time = #{CreateTime},</if>
+            <if test="Measurement != null  and Measurement != ''">measurement = #{Measurement},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDocOrderArrivalExamineById" parameterType="Long">
+        delete from doc_order_arrival_examine where id = #{id}
+    </delete>
+
+    <delete id="deleteDocOrderArrivalExamineByIds" parameterType="String">
+        delete from doc_order_arrival_examine where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteDocOrderArrivalExamineByOrderId">
+        delete from doc_order_arrival_examine where order_id = #{orderId}
+    </delete>
+    
+</mapper>

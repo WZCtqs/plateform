@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.track.mapper.TrackRookieSiteMapper">
+
+    <resultMap type="TrackRookieSite" id="trsResult">
+        <result property="id"    column="id"    />
+        <result property="timeZone"    column="time_zone"    />
+        <result property="siteName"    column="site_name"    />
+        <result property="area"    column="area"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <select id="selectByTrs" parameterType="TrackRookieSite" resultMap="trsResult">
+        select id,time_zone,site_name,area
+        from track_rookie_site
+        <where>
+            del_flag=0
+            <if test="siteName != null  and siteName != ''">and site_name = #{siteName}</if>
+            <if test="id != null "> and id != #{id}</if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="selectById" parameterType="Long" resultMap="trsResult">
+        select id,time_zone,site_name
+        from track_rookie_site
+        where del_flag=0 and id = #{id}
+    </select>
+
+    <update id="updateTrs" parameterType="TrackRookieSite">
+        update track_rookie_site
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="siteName != null  and siteName != ''">site_name = #{siteName},</if>
+            <if test="timeZone != null  and timeZone != ''">time_zone= #{timeZone},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="delFlag != null">del_flag = #{delFlag}</if>
+        </trim>
+        <where>
+            del_flag=0 and id =#{id}
+        </where>
+    </update>
+
+    <insert id="addTrs" parameterType="TrackRookieSite">
+        insert into track_rookie_site
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="siteName != null  and siteName != ''">site_name ,</if>
+            <if test="timeZone != null  and timeZone != ''">time_zone,</if>
+            <if test="area != null ">area,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="siteName != null  and siteName != ''">#{siteName},</if>
+            <if test="timeZone != null  and timeZone != ''">#{timeZone},</if>
+            <if test="area != null ">#{area},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+        </trim>
+    </insert>
+
+
+
+</mapper>

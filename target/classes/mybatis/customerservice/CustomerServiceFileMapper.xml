@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.customerservice.mapper.CustomerServiceFileMapper">
+
+    <resultMap type="CustomerServiceFile" id="CustomerServiceFileResult">
+        <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
+        <result property="ordernumber"    column="orderNumber"    />
+        <result property="name"    column="name"    />
+        <result property="url"    column="url"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="clientTjr"    column="client_tjr"    />
+        <result property="clientTjrId"    column="client_tjr_id"    />
+        <result property="department"    column="department"    />
+    </resultMap>
+
+    <sql id="selectCustomerServiceFileVo">
+        select id, type, orderNumber, name, url, create_by, create_time, update_by, update_time, del_flag, client_tjr, client_tjr_id, department from customer_service_file
+    </sql>
+
+    <select id="selectCustomerServiceFileList" parameterType="CustomerServiceFile" resultMap="CustomerServiceFileResult">
+        <include refid="selectCustomerServiceFileVo"/>
+        <where>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="ordernumber != null  and ordernumber != ''"> and orderNumber like concat('%', #{orderNumber}, '%')</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="url != null  and url != ''"> and url = #{url}</if>
+            <if test="clientTjr != null  and clientTjr != ''"> and client_tjr = #{clientTjr}</if>
+            <if test="clientTjrId != null  and clientTjrId != ''"> and client_tjr_id = #{clientTjrId}</if>
+            <if test="department != null  and department != ''"> and department = #{department}</if>
+            <if test="readType == '0'.toString()">
+                and client_tjr_id in (
+                SELECT
+                tjr_id
+                FROM
+                sys_user
+                WHERE
+                user_id = #{userId}
+                )
+            </if>
+            <if test="readType == '1'.toString()">
+                and client_tjr_id in (
+                SELECT
+                usr.tjr_id
+                FROM
+                sys_user usr
+                LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                WHERE
+                dept.dept_code LIKE concat('%', #{deptCode}, '%')
+                )
+            </if>
+            <if test="readType == '2'.toString()">
+                and client_tjr_id in (
+                SELECT
+                usr.tjr_id
+                FROM
+                sys_user usr
+                LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                WHERE
+                dept.dept_code like '%YWB1000100%' or dept.dept_code like '%YWB1000103%'
+                )
+            </if>
+            <if test="readType == '3'.toString()">
+                and client_tjr_id in (
+                SELECT
+                usr.tjr_id
+                FROM
+                sys_user usr
+                LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                WHERE
+                dept.dept_code like '%YWB1000101%' or dept.dept_code  like '%YWB1000104%'
+                )
+            </if>
+            <if test="readType == '4'.toString()">
+                and client_tjr_id in (
+                SELECT
+                usr.tjr_id
+                FROM
+                sys_user usr
+                LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                WHERE
+                dept.dept_code like '%YWB1000200%' or dept.dept_code like '%YWB1000202%'
+                )
+            </if>
+            <if test="readType == '5'.toString()">
+                and client_tjr_id in (
+                SELECT
+                usr.tjr_id
+                FROM
+                sys_user usr
+                LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                WHERE
+                dept.dept_code like '%YWB1000201%' or dept.dept_code like '%YWB1000203%'
+                )
+            </if>
+        </where>
+    </select>
+
+    <select id="selectCustomerServiceFileById" parameterType="Long" resultMap="CustomerServiceFileResult">
+        <include refid="selectCustomerServiceFileVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertCustomerServiceFile" parameterType="CustomerServiceFile" useGeneratedKeys="true" keyProperty="id">
+        insert into customer_service_file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null  and type != ''">type,</if>
+            <if test="ordernumber != null  and ordernumber != ''">orderNumber,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="url != null  and url != ''">url,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="clientTjr != null  and clientTjr != ''">client_tjr,</if>
+            <if test="clientTjrId != null  and clientTjrId != ''">client_tjr_id,</if>
+            <if test="department != null  and department != ''">department,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="type != null  and type != ''">#{type},</if>
+            <if test="ordernumber != null  and ordernumber != ''">#{ordernumber},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="url != null  and url != ''">#{url},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="clientTjr != null  and clientTjr != ''">#{clientTjr},</if>
+            <if test="clientTjrId != null  and clientTjrId != ''">#{clientTjrId},</if>
+            <if test="department != null  and department != ''">#{department},</if>
+        </trim>
+    </insert>
+
+    <update id="updateCustomerServiceFile" parameterType="CustomerServiceFile">
+        update customer_service_file
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null  and type != ''">type = #{type},</if>
+            <if test="ordernumber != null  and ordernumber != ''">orderNumber = #{ordernumber},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="url != null  and url != ''">url = #{url},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="clientTjr != null  and clientTjr != ''">client_tjr = #{clientTjr},</if>
+            <if test="clientTjrId != null  and clientTjrId != ''">client_tjr_id = #{clientTjrId},</if>
+            <if test="department != null  and department != ''">department = #{department},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCustomerServiceFileById" parameterType="Long">
+        delete from customer_service_file where id = #{id}
+    </delete>
+
+    <delete id="deleteCustomerServiceFileByIds" parameterType="String">
+        delete from customer_service_file where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

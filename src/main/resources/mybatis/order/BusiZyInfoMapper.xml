@@ -1,0 +1,937 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.order.mapper.BusiZyInfoMapper">
+    
+    <resultMap type="BusiZyInfo" id="BusiZyInfoResult">
+        <result property="costId"    column="cost_id"    />
+        <result property="trackId"    column="track_id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="orderNumber"    column="order_number"    />
+        <result property="xianghao"    column="xianghao"    />
+        <result property="xiangxing"    column="xiangxing"    />
+        <result property="pxEntryDate"    column="px_entry_date"    />
+        <result property="pxEntryTime"    column="px_entry_time"    />
+        <result property="pxEnterCar"    column="px_enter_car"    />
+        <result property="pxEnterLeadNumber"    column="px_enter_lead_number"    />
+        <result property="xgXiangkuang"    column="xg_xiangkuang"    />
+        <result property="xgIsrepair"    column="xg_isrepair"    />
+        <result property="xgIsmingpai"    column="xg_ismingpai"    />
+        <result property="xgBoat"    column="xg_boat"    />
+        <result property="xgSend"    column="xg_send"    />
+        <result property="xgCheck"    column="xg_check"    />
+        <result property="roadIsbill"    column="road_isbill"    />
+        <result property="roadCheck"    column="road_check"    />
+        <result property="createdate"    column="createdate"    />
+        <result property="createuserid"    column="createuserid"    />
+        <result property="createusername"    column="createusername"    />
+        <result property="baoguanDocu"    column="baoguan_docu"    />
+        <result property="suicheDocu"    column="suiche_docu"    />
+        <result property="waybill"    column="waybill"    />
+        <result property="paystate"    column="paystate"    />
+        <result property="gdConsignee"    column="gd_consignee"    />
+        <result property="gdRemark"    column="gd_remark"    />
+        <result property="gdCheck"    column="gd_check"    />
+        <result property="fayunDate"    column="fayun_date"    />
+        <result property="fayunState"    column="fayun_state"    />
+        <result property="isJg"    column="is_jg"    />
+        <result property="isPz"    column="is_pz"    />
+        <result property="editRemark"    column="edit_remark"    />
+        <result property="xgXsphoto"    column="xg_xsphoto"    />
+        <result property="xgXsstate"    column="xg_xsstate"    />
+        <result property="xhCheck"    column="xh_check"    />
+        <result property="isplaneddelivery"    column="isPlanedDelivery"    />
+        <result property="bgcaodan"    column="bgcaodan"    />
+        <result property="bgcaodanConfirm"    column="bgcaodan_confirm"    />
+        <result property="documentsGive"    column="documents_give"    />
+        <result property="weightCheck"    column="weight_Check"    />
+        <result property="customsProcess"    column="customs_process"    />
+        <result property="bgremark"    column="bgremark"    />
+        <result property="classzyNo"    column="classzy_no"    />
+        <result property="jz2Remark"    column="jz2_remark"    />
+        <result property="rcWeight"    column="rc_weight"    />
+        <result property="jzWeight"    column="jz_weight"    />
+        <result property="carNumber"    column="car_number"    />
+        <result property="jz2data"    column="jz2data"    />
+        <result property="zhengbenGive"    column="zhengben_give"    />
+        <result property="yichangDate"    column="yichang_date"    />
+        <result property="roadtime"    column="roadtime"    />
+        <result property="gdtime"    column="gdtime"    />
+        <result property="xgtime"    column="xgtime"    />
+        <result property="realUnloadsite"    column="Real_unloadSite"    />
+        <result property="mingpaiGh"    column="mingpai_gh"    />
+        <result property="cepianResult"    column="cepian_result"    />
+        <result property="transportDept"    column="transport_Dept"    />
+        <result property="isjzLdbus"    column="ISJZ_LDbus"    />
+        <result property="causeNojz"    column="cause_nojz"    />
+        <result property="roadlogRemark"    column="roadlog_remark"    />
+        <result property="actualClassbh"    column="Actual_classbh"    />
+        <result property="xianghaoPlace"    column="xianghao_place"    />
+        <result property="isApplynum"    column="is_applynum"    />
+        <result property="containerKgs"    column="container_kgs"    />
+        <result property="lieshu"    column="lieshu"    />
+        <result property="guanwustate"    column="guanwustate"    />
+        <result property="isunify"    column="isunify"    />
+        <result property="classzynoTime"    column="classzyno_time"    />
+        <result property="classzynoRemark"    column="classzyno_remark"    />
+        <result property="consignee"    column="Consignee"    />
+        <result property="consigneeE"    column="Consignee_E"    />
+        <result property="boxBelong"    column="Box_belong"    />
+        <result property="consignor"    column="Consignor"    />
+        <result property="consignorstate"    column="ConsignorState"    />
+        <result property="goodsnamehs"    column="GoodsNameHS"    />
+        <result property="arrivalstation"    column="ArrivalStation"    />
+        <result property="cbxwarehouse"    column="CBXWarehouse"    />
+        <result property="carrierstationcode"    column="CarrierStationCode"    />
+        <result property="paymentcode"    column="PaymentCode"    />
+        <result property="supplycontractno"    column="SupplyContractNo"    />
+        <result property="zyunitTime"    column="zyunit_time"    />
+        <result property="yundanNumber"    column="yundan_number"    />
+        <result property="yundanWeight"    column="yundan_weight"    />
+        <result property="yundanXweight"    column="yundan_xweight"    />
+        <result property="yundanTotalweight"    column="yundan_totalweight"    />
+        <result property="privateline"    column="PrivateLine"    />
+        <result property="consigneeR"    column="Consignee_R"    />
+        <result property="consignorR"    column="Consignor_R"    />
+        <result property="goodsnameC"    column="GoodsName_C"    />
+        <result property="goodsnameE"    column="GoodsName_E"    />
+        <result property="goodsnames"    column="GoodsNames"    />
+        <result property="arrivalstationhs"    column="ArrivalStationHS"    />
+        <result property="gjkouan"    column="GJkouan"    />
+        <result property="formalities"    column="Formalities"    />
+        <result property="maxTotalweight"    column="max_totalweight"    />
+        <result property="maxLoad"    column="max_load"    />
+        <result property="isoCode"    column="iso_code"    />
+        <result property="suichestate"    column="suichestate"    />
+        <result property="scOperator"    column="SC_Operator"    />
+        <result property="scOperatime"    column="SC_Operatime"    />
+        <result property="actualclassBh"    column="actualClass_bh"    />
+        <result property="gwRemark"    column="gw_remark"    />
+        <result property="gwPiaoshu"    column="gw_piaoshu"    />
+        <result property="gwOperator"    column="gw_Operator"    />
+        <result property="gwOperatime"    column="gw_Operatime"    />
+        <result property="planunloadtime"    column="planUnloadTime"    />
+        <result property="ydOperator"    column="yd_Operator"    />
+        <result property="scRemark"    column="sc_remark"    />
+        <result property="scXsnum"    column="sc_XSnum"    />
+        <result property="scXsnumfee"    column="sc_XSnumfee"    />
+        <result property="scShnum"    column="sc_SHnum"    />
+        <result property="scShnumfee"    column="sc_SHnumfee"    />
+        <result property="zxWeight"    column="zx_weight"    />
+        <result property="dlChecktime"    column="dl_checktime"    />
+        <result property="fenghao"    column="fenghao"    />
+        <result property="gwfenghao"    column="gwfenghao"    />
+        <result property="shifenghao"    column="shifenghao"    />
+        <result property="goodsname"    column="goodsname"    />
+        <result property="consignorC"    column="Consignor_C"    />
+        <result property="fhtime"    column="fhtime"    />
+    </resultMap>
+
+    <sql id="selectBusiZyInfoVo">
+        select cost_id, track_id, order_id, order_number, xianghao, xiangxing, px_entry_date, px_entry_time, px_enter_car, px_enter_lead_number, xg_xiangkuang, xg_isrepair, xg_ismingpai, xg_boat, xg_send, xg_check, road_isbill, road_check, createdate, createuserid, createusername, baoguan_docu, suiche_docu, waybill, paystate, gd_consignee, gd_remark, gd_check, fayun_date, fayun_state, is_jg, is_pz, edit_remark, xg_xsphoto, xg_xsstate, xh_check, isPlanedDelivery, bgcaodan, bgcaodan_confirm, documents_give, weight_Check, customs_process, bgremark, classzy_no, classzyno_time, classzyno_remark, jz2_remark, rc_weight, jz_weight, car_number, jz2data, zhengben_give, yichang_date, roadtime, gdtime, xgtime, Real_unloadSite, mingpai_gh, cepian_result, transport_Dept, ISJZ_LDbus, cause_nojz, roadlog_remark, Actual_classbh, xianghao_place, is_applynum, container_kgs, lieshu, guanwustate, isunify, Consignee, Consignee_E, Box_belong, Consignor, ConsignorState, GoodsNameHS, ArrivalStation, CBXWarehouse, CarrierStationCode, PaymentCode, SupplyContractNo, zyunit_time, yundan_number, yundan_weight, yundan_xweight, yundan_totalweight, PrivateLine, Consignee_R, Consignor_R, GoodsName_C, GoodsName_E, GoodsNames, ArrivalStationHS, GJkouan, Formalities, max_totalweight, max_load, iso_code, suichestate, SC_Operator, SC_Operatime, actualClass_bh, gw_remark, gw_piaoshu, gw_Operator, gw_Operatime, planUnloadTime, yd_Operator, sc_remark, sc_XSnum, sc_XSnumfee, sc_SHnum, sc_SHnumfee, zx_weight, dl_checktime, fenghao, gwfenghao, shifenghao, goodsname, Consignor_C, fhtime from busi_zy_info
+    </sql>
+
+    <sql id="selectBusiZyInfoVoClassNo">
+        select zy.cost_id as costId, zy.track_id as trackId, zy.order_id as orderId, ord.order_number as orderNumber,zy.xianghao as xianghao,
+        zy.classzy_no as classzyNo, zy.lieshu as lieshu, zy.classzyno_time as classzynoTime,zy.classzyno_remark as classzynoRemark,ord.line_typeid as lineTypeid
+        from busi_zy_info zy
+    </sql>
+
+    <!--客户端中亚运单列表-托书列表-->
+    <select id="selectZyOrderList" parameterType="ZyInfoClients" resultType="com.szhbl.project.order.domain.track.ZyInfoClients">
+        select ord.order_ID as orderId,ord.Class_date as classDate,ord.order_class_bh as orderClassBh,ord.order_number as orderNumber,ord.container_type as containerType,
+        ord.container_boxAmount as containerBoxamount,ord.order_unloadSite as orderUnloadsite,goods.goods_name as goodsName
+        from busi_shippingorder ord
+        left join busi_shippingorder_goods goods on goods.order_ID = ord.order_ID
+        <where>
+            ord.line_typeid = '2' and ord.client_ID = #{clientId}
+            <if test="orderNumber != null  and orderNumber != ''"> and ord.order_number like concat('%', #{orderNumber}, '%')</if>
+            <if test="orderUnloadsite != null  and orderUnloadsite != ''"> and ord.order_unloadSite like concat('%', #{orderUnloadsite}, '%')</if>
+            <if test="classDateStart != null"> and <![CDATA[ord.Class_date >= #{classDateStart,jdbcType=DATE}]]></if>
+            <if test="classDateEnd != null"> and <![CDATA[ord.Class_date <= #{classDateEnd,jdbcType=DATE}]]></if>
+        </where>
+        order by ord.tj_time desc
+    </select>
+
+    <!--客户端中亚运单列表-箱子列表-->
+    <select id="selectZyBoxList" parameterType="String" resultType="com.szhbl.project.order.domain.track.ZyInfoClients">
+        select zy.cost_id as costId,zy.xianghao as xianghao,zy.order_id as orderId,zy.Consignor_C as consignorC,
+        zy.Consignor as consignor,zy.Consignor_R as consignorR,zy.Box_belong as boxBelong,zy.Consignee as consignee,
+        zy.Consignee_E as consigneeE,zy.Consignee_R as consigneeR,zy.PrivateLine as privateline,zy.GJkouan as gjkouan,zy.GoodsName_C as goodsnameC,
+        zy.GoodsName_E as goodsnameE,zy.GoodsNameHS as goodsnamehs,zy.GoodsNames as goodsnames,zy.yundan_number as yundanNumber,zy.yundan_weight as yundanWeight,
+        zy.yundan_xweight as yundanXweight,zy.Formalities as formalities,zy.ConsignorState as consignorstate,zy.ArrivalStation as arrivalstation,
+        zy.CBXWarehouse as cbxwarehouse,zy.CarrierStationCode as carrierstationcode,zy.PaymentCode as paymentcode,zy.SupplyContractNo as supplycontractno,
+        zy.zyunit_time as zyunitTime,zy.yundan_totalweight as yundanTotalweight,zy.ArrivalStationHS as arrivalstationhs,ord.order_unloadSite as orderUnloadsite,
+        ord.order_number as orderNumber,zy.is_applynum as isApplynum,ord.IsConsolidation as isConsolidation, ord.ship_order_binningWay as shipOrderBinningWay,
+        ord.class_EastAndWest as classEastandwest
+        from busi_zy_info zy
+        left join busi_shippingorder ord on ord.order_ID = zy.order_id
+        <where>
+            zy.order_id = #{orderId} and zy.del_flag = '0'
+        </where>
+    </select>
+
+<!--    <update id="zyUpload" parameterType="com.szhbl.project.order.domain.track.ZyInfoClients">-->
+<!--        update busi_zy_info-->
+<!--        <trim prefix="SET" suffixOverrides=",">-->
+<!--            <if test="orderId != null  and orderId != ''">order_id = #{orderId},</if>-->
+<!--            <if test="consignorC != null  and consignorC != ''">Consignor_C = #{consignorC},</if>-->
+<!--            <if test="consignor != null  and consignor != ''">Consignor = #{consignor},</if>-->
+<!--            <if test="consignorR != null  and consignorR != ''">Consignor_R = #{consignorR},</if>-->
+<!--            <if test="boxBelong != null  and boxBelong != ''">Box_belong = #{boxBelong},</if>-->
+<!--            <if test="consignee != null  and consignee != ''">Consignee = #{consignee},</if>-->
+<!--            <if test="consigneeE != null  and consigneeE != ''">Consignee_E = #{consigneeE},</if>-->
+<!--            <if test="consigneeR != null  and consigneeR != ''">Consignee_R = #{consigneeR},</if>-->
+<!--            <if test="privateline != null  and privateline != ''">PrivateLine = #{privateline},</if>-->
+<!--            <if test="gjkouan != null  and gjkouan != ''">GJkouan = #{gjkouan},</if>-->
+<!--            <if test="goodsnameC != null  and goodsnameC != ''">GoodsName_C = #{goodsnameC},</if>-->
+<!--            <if test="goodsnameE != null  and goodsnameE != ''">GoodsName_E = #{goodsnameE},</if>-->
+<!--            <if test="goodsnamehs != null  and goodsnamehs != ''">GoodsNameHS = #{goodsnamehs},</if>-->
+<!--            <if test="goodsnames != null  and goodsnames != ''">GoodsNames = #{goodsnames},</if>-->
+<!--            <if test="yundanNumber != null  and yundanNumber != ''">yundan_number = #{yundanNumber},</if>-->
+<!--            <if test="yundanWeight != null ">yundan_weight = #{yundanWeight},</if>-->
+<!--            <if test="yundanXweight != null ">yundan_xweight = #{yundanXweight},</if>-->
+<!--            <if test="formalities != null  and formalities != ''">Formalities = #{formalities},</if>-->
+<!--            <if test="consignorstate != null  and consignorstate != ''">ConsignorState = #{consignorstate},</if>-->
+<!--            <if test="arrivalstation != null  and arrivalstation != ''">ArrivalStation = #{arrivalstation},</if>-->
+<!--            <if test="cbxwarehouse != null  and cbxwarehouse != ''">CBXWarehouse = #{cbxwarehouse},</if>-->
+<!--            <if test="carrierstationcode != null  and carrierstationcode != ''">CarrierStationCode = #{carrierstationcode},</if>-->
+<!--            <if test="paymentcode != null  and paymentcode != ''">PaymentCode = #{paymentcode},</if>-->
+<!--            <if test="supplycontractno != null  and supplycontractno != ''">SupplyContractNo = #{supplycontractno},</if>-->
+<!--            <if test="isApplynum != null  and isApplynum != ''">is_applynum = #{isApplynum},</if>-->
+<!--            <if test="zyunitTime != null ">zyunit_time = #{zyunitTime},</if>-->
+<!--            <if test="yundanTotalweight != null ">yundan_totalweight = #{yundanTotalweight},</if>-->
+<!--            <if test="arrivalstationhs != null  and arrivalstationhs != ''">ArrivalStationHS = #{arrivalstationhs},</if>-->
+<!--            <if test="createdate != null ">createdate = #{createdate},</if>-->
+<!--            <if test="createuserid != null  and createuserid != ''">createuserid = #{createuserid},</if>-->
+<!--            <if test="createusername != null  and createusername != ''">createusername = #{createusername},</if>-->
+<!--        </trim>-->
+<!--        where cost_id = #{costId}-->
+<!--    </update>-->
+
+        <update id="zyUpload" parameterType="com.szhbl.project.order.domain.track.ZyInfoClients">
+            update busi_zy_info
+            <trim prefix="SET" suffixOverrides=",">
+                <if test="orderId != null  and orderId != ''">order_id = #{orderId},</if>
+                Consignor_C = #{consignorC},
+                Consignor = #{consignor},
+                Consignor_R = #{consignorR},
+                Box_belong = #{boxBelong},
+                Consignee = #{consignee},
+                Consignee_E = #{consigneeE},
+                Consignee_R = #{consigneeR},
+                PrivateLine = #{privateline},
+                GJkouan = #{gjkouan},
+                GoodsName_C = #{goodsnameC},
+                GoodsName_E = #{goodsnameE},
+                GoodsNameHS = #{goodsnamehs},
+                GoodsNames = #{goodsnames},
+                yundan_number = #{yundanNumber},
+                yundan_weight = #{yundanWeight},
+                yundan_xweight = #{yundanXweight},
+                Formalities = #{formalities},
+                ConsignorState = #{consignorstate},
+                ArrivalStation = #{arrivalstation},
+                CBXWarehouse = #{cbxwarehouse},
+                CarrierStationCode = #{carrierstationcode},
+                PaymentCode = #{paymentcode},
+                SupplyContractNo = #{supplycontractno},
+                yundan_totalweight = #{yundanTotalweight},
+                ArrivalStationHS = #{arrivalstationhs},
+                <if test="isApplynum != null  and isApplynum != ''">is_applynum = #{isApplynum},</if>
+                <if test="zyunitTime != null ">zyunit_time = #{zyunitTime},</if>
+                <if test="createdate != null ">createdate = #{createdate},</if>
+                <if test="createuserid != null  and createuserid != ''">createuserid = #{createuserid},</if>
+                <if test="createusername != null  and createusername != ''">createusername = #{createusername},</if>
+            </trim>
+            where cost_id = #{costId}
+        </update>
+
+    <!--平台端中亚运单列表-->
+    <select id="selectZyBoxListPf" parameterType="ZyInfoClients" resultType="com.szhbl.project.order.domain.track.ZyInfoClients">
+        select ord.Class_date as classDate,zy.cost_id as costId,zy.xianghao as xianghao,zy.order_id as orderId,ord.order_number as orderNumber,
+        goods.goods_name as goodsName,ord.order_unloadSite as orderUnloadsite,zy.yd_Operator as ydOperator,track.actual_class_date_value as actualClassDateValue,
+        ord.client_unit as clientUnit,clients.client_tjr as clientTjr,ord.container_type as containerType,ord.container_boxAmount as containerBoxamount,
+        zy.is_applynum as isApplynum,zy.dl_checktime as dlChecktime,zy.Consignee as consignee,zy.Consignee_E as consigneeE,zy.Box_belong as boxBelong,
+        zy.fenghao as fenghao,zy.Consignor_C as consignorC,zy.Consignor as consignor,zy.GoodsNames as goodsnames,zy.yundan_number as yundanNumber,
+        zy.yundan_weight as yundanWeight,zy.yundan_xweight as yundanXweight,zy.yundan_totalweight as yundanTotalweight,zy.CBXWarehouse as cbxwarehouse,
+        zy.ArrivalStation as arrivalstation,zy.PrivateLine as privateline,zy.GJkouan as gjkouan,zy.CarrierStationCode as carrierstationcode,
+        zy.PaymentCode as paymentcode,zy.ConsignorState as consignorstate,zy.SupplyContractNo as supplycontractno,zy.Formalities as formalities,
+        zy.fenghao as fenghao,ord.order_merchandiser as orderMerchandiser
+        from busi_zy_info zy
+        left join busi_shippingorder ord on ord.order_ID = zy.order_id
+        left join busi_shippingorder_goods goods on goods.order_ID = zy.order_id
+        left join track_goods_status track on track.id = zy.track_id
+        left join busi_clients clients on clients.client_ID = ord.client_ID
+        <where>
+            ord.line_typeid = '2' and zy.del_flag = '0'
+            <if test="orderNumber != null  and orderNumber != ''"> and ord.order_number like concat('%', #{orderNumber}, '%')</if>
+            <if test="xianghao != null  and xianghao != ''"> and zy.xianghao like concat('%', #{xianghao}, '%')</if>
+            <if test="classDate != null"> and <![CDATA[ord.Class_date = #{classDate,jdbcType=DATE}]]></if>
+            <if test="classzyNo != null  and classzyNo != ''"> and zy.classzy_no like concat('%', #{classzyNo}, '%')</if>
+            <if test="orderUnloadsite != null  and orderUnloadsite != ''"> and ord.order_unloadSite like concat('%', #{orderUnloadsite}, '%')</if>
+            <if test="actualClassDateValue != null"> and <![CDATA[track.actual_class_date_value = #{actualClassDateValue,jdbcType=DATE}]]></if>
+            <if test="ydOperator != null  and ydOperator != ''"> and zy.yd_Operator like concat('%', #{ydOperator}, '%')</if>
+            <if test="clientUnit != null  and clientUnit != ''"> and ord.client_unit like concat('%', #{clientUnit}, '%')</if>
+        </where>
+        order by ord.tj_time desc
+    </select>
+
+    <select id="selectBusiZyInfoList" parameterType="BusiZyInfo" resultMap="BusiZyInfoResult">
+        <include refid="selectBusiZyInfoVo"/>
+        <where>
+            <if test="trackId != null "> and track_id = #{trackId}</if>
+            <if test="orderId != null  and orderId != ''"> and order_id = #{orderId}</if>
+            <if test="orderNumber != null  and orderNumber != ''"> and order_number = #{orderNumber}</if>
+            <if test="xianghao != null  and xianghao != ''"> and xianghao = #{xianghao}</if>
+            <if test="xiangxing != null  and xiangxing != ''"> and xiangxing = #{xiangxing}</if>
+            <if test="pxEntryDate != null  and pxEntryDate != ''"> and px_entry_date = #{pxEntryDate}</if>
+            <if test="pxEntryTime != null  and pxEntryTime != ''"> and px_entry_time = #{pxEntryTime}</if>
+            <if test="pxEnterCar != null  and pxEnterCar != ''"> and px_enter_car = #{pxEnterCar}</if>
+            <if test="pxEnterLeadNumber != null  and pxEnterLeadNumber != ''"> and px_enter_lead_number = #{pxEnterLeadNumber}</if>
+            <if test="xgXiangkuang != null  and xgXiangkuang != ''"> and xg_xiangkuang = #{xgXiangkuang}</if>
+            <if test="xgIsrepair != null  and xgIsrepair != ''"> and xg_isrepair = #{xgIsrepair}</if>
+            <if test="xgIsmingpai != null  and xgIsmingpai != ''"> and xg_ismingpai = #{xgIsmingpai}</if>
+            <if test="xgBoat != null  and xgBoat != ''"> and xg_boat = #{xgBoat}</if>
+            <if test="xgSend != null  and xgSend != ''"> and xg_send = #{xgSend}</if>
+            <if test="xgCheck != null  and xgCheck != ''"> and xg_check = #{xgCheck}</if>
+            <if test="roadIsbill != null  and roadIsbill != ''"> and road_isbill = #{roadIsbill}</if>
+            <if test="roadCheck != null  and roadCheck != ''"> and road_check = #{roadCheck}</if>
+            <if test="createdate != null "> and createdate = #{createdate}</if>
+            <if test="createuserid != null  and createuserid != ''"> and createuserid = #{createuserid}</if>
+            <if test="createusername != null  and createusername != ''"> and createusername like concat('%', #{createusername}, '%')</if>
+            <if test="baoguanDocu != null  and baoguanDocu != ''"> and baoguan_docu = #{baoguanDocu}</if>
+            <if test="suicheDocu != null  and suicheDocu != ''"> and suiche_docu = #{suicheDocu}</if>
+            <if test="waybill != null  and waybill != ''"> and waybill = #{waybill}</if>
+            <if test="paystate != null  and paystate != ''"> and paystate = #{paystate}</if>
+            <if test="gdConsignee != null  and gdConsignee != ''"> and gd_consignee = #{gdConsignee}</if>
+            <if test="gdRemark != null  and gdRemark != ''"> and gd_remark = #{gdRemark}</if>
+            <if test="gdCheck != null  and gdCheck != ''"> and gd_check = #{gdCheck}</if>
+            <if test="fayunDate != null "> and fayun_date = #{fayunDate}</if>
+            <if test="fayunState != null  and fayunState != ''"> and fayun_state = #{fayunState}</if>
+            <if test="isJg != null  and isJg != ''"> and is_jg = #{isJg}</if>
+            <if test="isPz != null  and isPz != ''"> and is_pz = #{isPz}</if>
+            <if test="editRemark != null  and editRemark != ''"> and edit_remark = #{editRemark}</if>
+            <if test="xgXsphoto != null  and xgXsphoto != ''"> and xg_xsphoto = #{xgXsphoto}</if>
+            <if test="xgXsstate != null  and xgXsstate != ''"> and xg_xsstate = #{xgXsstate}</if>
+            <if test="xhCheck != null  and xhCheck != ''"> and xh_check = #{xhCheck}</if>
+            <if test="isplaneddelivery != null  and isplaneddelivery != ''"> and isPlanedDelivery = #{isplaneddelivery}</if>
+            <if test="bgcaodan != null  and bgcaodan != ''"> and bgcaodan = #{bgcaodan}</if>
+            <if test="bgcaodanConfirm != null  and bgcaodanConfirm != ''"> and bgcaodan_confirm = #{bgcaodanConfirm}</if>
+            <if test="documentsGive != null  and documentsGive != ''"> and documents_give = #{documentsGive}</if>
+            <if test="weightCheck != null  and weightCheck != ''"> and weight_Check = #{weightCheck}</if>
+            <if test="customsProcess != null  and customsProcess != ''"> and customs_process = #{customsProcess}</if>
+            <if test="bgremark != null  and bgremark != ''"> and bgremark = #{bgremark}</if>
+            <if test="classzyNo != null  and classzyNo != ''"> and classzy_no = #{classzyNo}</if>
+            <if test="jz2Remark != null  and jz2Remark != ''"> and jz2_remark = #{jz2Remark}</if>
+            <if test="rcWeight != null  and rcWeight != ''"> and rc_weight = #{rcWeight}</if>
+            <if test="jzWeight != null  and jzWeight != ''"> and jz_weight = #{jzWeight}</if>
+            <if test="carNumber != null  and carNumber != ''"> and car_number = #{carNumber}</if>
+            <if test="jz2data != null  and jz2data != ''"> and jz2data = #{jz2data}</if>
+            <if test="zhengbenGive != null  and zhengbenGive != ''"> and zhengben_give = #{zhengbenGive}</if>
+            <if test="yichangDate != null "> and yichang_date = #{yichangDate}</if>
+            <if test="roadtime != null "> and roadtime = #{roadtime}</if>
+            <if test="gdtime != null "> and gdtime = #{gdtime}</if>
+            <if test="xgtime != null "> and xgtime = #{xgtime}</if>
+            <if test="realUnloadsite != null  and realUnloadsite != ''"> and Real_unloadSite = #{realUnloadsite}</if>
+            <if test="mingpaiGh != null  and mingpaiGh != ''"> and mingpai_gh = #{mingpaiGh}</if>
+            <if test="cepianResult != null  and cepianResult != ''"> and cepian_result = #{cepianResult}</if>
+            <if test="transportDept != null  and transportDept != ''"> and transport_Dept = #{transportDept}</if>
+            <if test="isjzLdbus != null  and isjzLdbus != ''"> and ISJZ_LDbus = #{isjzLdbus}</if>
+            <if test="causeNojz != null  and causeNojz != ''"> and cause_nojz = #{causeNojz}</if>
+            <if test="roadlogRemark != null  and roadlogRemark != ''"> and roadlog_remark = #{roadlogRemark}</if>
+            <if test="actualClassbh != null  and actualClassbh != ''"> and Actual_classbh = #{actualClassbh}</if>
+            <if test="xianghaoPlace != null  and xianghaoPlace != ''"> and xianghao_place = #{xianghaoPlace}</if>
+            <if test="isApplynum != null  and isApplynum != ''"> and is_applynum = #{isApplynum}</if>
+            <if test="containerKgs != null "> and container_kgs = #{containerKgs}</if>
+            <if test="lieshu != null  and lieshu != ''"> and lieshu = #{lieshu}</if>
+            <if test="guanwustate != null  and guanwustate != ''"> and guanwustate = #{guanwustate}</if>
+            <if test="isunify != null  and isunify != ''"> and isunify = #{isunify}</if>
+            <if test="classzynoTime != null "> and classzyno_time = #{classzynoTime}</if>
+            <if test="classzynoRemark != null  and classzynoRemark != ''"> and classzyno_remark = #{classzynoRemark}</if>
+            <if test="consignee != null  and consignee != ''"> and Consignee = #{consignee}</if>
+            <if test="consigneeE != null  and consigneeE != ''"> and Consignee_E = #{consigneeE}</if>
+            <if test="boxBelong != null  and boxBelong != ''"> and Box_belong = #{boxBelong}</if>
+            <if test="consignor != null  and consignor != ''"> and Consignor = #{consignor}</if>
+            <if test="consignorstate != null  and consignorstate != ''"> and ConsignorState = #{consignorstate}</if>
+            <if test="goodsnamehs != null  and goodsnamehs != ''"> and GoodsNameHS = #{goodsnamehs}</if>
+            <if test="arrivalstation != null  and arrivalstation != ''"> and ArrivalStation = #{arrivalstation}</if>
+            <if test="cbxwarehouse != null  and cbxwarehouse != ''"> and CBXWarehouse = #{cbxwarehouse}</if>
+            <if test="carrierstationcode != null  and carrierstationcode != ''"> and CarrierStationCode = #{carrierstationcode}</if>
+            <if test="paymentcode != null  and paymentcode != ''"> and PaymentCode = #{paymentcode}</if>
+            <if test="supplycontractno != null  and supplycontractno != ''"> and SupplyContractNo = #{supplycontractno}</if>
+            <if test="zyunitTime != null "> and zyunit_time = #{zyunitTime}</if>
+        </where>
+    </select>
+
+    <!--通过托书id、箱号查询中亚详情-->
+    <select id="selectZyInfoByOrder" parameterType="String" resultMap="BusiZyInfoResult">
+        <include refid="selectBusiZyInfoVo"/>
+        where order_id = #{orderId} and xianghao = #{xianghao} and del_flag = '0' order by track_id desc limit 1
+    </select>
+    
+    <select id="selectBusiZyInfoById" parameterType="String" resultMap="BusiZyInfoResult">
+        <include refid="selectBusiZyInfoVo"/>
+        where cost_id = #{costId}
+    </select>
+    <select id="selectBusiZyInfoByZyId" parameterType="String" resultType="com.szhbl.project.order.domain.track.GoodsTrackMq">
+        select order_id as orderId,xianghao as boxNum,Consignor_C as consignorC,Consignor as consignor,Consignor_R as consignorR,
+        Box_belong as boxBelong,Consignee as consignee,Consignee_E as consigneeE,Consignee_R as consigneeR,PrivateLine as privateline,
+        GJkouan as gjkouan,GoodsName_C as goodsnameC,GoodsName_E as goodsnameE,GoodsNameHS as goodsnamehs,GoodsNames as goodsnames,
+        yundan_number as yundanNumber,yundan_weight as yundanWeight,yundan_xweight as yundanXweight,Formalities as formalities,
+        ConsignorState as consignorstate,ArrivalStation as arrivalstation,CBXWarehouse as cbxwarehouse,CarrierStationCode as carrierstationcode,
+        PaymentCode as paymentcode,SupplyContractNo as supplycontractno,zyunit_time as zyunitTime,yundan_totalweight as yundanTotalweight,
+        ArrivalStationHS as arrivalstationhs,is_applynum as isApplynum from busi_zy_info
+        where cost_id = #{costId}
+    </select>
+
+    <select id="selectBusiZyInfoByTrack" parameterType="Long" resultType="com.szhbl.project.order.domain.BusiZyInfo">
+        <include refid="selectBusiZyInfoVoClassNo"/>
+        left join busi_shippingorder ord on ord.order_ID = zy.order_id
+        where zy.track_id = #{trackId}
+    </select>
+        
+    <insert id="insertBusiZyInfo" parameterType="BusiZyInfo">
+        insert into busi_zy_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="costId != null  and costId != ''">cost_id,</if>
+            <if test="trackId != null ">track_id,</if>
+            <if test="orderId != null  and orderId != ''">order_id,</if>
+            <if test="orderNumber != null  and orderNumber != ''">order_number,</if>
+            <if test="xianghao != null  and xianghao != ''">xianghao,</if>
+            <if test="xiangxing != null  and xiangxing != ''">xiangxing,</if>
+            <if test="pxEntryDate != null  and pxEntryDate != ''">px_entry_date,</if>
+            <if test="pxEntryTime != null  and pxEntryTime != ''">px_entry_time,</if>
+            <if test="pxEnterCar != null  and pxEnterCar != ''">px_enter_car,</if>
+            <if test="pxEnterLeadNumber != null  and pxEnterLeadNumber != ''">px_enter_lead_number,</if>
+            <if test="xgXiangkuang != null  and xgXiangkuang != ''">xg_xiangkuang,</if>
+            <if test="xgIsrepair != null  and xgIsrepair != ''">xg_isrepair,</if>
+            <if test="xgIsmingpai != null  and xgIsmingpai != ''">xg_ismingpai,</if>
+            <if test="xgBoat != null  and xgBoat != ''">xg_boat,</if>
+            <if test="xgSend != null  and xgSend != ''">xg_send,</if>
+            <if test="xgCheck != null  and xgCheck != ''">xg_check,</if>
+            <if test="roadIsbill != null  and roadIsbill != ''">road_isbill,</if>
+            <if test="roadCheck != null  and roadCheck != ''">road_check,</if>
+            <if test="createdate != null ">createdate,</if>
+            <if test="createuserid != null  and createuserid != ''">createuserid,</if>
+            <if test="createusername != null  and createusername != ''">createusername,</if>
+            <if test="baoguanDocu != null  and baoguanDocu != ''">baoguan_docu,</if>
+            <if test="suicheDocu != null  and suicheDocu != ''">suiche_docu,</if>
+            <if test="waybill != null  and waybill != ''">waybill,</if>
+            <if test="paystate != null  and paystate != ''">paystate,</if>
+            <if test="gdConsignee != null  and gdConsignee != ''">gd_consignee,</if>
+            <if test="gdRemark != null  and gdRemark != ''">gd_remark,</if>
+            <if test="gdCheck != null  and gdCheck != ''">gd_check,</if>
+            <if test="fayunDate != null ">fayun_date,</if>
+            <if test="fayunState != null  and fayunState != ''">fayun_state,</if>
+            <if test="isJg != null  and isJg != ''">is_jg,</if>
+            <if test="isPz != null  and isPz != ''">is_pz,</if>
+            <if test="editRemark != null  and editRemark != ''">edit_remark,</if>
+            <if test="xgXsphoto != null  and xgXsphoto != ''">xg_xsphoto,</if>
+            <if test="xgXsstate != null  and xgXsstate != ''">xg_xsstate,</if>
+            <if test="xhCheck != null  and xhCheck != ''">xh_check,</if>
+            <if test="isplaneddelivery != null  and isplaneddelivery != ''">isPlanedDelivery,</if>
+            <if test="bgcaodan != null  and bgcaodan != ''">bgcaodan,</if>
+            <if test="bgcaodanConfirm != null  and bgcaodanConfirm != ''">bgcaodan_confirm,</if>
+            <if test="documentsGive != null  and documentsGive != ''">documents_give,</if>
+            <if test="weightCheck != null  and weightCheck != ''">weight_Check,</if>
+            <if test="customsProcess != null  and customsProcess != ''">customs_process,</if>
+            <if test="bgremark != null  and bgremark != ''">bgremark,</if>
+            <if test="classzyNo != null  and classzyNo != ''">classzy_no,</if>
+            <if test="jz2Remark != null  and jz2Remark != ''">jz2_remark,</if>
+            <if test="rcWeight != null  and rcWeight != ''">rc_weight,</if>
+            <if test="jzWeight != null  and jzWeight != ''">jz_weight,</if>
+            <if test="carNumber != null  and carNumber != ''">car_number,</if>
+            <if test="jz2data != null  and jz2data != ''">jz2data,</if>
+            <if test="zhengbenGive != null  and zhengbenGive != ''">zhengben_give,</if>
+            <if test="yichangDate != null ">yichang_date,</if>
+            <if test="roadtime != null ">roadtime,</if>
+            <if test="gdtime != null ">gdtime,</if>
+            <if test="xgtime != null ">xgtime,</if>
+            <if test="realUnloadsite != null  and realUnloadsite != ''">Real_unloadSite,</if>
+            <if test="mingpaiGh != null  and mingpaiGh != ''">mingpai_gh,</if>
+            <if test="cepianResult != null  and cepianResult != ''">cepian_result,</if>
+            <if test="transportDept != null  and transportDept != ''">transport_Dept,</if>
+            <if test="isjzLdbus != null  and isjzLdbus != ''">ISJZ_LDbus,</if>
+            <if test="causeNojz != null  and causeNojz != ''">cause_nojz,</if>
+            <if test="roadlogRemark != null  and roadlogRemark != ''">roadlog_remark,</if>
+            <if test="actualClassbh != null  and actualClassbh != ''">Actual_classbh,</if>
+            <if test="xianghaoPlace != null  and xianghaoPlace != ''">xianghao_place,</if>
+            <if test="isApplynum != null  and isApplynum != ''">is_applynum,</if>
+            <if test="containerKgs != null ">container_kgs,</if>
+            <if test="lieshu != null  and lieshu != ''">lieshu,</if>
+            <if test="guanwustate != null  and guanwustate != ''">guanwustate,</if>
+            <if test="isunify != null  and isunify != ''">isunify,</if>
+            <if test="classzynoTime != null ">classzyno_time,</if>
+            <if test="classzynoRemark != null  and classzynoRemark != ''">classzyno_remark,</if>
+            <if test="consignee != null  and consignee != ''">Consignee,</if>
+            <if test="consigneeE != null  and consigneeE != ''">Consignee_E,</if>
+            <if test="boxBelong != null  and boxBelong != ''">Box_belong,</if>
+            <if test="consignor != null  and consignor != ''">Consignor,</if>
+            <if test="consignorstate != null  and consignorstate != ''">ConsignorState,</if>
+            <if test="goodsnamehs != null  and goodsnamehs != ''">GoodsNameHS,</if>
+            <if test="arrivalstation != null  and arrivalstation != ''">ArrivalStation,</if>
+            <if test="cbxwarehouse != null  and cbxwarehouse != ''">CBXWarehouse,</if>
+            <if test="carrierstationcode != null  and carrierstationcode != ''">CarrierStationCode,</if>
+            <if test="paymentcode != null  and paymentcode != ''">PaymentCode,</if>
+            <if test="supplycontractno != null  and supplycontractno != ''">SupplyContractNo,</if>
+            <if test="zyunitTime != null ">zyunit_time,</if>
+            <if test="yundanNumber != null  and yundanNumber != ''">yundan_number,</if>
+            <if test="yundanWeight != null ">yundan_weight,</if>
+            <if test="yundanXweight != null ">yundan_xweight,</if>
+            <if test="yundanTotalweight != null ">yundan_totalweight,</if>
+            <if test="privateline != null  and privateline != ''">PrivateLine,</if>
+            <if test="consigneeR != null  and consigneeR != ''">Consignee_R,</if>
+            <if test="consignorR != null  and consignorR != ''">Consignor_R,</if>
+            <if test="goodsnameC != null  and goodsnameC != ''">GoodsName_C,</if>
+            <if test="goodsnameE != null  and goodsnameE != ''">GoodsName_E,</if>
+            <if test="goodsnames != null  and goodsnames != ''">GoodsNames,</if>
+            <if test="arrivalstationhs != null  and arrivalstationhs != ''">ArrivalStationHS,</if>
+            <if test="gjkouan != null  and gjkouan != ''">GJkouan,</if>
+            <if test="formalities != null  and formalities != ''">Formalities,</if>
+            <if test="maxTotalweight != null ">max_totalweight,</if>
+            <if test="maxLoad != null ">max_load,</if>
+            <if test="isoCode != null  and isoCode != ''">iso_code,</if>
+            <if test="suichestate != null  and suichestate != ''">suichestate,</if>
+            <if test="scOperator != null  and scOperator != ''">SC_Operator,</if>
+            <if test="scOperatime != null ">SC_Operatime,</if>
+            <if test="actualclassBh != null  and actualclassBh != ''">actualClass_bh,</if>
+            <if test="gwRemark != null  and gwRemark != ''">gw_remark,</if>
+            <if test="gwPiaoshu != null  and gwPiaoshu != ''">gw_piaoshu,</if>
+            <if test="gwOperator != null  and gwOperator != ''">gw_Operator,</if>
+            <if test="gwOperatime != null ">gw_Operatime,</if>
+            <if test="planunloadtime != null ">planUnloadTime,</if>
+            <if test="ydOperator != null  and ydOperator != ''">yd_Operator,</if>
+            <if test="scRemark != null  and scRemark != ''">sc_remark,</if>
+            <if test="scXsnum != null  and scXsnum != ''">sc_XSnum,</if>
+            <if test="scXsnumfee != null  and scXsnumfee != ''">sc_XSnumfee,</if>
+            <if test="scShnum != null  and scShnum != ''">sc_SHnum,</if>
+            <if test="scShnumfee != null  and scShnumfee != ''">sc_SHnumfee,</if>
+            <if test="zxWeight != null  and zxWeight != ''">zx_weight,</if>
+            <if test="dlChecktime != null ">dl_checktime,</if>
+            <if test="fenghao != null  and fenghao != ''">fenghao,</if>
+            <if test="gwfenghao != null  and gwfenghao != ''">gwfenghao,</if>
+            <if test="shifenghao != null  and shifenghao != ''">shifenghao,</if>
+            <if test="goodsname != null  and goodsname != ''">goodsname,</if>
+            <if test="consignorC != null  and consignorC != ''">Consignor_C,</if>
+            <if test="fhtime != null ">fhtime,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="costId != null  and costId != ''">#{costId},</if>
+            <if test="trackId != null ">#{trackId},</if>
+            <if test="orderId != null  and orderId != ''">#{orderId},</if>
+            <if test="orderNumber != null  and orderNumber != ''">#{orderNumber},</if>
+            <if test="xianghao != null  and xianghao != ''">#{xianghao},</if>
+            <if test="xiangxing != null  and xiangxing != ''">#{xiangxing},</if>
+            <if test="pxEntryDate != null  and pxEntryDate != ''">#{pxEntryDate},</if>
+            <if test="pxEntryTime != null  and pxEntryTime != ''">#{pxEntryTime},</if>
+            <if test="pxEnterCar != null  and pxEnterCar != ''">#{pxEnterCar},</if>
+            <if test="pxEnterLeadNumber != null  and pxEnterLeadNumber != ''">#{pxEnterLeadNumber},</if>
+            <if test="xgXiangkuang != null  and xgXiangkuang != ''">#{xgXiangkuang},</if>
+            <if test="xgIsrepair != null  and xgIsrepair != ''">#{xgIsrepair},</if>
+            <if test="xgIsmingpai != null  and xgIsmingpai != ''">#{xgIsmingpai},</if>
+            <if test="xgBoat != null  and xgBoat != ''">#{xgBoat},</if>
+            <if test="xgSend != null  and xgSend != ''">#{xgSend},</if>
+            <if test="xgCheck != null  and xgCheck != ''">#{xgCheck},</if>
+            <if test="roadIsbill != null  and roadIsbill != ''">#{roadIsbill},</if>
+            <if test="roadCheck != null  and roadCheck != ''">#{roadCheck},</if>
+            <if test="createdate != null ">#{createdate},</if>
+            <if test="createuserid != null  and createuserid != ''">#{createuserid},</if>
+            <if test="createusername != null  and createusername != ''">#{createusername},</if>
+            <if test="baoguanDocu != null  and baoguanDocu != ''">#{baoguanDocu},</if>
+            <if test="suicheDocu != null  and suicheDocu != ''">#{suicheDocu},</if>
+            <if test="waybill != null  and waybill != ''">#{waybill},</if>
+            <if test="paystate != null  and paystate != ''">#{paystate},</if>
+            <if test="gdConsignee != null  and gdConsignee != ''">#{gdConsignee},</if>
+            <if test="gdRemark != null  and gdRemark != ''">#{gdRemark},</if>
+            <if test="gdCheck != null  and gdCheck != ''">#{gdCheck},</if>
+            <if test="fayunDate != null ">#{fayunDate},</if>
+            <if test="fayunState != null  and fayunState != ''">#{fayunState},</if>
+            <if test="isJg != null  and isJg != ''">#{isJg},</if>
+            <if test="isPz != null  and isPz != ''">#{isPz},</if>
+            <if test="editRemark != null  and editRemark != ''">#{editRemark},</if>
+            <if test="xgXsphoto != null  and xgXsphoto != ''">#{xgXsphoto},</if>
+            <if test="xgXsstate != null  and xgXsstate != ''">#{xgXsstate},</if>
+            <if test="xhCheck != null  and xhCheck != ''">#{xhCheck},</if>
+            <if test="isplaneddelivery != null  and isplaneddelivery != ''">#{isplaneddelivery},</if>
+            <if test="bgcaodan != null  and bgcaodan != ''">#{bgcaodan},</if>
+            <if test="bgcaodanConfirm != null  and bgcaodanConfirm != ''">#{bgcaodanConfirm},</if>
+            <if test="documentsGive != null  and documentsGive != ''">#{documentsGive},</if>
+            <if test="weightCheck != null  and weightCheck != ''">#{weightCheck},</if>
+            <if test="customsProcess != null  and customsProcess != ''">#{customsProcess},</if>
+            <if test="bgremark != null  and bgremark != ''">#{bgremark},</if>
+            <if test="classzyNo != null  and classzyNo != ''">#{classzyNo},</if>
+            <if test="jz2Remark != null  and jz2Remark != ''">#{jz2Remark},</if>
+            <if test="rcWeight != null  and rcWeight != ''">#{rcWeight},</if>
+            <if test="jzWeight != null  and jzWeight != ''">#{jzWeight},</if>
+            <if test="carNumber != null  and carNumber != ''">#{carNumber},</if>
+            <if test="jz2data != null  and jz2data != ''">#{jz2data},</if>
+            <if test="zhengbenGive != null  and zhengbenGive != ''">#{zhengbenGive},</if>
+            <if test="yichangDate != null ">#{yichangDate},</if>
+            <if test="roadtime != null ">#{roadtime},</if>
+            <if test="gdtime != null ">#{gdtime},</if>
+            <if test="xgtime != null ">#{xgtime},</if>
+            <if test="realUnloadsite != null  and realUnloadsite != ''">#{realUnloadsite},</if>
+            <if test="mingpaiGh != null  and mingpaiGh != ''">#{mingpaiGh},</if>
+            <if test="cepianResult != null  and cepianResult != ''">#{cepianResult},</if>
+            <if test="transportDept != null  and transportDept != ''">#{transportDept},</if>
+            <if test="isjzLdbus != null  and isjzLdbus != ''">#{isjzLdbus},</if>
+            <if test="causeNojz != null  and causeNojz != ''">#{causeNojz},</if>
+            <if test="roadlogRemark != null  and roadlogRemark != ''">#{roadlogRemark},</if>
+            <if test="actualClassbh != null  and actualClassbh != ''">#{actualClassbh},</if>
+            <if test="xianghaoPlace != null  and xianghaoPlace != ''">#{xianghaoPlace},</if>
+            <if test="isApplynum != null  and isApplynum != ''">#{isApplynum},</if>
+            <if test="containerKgs != null ">#{containerKgs},</if>
+            <if test="lieshu != null  and lieshu != ''">#{lieshu},</if>
+            <if test="guanwustate != null  and guanwustate != ''">#{guanwustate},</if>
+            <if test="isunify != null  and isunify != ''">#{isunify},</if>
+            <if test="classzynoTime != null ">#{classzynoTime},</if>
+            <if test="classzynoRemark != null  and classzynoRemark != ''">#{classzynoRemark},</if>
+            <if test="consignee != null  and consignee != ''">#{consignee},</if>
+            <if test="consigneeE != null  and consigneeE != ''">#{consigneeE},</if>
+            <if test="boxBelong != null  and boxBelong != ''">#{boxBelong},</if>
+            <if test="consignor != null  and consignor != ''">#{consignor},</if>
+            <if test="consignorstate != null  and consignorstate != ''">#{consignorstate},</if>
+            <if test="goodsnamehs != null  and goodsnamehs != ''">#{goodsnamehs},</if>
+            <if test="arrivalstation != null  and arrivalstation != ''">#{arrivalstation},</if>
+            <if test="cbxwarehouse != null  and cbxwarehouse != ''">#{cbxwarehouse},</if>
+            <if test="carrierstationcode != null  and carrierstationcode != ''">#{carrierstationcode},</if>
+            <if test="paymentcode != null  and paymentcode != ''">#{paymentcode},</if>
+            <if test="supplycontractno != null  and supplycontractno != ''">#{supplycontractno},</if>
+            <if test="zyunitTime != null ">#{zyunitTime},</if>
+            <if test="yundanNumber != null  and yundanNumber != ''">#{yundanNumber},</if>
+            <if test="yundanWeight != null ">#{yundanWeight},</if>
+            <if test="yundanXweight != null ">#{yundanXweight},</if>
+            <if test="yundanTotalweight != null ">#{yundanTotalweight},</if>
+            <if test="privateline != null  and privateline != ''">#{privateline},</if>
+            <if test="consigneeR != null  and consigneeR != ''">#{consigneeR},</if>
+            <if test="consignorR != null  and consignorR != ''">#{consignorR},</if>
+            <if test="goodsnameC != null  and goodsnameC != ''">#{goodsnameC},</if>
+            <if test="goodsnameE != null  and goodsnameE != ''">#{goodsnameE},</if>
+            <if test="goodsnames != null  and goodsnames != ''">#{goodsnames},</if>
+            <if test="arrivalstationhs != null  and arrivalstationhs != ''">#{arrivalstationhs},</if>
+            <if test="gjkouan != null  and gjkouan != ''">#{gjkouan},</if>
+            <if test="formalities != null  and formalities != ''">#{formalities},</if>
+            <if test="maxTotalweight != null ">#{maxTotalweight},</if>
+            <if test="maxLoad != null ">#{maxLoad},</if>
+            <if test="isoCode != null  and isoCode != ''">#{isoCode},</if>
+            <if test="suichestate != null  and suichestate != ''">#{suichestate},</if>
+            <if test="scOperator != null  and scOperator != ''">#{scOperator},</if>
+            <if test="scOperatime != null ">#{scOperatime},</if>
+            <if test="actualclassBh != null  and actualclassBh != ''">#{actualclassBh},</if>
+            <if test="gwRemark != null  and gwRemark != ''">#{gwRemark},</if>
+            <if test="gwPiaoshu != null  and gwPiaoshu != ''">#{gwPiaoshu},</if>
+            <if test="gwOperator != null  and gwOperator != ''">#{gwOperator},</if>
+            <if test="gwOperatime != null ">#{gwOperatime},</if>
+            <if test="planunloadtime != null ">#{planunloadtime},</if>
+            <if test="ydOperator != null  and ydOperator != ''">#{ydOperator},</if>
+            <if test="scRemark != null  and scRemark != ''">#{scRemark},</if>
+            <if test="scXsnum != null  and scXsnum != ''">#{scXsnum},</if>
+            <if test="scXsnumfee != null  and scXsnumfee != ''">#{scXsnumfee},</if>
+            <if test="scShnum != null  and scShnum != ''">#{scShnum},</if>
+            <if test="scShnumfee != null  and scShnumfee != ''">#{scShnumfee},</if>
+            <if test="zxWeight != null  and zxWeight != ''">#{zxWeight},</if>
+            <if test="dlChecktime != null ">#{dlChecktime},</if>
+            <if test="fenghao != null  and fenghao != ''">#{fenghao},</if>
+            <if test="gwfenghao != null  and gwfenghao != ''">#{gwfenghao},</if>
+            <if test="shifenghao != null  and shifenghao != ''">#{shifenghao},</if>
+            <if test="goodsname != null  and goodsname != ''">#{goodsname},</if>
+            <if test="consignorC != null  and consignorC != ''">#{consignorC},</if>
+            <if test="fhtime != null ">#{fhtime},</if>
+         </trim>
+    </insert>
+
+    <!--通过托书id、箱号更新中亚表-->
+    <update id="updateBusiZyInfoByXh" parameterType="com.szhbl.project.order.domain.BusiZyInfo">
+        update busi_zy_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="trackId != null ">track_id = #{trackId},</if>
+            <if test="orderId != null  and orderId != ''">order_id = #{orderId},</if>
+            <if test="orderNumber != null  and orderNumber != ''">order_number = #{orderNumber},</if>
+            <if test="xianghao != null  and xianghao != ''">xianghao = #{xianghao},</if>
+            <if test="xiangxing != null  and xiangxing != ''">xiangxing = #{xiangxing},</if>
+            <if test="pxEntryDate != null  and pxEntryDate != ''">px_entry_date = #{pxEntryDate},</if>
+            <if test="pxEntryTime != null  and pxEntryTime != ''">px_entry_time = #{pxEntryTime},</if>
+            <if test="pxEnterCar != null  and pxEnterCar != ''">px_enter_car = #{pxEnterCar},</if>
+            <if test="pxEnterLeadNumber != null  and pxEnterLeadNumber != ''">px_enter_lead_number = #{pxEnterLeadNumber},</if>
+            <if test="xgXiangkuang != null  and xgXiangkuang != ''">xg_xiangkuang = #{xgXiangkuang},</if>
+            <if test="xgIsrepair != null  and xgIsrepair != ''">xg_isrepair = #{xgIsrepair},</if>
+            <if test="xgIsmingpai != null  and xgIsmingpai != ''">xg_ismingpai = #{xgIsmingpai},</if>
+            <if test="xgBoat != null  and xgBoat != ''">xg_boat = #{xgBoat},</if>
+            <if test="xgSend != null  and xgSend != ''">xg_send = #{xgSend},</if>
+            <if test="xgCheck != null  and xgCheck != ''">xg_check = #{xgCheck},</if>
+            <if test="roadIsbill != null  and roadIsbill != ''">road_isbill = #{roadIsbill},</if>
+            <if test="roadCheck != null  and roadCheck != ''">road_check = #{roadCheck},</if>
+            <if test="createdate != null ">createdate = #{createdate},</if>
+            <if test="createuserid != null  and createuserid != ''">createuserid = #{createuserid},</if>
+            <if test="createusername != null  and createusername != ''">createusername = #{createusername},</if>
+            <if test="baoguanDocu != null  and baoguanDocu != ''">baoguan_docu = #{baoguanDocu},</if>
+            <if test="suicheDocu != null  and suicheDocu != ''">suiche_docu = #{suicheDocu},</if>
+            <if test="waybill != null  and waybill != ''">waybill = #{waybill},</if>
+            <if test="paystate != null  and paystate != ''">paystate = #{paystate},</if>
+            <if test="gdConsignee != null  and gdConsignee != ''">gd_consignee = #{gdConsignee},</if>
+            <if test="gdRemark != null  and gdRemark != ''">gd_remark = #{gdRemark},</if>
+            <if test="gdCheck != null  and gdCheck != ''">gd_check = #{gdCheck},</if>
+            <if test="fayunDate != null ">fayun_date = #{fayunDate},</if>
+            <if test="fayunState != null  and fayunState != ''">fayun_state = #{fayunState},</if>
+            <if test="isJg != null  and isJg != ''">is_jg = #{isJg},</if>
+            <if test="isPz != null  and isPz != ''">is_pz = #{isPz},</if>
+            <if test="editRemark != null  and editRemark != ''">edit_remark = #{editRemark},</if>
+            <if test="xgXsphoto != null  and xgXsphoto != ''">xg_xsphoto = #{xgXsphoto},</if>
+            <if test="xgXsstate != null  and xgXsstate != ''">xg_xsstate = #{xgXsstate},</if>
+            <if test="xhCheck != null  and xhCheck != ''">xh_check = #{xhCheck},</if>
+            <if test="isplaneddelivery != null  and isplaneddelivery != ''">isPlanedDelivery = #{isplaneddelivery},</if>
+            <if test="bgcaodan != null  and bgcaodan != ''">bgcaodan = #{bgcaodan},</if>
+            <if test="bgcaodanConfirm != null  and bgcaodanConfirm != ''">bgcaodan_confirm = #{bgcaodanConfirm},</if>
+            <if test="documentsGive != null  and documentsGive != ''">documents_give = #{documentsGive},</if>
+            <if test="weightCheck != null  and weightCheck != ''">weight_Check = #{weightCheck},</if>
+            <if test="customsProcess != null  and customsProcess != ''">customs_process = #{customsProcess},</if>
+            <if test="bgremark != null  and bgremark != ''">bgremark = #{bgremark},</if>
+            <if test="classzyNo != null  and classzyNo != ''">classzy_no = #{classzyNo},</if>
+            <if test="jz2Remark != null  and jz2Remark != ''">jz2_remark = #{jz2Remark},</if>
+            <if test="rcWeight != null  and rcWeight != ''">rc_weight = #{rcWeight},</if>
+            <if test="jzWeight != null  and jzWeight != ''">jz_weight = #{jzWeight},</if>
+            <if test="carNumber != null  and carNumber != ''">car_number = #{carNumber},</if>
+            <if test="jz2data != null  and jz2data != ''">jz2data = #{jz2data},</if>
+            <if test="zhengbenGive != null  and zhengbenGive != ''">zhengben_give = #{zhengbenGive},</if>
+            <if test="yichangDate != null ">yichang_date = #{yichangDate},</if>
+            <if test="roadtime != null ">roadtime = #{roadtime},</if>
+            <if test="gdtime != null ">gdtime = #{gdtime},</if>
+            <if test="xgtime != null ">xgtime = #{xgtime},</if>
+            <if test="realUnloadsite != null  and realUnloadsite != ''">Real_unloadSite = #{realUnloadsite},</if>
+            <if test="mingpaiGh != null  and mingpaiGh != ''">mingpai_gh = #{mingpaiGh},</if>
+            <if test="cepianResult != null  and cepianResult != ''">cepian_result = #{cepianResult},</if>
+            <if test="transportDept != null  and transportDept != ''">transport_Dept = #{transportDept},</if>
+            <if test="isjzLdbus != null  and isjzLdbus != ''">ISJZ_LDbus = #{isjzLdbus},</if>
+            <if test="causeNojz != null  and causeNojz != ''">cause_nojz = #{causeNojz},</if>
+            <if test="roadlogRemark != null  and roadlogRemark != ''">roadlog_remark = #{roadlogRemark},</if>
+            <if test="actualClassbh != null  and actualClassbh != ''">Actual_classbh = #{actualClassbh},</if>
+            <if test="xianghaoPlace != null  and xianghaoPlace != ''">xianghao_place = #{xianghaoPlace},</if>
+            <if test="isApplynum != null  and isApplynum != ''">is_applynum = #{isApplynum},</if>
+            <if test="containerKgs != null ">container_kgs = #{containerKgs},</if>
+            <if test="lieshu != null  and lieshu != ''">lieshu = #{lieshu},</if>
+            <if test="isunify != null  and isunify != ''">isunify = #{isunify},</if>
+            <if test="classzynoTime != null ">classzyno_time = #{classzynoTime},</if>
+            <if test="classzynoRemark != null  and classzynoRemark != ''">classzyno_remark = #{classzynoRemark},</if>
+            <if test="consignee != null  and consignee != ''">Consignee = #{consignee},</if>
+            <if test="consigneeE != null  and consigneeE != ''">Consignee_E = #{consigneeE},</if>
+            <if test="boxBelong != null  and boxBelong != ''">Box_belong = #{boxBelong},</if>
+            <if test="consignor != null  and consignor != ''">Consignor = #{consignor},</if>
+            <if test="consignorstate != null  and consignorstate != ''">ConsignorState = #{consignorstate},</if>
+            <if test="goodsnamehs != null  and goodsnamehs != ''">GoodsNameHS = #{goodsnamehs},</if>
+            <if test="arrivalstation != null  and arrivalstation != ''">ArrivalStation = #{arrivalstation},</if>
+            <if test="cbxwarehouse != null  and cbxwarehouse != ''">CBXWarehouse = #{cbxwarehouse},</if>
+            <if test="carrierstationcode != null  and carrierstationcode != ''">CarrierStationCode = #{carrierstationcode},</if>
+            <if test="paymentcode != null  and paymentcode != ''">PaymentCode = #{paymentcode},</if>
+            <if test="supplycontractno != null  and supplycontractno != ''">SupplyContractNo = #{supplycontractno},</if>
+            <if test="zyunitTime != null ">zyunit_time = #{zyunitTime},</if>
+            <if test="yundanNumber != null  and yundanNumber != ''">yundan_number = #{yundanNumber},</if>
+            <if test="yundanWeight != null ">yundan_weight = #{yundanWeight},</if>
+            <if test="yundanXweight != null ">yundan_xweight = #{yundanXweight},</if>
+            <if test="yundanTotalweight != null ">yundan_totalweight = #{yundanTotalweight},</if>
+            <if test="privateline != null  and privateline != ''">PrivateLine = #{privateline},</if>
+            <if test="consigneeR != null  and consigneeR != ''">Consignee_R = #{consigneeR},</if>
+            <if test="consignorR != null  and consignorR != ''">Consignor_R = #{consignorR},</if>
+            <if test="goodsnameC != null  and goodsnameC != ''">GoodsName_C = #{goodsnameC},</if>
+            <if test="goodsnameE != null  and goodsnameE != ''">GoodsName_E = #{goodsnameE},</if>
+            <if test="goodsnames != null  and goodsnames != ''">GoodsNames = #{goodsnames},</if>
+            <if test="arrivalstationhs != null  and arrivalstationhs != ''">ArrivalStationHS = #{arrivalstationhs},</if>
+            <if test="gjkouan != null  and gjkouan != ''">GJkouan = #{gjkouan},</if>
+            <if test="formalities != null  and formalities != ''">Formalities = #{formalities},</if>
+            <if test="maxTotalweight != null ">max_totalweight = #{maxTotalweight},</if>
+            <if test="maxLoad != null ">max_load = #{maxLoad},</if>
+            <if test="isoCode != null  and isoCode != ''">iso_code = #{isoCode},</if>
+            <if test="suichestate != null  and suichestate != ''">suichestate = #{suichestate},</if>
+            <if test="scOperator != null  and scOperator != ''">SC_Operator = #{scOperator},</if>
+            <if test="scOperatime != null ">SC_Operatime = #{scOperatime},</if>
+            <if test="actualclassBh != null  and actualclassBh != ''">actualClass_bh = #{actualclassBh},</if>
+            <if test="guanwustate != null  and guanwustate != ''">guanwustate = #{guanwustate},</if>
+            <if test="guanwustate == null  and guanwustateS == 1">guanwustate = null,</if>
+            <if test="gwRemark != null  and gwRemark != ''">gw_remark = #{gwRemark},</if>
+            <if test="gwRemark == null  and gwRemarkS == 1">gw_remark = null,</if>
+            <if test="gwPiaoshu != null  and gwPiaoshu != ''">gw_piaoshu = #{gwPiaoshu},</if>
+            <if test="gwOperator != null  and gwOperator != ''">gw_Operator = #{gwOperator},</if>
+            <if test="gwOperatime != null ">gw_Operatime = #{gwOperatime},</if>
+            <if test="planunloadtime != null ">planUnloadTime = #{planunloadtime},</if>
+            <if test="ydOperator != null  and ydOperator != ''">yd_Operator = #{ydOperator},</if>
+            <if test="scRemark != null  and scRemark != ''">sc_remark = #{scRemark},</if>
+            <if test="scXsnum != null  and scXsnum != ''">sc_XSnum = #{scXsnum},</if>
+            <if test="scXsnumfee != null  and scXsnumfee != ''">sc_XSnumfee = #{scXsnumfee},</if>
+            <if test="scShnum != null  and scShnum != ''">sc_SHnum = #{scShnum},</if>
+            <if test="scShnumfee != null  and scShnumfee != ''">sc_SHnumfee = #{scShnumfee},</if>
+            <if test="zxWeight != null  and zxWeight != ''">zx_weight = #{zxWeight},</if>
+            <if test="dlChecktime != null ">dl_checktime = #{dlChecktime},</if>
+            <if test="fenghao != null  and fenghao != ''">fenghao = #{fenghao},</if>
+            <if test="gwfenghao != null  and gwfenghao != ''">gwfenghao = #{gwfenghao},</if>
+            <if test="shifenghao != null  and shifenghao != ''">shifenghao = #{shifenghao},</if>
+            <if test="goodsname != null  and goodsname != ''">goodsname = #{goodsname},</if>
+            <if test="consignorC != null  and consignorC != ''">Consignor_C = #{consignorC},</if>
+            <if test="fhtime != null ">fhtime = #{fhtime},</if>
+        </trim>
+        where order_id = #{orderId} and xianghao = #{xianghao}
+    </update>
+
+    <!--通过托书id、箱号更新中亚表-->
+    <update id="updateZmdcByXh" parameterType="com.szhbl.project.order.domain.BusiZyInfo">
+        update busi_zy_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="xianghao != null  and xianghao != ''">xianghao = #{xianghao},</if>
+            <if test="cepianResult != null  and cepianResult != ''">cepian_result = #{cepianResult},</if>
+        </trim>
+        where order_id = #{orderId} and xianghao = #{xianghao} and del_flag = '0'
+    </update>
+
+    <!--进站跟踪-通过货物状态表id更新中亚表-->
+    <update id="updateBusiZyInfoByTrackId" parameterType="com.szhbl.project.order.domain.BusiZyInfo">
+        update busi_zy_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createdate != null ">createdate = #{createdate},</if>
+            <if test="createuserid != null  and createuserid != ''">createuserid = #{createuserid},</if>
+            <if test="createusername != null  and createusername != ''">createusername = #{createusername},</if>
+            <if test="lieshu != null  and lieshu != ''">lieshu = #{lieshu},</if>
+        </trim>
+        where track_id in
+        <foreach item="id" collection="trackIdsArr" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <!--进站跟踪-通过托书id、箱号更新中亚表-->
+    <update id="updateBusiZyInfoByTrackOrder" parameterType="com.szhbl.project.order.domain.BusiZyInfo">
+        update busi_zy_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="trackId != null ">track_id = #{trackId},</if>
+            <if test="orderNumber != null  and orderNumber != ''">order_number = #{orderNumber},</if>
+            <if test="createdate != null ">createdate = #{createdate},</if>
+            <if test="createuserid != null  and createuserid != ''">createuserid = #{createuserid},</if>
+            <if test="createusername != null  and createusername != ''">createusername = #{createusername},</if>
+            <if test="classzyNo != null  and classzyNo != ''">classzy_no = #{classzyNo},</if>
+            <if test="classzyNoS == 1">classzy_no = null,</if>
+            <if test="classzynoTime != null ">classzyno_time = #{classzynoTime},</if>
+            <if test="classzynoRemark != null  and classzynoRemark != ''">classzyno_remark = concat(IFNULL(classzyno_remark,''),#{classzynoRemark}),</if>
+            <if test="lieshu != null  and lieshu != ''">lieshu = #{lieshu},</if>
+        </trim>
+        where order_id = #{orderId} and xianghao = #{xianghao}
+    </update>
+
+    <update id="updateBusiZyInfo" parameterType="BusiZyInfo">
+        update busi_zy_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="trackId != null ">track_id = #{trackId},</if>
+            <if test="orderId != null  and orderId != ''">order_id = #{orderId},</if>
+            <if test="orderNumber != null  and orderNumber != ''">order_number = #{orderNumber},</if>
+            <if test="xianghao != null  and xianghao != ''">xianghao = #{xianghao},</if>
+            <if test="xiangxing != null  and xiangxing != ''">xiangxing = #{xiangxing},</if>
+            <if test="pxEntryDate != null  and pxEntryDate != ''">px_entry_date = #{pxEntryDate},</if>
+            <if test="pxEntryTime != null  and pxEntryTime != ''">px_entry_time = #{pxEntryTime},</if>
+            <if test="pxEnterCar != null  and pxEnterCar != ''">px_enter_car = #{pxEnterCar},</if>
+            <if test="pxEnterLeadNumber != null  and pxEnterLeadNumber != ''">px_enter_lead_number = #{pxEnterLeadNumber},</if>
+            <if test="xgXiangkuang != null  and xgXiangkuang != ''">xg_xiangkuang = #{xgXiangkuang},</if>
+            <if test="xgIsrepair != null  and xgIsrepair != ''">xg_isrepair = #{xgIsrepair},</if>
+            <if test="xgIsmingpai != null  and xgIsmingpai != ''">xg_ismingpai = #{xgIsmingpai},</if>
+            <if test="xgBoat != null  and xgBoat != ''">xg_boat = #{xgBoat},</if>
+            <if test="xgSend != null  and xgSend != ''">xg_send = #{xgSend},</if>
+            <if test="xgCheck != null  and xgCheck != ''">xg_check = #{xgCheck},</if>
+            <if test="roadIsbill != null  and roadIsbill != ''">road_isbill = #{roadIsbill},</if>
+            <if test="roadCheck != null  and roadCheck != ''">road_check = #{roadCheck},</if>
+            <if test="createdate != null ">createdate = #{createdate},</if>
+            <if test="createuserid != null  and createuserid != ''">createuserid = #{createuserid},</if>
+            <if test="createusername != null  and createusername != ''">createusername = #{createusername},</if>
+            <if test="baoguanDocu != null  and baoguanDocu != ''">baoguan_docu = #{baoguanDocu},</if>
+            <if test="suicheDocu != null  and suicheDocu != ''">suiche_docu = #{suicheDocu},</if>
+            <if test="waybill != null  and waybill != ''">waybill = #{waybill},</if>
+            <if test="paystate != null  and paystate != ''">paystate = #{paystate},</if>
+            <if test="gdConsignee != null  and gdConsignee != ''">gd_consignee = #{gdConsignee},</if>
+            <if test="gdRemark != null  and gdRemark != ''">gd_remark = #{gdRemark},</if>
+            <if test="gdCheck != null  and gdCheck != ''">gd_check = #{gdCheck},</if>
+            <if test="fayunDate != null ">fayun_date = #{fayunDate},</if>
+            <if test="fayunState != null  and fayunState != ''">fayun_state = #{fayunState},</if>
+            <if test="isJg != null  and isJg != ''">is_jg = #{isJg},</if>
+            <if test="isPz != null  and isPz != ''">is_pz = #{isPz},</if>
+            <if test="editRemark != null  and editRemark != ''">edit_remark = #{editRemark},</if>
+            <if test="xgXsphoto != null  and xgXsphoto != ''">xg_xsphoto = #{xgXsphoto},</if>
+            <if test="xgXsstate != null  and xgXsstate != ''">xg_xsstate = #{xgXsstate},</if>
+            <if test="xhCheck != null  and xhCheck != ''">xh_check = #{xhCheck},</if>
+            <if test="isplaneddelivery != null  and isplaneddelivery != ''">isPlanedDelivery = #{isplaneddelivery},</if>
+            <if test="bgcaodan != null  and bgcaodan != ''">bgcaodan = #{bgcaodan},</if>
+            <if test="bgcaodanConfirm != null  and bgcaodanConfirm != ''">bgcaodan_confirm = #{bgcaodanConfirm},</if>
+            <if test="documentsGive != null  and documentsGive != ''">documents_give = #{documentsGive},</if>
+            <if test="weightCheck != null  and weightCheck != ''">weight_Check = #{weightCheck},</if>
+            <if test="customsProcess != null  and customsProcess != ''">customs_process = #{customsProcess},</if>
+            <if test="bgremark != null  and bgremark != ''">bgremark = #{bgremark},</if>
+            <if test="classzyNo != null  and classzyNo != ''">classzy_no = #{classzyNo},</if>
+            <if test="jz2Remark != null  and jz2Remark != ''">jz2_remark = #{jz2Remark},</if>
+            <if test="rcWeight != null  and rcWeight != ''">rc_weight = #{rcWeight},</if>
+            <if test="jzWeight != null  and jzWeight != ''">jz_weight = #{jzWeight},</if>
+            <if test="carNumber != null  and carNumber != ''">car_number = #{carNumber},</if>
+            <if test="jz2data != null  and jz2data != ''">jz2data = #{jz2data},</if>
+            <if test="zhengbenGive != null  and zhengbenGive != ''">zhengben_give = #{zhengbenGive},</if>
+            <if test="yichangDate != null ">yichang_date = #{yichangDate},</if>
+            <if test="roadtime != null ">roadtime = #{roadtime},</if>
+            <if test="gdtime != null ">gdtime = #{gdtime},</if>
+            <if test="xgtime != null ">xgtime = #{xgtime},</if>
+            <if test="realUnloadsite != null  and realUnloadsite != ''">Real_unloadSite = #{realUnloadsite},</if>
+            <if test="mingpaiGh != null  and mingpaiGh != ''">mingpai_gh = #{mingpaiGh},</if>
+            <if test="cepianResult != null  and cepianResult != ''">cepian_result = #{cepianResult},</if>
+            <if test="transportDept != null  and transportDept != ''">transport_Dept = #{transportDept},</if>
+            <if test="isjzLdbus != null  and isjzLdbus != ''">ISJZ_LDbus = #{isjzLdbus},</if>
+            <if test="causeNojz != null  and causeNojz != ''">cause_nojz = #{causeNojz},</if>
+            <if test="roadlogRemark != null  and roadlogRemark != ''">roadlog_remark = #{roadlogRemark},</if>
+            <if test="actualClassbh != null  and actualClassbh != ''">Actual_classbh = #{actualClassbh},</if>
+            <if test="xianghaoPlace != null  and xianghaoPlace != ''">xianghao_place = #{xianghaoPlace},</if>
+            <if test="isApplynum != null  and isApplynum != ''">is_applynum = #{isApplynum},</if>
+            <if test="containerKgs != null ">container_kgs = #{containerKgs},</if>
+            <if test="lieshu != null  and lieshu != ''">lieshu = #{lieshu},</if>
+            <if test="guanwustate != null  and guanwustate != ''">guanwustate = #{guanwustate},</if>
+            <if test="isunify != null  and isunify != ''">isunify = #{isunify},</if>
+            <if test="classzynoTime != null ">classzyno_time = #{classzynoTime},</if>
+            <if test="classzynoRemark != null  and classzynoRemark != ''">classzyno_remark = #{classzynoRemark},</if>
+            <if test="consignee != null  and consignee != ''">Consignee = #{consignee},</if>
+            <if test="consigneeE != null  and consigneeE != ''">Consignee_E = #{consigneeE},</if>
+            <if test="boxBelong != null  and boxBelong != ''">Box_belong = #{boxBelong},</if>
+            <if test="consignor != null  and consignor != ''">Consignor = #{consignor},</if>
+            <if test="consignorstate != null  and consignorstate != ''">ConsignorState = #{consignorstate},</if>
+            <if test="goodsnamehs != null  and goodsnamehs != ''">GoodsNameHS = #{goodsnamehs},</if>
+            <if test="arrivalstation != null  and arrivalstation != ''">ArrivalStation = #{arrivalstation},</if>
+            <if test="cbxwarehouse != null  and cbxwarehouse != ''">CBXWarehouse = #{cbxwarehouse},</if>
+            <if test="carrierstationcode != null  and carrierstationcode != ''">CarrierStationCode = #{carrierstationcode},</if>
+            <if test="paymentcode != null  and paymentcode != ''">PaymentCode = #{paymentcode},</if>
+            <if test="supplycontractno != null  and supplycontractno != ''">SupplyContractNo = #{supplycontractno},</if>
+            <if test="zyunitTime != null ">zyunit_time = #{zyunitTime},</if>
+        </trim>
+        where cost_id = #{costId}
+    </update>
+
+    <!--通过托书id、箱号删除中亚表-->
+    <delete id="deleteZyInfoByTrack" parameterType="string">
+        update busi_zy_info set del_flag = '1' where order_id = #{orderId} and xianghao = #{xianghao}
+    </delete>
+
+    <!--通过货物状态表id删除中亚表-->
+    <delete id="deleteZyInfoByTrackId" parameterType="integer">
+        update busi_zy_info set del_flag = '1' where track_id = #{trackId}
+    </delete>
+
+    <delete id="deleteBusiZyInfoById" parameterType="String">
+        delete from busi_zy_info where cost_id = #{costId}
+    </delete>
+
+    <delete id="deleteBusiZyInfoByIds" parameterType="String">
+        delete from busi_zy_info where cost_id in 
+        <foreach item="costId" collection="array" open="(" separator="," close=")">
+            #{costId}
+        </foreach>
+    </delete>
+
+    <!--大口岸中亚运单推送-->
+    <select id="selectZyFyCostId" parameterType="string" resultType="string">
+        select cost_id from busi_zy_info where zyunit_time is not null
+    </select>
+
+    <!--订舱组查看-通过托书id更新中亚表-->
+    <update id="updateZyInfoByOrder" parameterType="com.szhbl.project.order.domain.BusiZyInfo">
+        update busi_zy_info set createdate = #{createdate} where order_id = #{orderId}
+    </update>
+    
+</mapper>

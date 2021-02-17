@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.basic.mapper.DangerousGoodsMapper">
+
+    <resultMap type="DangerousGoods" id="DangerousGoodsResult">
+        <result property="goodsId"    column="goods_ID"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="goodsEnName"    column="goods_en_name"    />
+        <result property="goodsReport"    column="goods_report"    />
+        <result property="goodsClearance"    column="goods_clearance"    />
+        <result property="specialremark"    column="specialremark"    />
+        <result property="specialEnRemark"    column="special_en_remark"    />
+        <result property="noteLevel"    column="note_level"    />
+        <result property="createdate"    column="createdate"    />
+    </resultMap>
+
+    <sql id="selectDangerousGoodsVo">
+        select goods_ID, goods_name, goods_en_name,goods_report,goods_clearance,specialremark,special_en_remark,note_level,createdate from busi_shippingorder_dangerous_goods
+    </sql>
+
+    <select id="selectDangerousGoodsList" parameterType="DangerousGoods" resultMap="DangerousGoodsResult">
+        <include refid="selectDangerousGoodsVo"/>
+        <where>
+            <if test="goodsName != null  and goodsName != ''"> and goods_name like concat('%', #{goodsName}, '%')</if>
+            <if test="goodsEnName != null  and goodsEnName != ''"> and goods_en_name like concat('%', #{goodsEnName}, '%')</if>
+            <if test="goodsReport != null  and goodsReport != ''"> and goods_report = #{goodsReport}</if>
+            <if test="goodsClearance != null  and goodsClearance != ''"> and goods_clearance = #{goodsClearance}</if>
+            <if test="noteLevel != null  and noteLevel != ''"> and note_level = #{noteLevel}</if>
+            <if test="createdate != null "> and createdate = #{createdate}</if>
+        </where>
+    </select>
+
+    <select id="selectDangerousGoodsById" parameterType="String" resultMap="DangerousGoodsResult">
+        <include refid="selectDangerousGoodsVo"/>
+        where goods_ID = #{goodsId}
+    </select>
+
+    <!--查询危险品和疑似危险品备注-->
+    <select id="selectDangerousGoodsByName" parameterType="String" resultMap="DangerousGoodsResult">
+        <include refid="selectDangerousGoodsVo"/>
+        where goods_name = #{goodsName} or goods_en_name = #{goodsName} order by createdate desc limit 1
+    </select>
+
+    <!--查询危险品-->
+    <select id="selectDangerousGoodsByNameByLevel" parameterType="String" resultMap="DangerousGoodsResult">
+        <include refid="selectDangerousGoodsVo"/>
+        where (goods_name = #{goodsName} or goods_en_name = #{goodsEnName}) and note_level = 0 order by createdate desc limit 1
+    </select>
+    <select id="selectReportHsByNameByLevel" parameterType="String" resultMap="DangerousGoodsResult">
+        <include refid="selectDangerousGoodsVo"/>
+        where goods_report = #{goodsReport} and note_level = 0 order by createdate desc limit 1
+    </select>
+    <select id="selectClearanceHsByNameByLevel" parameterType="String" resultMap="DangerousGoodsResult">
+        <include refid="selectDangerousGoodsVo"/>
+        where goods_clearance = #{goodsClearance} and note_level = 0 order by createdate desc limit 1
+    </select>
+
+    <!--查询危险品备注-->
+    <select id="selectDanGoodsByName" parameterType="DangerousGoods" resultMap="DangerousGoodsResult">
+        <include refid="selectDangerousGoodsVo"/>
+        where (#{goodsName} like concat('%', `goods_name`, '%')) or (#{goodsEnName} like concat('%', `goods_en_name`, '%')) and goods_name !='' and goods_en_name !=''
+    </select>
+    <select id="selectDanGoodsByReportHs" parameterType="DangerousGoods" resultMap="DangerousGoodsResult">
+        <include refid="selectDangerousGoodsVo"/>
+        where #{goodsReport} like concat('%', `goods_report`, '%') and goods_report !=''
+    </select>
+    <select id="selectDanGoodsByClearanceHs" parameterType="DangerousGoods" resultMap="DangerousGoodsResult">
+        <include refid="selectDangerousGoodsVo"/>
+        where #{goodsClearance} like concat('%', `goods_clearance`, '%') and goods_clearance !=''
+    </select>
+
+
+    <insert id="insertDangerousGoods" parameterType="DangerousGoods">
+        insert into busi_shippingorder_dangerous_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null  and goodsId != ''">goods_ID,</if>
+            <if test="goodsName != null  and goodsName != ''">goods_name,</if>
+            <if test="goodsEnName != null  and goodsEnName != ''">goods_en_name,</if>
+            <if test="goodsReport != null  and goodsReport != ''">goods_report,</if>
+            <if test="goodsClearance != null  and goodsClearance != ''">goods_clearance,</if>
+            <if test="specialremark != null  and specialremark != ''">specialremark,</if>
+            <if test="specialEnRemark != null  and specialEnRemark != ''">special_en_remark,</if>
+            <if test="noteLevel != null  and noteLevel != ''">note_level,</if>
+            <if test="createdate != null ">createdate,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null  and goodsId != ''">#{goodsId},</if>
+            <if test="goodsName != null  and goodsName != ''">#{goodsName},</if>
+            <if test="goodsEnName != null  and goodsEnName != ''">#{goodsEnName},</if>
+            <if test="goodsReport != null  and goodsReport != ''">#{goodsReport},</if>
+            <if test="goodsClearance != null  and goodsClearance != ''">#{goodsClearance},</if>
+            <if test="specialremark != null  and specialremark != ''">#{specialremark},</if>
+            <if test="specialEnRemark != null  and specialEnRemark != ''">#{specialEnRemark},</if>
+            <if test="noteLevel != null  and noteLevel != ''">#{noteLevel},</if>
+            <if test="createdate != null ">#{createdate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDangerousGoods" parameterType="DangerousGoods">
+        update busi_shippingorder_dangerous_goods
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="goodsName != null  and goodsName != ''">goods_name = #{goodsName},</if>
+            <if test="goodsEnName != null  and goodsEnName != ''">goods_en_name = #{goodsEnName},</if>
+            <if test="goodsReport != null  and goodsReport != ''">goods_report = #{goodsReport},</if>
+            <if test="goodsClearance != null  and goodsClearance != ''">goods_clearance = #{goodsClearance},</if>
+            <if test="specialremark != null  and specialremark != ''">specialremark = #{specialremark},</if>
+            <if test="specialEnRemark != null  and specialEnRemark != ''">special_en_remark = #{specialEnRemark},</if>
+            <if test="noteLevel != null  and noteLevel != ''">note_level = #{noteLevel},</if>
+            <if test="createdate != null ">createdate = #{createdate},</if>
+        </trim>
+        where goods_ID = #{goodsId}
+    </update>
+
+    <delete id="deleteDangerousGoodsById" parameterType="String">
+        delete from busi_shippingorder_dangerous_goods where goods_ID = #{goodsId}
+    </delete>
+
+    <delete id="deleteDangerousGoodsByIds" parameterType="String">
+        delete from busi_shippingorder_dangerous_goods where goods_ID in 
+        <foreach item="goodsId" collection="array" open="(" separator="," close=")">
+            #{goodsId}
+        </foreach>
+    </delete>
+    <!--根据中文名称检索英文名称-->
+    <select id="getCnEnName" parameterType="String" resultMap="DangerousGoodsResult">
+        <include refid="selectDangerousGoodsVo"/>
+        <where>
+            <if test="language != null  and language == 'en'">
+                and goods_en_name = #{name}
+            </if>
+            <if test="language != null  and language == 'zh'">
+                and goods_name = #{name}
+            </if>
+        </where>
+        limit 1
+    </select>
+
+</mapper>

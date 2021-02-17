@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.enquiry.mapper.ShRailDivisionMapper">
+    
+    <resultMap type="ShRailDivision" id="ShRailDivisionResult">
+        <result property="id"    column="id"    />
+        <result property="lineType"    column="line_type"    />
+        <result property="orderUploadSite"    column="order_upload_site"    />
+        <result property="orderUnloadSite"    column="order_unload_site"    />
+        <result property="lclFreight"    column="lcl_freight"    />
+        <result property="orderUploadSiteCost"    column="order_upload_site_cost"    />
+        <result property="orderUnloadSiteBacost"    column="order_unload_site_bacost"    />
+        <result property="minVolume"    column="min_volume"    />
+        <result property="maxVolume"    column="max_volume"    />
+        <result property="minVolumeCost"    column="min_volume_cost"    />
+        <result property="middleVolumeCost"    column="middle_volume_cost"    />
+        <result property="maxVolumeCost"    column="max_volume_cost"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="validStartDate"    column="valid_start_date"    />
+        <result property="validEndDate"    column="valid_end_date"    />
+        <result property="containerType"    column="container_type"    />
+        <result property="eastOrWest"    column="east_or_west"    />
+        <result property="containerTypeValue"    column="container_type_value"    />
+    </resultMap>
+
+    <sql id="selectShRailDivisionVo">
+        select id, line_type, order_upload_site, order_unload_site, lcl_freight, order_upload_site_cost, order_unload_site_bacost, min_volume, max_volume, min_volume_cost, middle_volume_cost, max_volume_cost, del_flag, create_by, create_time, update_by, update_time, remark,valid_start_date,valid_end_date ,container_type,east_or_west,container_type_value from sh_rail_division
+    </sql>
+
+    <select id="selectShRailDivisionList" parameterType="ShRailDivision" resultMap="ShRailDivisionResult">
+        <include refid="selectShRailDivisionVo"/>
+        <where>  
+            <if test="lineType != null  and lineType != ''"> and line_type = #{lineType}</if>
+            <if test="orderUploadSite != null  and orderUploadSite != ''"> and order_upload_site = #{orderUploadSite}</if>
+            <if test="orderUnloadSite != null  and orderUnloadSite != ''"> and order_unload_site = #{orderUnloadSite}</if>
+            <if test="eastOrWest!= null  and eastOrWest != ''"> and east_or_west = #{eastOrWest}</if>
+            <if test="createStartTime != null  and createStartTime != ''">
+                and DATE_FORMAT(create_time,'%Y-%m-%d') <![CDATA[>= ]]> #{createStartTime}
+            </if>
+            <if test="createEndTime != null  and createEndTime != ''">
+                and DATE_FORMAT(create_time,'%Y-%m-%d') <![CDATA[<= ]]> #{createEndTime}
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectShRailDivisionById" parameterType="Long" resultMap="ShRailDivisionResult">
+        <include refid="selectShRailDivisionVo"/>
+        where id = #{id}
+    </select>
+
+    <!--根据上下货站点查询散货基础费用-->
+    <select id="selectShRailDivisionWithMap" parameterType="map" resultMap="ShRailDivisionResult">
+        <include refid="selectShRailDivisionVo"/>
+        where order_upload_site = #{orderUploadSite}
+        and order_unload_site = #{orderUnloadSite}
+        and east_or_west = #{eastOrWest}
+        <if test="bookingTimeFlag == null or bookingTimeFlag == '' or bookingTimeFlag == '0'.toString()">
+            and DATE_FORMAT(valid_start_date,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(NOW(),'%Y-%m-%d')
+            and DATE_FORMAT(valid_end_date,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(NOW(),'%Y-%m-%d')
+        </if>
+        <if test="bookingTimeFlag == '1'.toString()">
+            and DATE_FORMAT(valid_start_date,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(date_add(curdate()-day(curdate())+1,interval 1 month),'%Y-%m-%d')
+            and DATE_FORMAT(valid_end_date,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(date_add(curdate()-day(curdate())+1,interval 1 month),'%Y-%m-%d')
+        </if>
+    </select>
+
+    <!--查询是否已存在相同散货数据-->
+    <select id="selectShRailDivisionListWithSH" parameterType="ShRailDivision" resultMap="ShRailDivisionResult">
+        <include refid="selectShRailDivisionVo"/>
+        <where>
+            <if test="lineType != null  and lineType != ''"> and line_type = #{lineType}</if>
+            <if test="orderUploadSite != null  and orderUploadSite != ''"> and order_upload_site = #{orderUploadSite}</if>
+            <if test="orderUnloadSite != null  and orderUnloadSite != ''"> and order_unload_site = #{orderUnloadSite}</if>
+            <if test="eastOrWest!= null  and eastOrWest != ''"> and east_or_west = #{eastOrWest}</if>
+            <if test="validStartDate != null ">
+                and DATE_FORMAT(valid_start_date,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(#{validStartDate},'%Y-%m-%d')
+            </if>
+            <if test="validEndDate != null ">
+                and DATE_FORMAT(valid_end_date,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(#{validEndDate},'%Y-%m-%d')
+            </if>
+        </where>
+    </select>
+    <select id="selectZynShRailDivisionWithMap" parameterType="map" resultMap="ShRailDivisionResult">
+        <include refid="selectShRailDivisionVo"/>
+        where
+        order_upload_site like CONCAT('%','${orderUploadSite}','%')
+        and order_unload_site like CONCAT('%','${orderUnloadSite}','%')
+        and east_or_west = #{eastOrWest}
+        <if test="bookingTimeFlag == null or bookingTimeFlag == '' or bookingTimeFlag == '0'.toString()">
+            and DATE_FORMAT(valid_start_date,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(NOW(),'%Y-%m-%d')
+            and DATE_FORMAT(valid_end_date,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(NOW(),'%Y-%m-%d')
+        </if>
+        <if test="bookingTimeFlag == '1'.toString()">
+            and DATE_FORMAT(valid_start_date,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(date_add(curdate()-day(curdate())+1,interval 1 month),'%Y-%m-%d')
+            and DATE_FORMAT(valid_end_date,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(date_add(curdate()-day(curdate())+1,interval 1 month),'%Y-%m-%d')
+        </if>
+    </select>
+    <select id="selectShRailwayExpiration" parameterType="map" resultMap="ShRailDivisionResult">
+        <include refid="selectShRailDivisionVo"/>
+        where
+        line_type = #{lineType}
+        <if test="bookingTimeFlag == null or bookingTimeFlag == '' or bookingTimeFlag == '0'.toString()">
+            and DATE_FORMAT(valid_start_date,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(NOW(),'%Y-%m-%d')
+            and DATE_FORMAT(valid_end_date,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(NOW(),'%Y-%m-%d')
+        </if>
+        <if test="bookingTimeFlag == '1'.toString()">
+            and DATE_FORMAT(valid_start_date,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(date_add(curdate()-day(curdate())+1,interval 1 month),'%Y-%m-%d')
+            and DATE_FORMAT(valid_end_date,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(date_add(curdate()-day(curdate())+1,interval 1 month),'%Y-%m-%d')
+        </if>
+    </select>
+    <insert id="insertShRailDivision" parameterType="ShRailDivision" useGeneratedKeys="true" keyProperty="id">
+        insert into sh_rail_division
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="lineType != null  and lineType != ''">line_type,</if>
+            <if test="orderUploadSite != null  and orderUploadSite != ''">order_upload_site,</if>
+            <if test="orderUnloadSite != null  and orderUnloadSite != ''">order_unload_site,</if>
+            <if test="lclFreight != null  and lclFreight != ''">lcl_freight,</if>
+            <if test="orderUploadSiteCost != null ">order_upload_site_cost,</if>
+            <if test="orderUnloadSiteBacost != null ">order_unload_site_bacost,</if>
+            <if test="minVolume != null  and minVolume != ''">min_volume,</if>
+            <if test="maxVolume != null  and maxVolume != ''">max_volume,</if>
+            <if test="minVolumeCost != null ">min_volume_cost,</if>
+            <if test="middleVolumeCost != null ">middle_volume_cost,</if>
+            <if test="maxVolumeCost != null ">max_volume_cost,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="validStartDate != null ">valid_start_date,</if>
+            <if test="validEndDate != null ">valid_end_date,</if>
+            <if test="containerType != null and containerType !=''">container_type,</if>
+            <if test="eastOrWest != null and eastOrWest !=''">east_or_west,</if>
+            <if test="containerTypeValue != null  and containerTypeValue != ''">container_type_value,</if>
+
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="lineType != null  and lineType != ''">#{lineType},</if>
+            <if test="orderUploadSite != null  and orderUploadSite != ''">#{orderUploadSite},</if>
+            <if test="orderUnloadSite != null  and orderUnloadSite != ''">#{orderUnloadSite},</if>
+            <if test="lclFreight != null  and lclFreight != ''">#{lclFreight},</if>
+            <if test="orderUploadSiteCost != null ">#{orderUploadSiteCost},</if>
+            <if test="orderUnloadSiteBacost != null ">#{orderUnloadSiteBacost},</if>
+            <if test="minVolume != null  and minVolume != ''">#{minVolume},</if>
+            <if test="maxVolume != null  and maxVolume != ''">#{maxVolume},</if>
+            <if test="minVolumeCost != null ">#{minVolumeCost},</if>
+            <if test="middleVolumeCost != null ">#{middleVolumeCost},</if>
+            <if test="maxVolumeCost != null ">#{maxVolumeCost},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="validStartDate != null ">#{validStartDate},</if>
+            <if test="validEndDate != null ">#{validEndDate},</if>
+            <if test="containerType != null and containerType !=''">#{containerType},</if>
+            <if test="eastOrWest != null and eastOrWest !=''">#{eastOrWest},</if>
+            <if test="containerTypeValue != null  and containerTypeValue != ''">#{containerTypeValue},</if>
+         </trim>
+    </insert>
+
+    <update id="updateShRailDivision" parameterType="ShRailDivision">
+        update sh_rail_division
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="lineType != null  and lineType != ''">line_type = #{lineType},</if>
+            <if test="orderUploadSite != null  and orderUploadSite != ''">order_upload_site = #{orderUploadSite},</if>
+            <if test="orderUnloadSite != null  and orderUnloadSite != ''">order_unload_site = #{orderUnloadSite},</if>
+            <if test="lclFreight != null  and lclFreight != ''">lcl_freight = #{lclFreight},</if>
+            <if test="orderUploadSiteCost != null ">order_upload_site_cost = #{orderUploadSiteCost},</if>
+            <if test="orderUnloadSiteBacost != null ">order_unload_site_bacost = #{orderUnloadSiteBacost},</if>
+            <if test="minVolume != null  and minVolume != ''">min_volume = #{minVolume},</if>
+            <if test="maxVolume != null  and maxVolume != ''">max_volume = #{maxVolume},</if>
+            <if test="minVolumeCost != null ">min_volume_cost = #{minVolumeCost},</if>
+            <if test="middleVolumeCost != null ">middle_volume_cost = #{middleVolumeCost},</if>
+            <if test="maxVolumeCost != null ">max_volume_cost = #{maxVolumeCost},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="validStartDate != null ">valid_start_date = #{validStartDate},</if>
+            <if test="validEndDate != null ">valid_end_date = #{validEndDate},</if>
+            <if test="containerType != null and containerType !=''">container_type=#{containerType},</if>
+            <if test="eastOrWest != null and eastOrWest !=''">east_or_west = #{eastOrWest},</if>
+            <if test="containerTypeValue != null  and containerTypeValue != ''">container_type_value = #{containerTypeValue},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteShRailDivisionById" parameterType="Long">
+        delete from sh_rail_division where id = #{id}
+    </delete>
+
+    <delete id="deleteShRailDivisionByIds" parameterType="String">
+        delete from sh_rail_division where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

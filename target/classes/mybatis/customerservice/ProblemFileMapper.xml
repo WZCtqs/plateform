@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.customerservice.mapper.ProblemFileMapper">
+    
+    <resultMap type="ProblemFile" id="ProblemFileResult">
+        <result property="fileId"    column="file_id"    />
+        <result property="problemId"    column="problem_id"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="fileUrl"    column="file_url"    />
+        <result property="type"    column="type"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectProblemFileVo">
+        select file_id, problem_id, file_name, file_url, type, del_flag, create_time, update_time from problem_file
+    </sql>
+
+    <select id="selectProblemFileList" parameterType="ProblemFile" resultMap="ProblemFileResult">
+        <include refid="selectProblemFileVo"/>
+        <where>  
+            <if test="problemId != null  and problemId != ''"> and problem_id = #{problemId}</if>
+            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
+            <if test="fileUrl != null  and fileUrl != ''"> and file_url = #{fileUrl}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+        </where>
+    </select>
+    
+    <select id="selectProblemFileById" parameterType="String" resultMap="ProblemFileResult">
+        <include refid="selectProblemFileVo"/>
+        where file_id = #{fileId}
+    </select>
+        
+    <insert id="insertProblemFile" parameterType="ProblemFile">
+        insert into problem_file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fileId != null  and fileId != ''">file_id,</if>
+            <if test="problemId != null  and problemId != ''">problem_id,</if>
+            <if test="fileName != null  and fileName != ''">file_name,</if>
+            <if test="fileUrl != null  and fileUrl != ''">file_url,</if>
+            <if test="type != null  and type != ''">type,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fileId != null  and fileId != ''">#{fileId},</if>
+            <if test="problemId != null  and problemId != ''">#{problemId},</if>
+            <if test="fileName != null  and fileName != ''">#{fileName},</if>
+            <if test="fileUrl != null  and fileUrl != ''">#{fileUrl},</if>
+            <if test="type != null  and type != ''">#{type},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProblemFile" parameterType="ProblemFile">
+        update problem_file
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="problemId != null  and problemId != ''">problem_id = #{problemId},</if>
+            <if test="fileName != null  and fileName != ''">file_name = #{fileName},</if>
+            <if test="fileUrl != null  and fileUrl != ''">file_url = #{fileUrl},</if>
+            <if test="type != null  and type != ''">type = #{type},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where file_id = #{fileId}
+    </update>
+
+    <delete id="deleteProblemFileById" parameterType="String">
+        delete from problem_file where file_id = #{fileId}
+    </delete>
+
+    <delete id="deleteProblemFileByIds" parameterType="String">
+        delete from problem_file where file_id in 
+        <foreach item="fileId" collection="array" open="(" separator="," close=")">
+            #{fileId}
+        </foreach>
+    </delete>
+
+    <select id="selectFileList" parameterType="ProblemFile" resultType="com.szhbl.project.customerservice.vo.FileVo">
+        select
+        file_name as name,
+        file_url as url
+        from problem_file
+        where
+        problem_id = #{problemId} and type = #{type}
+    </select>
+
+    <delete id="deleteProblemFileByType" >
+        delete from problem_file where problem_id = #{problemId} and type = "1"
+    </delete>
+</mapper>

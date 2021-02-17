@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.documentcenter.mapper.OrderNoticeFileMapper">
+
+    <!-- 单证页面托书列表查询-->
+    <resultMap id="OrderNoticeFileList" type="OrderNoticeFile">
+        <result property="orderId" column="order_ID"/>
+        <result property="orderNumber" column="order_number"/>
+        <result property="classDate" column="Class_date"/>
+        <result property="classSite" column="class_BlockTrain"/>
+        <result property="classNumber" column="class_number"/>
+        <result property="classEastAndWest" column="class_EastAndWest"/>
+        <result property="clientUnit" column="client_unit"/>
+        <result property="consignor" column="ship_oreder_name"/>
+        <result property="consignee" column="receive_order_name"/>
+        <result property="isConsolidation" column="IsConsolidation"/>
+        <result property="isExamline" column="IsExamline"/>
+        <result property="isSendFile" column="isSendFile"/>
+        <result property="isSign" column="is_sign"/>
+        <result property="isSendFile" column="IsSend"/>
+        <result property="clientEmail" column="client_email"/>
+        <result property="fileUrl" column="file_url"/>
+        <result property="fileName" column="file_name"/>
+    </resultMap>
+
+    <sql id="selectOrderDocumentVo">
+        select 	bso.order_ID, bso.order_number, bso.Class_date, bcs.class_BlockTrain, bso.class_number, bso.class_EastAndWest, bso.client_unit,
+                bso.ship_oreder_name, bso.receive_order_name, bso.IsConsolidation, bso.IsExamline,c.is_sign,dod.file_name, dod.file_url
+        from busi_shippingorder bso
+        left join busi_clients c on c.client_ID = bso.client_ID
+        left join busi_classes bcs on bcs.class_ID = bso.class_ID
+        left join (select distinct order_id, file_name, file_url from doc_order_document where file_type_key = 'order_notice_file') dod
+            on dod.order_id = bso.order_ID
+    </sql>
+
+    <select id="orderNoticeFileList" parameterType="OrderNoticeFile" resultMap="OrderNoticeFileList">
+        <include refid="selectOrderDocumentVo"/>
+        <where>
+            bso.IsExamline = 1
+            <if test="orderNumber != null  and orderNumber != ''">and bso.order_number like concat ('%', #{orderNumber},'%')</if>
+            <if test="classDate != null ">and DATE_FORMAT(bso.Class_date,'%Y-%m-%d') = DATE_FORMAT(#{classDate},'%Y-%m-%d')</if>
+            <if test="classEastAndWest != null  and classEastAndWest != ''">and bso.class_EastAndWest =
+                #{classEastAndWest}
+            </if>
+            <if test="clientUnit != null  and clientUnit != ''">and bso.client_unit like concat('%', #{clientUnit}, '%')
+            </if>
+            <if test="isConsolidation != null  and isConsolidation != ''">and bso.IsConsolidation = #{isConsolidation}</if>
+            <if test="isSign != null  and isSign != ''">and c.is_sign = #{isSign}</if>
+            <if test="readType != null  and readType != ''">
+               <if test="readType == '0'.toString()">
+                   and c.client_tjr_id in (
+                   SELECT
+                   tjr_id
+                   FROM
+                   sys_user
+                   WHERE
+                   user_id = #{userid}
+                   )
+               </if>
+                <if test="readType == '1'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code LIKE concat('%', #{deptCode}, '%')
+                    )
+                </if>
+                <if test="readType == '2'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000100%' or dept.dept_code like '%YWB1000103%'
+                )
+                </if>
+                <if test="readType == '3'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000101%' or dept.dept_code  like '%YWB1000104%'
+                    )
+                </if>
+                <if test="readType == '4'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000200%' or dept.dept_code like '%YWB1000202%'
+                    )
+                </if>
+                <if test="readType == '5'.toString()">
+                    and c.client_tjr_id in (
+                    SELECT
+                    usr.tjr_id
+                    FROM
+                    sys_user usr
+                    LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                    WHERE
+                    dept.dept_code like '%YWB1000201%' or dept.dept_code like '%YWB1000203%'
+                    )
+
+                </if>
+            </if>
+        </where>
+    </select>
+    <!--查询订单发货人邮箱信息-->
+    <select id="selectConsignorEmailByOrderIds" parameterType="String" resultMap="OrderNoticeFileList">
+        select bso.client_email, bso.order_ID, bso.order_number,bso.client_unit, dod.file_url
+        from busi_shippingorder bso
+        left join doc_order_document dod on dod.order_id = bso.order_ID
+        where
+        bso.order_ID in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and dod.file_type_key = 'order_notice_file'
+    </select>
+
+    <!--删除托书入货通知书-->
+    <delete id="deleteOrderNoticeFile" parameterType="String">
+        delete from doc_order_document where order_id = #{orderId} and file_type_key = 'order_notice_file'
+    </delete>
+
+    <select id="getExamineOrderId" resultType="java.lang.String">
+        select order_id from busi_shippingorder where IsExamline = 1
+    </select>
+</mapper>

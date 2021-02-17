@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.system.mapper.EmailSetMapper">
+
+    <resultMap type="EmailSet" id="EmailSetResult">
+        <result property="id"    column="id"    />
+        <result property="smtpSever"    column="smtp_sever"    />
+        <result property="smtpPort"    column="smtp_port"    />
+        <result property="emailAuthentication"    column="email_authentication"    />
+        <result property="name"    column="name"    />
+        <result property="account"    column="account"    />
+        <result property="password"    column="password"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="goCome"    column="go_come"    />
+        <result property="consolidationType"    column="consolidation_type"    />
+        <result property="oddEven"    column="odd_even"    />
+        <result property="isCustom"    column="is_custom"    />
+        <result property="lineType"    column="line_type"    />
+    </resultMap>
+
+    <sql id="selectEmailSetVo">
+        select id, smtp_sever, smtp_port, email_authentication, name, account, password, remark, del_flag, create_by, create_time, update_by, update_time from email_set
+    </sql>
+
+    <select id="selectEmailSetList" parameterType="EmailSet" resultMap="EmailSetResult">
+        <include refid="selectEmailSetVo"/>
+        <where>
+            <if test="smtpSever != null  and smtpSever != ''"> and smtp_sever like concat('%', #{smtpSever}, '%')</if>
+            <if test="smtpPort != null  and smtpPort != ''"> and smtp_port like concat('%', #{smtpPort}, '%')</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="account != null  and account != ''"> and account like concat('%', #{account}, '%')</if>
+            <if test="password != null  and password != ''"> and password like concat('%', #{password}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectEmailSetById" parameterType="Long" resultMap="EmailSetResult">
+        <include refid="selectEmailSetVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertEmailSet" parameterType="EmailSet">
+        insert into email_set
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="smtpSever != null  and smtpSever != ''">smtp_sever,</if>
+            <if test="smtpPort != null  and smtpPort != ''">smtp_port,</if>
+            <if test="emailAuthentication != null ">email_authentication,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="account != null  and account != ''">account,</if>
+            <if test="password != null  and password != ''">password,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="delFlag != null ">del_flag,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="smtpSever != null  and smtpSever != ''">#{smtpSever},</if>
+            <if test="smtpPort != null  and smtpPort != ''">#{smtpPort},</if>
+            <if test="emailAuthentication != null ">#{emailAuthentication},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="account != null  and account != ''">#{account},</if>
+            <if test="password != null  and password != ''">#{password},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="delFlag != null ">#{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmailSet" parameterType="EmailSet">
+        update email_set
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="smtpSever != null  and smtpSever != ''">smtp_sever = #{smtpSever},</if>
+            <if test="smtpPort != null  and smtpPort != ''">smtp_port = #{smtpPort},</if>
+            <if test="emailAuthentication != null ">email_authentication = #{emailAuthentication},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="account != null  and account != ''">account = #{account},</if>
+            <if test="password != null  and password != ''">password = #{password},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="delFlag != null ">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEmailSetById" parameterType="Long">
+        delete from email_set where id = #{id}
+    </delete>
+
+    <delete id="deleteEmailSetByIds" parameterType="String">
+        delete from email_set where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectEmailSet" parameterType="EmailSet" resultMap="EmailSetResult">
+        select id, smtp_sever, smtp_port, email_authentication, name, account, password,remark, del_flag,
+        go_come, consolidation_type, odd_even, is_custom,line_type, create_by, create_time, update_by, update_time from email_set
+        <where>
+            <if test="goCome != null "> and go_come = #{goCome}</if>
+            <if test="consolidationType != null "> and consolidation_type = #{consolidationType}</if>
+            <if test="oddEven != null"> and odd_even = #{oddEven}</if>
+            <if test="isCustom != null"> and is_custom = #{isCustom}</if>
+            <if test="lineType != null "> and line_type = #{lineType}</if>
+        </where>
+    </select>
+</mapper>

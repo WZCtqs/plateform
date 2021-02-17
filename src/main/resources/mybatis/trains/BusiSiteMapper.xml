@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.trains.mapper.BusiSiteMapper">
+    
+    <resultMap type="BusiSite" id="BusiSiteResult">
+        <result property="id"    column="id"    />
+        <result property="countryCode"    column="country_code"    />
+        <result property="countryCn"    column="country_cn"    />
+        <result property="countryEn"    column="country_en"    />
+        <result property="code"    column="code"    />
+        <result property="nameCn"    column="name_cn"    />
+        <result property="nameEn"    column="name_en"    />
+        <result property="lineTypeid"    column="line_typeid"    />
+        <result property="state"    column="state"    />
+        <result property="bookingService"    column="booking_service"    />
+        <result property="goodsType"    column="goods_type"    />
+        <result property="eastWest"    column="east_west"    />
+        <result property="timeZone"    column="time_zone"    />
+        <result property="type"    column="type"    />
+        <result property="updatename"    column="updatename"    />
+        <result property="updatetime"    column="updatetime"    />
+        <result property="intra"    column="intra"    />
+    </resultMap>
+
+    <sql id="selectBusiSiteVo">
+        select id, country_code, country_cn, country_en, code, name_cn, name_en,line_typeid, state,time_zone,type,booking_service,east_west,goods_type,updatename,updatetime,intra from busi_site
+    </sql>
+
+    <select id="selectBusiSiteList" parameterType="BusiSite" resultMap="BusiSiteResult">
+        <include refid="selectBusiSiteVo"/>
+        <where>
+            <if test="nameCn != null  and nameCn != ''"> and name_cn like concat('%', #{nameCn}, '%')</if>
+            <if test="nameEn != null  and nameEn != ''"> and name_en like concat('%', #{nameEn}, '%')</if>
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="lineTypeid != null  and lineTypeid != ''"> and line_typeid like concat('%', #{lineTypeid}, '%')</if>
+            <if test="state != null  and state != ''"> and state = #{state}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+        </where>
+        order by updatetime desc
+    </select>
+    
+    <select id="selectBusiSiteById" parameterType="Long" resultMap="BusiSiteResult">
+        <include refid="selectBusiSiteVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectSiteByName" resultType="java.lang.String" resultMap="BusiSiteResult">
+        select code, name_cn,name_en
+        from busi_site
+        where name_cn = #{nameCn} or name_en = #{nameCn} order by id desc limit 1
+    </select>
+
+    <select id="selectBusiSiteListByLineType" parameterType="String" resultMap="BusiSiteResult">
+        select id, code, name_cn, name_en, line_typeid,state from busi_site
+        where line_typeid like concat('%', #{lineTypeid}, '%') and type = "站点"
+    </select>
+
+    <select id="selectBusiSiteListByLine" parameterType="String" resultMap="BusiSiteResult">
+        select id, code, name_cn, name_en,line_typeid,state from busi_site
+        where code IN
+        <foreach item="code" collection="array" open="(" separator="," close=")">
+            #{code}
+        </foreach>
+    </select>
+
+    <select id="listBySiteCodes" parameterType="String" resultMap="BusiSiteResult">
+        select id, code, name_cn, name_en,line_typeid,state from busi_site
+        where code IN
+        <foreach item="code" collection="array" open="(" separator="," close=")">
+            #{code}
+        </foreach>
+    </select>
+
+    <select id="siteListCollect" resultMap="BusiSiteResult">
+        select name_cn,code
+        from busi_site
+        where  type = '站点'
+    </select>
+
+    <select id="selectlistByPort" parameterType="BusiSite" resultMap="BusiSiteResult">
+        select id, code, name_cn, name_en, line_typeid,state from busi_site
+        where line_typeid like concat('%', #{lineTypeid}, '%') and type = "站点" and code not in
+        <foreach item="portcode" collection="otherPortCode" open="(" separator="," close=")">
+            #{portcode}
+        </foreach>
+    </select>
+        
+    <insert id="insertBusiSite" parameterType="BusiSite" useGeneratedKeys="true" keyProperty="id">
+        insert into busi_site
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="countryCode != null  and countryCode != ''">country_code,</if>
+            <if test="countryCn != null  and countryCn != ''">country_cn,</if>
+            <if test="countryEn != null  and countryEn != ''">country_en,</if>
+            <if test="code != null  and code != ''">code,</if>
+            <if test="nameCn != null  and nameCn != ''">name_cn,</if>
+            <if test="nameEn != null  and nameEn != ''">name_en,</if>
+            <if test="lineTypeid != null ">line_typeid,</if>
+            <if test="state != null  and state != ''">state,</if>
+            <if test="type != null  and type != ''">type,</if>
+            <if test="timeZone != null  and timeZone != ''">time_zone,</if>
+            <if test="bookingService != null  and bookingService != ''">booking_service,</if>
+            <if test="goodsType != null  and goodsType != ''">goods_type,</if>
+            <if test="eastWest != null  and eastWest != ''">east_west,</if>
+            <if test="updatename != null  and updatename != ''">updatename,</if>
+            <if test="updatetime != null">updatetime,</if>
+            <if test="intra != null  and intra != ''">intra,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="countryCode != null  and countryCode != ''">#{countryCode},</if>
+            <if test="countryCn != null  and countryCn != ''">#{countryCn},</if>
+            <if test="countryEn != null  and countryEn != ''">#{countryEn},</if>
+            <if test="code != null  and code != ''">#{code},</if>
+            <if test="nameCn != null  and nameCn != ''">#{nameCn},</if>
+            <if test="nameEn != null  and nameEn != ''">#{nameEn},</if>
+            <if test="lineTypeid != null ">#{lineTypeid},</if>
+            <if test="state != null  and state != ''">#{state},</if>
+            <if test="type != null  and type != ''">#{type},</if>
+            <if test="timeZone != null  and timeZone != ''">#{timeZone},</if>
+            <if test="bookingService != null  and bookingService != ''">#{bookingService},</if>
+            <if test="goodsType != null  and goodsType != ''">#{goodsType},</if>
+            <if test="eastWest != null  and eastWest != ''">#{eastWest},</if>
+            <if test="updatename != null  and updatename != ''">#{updatename},</if>
+            <if test="updatetime != null">#{updatetime},</if>
+            <if test="intra != null  and intra != ''">#{intra},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBusiSite" parameterType="BusiSite">
+        update busi_site
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="countryCode != null  and countryCode != ''">country_code = #{countryCode},</if>
+            <if test="countryCn != null  and countryCn != ''">country_cn = #{countryCn},</if>
+            <if test="countryEn != null  and countryEn != ''">country_en = #{countryEn},</if>
+            <if test="nameCn != null  and nameCn != ''">name_cn = #{nameCn},</if>
+            <if test="nameEn != null  and nameEn != ''">name_en = #{nameEn},</if>
+            <if test="lineTypeid != null ">line_typeid = #{lineTypeid},</if>
+            <if test="state != null  and state != ''">state = #{state},</if>
+            <if test="type != null  and type != ''">type = #{type},</if>
+            <if test="timeZone != null  and timeZone != ''">time_zone = #{timeZone},</if>
+            <if test="bookingService != null  and bookingService != ''">booking_service = #{bookingService},</if>
+            <if test="goodsType != null  and goodsType != ''">goods_type = #{goodsType},</if>
+            <if test="eastWest != null  and eastWest != ''">east_west = #{eastWest},</if>
+            <if test="updatename != null  and updatename != ''">updatename = #{updatename},</if>
+            <if test="updatetime != null">updatetime = #{updatetime},</if>
+            <if test="intra != null  and intra != ''">intra = #{intra},</if>
+        </trim>
+        where code = #{code}
+    </update>
+
+    <update id="updateSiteStatus" parameterType="BusiSite">
+        update busi_site set state = #{state} where id = #{id}
+    </update>
+
+    <delete id="deleteBusiSiteById" parameterType="String">
+        delete from busi_site where code = #{code}
+    </delete>
+
+    <delete id="deleteBusiSiteByIds" parameterType="String">
+        delete from busi_site where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectName" resultType="java.lang.String">
+        select name_cn
+        from busi_site
+        where  code = #{code}
+    </select>
+
+    <select id="getBusiSiteByName" parameterType="String" resultMap="BusiSiteResult">
+        <include refid="selectBusiSiteVo"/>
+        <where>
+            <if test="language != null  and language == 'zh'"> and name_cn = #{name}</if>
+            <if test="language != null  and language == 'en'"> and name_en = #{name}</if>
+        </where>
+        order by updatetime desc limit 1
+    </select>
+
+    <select id="getCodeByName" parameterType="java.lang.String" resultType="java.lang.String">
+        select code
+        from busi_site
+        where  name_cn = #{nameCn} or name_en = #{nameCn}
+        order by id desc limit 1
+    </select>
+    
+</mapper>

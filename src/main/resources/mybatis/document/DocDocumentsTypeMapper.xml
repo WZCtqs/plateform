@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.documentcenter.mapper.DocDocumentsTypeMapper">
+
+    <resultMap type="DocDocumentsType" id="DocDocumentsTypeResult">
+        <result property="id"    column="id"    />
+        <result property="fileOrderStage"    column="file_order_stage"    />
+        <result property="fileTypeKey"    column="file_type_key"    />
+        <result property="fileTypeText"    column="file_type_text"    />
+        <result property="fileTypeTextEn"    column="file_type_text_en"    />
+        <result property="fileFrom"    column="file_from"    />
+        <result property="fileFromText"    column="file_from_text"    />
+        <result property="fileNotice"    column="file_notice"    />
+        <result property="fileNoticeTime"    column="file_notice_time"    />
+        <result property="activeArea"    column="active_area"    />
+        <result property="fclLcl"    column="fcl_lcl"    />
+        <result property="isSystem"    column="is_system"    />
+        <result property="showCustomer"    column="show_customer"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectDocDocumentsTypeVo">
+        select id, file_order_stage, file_type_key, file_type_text, file_type_text_en, file_from, file_from_text, file_notice, file_notice_time,
+        active_area, fcl_lcl, is_system, show_customer, create_by, create_time, update_by, update_time, remark from doc_documents_type
+    </sql>
+
+    <select id="selectAllDocDocumentsTypeList" parameterType="DocDocumentsType" resultMap="DocDocumentsTypeResult">
+        <include refid="selectDocDocumentsTypeVo"/>
+        <where>
+            <if test="fileOrderStage != null "> and file_order_stage = #{fileOrderStage}</if>
+            <if test="fileTypeKey != null  and fileTypeKey != ''"> and file_type_key = #{fileTypeKey}</if>
+            <if test="fileTypeText != null  and fileTypeText != ''"> and file_type_text = #{fileTypeText}</if>
+            <if test="fileFrom != null "> and file_from = #{fileFrom}</if>
+            <if test="fileNotice != null "> and file_notice = #{fileNotice}</if>
+            <if test="activeArea != null "> and active_area = #{activeArea}</if>
+            <if test="isSystem != null "> and is_system = #{isSystem}</if>
+        </where>
+    </select>
+
+    <select id="getTypeByTypeKey" parameterType="String" resultMap="DocDocumentsTypeResult">
+        <include refid="selectDocDocumentsTypeVo"/>
+        where file_type_key = #{fileTypeKey}
+    </select>
+
+    <select id="selectParentDocTypesList" parameterType="DocDocumentsType" resultMap="DocDocumentsTypeResult">
+        ( SELECT id, file_order_stage, file_type_key, file_type_text, file_type_text_en, file_from, file_notice,
+            file_notice_time, active_area, fcl_lcl, is_system, show_customer, create_by, create_time, update_by, update_time, remark
+	        FROM doc_documents_type
+	        WHERE is_system = 0
+		    AND id IN (
+		        SELECT DISTINCT file_order_stage
+		        FROM doc_documents_type
+		        WHERE file_order_stage IS NOT NULL AND is_system = 1
+                <if test="fileFrom != null">AND file_from = #{fileFrom}</if>)
+	        ORDER BY is_system
+	    )
+	    UNION
+		( SELECT id, file_order_stage, file_type_key, file_type_text, file_type_text_en, file_from, file_notice,
+		    file_notice_time, active_area, fcl_lcl, is_system, show_customer, create_by, create_time, update_by, update_time, remark
+		    FROM doc_documents_type
+		    WHERE is_system = 1 AND file_order_stage is null
+		    <if test="fileFrom != null">AND file_from = #{fileFrom}</if>
+		    ORDER BY is_system
+		)
+
+    </select>
+
+    <select id="selectDocDocumentsTypeById" parameterType="Long" resultMap="DocDocumentsTypeResult">
+        <include refid="selectDocDocumentsTypeVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertDocDocumentsType" parameterType="DocDocumentsType" useGeneratedKeys="true" keyProperty="id">
+        insert into doc_documents_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fileOrderStage != null ">file_order_stage,</if>
+            <if test="fileTypeKey != null  and fileTypeKey != ''">file_type_key,</if>
+            <if test="fileTypeText != null  and fileTypeText != ''">file_type_text,</if>
+            <if test="fileTypeTextEn != null  and fileTypeTextEn != ''">file_type_text_en,</if>
+            <if test="fileFrom != null ">file_from,</if>
+            <if test="fileFromText != null ">file_from_text,</if>
+            <if test="fileNotice != null ">file_notice,</if>
+            <if test="fileNoticeTime != null ">file_notice_time,</if>
+            <if test="activeArea != null ">active_area,</if>
+            <if test="fclLcl != null ">fcl_lcl,</if>
+            <if test="isSystem != null ">is_system,</if>
+            <if test="showCustomer != null ">show_customer,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fileOrderStage != null ">#{fileOrderStage},</if>
+            <if test="fileTypeKey != null  and fileTypeKey != ''">#{fileTypeKey},</if>
+            <if test="fileTypeText != null  and fileTypeText != ''">#{fileTypeText},</if>
+            <if test="fileTypeTextEn != null  and fileTypeTextEn != ''">#{fileTypeTextEn},</if>
+            <if test="fileFrom != null ">#{fileFrom},</if>
+            <if test="fileFromText != null ">#{fileFromText},</if>
+            <if test="fileNotice != null ">#{fileNotice},</if>
+            <if test="fileNoticeTime != null ">#{fileNoticeTime},</if>
+            <if test="activeArea != null ">#{activeArea},</if>
+            <if test="fclLcl != null ">#{fclLcl},</if>
+            <if test="isSystem != null ">#{isSystem},</if>
+            <if test="showCustomer != null ">#{showCustomer},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDocDocumentsType" parameterType="DocDocumentsType">
+        update doc_documents_type
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fileOrderStage != null ">file_order_stage = #{fileOrderStage},</if>
+            <if test="fileTypeText != null  and fileTypeText != ''">file_type_text = #{fileTypeText},</if>
+            <if test="fileTypeTextEn != null  and fileTypeTextEn != ''">file_type_text_en = #{fileTypeTextEn},</if>
+            <if test="fileFrom != null ">file_from = #{fileFrom},</if>
+            <if test="fileFromText != null ">file_from_text = #{fileFromText},</if>
+            <if test="fileNotice != null ">file_notice = #{fileNotice},</if>
+            <if test="fileNotice == null ">file_notice = null,</if>
+            <if test="fileNoticeTime != null ">file_notice_time = #{fileNoticeTime},</if>
+            <if test="fileNoticeTime == null or fileNoticeTime == ''">file_notice_time = null,</if>
+            <if test="activeArea != null ">active_area = #{activeArea},</if>
+            <if test="fclLcl != null ">fcl_lcl = #{fclLcl},</if>
+            <if test="isSystem != null ">is_system = #{isSystem},</if>
+            <if test="showCustomer != null ">show_customer = #{showCustomer},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+    <!--更新二级单证类型的父级分类-->
+    <update id="updateDocTypeStage" parameterType="DocDocumentsType">
+        update doc_documents_type
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fileOrderStage != null ">file_order_stage = #{fileOrderStage},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id in
+        <foreach collection="docTypeIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    <!--清空父级id-->
+    <update id="clearStageByStage" parameterType="Long">
+        update doc_documents_type set file_order_stage = null
+        where file_order_stage = #{fileOrderStage}
+    </update>
+
+    <delete id="deleteDocDocumentsTypeById" parameterType="Long">
+        delete from doc_documents_type where id = #{id}
+    </delete>
+
+    <delete id="deleteDocDocumentsTypeByIds" parameterType="String">
+        delete from doc_documents_type where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectNoParentDocumentType" resultMap="DocDocumentsTypeResult">
+        select id, file_type_text from doc_documents_type
+         where file_order_stage is null and is_system = 1
+    </select>
+
+    <select id="selectDocumentTypeByStage" resultMap="DocDocumentsTypeResult" parameterType="Long">
+        select id, file_type_text, file_type_key from doc_documents_type
+         where file_order_stage = #{fileOrderStage}
+    </select>
+
+    <select id="selectByActiveArea" parameterType="Integer" resultMap="DocDocumentsTypeResult">
+        <include refid="selectDocDocumentsTypeVo"/>
+        <where>
+            <if test="activeArea != null "> and active_area in (#{activeArea}, 2)</if>
+            <if test="fclLcl != null "> and fcl_lcl in (#{fclLcl}, 2)</if>
+        </where>
+    </select>
+
+
+</mapper>

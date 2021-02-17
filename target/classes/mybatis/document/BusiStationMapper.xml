@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.documentcenter.mapper.BusiStationMapper">
+
+    <resultMap type="BusiStation" id="BusiStationResult">
+        <result property="stationId"    column="station_id"    />
+        <result property="classCode"    column="class_code"    />
+        <result property="classSite"    column="class_site"    />
+        <result property="statioin"    column="statioin"    />
+        <result property="cuntofftime"    column="cuntofftime"    />
+        <result property="zxAddress"    column="zx_address"    />
+        <result property="pxYstype"    column="px_ystype"    />
+        <result property="pxAddress"    column="px_address"    />
+        <result property="contacts"    column="contacts"    />
+        <result property="isconsolidation"    column="IsConsolidation"    />
+        <result property="createdate"    column="createdate"    />
+        <result property="createuser"    column="createuser"    />
+        <result property="isenabled"    column="IsEnabled"    />
+        <result property="isReport"    column="is_report"    />
+        <result property="fclCustoms" column="fcl_customs"/>
+        <result property="fclCustomsNot" column="fcl_customs_not"/>
+        <result property="lclCustoms" column="lcl_customs"/>
+        <result property="lclCustomsNot" column="lcl_customs_not"/>
+        <result property="fclCustomsTime" column="fcl_customs_time"/>
+        <result property="fclCustomsNotTime" column="fcl_customs_not_time"/>
+        <result property="lclCustomsTime" column="lcl_customs_time"/>
+        <result property="lclCustomsNotTime" column="lcl_customs_not_time"/>
+    </resultMap>
+
+    <resultMap id="BusiSiteMap" type="BusiSiteDto">
+        <result property="code"    column="code"    />
+        <result property="nameCn" column="name_cn"/>
+        <result property="nameEn" column="name_en"/>
+    </resultMap>
+
+    <select id="selectBusiSiteList" resultMap="BusiSiteMap">
+        select code, name_en, name_cn from busi_site
+    </select>
+
+    <sql id="selectBusiStationVo">
+        select station_id, class_code, class_site, statioin, cuntofftime, zx_address, px_ystype, px_address, contacts, IsConsolidation, createdate, createuser, IsEnabled ,is_report,
+         fcl_customs, fcl_customs_not, lcl_customs, lcl_customs_not, fcl_customs_time, fcl_customs_not_time, lcl_customs_time, lcl_customs_not_time from busi_station
+    </sql>
+
+    <select id="selectBusiStationList" parameterType="BusiStation" resultMap="BusiStationResult">
+        <include refid="selectBusiStationVo"/>
+        <where>
+            <if test="classSite != null  and classSite != ''"> and class_site like concat('%', #{classSite}, '%')</if>
+            <if test="statioin != null  and statioin != ''"> and statioin like concat('%', #{statioin}, '%')</if>
+            <if test="isconsolidation == '0' or isconsolidation == 0 "> and (fcl_customs = #{isconsolidation} or fcl_customs_not = #{isconsolidation})</if>
+            <if test="isconsolidation == '1' or isconsolidation == 1  "> and (lcl_customs = #{isconsolidation} or lcl_customs_not = #{isconsolidation})</if>
+            <if test="isenabled != null  and isenabled != ''"> and IsEnabled = #{isenabled}</if>
+            <if test="isReport == '0' or isReport == 0 "> and (fcl_customs = #{isReport} or lcl_customs = #{isReport})</if>
+            <if test="isReport == '1' or isReport == 1 "> and (fcl_customs_not = #{isReport} or lcl_customs_not = #{isReport})</if>
+        </where>
+        order by createdate desc
+    </select>
+
+    <select id="selectBusiStationById" parameterType="String" resultMap="BusiStationResult">
+        <include refid="selectBusiStationVo"/>
+        where station_id = #{stationId}
+    </select>
+
+    <insert id="insertBusiStation" parameterType="BusiStation">
+        insert into busi_station
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="stationId != null  and stationId != ''">station_id,</if>
+            <if test="classCode != null  and classCode != ''">class_code,</if>
+            <if test="classSite != null  and classSite != ''">class_site,</if>
+            <if test="statioin != null  and statioin != ''">statioin,</if>
+            <if test="cuntofftime != null  and cuntofftime != ''">cuntofftime,</if>
+            <if test="zxAddress != null  and zxAddress != ''">zx_address,</if>
+            <if test="pxYstype != null  and pxYstype != ''">px_ystype,</if>
+            <if test="pxAddress != null  and pxAddress != ''">px_address,</if>
+            <if test="contacts != null  and contacts != ''">contacts,</if>
+            <if test="isconsolidation != null  and isconsolidation != ''">IsConsolidation,</if>
+            <if test="createdate != null ">createdate,</if>
+            <if test="createuser != null  and createuser != ''">createuser,</if>
+            <if test="isenabled != null  and isenabled != ''">IsEnabled,</if>
+            <if test="isReport != null  and isReport != ''">is_report,</if>
+            <if test="fclCustoms != null ">fcl_customs,</if>
+            <if test="fclCustomsNot != null ">fcl_customs_not,</if>
+            <if test="lclCustoms != null ">lcl_customs,</if>
+            <if test="lclCustomsNot != null ">lcl_customs_not,</if>
+            <if test="fclCustomsTime != null and fclCustomsTime != ''">fcl_customs_time,</if>
+            <if test="fclCustomsNotTime != null and fclCustomsNotTime != ''">fcl_customs_not_time,</if>
+            <if test="lclCustomsTime != null and lclCustomsTime != ''">lcl_customs_time,</if>
+            <if test="lclCustomsNotTime != null and lclCustomsNotTime != ''">lcl_customs_not_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="stationId != null  and stationId != ''">#{stationId},</if>
+            <if test="classCode != null  and classCode != ''">#{classCode},</if>
+            <if test="classSite != null  and classSite != ''">#{classSite},</if>
+            <if test="statioin != null  and statioin != ''">#{statioin},</if>
+            <if test="cuntofftime != null  and cuntofftime != ''">#{cuntofftime},</if>
+            <if test="zxAddress != null  and zxAddress != ''">#{zxAddress},</if>
+            <if test="pxYstype != null  and pxYstype != ''">#{pxYstype},</if>
+            <if test="pxAddress != null  and pxAddress != ''">#{pxAddress},</if>
+            <if test="contacts != null  and contacts != ''">#{contacts},</if>
+            <if test="isconsolidation != null  and isconsolidation != ''">#{isconsolidation},</if>
+            <if test="createdate != null ">#{createdate},</if>
+            <if test="createuser != null  and createuser != ''">#{createuser},</if>
+            <if test="isenabled != null  and isenabled != ''">#{isenabled},</if>
+            <if test="isReport != null  and isReport != ''">#{isReport},</if>
+            <if test="fclCustoms != null ">#{fclCustoms},</if>
+            <if test="fclCustomsNot != null ">#{fclCustomsNot},</if>
+            <if test="lclCustoms != null ">#{lclCustoms},</if>
+            <if test="lclCustomsNot != null ">#{lclCustomsNot},</if>
+            <if test="fclCustomsTime != null and fclCustomsTime != '' ">#{fclCustomsTime},</if>
+            <if test="fclCustomsNotTime != null and fclCustomsNotTime != '' ">#{fclCustomsNotTime},</if>
+            <if test="lclCustomsTime != null and lclCustomsTime != '' ">#{lclCustomsTime},</if>
+            <if test="lclCustomsNotTime != null and lclCustomsNotTime != '' ">#{lclCustomsNotTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBusiStation" parameterType="BusiStation">
+        update busi_station
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="classCode != null  and classCode != ''">class_code = #{classCode},</if>
+            <if test="classSite != null  and classSite != ''">class_site = #{classSite},</if>
+            <if test="statioin != null  and statioin != ''">statioin = #{statioin},</if>
+            <if test="cuntofftime != null  and cuntofftime != ''">cuntofftime = #{cuntofftime},</if>
+            <if test="zxAddress != null  and zxAddress != ''">zx_address = #{zxAddress},</if>
+            <if test="pxYstype != null  and pxYstype != ''">px_ystype = #{pxYstype},</if>
+            <if test="pxAddress != null  and pxAddress != ''">px_address = #{pxAddress},</if>
+            <if test="contacts != null  and contacts != ''">contacts = #{contacts},</if>
+            <if test="isconsolidation != null  and isconsolidation != ''">IsConsolidation = #{isconsolidation},</if>
+            <if test="createdate != null ">createdate = #{createdate},</if>
+            <if test="createuser != null  and createuser != ''">createuser = #{createuser},</if>
+            <if test="isenabled != null  and isenabled != ''">IsEnabled = #{isenabled},</if>
+            <if test="isReport != null  and isReport != ''">is_report = #{isReport},</if>
+            fcl_customs = #{fclCustoms},
+            fcl_customs_not = #{fclCustomsNot},
+            lcl_customs = #{lclCustoms},
+            lcl_customs_not = #{lclCustomsNot},
+            <if test="fclCustomsTime != null and fclCustomsTime != ''">fcl_customs_time = #{fclCustomsTime},</if>
+            <if test="fclCustomsNotTime != null and fclCustomsNotTime != ''">fcl_customs_not_time = #{fclCustomsNotTime},</if>
+            <if test="lclCustomsTime != null and lclCustomsTime != '' ">lcl_customs_time = #{lclCustomsTime},</if>
+            <if test="lclCustomsNotTime != null and lclCustomsNotTime != ''">lcl_customs_not_time = #{lclCustomsNotTime},</if>
+        </trim>
+        where station_id = #{stationId}
+    </update>
+
+    <select id="orderIdList" parameterType="string" resultType="string">
+        select order_ID from busi_shippingorder where stationID = #{stationId} and DATE_SUB(CURDATE(), INTERVAL 3 MONTH) &lt;= date(createdate)
+    </select>
+
+    <delete id="deleteBusiStationById" parameterType="String">
+        delete from busi_station where station_id = #{stationId}
+    </delete>
+
+    <delete id="deleteBusiStationByIds" parameterType="String">
+        delete from busi_station where station_id in
+        <foreach item="stationId" collection="array" open="(" separator="," close=")">
+            #{stationId}
+        </foreach>
+    </delete>
+
+</mapper>

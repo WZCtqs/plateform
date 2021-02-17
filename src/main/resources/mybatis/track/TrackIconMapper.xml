@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.track.mapper.TrackIconMapper">
+    
+    <resultMap type="TrackIcon" id="TrackIconResult">
+        <result property="id"    column="id"    />
+        <result property="goCome"    column="go_come"    />
+        <result property="consolidationType"    column="consolidation_type"    />
+        <result property="icon"    column="icon"    />
+        <result property="nameZh"    column="name_zh"    />
+        <result property="nameEn"    column="name_en"    />
+        <result property="sort"    column="sort"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTrackIconVo">
+        select id, go_come, consolidation_type, icon, name_zh, name_en, sort, remark, del_flag, create_by, create_time, update_by, update_time from track_icon
+    </sql>
+
+    <select id="selectTrackIconList" parameterType="TrackIcon" resultMap="TrackIconResult">
+        <include refid="selectTrackIconVo"/>
+        <where>  
+            <if test="goCome != null "> and go_come = #{goCome}</if>
+            <if test="consolidationType != null "> and consolidation_type = #{consolidationType}</if>
+            <if test="icon != null  and icon != ''"> and icon = #{icon}</if>
+            <if test="nameZh != null  and nameZh != ''"> and name_zh = #{nameZh}</if>
+            <if test="nameEn != null  and nameEn != ''"> and name_en = #{nameEn}</if>
+            <if test="sort != null "> and sort = #{sort}</if>
+        </where>
+    </select>
+    
+    <select id="selectTrackIconById" parameterType="Long" resultMap="TrackIconResult">
+        <include refid="selectTrackIconVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTrackIcon" parameterType="TrackIcon">
+        insert into track_icon
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="goCome != null ">go_come,</if>
+            <if test="consolidationType != null ">consolidation_type,</if>
+            <if test="icon != null  and icon != ''">icon,</if>
+            <if test="nameZh != null  and nameZh != ''">name_zh,</if>
+            <if test="nameEn != null  and nameEn != ''">name_en,</if>
+            <if test="sort != null ">sort,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="delFlag != null ">del_flag,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="goCome != null ">#{goCome},</if>
+            <if test="consolidationType != null ">#{consolidationType},</if>
+            <if test="icon != null  and icon != ''">#{icon},</if>
+            <if test="nameZh != null  and nameZh != ''">#{nameZh},</if>
+            <if test="nameEn != null  and nameEn != ''">#{nameEn},</if>
+            <if test="sort != null ">#{sort},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="delFlag != null ">#{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTrackIcon" parameterType="TrackIcon">
+        update track_icon
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="goCome != null ">go_come = #{goCome},</if>
+            <if test="consolidationType != null ">consolidation_type = #{consolidationType},</if>
+            <if test="icon != null  and icon != ''">icon = #{icon},</if>
+            <if test="nameZh != null  and nameZh != ''">name_zh = #{nameZh},</if>
+            <if test="nameEn != null  and nameEn != ''">name_en = #{nameEn},</if>
+            <if test="sort != null ">sort = #{sort},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="delFlag != null ">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTrackIconById" parameterType="Long">
+        delete from track_icon where id = #{id}
+    </delete>
+
+    <delete id="deleteTrackIconByIds" parameterType="String">
+        delete from track_icon where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+<!--
+    <select id="selectName"  resultType="RegionVo">
+       SELECT id,mername from region where level=2  and id not in(710100, 710200,710300,710400,710500,710600,710700,710800,712200,
+       712300,712400,712500,712700,712800,712900,713000,713300,713400,713500,713600,713700,713800,810100,810200,810300,820100,820200,820300)
+    </select>
+
+    <update id="updateRegion" parameterType="RegionVo">
+        update region
+       set zz_distance=#{zzDistance}, wh_distance=#{whDistance},zz_fees=#{zzFees}, wh_fees=#{whFees}
+        where id = #{id}
+    </update>
+-->
+</mapper>

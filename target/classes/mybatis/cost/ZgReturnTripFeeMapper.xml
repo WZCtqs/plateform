@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.enquiry.mapper.ZgReturnTripFeeMapper">
+    
+    <resultMap type="ZgReturnTripFee" id="ZgReturnTripFeeResult">
+        <result property="id"    column="id"    />
+        <result property="province"    column="province"    />
+        <result property="cityTrainStation"    column="city_train_station"    />
+        <result property="returnBoxAddress"    column="return_box_address"    />
+        <result property="distance"    column="distance"    />
+        <result property="deliveryFee"    column="delivery_fee"    />
+        <result property="whiteCardDeliveryFee"    column="white_card_delivery_fee"    />
+        <result property="receiptPlace"    column="receipt_place"    />
+        <result property="truckType"    column="truck_type"    />
+        <result property="validStartDate"    column="valid_start_date"    />
+        <result property="validEndDate"    column="valid_end_date"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectZgReturnTripFeeVo">
+        select id, province, city_train_station, return_box_address, distance, delivery_fee, white_card_delivery_fee,receipt_place,truck_type ,valid_start_date,valid_end_date,create_time from zg_return_trip_fee
+    </sql>
+
+    <select id="selectZgReturnTripFeeList" parameterType="ZgReturnTripFee" resultMap="ZgReturnTripFeeResult">
+        <include refid="selectZgReturnTripFeeVo"/>
+        <where>  
+            <if test="province != null  and province != ''"> and province = #{province}</if>
+            <if test="cityTrainStation != null  and cityTrainStation != ''"> and city_train_station = #{cityTrainStation}</if>
+            <if test="returnBoxAddress != null  and returnBoxAddress != ''"> and return_box_address = #{returnBoxAddress}</if>
+            <if test="distance != null "> and distance = #{distance}</if>
+            <if test="deliveryFee != null "> and delivery_fee = #{deliveryFee}</if>
+            <if test="whiteCardDeliveryFee != null "> and white_card_delivery_fee = #{whiteCardDeliveryFee}</if>
+            <if test="receiptPlace != null and receiptPlace!=''"> and receipt_place = #{receiptPlace}</if>
+            <if test="truckType != null and truckType!=''"> and truck_type = #{truckType}</if>
+            <if test="createStartTime != null  and createStartTime != ''">
+                and DATE_FORMAT(create_time,'%Y-%m-%d') <![CDATA[>= ]]> #{createStartTime}
+            </if>
+            <if test="createEndTime != null  and createEndTime != ''">
+                and DATE_FORMAT(create_time,'%Y-%m-%d') <![CDATA[<= ]]> #{createEndTime}
+            </if>
+
+        </where>
+    </select>
+    
+    <select id="selectZgReturnTripFeeById" parameterType="Long" resultMap="ZgReturnTripFeeResult">
+        <include refid="selectZgReturnTripFeeVo"/>
+        where id = #{id}
+    </select>
+    <!--根据货源地（收货地）卡车类型查询送货费-->
+    <select id="selectZgReturnTripFeeWithMap" parameterType="map" resultMap="ZgReturnTripFeeResult">
+        <include refid="selectZgReturnTripFeeVo"/>
+        where receipt_place = #{receiptPlace}
+        <if test="flag == '1'.toString()  ">
+            <if test="bookingTimeFlag == null or bookingTimeFlag == '' or bookingTimeFlag == '0'.toString()">
+                and DATE_FORMAT(valid_start_date,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(NOW(),'%Y-%m-%d')
+                and DATE_FORMAT(valid_end_date,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(NOW(),'%Y-%m-%d')
+            </if>
+            <if test="bookingTimeFlag == '1'.toString()">
+                and DATE_FORMAT(valid_start_date,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(date_add(curdate()-day(curdate())+1,interval 1 month),'%Y-%m-%d')
+                and DATE_FORMAT(valid_end_date,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(date_add(curdate()-day(curdate())+1,interval 1 month),'%Y-%m-%d')
+            </if>
+        </if>
+        <if test="startTime != null  ">
+            and DATE_FORMAT(valid_start_date,'%Y-%m-%d') <![CDATA[<= ]]> #{startTime}
+        </if>
+        <if test="endTime != null  ">
+            and DATE_FORMAT(valid_end_date,'%Y-%m-%d') <![CDATA[>= ]]> #{endTime}
+        </if>
+    </select>
+    <insert id="insertZgReturnTripFee" parameterType="ZgReturnTripFee" useGeneratedKeys="true" keyProperty="id">
+        insert into zg_return_trip_fee
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="province != null  and province != ''">province,</if>
+            <if test="cityTrainStation != null  and cityTrainStation != ''">city_train_station,</if>
+            <if test="returnBoxAddress != null  and returnBoxAddress != ''">return_box_address,</if>
+            <if test="distance != null ">distance,</if>
+            <if test="deliveryFee != null ">delivery_fee,</if>
+            <if test="whiteCardDeliveryFee != null ">white_card_delivery_fee,</if>
+            <if test="receiptPlace != null  and receiptPlace != ''">receipt_place,</if>
+            <if test="truckType != null  and truckType != ''">truck_type,</if>
+            <if test="validStartDate != null ">valid_start_date,</if>
+            <if test="validEndDate != null ">valid_end_date,</if>
+            <if test="createTime != null ">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="province != null  and province != ''">#{province},</if>
+            <if test="cityTrainStation != null  and cityTrainStation != ''">#{cityTrainStation},</if>
+            <if test="returnBoxAddress != null  and returnBoxAddress != ''">#{returnBoxAddress},</if>
+            <if test="distance != null ">#{distance},</if>
+            <if test="deliveryFee != null ">#{deliveryFee},</if>
+            <if test="whiteCardDeliveryFee != null ">#{whiteCardDeliveryFee},</if>
+            <if test="receiptPlace != null  and receiptPlace != ''">#{receiptPlace},</if>
+            <if test="truckType != null  and truckType != ''">#{truckType},</if>
+            <if test="validStartDate != null ">#{validStartDate},</if>
+            <if test="validEndDate != null ">#{validEndDate},</if>
+            <if test="createTime != null ">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateZgReturnTripFee" parameterType="ZgReturnTripFee">
+        update zg_return_trip_fee
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="province != null  and province != ''">province = #{province},</if>
+            <if test="cityTrainStation != null  and cityTrainStation != ''">city_train_station = #{cityTrainStation},</if>
+            <if test="returnBoxAddress != null  and returnBoxAddress != ''">return_box_address = #{returnBoxAddress},</if>
+            <if test="distance != null ">distance = #{distance},</if>
+            <if test="deliveryFee != null ">delivery_fee = #{deliveryFee},</if>
+            <if test="whiteCardDeliveryFee != null ">white_card_delivery_fee = #{whiteCardDeliveryFee},</if>
+            <if test="receiptPlace != null  and receiptPlace != ''"> receipt_place = #{receiptPlace},</if>
+            <if test="truckType != null  and truckType != ''">truck_type = #{truckType},</if>
+            <if test="validStartDate != null ">valid_start_date = #{validStartDate},</if>
+            <if test="validEndDate != null ">valid_end_date = #{validEndDate},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="updateZgReturnTripFeeByParam" parameterType="ZgReturnTripFee">
+        update zg_return_trip_fee
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="province != null  and province != ''">province = #{province},</if>
+            <if test="cityTrainStation != null  and cityTrainStation != ''">city_train_station = #{cityTrainStation},</if>
+            <if test="returnBoxAddress != null  and returnBoxAddress != ''">return_box_address = #{returnBoxAddress},</if>
+            <if test="distance != null ">distance = #{distance},</if>
+            <if test="deliveryFee != null ">delivery_fee = #{deliveryFee},</if>
+            <if test="whiteCardDeliveryFee != null ">white_card_delivery_fee = #{whiteCardDeliveryFee},</if>
+            <if test="receiptPlace != null  and receiptPlace != ''"> receipt_place = #{receiptPlace},</if>
+            <if test="truckType != null  and truckType != ''">truck_type = #{truckType},</if>
+            <if test="validStartDate != null ">valid_start_date = #{validStartDate},</if>
+            <if test="validEndDate != null ">valid_end_date = #{validEndDate},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+        </trim>
+        where receipt_place = #{receiptPlace}
+    </update>
+    <delete id="deleteZgReturnTripFeeById" parameterType="Long">
+        delete from zg_return_trip_fee where id = #{id}
+    </delete>
+
+    <delete id="deleteZgReturnTripFeeByIds" parameterType="String">
+        delete from zg_return_trip_fee where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

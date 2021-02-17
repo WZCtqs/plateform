@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.customerservice.mapper.DocOrderDocumentshMapper">
+
+    <resultMap type="DocOrderDocumentsh" id="DocOrderDocumentshResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="orderNumber"    column="order_number"    />
+        <result property="fileTypeKey"    column="file_type_key"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="fileUrl"    column="file_url"    />
+        <result property="pickGoodsTimec"    column="pick_goods_timec"    />
+        <result property="pickGoodsContacts"    column="pick_goods_contacts"    />
+        <result property="pickGoodsPhone"    column="pick_goods_phone"    />
+        <result property="pickGoodsAddress"    column="pick_goods_address"    />
+        <result property="containerNo"    column="container_no"    />
+        <result property="containerType"    column="container_type"    />
+<!--        <result property="shipperExporter"    column="shipper_exporter"    />-->
+<!--        <result property="consignee"    column="consignee"    />-->
+<!--        <result property="notifyParty"    column="notify_party"    />-->
+<!--        <result property="goodsDescription"    column="goods_description"    />-->
+        <result property="uploadTime"    column="upload_time"    />
+        <result property="uploadBy"    column="upload_by"    />
+        <result property="uploadDept"    column="upload_dept"    />
+        <result property="formSystem"    column="form_system"    />
+        <result property="issubmit"    column="isSubmit"    />
+    </resultMap>
+
+    <sql id="selectDocOrderDocumentshVo">
+        select id, order_id, order_number, file_type_key, file_name, file_url, pick_goods_timec, pick_goods_contacts, pick_goods_phone, pick_goods_address, container_no, container_type, shipper_exporter, consignee, notify_party, goods_description, upload_time, upload_by, upload_dept, form_system, isSubmit from doc_order_document
+    </sql>
+
+    <select id="selectDocOrderDocumentshList" parameterType="DocOrderDocumentsh" resultMap="DocOrderDocumentshResult">
+        <include refid="selectDocOrderDocumentshVo"/>
+        <where>
+            <if test="orderId != null  and orderId != ''"> and order_id = #{orderId}</if>
+            <if test="orderNumber != null  and orderNumber != ''"> and order_number = #{orderNumber}</if>
+            <if test="fileTypeKey != null  and fileTypeKey != ''"> and file_type_key = #{fileTypeKey}</if>
+            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
+            <if test="fileUrl != null  and fileUrl != ''"> and file_url = #{fileUrl}</if>
+            <if test="pickGoodsTimec != null "> and pick_goods_timec = #{pickGoodsTimec}</if>
+            <if test="pickGoodsContacts != null  and pickGoodsContacts != ''"> and pick_goods_contacts = #{pickGoodsContacts}</if>
+            <if test="pickGoodsPhone != null  and pickGoodsPhone != ''"> and pick_goods_phone = #{pickGoodsPhone}</if>
+            <if test="pickGoodsAddress != null  and pickGoodsAddress != ''"> and pick_goods_address = #{pickGoodsAddress}</if>
+            <if test="containerNo != null "> and container_no = #{containerNo}</if>
+            <if test="containerType != null  and containerType != ''"> and container_type = #{containerType}</if>
+<!--            <if test="shipperExporter != null  and shipperExporter != ''"> and shipper_exporter = #{shipperExporter}</if>-->
+<!--            <if test="consignee != null  and consignee != ''"> and consignee = #{consignee}</if>-->
+<!--            <if test="notifyParty != null  and notifyParty != ''"> and notify_party = #{notifyParty}</if>-->
+<!--            <if test="goodsDescription != null  and goodsDescription != ''"> and goods_description = #{goodsDescription}</if>-->
+            <if test="uploadTime != null "> and upload_time = #{uploadTime}</if>
+            <if test="uploadBy != null  and uploadBy != ''"> and upload_by = #{uploadBy}</if>
+            <if test="uploadDept != null  and uploadDept != ''"> and upload_dept = #{uploadDept}</if>
+            <if test="formSystem != null  and formSystem != ''"> and form_system = #{formSystem}</if>
+            <if test="issubmit != null "> and isSubmit = #{issubmit}</if>
+        </where>
+    </select>
+
+    <select id="selectDocOrderDocumentshById" parameterType="Long" resultMap="DocOrderDocumentshResult">
+        <include refid="selectDocOrderDocumentshVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertDocOrderDocumentsh" parameterType="DocOrderDocumentsh" useGeneratedKeys="true" keyProperty="id">
+        insert into doc_order_document
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id,</if>
+            <if test="orderNumber != null  and orderNumber != ''">order_number,</if>
+            <if test="fileTypeKey != null  and fileTypeKey != ''">file_type_key,</if>
+            <if test="fileName != null  and fileName != ''">file_name,</if>
+            <if test="fileUrl != null  and fileUrl != ''">file_url,</if>
+            <if test="pickGoodsTimec != null ">pick_goods_timec,</if>
+            <if test="pickGoodsContacts != null  and pickGoodsContacts != ''">pick_goods_contacts,</if>
+            <if test="pickGoodsPhone != null  and pickGoodsPhone != ''">pick_goods_phone,</if>
+            <if test="pickGoodsAddress != null  and pickGoodsAddress != ''">pick_goods_address,</if>
+            <if test="containerNo != null ">container_no,</if>
+            <if test="containerType != null  and containerType != ''">container_type,</if>
+<!--            <if test="shipperExporter != null  and shipperExporter != ''">shipper_exporter,</if>-->
+<!--            <if test="consignee != null  and consignee != ''">consignee,</if>-->
+<!--            <if test="notifyParty != null  and notifyParty != ''">notify_party,</if>-->
+<!--            <if test="goodsDescription != null  and goodsDescription != ''">goods_description,</if>-->
+            <if test="uploadTime != null ">upload_time,</if>
+            <if test="uploadBy != null  and uploadBy != ''">upload_by,</if>
+            <if test="uploadDept != null  and uploadDept != ''">upload_dept,</if>
+            <if test="formSystem != null  and formSystem != ''">form_system,</if>
+            <if test="issubmit != null ">isSubmit,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">#{orderId},</if>
+            <if test="orderNumber != null  and orderNumber != ''">#{orderNumber},</if>
+            <if test="fileTypeKey != null  and fileTypeKey != ''">#{fileTypeKey},</if>
+            <if test="fileName != null  and fileName != ''">#{fileName},</if>
+            <if test="fileUrl != null  and fileUrl != ''">#{fileUrl},</if>
+            <if test="pickGoodsTimec != null ">#{pickGoodsTimec},</if>
+            <if test="pickGoodsContacts != null  and pickGoodsContacts != ''">#{pickGoodsContacts},</if>
+            <if test="pickGoodsPhone != null  and pickGoodsPhone != ''">#{pickGoodsPhone},</if>
+            <if test="pickGoodsAddress != null  and pickGoodsAddress != ''">#{pickGoodsAddress},</if>
+            <if test="containerNo != null ">#{containerNo},</if>
+            <if test="containerType != null  and containerType != ''">#{containerType},</if>
+<!--            <if test="shipperExporter != null  and shipperExporter != ''">#{shipperExporter},</if>-->
+<!--            <if test="consignee != null  and consignee != ''">#{consignee},</if>-->
+<!--            <if test="notifyParty != null  and notifyParty != ''">#{notifyParty},</if>-->
+<!--            <if test="goodsDescription != null  and goodsDescription != ''">#{goodsDescription},</if>-->
+            <if test="uploadTime != null ">#{uploadTime},</if>
+            <if test="uploadBy != null  and uploadBy != ''">#{uploadBy},</if>
+            <if test="uploadDept != null  and uploadDept != ''">#{uploadDept},</if>
+            <if test="formSystem != null  and formSystem != ''">#{formSystem},</if>
+            <if test="issubmit != null ">#{issubmit},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDocOrderDocumentsh" parameterType="DocOrderDocumentsh">
+        update doc_order_document
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id = #{orderId},</if>
+            <if test="orderNumber != null  and orderNumber != ''">order_number = #{orderNumber},</if>
+            <if test="fileTypeKey != null  and fileTypeKey != ''">file_type_key = #{fileTypeKey},</if>
+            <if test="fileName != null  and fileName != ''">file_name = #{fileName},</if>
+            <if test="fileUrl != null  and fileUrl != ''">file_url = #{fileUrl},</if>
+            <if test="pickGoodsTimec != null ">pick_goods_timec = #{pickGoodsTimec},</if>
+            <if test="pickGoodsContacts != null  and pickGoodsContacts != ''">pick_goods_contacts = #{pickGoodsContacts},</if>
+            <if test="pickGoodsPhone != null  and pickGoodsPhone != ''">pick_goods_phone = #{pickGoodsPhone},</if>
+            <if test="pickGoodsAddress != null  and pickGoodsAddress != ''">pick_goods_address = #{pickGoodsAddress},</if>
+            <if test="containerNo != null ">container_no = #{containerNo},</if>
+            <if test="containerType != null  and containerType != ''">container_type = #{containerType},</if>
+<!--            <if test="shipperExporter != null  and shipperExporter != ''">shipper_exporter = #{shipperExporter},</if>-->
+<!--            <if test="consignee != null  and consignee != ''">consignee = #{consignee},</if>-->
+<!--            <if test="notifyParty != null  and notifyParty != ''">notify_party = #{notifyParty},</if>-->
+<!--            <if test="goodsDescription != null  and goodsDescription != ''">goods_description = #{goodsDescription},</if>-->
+            <if test="uploadTime != null ">upload_time = #{uploadTime},</if>
+            <if test="uploadBy != null  and uploadBy != ''">upload_by = #{uploadBy},</if>
+            <if test="uploadDept != null  and uploadDept != ''">upload_dept = #{uploadDept},</if>
+            <if test="formSystem != null  and formSystem != ''">form_system = #{formSystem},</if>
+            <if test="issubmit != null ">isSubmit = #{issubmit},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDocOrderDocumentshById" parameterType="Long">
+        delete from doc_order_document where id = #{id}
+    </delete>
+
+    <delete id="deleteDocOrderDocumentshByIds" parameterType="String">
+        delete from doc_order_document where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectUrl" resultType="java.lang.String">
+        select file_url
+        from doc_order_document
+        where file_type_key = #{fileTypeKey} and order_id = #{orderId}
+    </select>
+</mapper>

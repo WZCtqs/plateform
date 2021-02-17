@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.basic.mapper.BusiCustomersignMapper">
+    
+    <resultMap type="BusiCustomersign" id="BusiCustomersignResult">
+        <result property="signId"    column="sign_id"    />
+        <result property="signName"    column="sign_name"    />
+        <result property="signType"    column="sign_type"    />
+        <result property="signReason"    column="sign_reason"    />
+        <result property="isSign"    column="is_sign"    />
+        <result property="createdate"    column="createdate"    />
+    </resultMap>
+
+    <sql id="selectBusiCustomersignVo">
+        select sign_id, sign_name, sign_type, sign_reason, is_sign, createdate from busi_customersign
+    </sql>
+
+    <select id="selectBusiCustomersignList" parameterType="BusiCustomersign" resultMap="BusiCustomersignResult">
+        <include refid="selectBusiCustomersignVo"/>
+        <where>  
+            <if test="signName != null  and signName != ''"> and sign_name like concat('%', #{signName}, '%')</if>
+            <if test="signType != null  and signType != ''"> and sign_type = #{signType}</if>
+            <if test="signReason != null  and signReason != ''"> and sign_reason = #{signReason}</if>
+            <if test="isSign != null  and isSign != ''"> and is_sign = #{isSign}</if>
+            <if test="createdate != null "> and createdate = #{createdate}</if>
+        </where>
+    </select>
+
+    <select id="selectListName" resultType="string">
+        select sign_name from busi_customersign where is_sign = "1"
+    </select>
+    
+    <select id="selectBusiCustomersignById" parameterType="String" resultMap="BusiCustomersignResult">
+        <include refid="selectBusiCustomersignVo"/>
+        where sign_id = #{signId}
+    </select>
+
+    <select id="getInfoByName" parameterType="String" resultMap="BusiCustomersignResult">
+        <include refid="selectBusiCustomersignVo"/>
+        where sign_name = #{signName}
+    </select>
+        
+    <insert id="insertBusiCustomersign" parameterType="BusiCustomersign">
+        insert into busi_customersign
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="signId != null  and signId != ''">sign_id,</if>
+            <if test="signName != null  and signName != ''">sign_name,</if>
+            <if test="signType != null  and signType != ''">sign_type,</if>
+            <if test="signReason != null  and signReason != ''">sign_reason,</if>
+            <if test="isSign != null  and isSign != ''">is_sign,</if>
+            <if test="createdate != null ">createdate,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="signId != null  and signId != ''">#{signId},</if>
+            <if test="signName != null  and signName != ''">#{signName},</if>
+            <if test="signType != null  and signType != ''">#{signType},</if>
+            <if test="signReason != null  and signReason != ''">#{signReason},</if>
+            <if test="isSign != null  and isSign != ''">#{isSign},</if>
+            <if test="createdate != null ">#{createdate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBusiCustomersign" parameterType="BusiCustomersign">
+        update busi_customersign
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="signName != null  and signName != ''">sign_name = #{signName},</if>
+            <if test="signType != null  and signType != ''">sign_type = #{signType},</if>
+            <if test="signReason != null  and signReason != ''">sign_reason = #{signReason},</if>
+            <if test="isSign != null  and isSign != ''">is_sign = #{isSign},</if>
+            <if test="createdate != null ">createdate = #{createdate},</if>
+        </trim>
+        where sign_id = #{signId}
+    </update>
+
+    <delete id="deleteBusiCustomersignById" parameterType="String">
+        delete from busi_customersign where sign_id = #{signId}
+    </delete>
+
+    <delete id="deleteBusiCustomersignByIds" parameterType="String">
+        delete from busi_customersign where sign_id in 
+        <foreach item="signId" collection="array" open="(" separator="," close=")">
+            #{signId}
+        </foreach>
+    </delete>
+    
+</mapper>

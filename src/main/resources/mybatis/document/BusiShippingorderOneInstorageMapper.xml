@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.documentcenter.mapper.BusiShippingorderOneInstorageMapper">
+
+    <resultMap type="BusiShippingorderOneInstorage" id="BusiShippingorderOneInstorageResult">
+        <result property="inId"    column="In_ID"    />
+        <result property="orderId"    column="order_ID"    />
+        <result property="classId"    column="class_ID"    />
+        <result property="inIsdocument"    column="in_isDocument"    />
+        <result property="inDatenode"    column="in_dateNode"    />
+        <result property="inSite"    column="in_site"    />
+        <result property="inContacts"    column="in_contacts"    />
+        <result property="inPhone"    column="in_phone"    />
+        <result property="inDept"    column="in_dept"    />
+        <result property="inDumptel"    column="in_dumpTel"    />
+        <result property="inDumpjobtime"    column="in_dumpJobTime"    />
+        <result property="inCw"    column="in_cw"    />
+        <result property="issend"    column="IsSend"    />
+        <result property="remark"    column="remark"    />
+        <result property="createdate"    column="createdate"    />
+        <result property="createuserid"    column="createuserid"    />
+        <result property="createusername"    column="createusername"    />
+    </resultMap>
+
+    <sql id="selectBusiShippingorderOneInstorageVo">
+        select In_ID, order_ID, class_ID, in_isDocument, in_dateNode, in_site, in_contacts, in_phone, in_dept, in_dumpTel, in_dumpJobTime, in_cw, IsSend, remark, createdate, createuserid, createusername from busi_shippingorder_one_instorage
+    </sql>
+
+    <select id="selectBusiShippingorderOneInstorageList" parameterType="BusiShippingorderOneInstorage" resultMap="BusiShippingorderOneInstorageResult">
+        <include refid="selectBusiShippingorderOneInstorageVo"/>
+        <where>
+            <if test="orderId != null  and orderId != ''"> and order_ID = #{orderId}</if>
+            <if test="classId != null  and classId != ''"> and class_ID = #{classId}</if>
+            <if test="inIsdocument != null  and inIsdocument != ''"> and in_isDocument = #{inIsdocument}</if>
+            <if test="inDatenode != null "> and in_dateNode = #{inDatenode}</if>
+            <if test="inSite != null  and inSite != ''"> and in_site = #{inSite}</if>
+            <if test="inContacts != null  and inContacts != ''"> and in_contacts = #{inContacts}</if>
+            <if test="inPhone != null  and inPhone != ''"> and in_phone = #{inPhone}</if>
+            <if test="inDept != null  and inDept != ''"> and in_dept = #{inDept}</if>
+            <if test="inDumptel != null  and inDumptel != ''"> and in_dumpTel = #{inDumptel}</if>
+            <if test="inDumpjobtime != null "> and in_dumpJobTime = #{inDumpjobtime}</if>
+            <if test="inCw != null  and inCw != ''"> and in_cw = #{inCw}</if>
+            <if test="issend != null  and issend != ''"> and IsSend = #{issend}</if>
+            <if test="createdate != null "> and createdate = #{createdate}</if>
+            <if test="createuserid != null  and createuserid != ''"> and createuserid = #{createuserid}</if>
+            <if test="createusername != null  and createusername != ''"> and createusername like concat('%', #{createusername}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectBusiShippingorderOneInstorageById" parameterType="String" resultMap="BusiShippingorderOneInstorageResult">
+        <include refid="selectBusiShippingorderOneInstorageVo"/>
+        where In_ID = #{inId}
+    </select>
+
+    <insert id="insertBusiShippingorderOneInstorage" parameterType="BusiShippingorderOneInstorage">
+        insert into busi_shippingorder_one_instorage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_ID,</if>
+            <if test="classId != null  and classId != ''">class_ID,</if>
+            <if test="inIsdocument != null  and inIsdocument != ''">in_isDocument,</if>
+            <if test="inDatenode != null ">in_dateNode,</if>
+            <if test="inSite != null  and inSite != ''">in_site,</if>
+            <if test="inContacts != null  and inContacts != ''">in_contacts,</if>
+            <if test="inPhone != null  and inPhone != ''">in_phone,</if>
+            <if test="inDept != null  and inDept != ''">in_dept,</if>
+            <if test="inDumptel != null  and inDumptel != ''">in_dumpTel,</if>
+            <if test="inDumpjobtime != null ">in_dumpJobTime,</if>
+            <if test="inCw != null  and inCw != ''">in_cw,</if>
+            <if test="issend != null  and issend != ''">IsSend,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createdate != null ">createdate,</if>
+            <if test="createuserid != null  and createuserid != ''">createuserid,</if>
+            <if test="createusername != null  and createusername != ''">createusername,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">#{orderId},</if>
+            <if test="classId != null  and classId != ''">#{classId},</if>
+            <if test="inIsdocument != null  and inIsdocument != ''">#{inIsdocument},</if>
+            <if test="inDatenode != null ">#{inDatenode},</if>
+            <if test="inSite != null  and inSite != ''">#{inSite},</if>
+            <if test="inContacts != null  and inContacts != ''">#{inContacts},</if>
+            <if test="inPhone != null  and inPhone != ''">#{inPhone},</if>
+            <if test="inDept != null  and inDept != ''">#{inDept},</if>
+            <if test="inDumptel != null  and inDumptel != ''">#{inDumptel},</if>
+            <if test="inDumpjobtime != null ">#{inDumpjobtime},</if>
+            <if test="inCw != null  and inCw != ''">#{inCw},</if>
+            <if test="issend != null  and issend != ''">#{issend},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createdate != null ">#{createdate},</if>
+            <if test="createuserid != null  and createuserid != ''">#{createuserid},</if>
+            <if test="createusername != null  and createusername != ''">#{createusername},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBusiShippingorderOneInstorage" parameterType="BusiShippingorderOneInstorage">
+        update busi_shippingorder_one_instorage
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_ID = #{orderId},</if>
+            <if test="classId != null  and classId != ''">class_ID = #{classId},</if>
+            <if test="inIsdocument != null  and inIsdocument != ''">in_isDocument = #{inIsdocument},</if>
+            <if test="inDatenode != null ">in_dateNode = #{inDatenode},</if>
+            <if test="inSite != null  and inSite != ''">in_site = #{inSite},</if>
+            <if test="inContacts != null  and inContacts != ''">in_contacts = #{inContacts},</if>
+            <if test="inPhone != null  and inPhone != ''">in_phone = #{inPhone},</if>
+            <if test="inDept != null  and inDept != ''">in_dept = #{inDept},</if>
+            <if test="inDumptel != null  and inDumptel != ''">in_dumpTel = #{inDumptel},</if>
+            <if test="inDumpjobtime != null ">in_dumpJobTime = #{inDumpjobtime},</if>
+            <if test="inCw != null  and inCw != ''">in_cw = #{inCw},</if>
+            <if test="issend != null  and issend != ''">IsSend = #{issend},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createdate != null ">createdate = #{createdate},</if>
+            <if test="createuserid != null  and createuserid != ''">createuserid = #{createuserid},</if>
+            <if test="createusername != null  and createusername != ''">createusername = #{createusername},</if>
+        </trim>
+        where In_ID = #{inId}
+    </update>
+
+    <delete id="deleteBusiShippingorderOneInstorageById" parameterType="String">
+        delete from busi_shippingorder_one_instorage where In_ID = #{inId}
+    </delete>
+
+    <delete id="deleteBusiShippingorderOneInstorageByIds" parameterType="String">
+        delete from busi_shippingorder_one_instorage where In_ID in
+        <foreach item="inId" collection="array" open="(" separator="," close=")">
+            #{inId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByOrderId" parameterType="String">
+        delete from busi_shippingorder_one_instorage where order_ID = #{orderId}
+    </delete>
+
+</mapper>

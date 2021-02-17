@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.documentcenter.mapper.DocGWCZArrivalGoodsMapper">
+
+    <resultMap type="GWCZArrivalGoods" id="GWCZArrivalGoodsResult">
+        <result property="orderId" column="order_id"/>
+        <result property="OrderNumber" column="OrderNumber"/>
+        <result property="GoodsChsName" column="GoodsChsName"/>
+        <result property="GoodsEnName" column="GoodsEnName"/>
+        <result property="Shipper" column="Shipper"/>
+        <result property="Receiver" column="Receiver"/>
+        <result property="BookCabin" column="BookCabin"/>
+        <result property="Packing" column="Packing"/>
+        <result property="GoodsNum" column="GoodsNum"/>
+        <result property="ContainerNum" column="ContainerNum"/>
+        <result property="MeasuSpecifi" column="MeasuSpecifi"/>
+        <result property="MeasuVolum" column="MeasuVolum"/>
+        <result property="MeasuGroWei" column="MeasuGroWei"/>
+        <result property="goods_cannotPileUp" column="goods_cannotPileUp"/>
+        <result property="ArriveTime" column="ArriveTime"/>
+        <result property="ArriveInfoactual" column="ArriveInfoactual"/>
+        <result property="CustomsType" column="CustomsType"/>
+        <result property="MeasureDimention" column="MeasureDimention"/>
+        <result property="Remark" column="Remark"/>
+        <result property="Merchandiser" column="Merchandiser"/>
+        <result property="Referrer" column="Referrer"/>
+        <result property="DhType" column="DhType"/>
+        <result property="createTime" column="create_time"/>
+        <result property="pxWeight" column="px_weight"/>
+        <result property="pxVolume" column="px_volume"/>
+        <result property="pxSettlementVolume" column="px_settlement_volume"/>
+    </resultMap>
+
+    <sql id="selectDocOrderVo">
+        select ga.order_id, ga.OrderNumber,ga.GoodsChsName,ga.GoodsEnName,ga.Shipper,ga.Receiver,ga.BookCabin,ga.Packing,ga.GoodsNum,ga.ContainerNum,
+        ga.MeasuSpecifi,ga.MeasuVolum,ga.MeasuGroWei,ga.goods_cannotPileUp,ga.ArriveTime,ga.ArriveInfoactual,ga.CustomsType,
+        ga.MeasureDimention,ga.Remark,ga.Merchandiser,ga.Referrer,ga.DhType, ga.create_time ,
+        sum( gs.px_weight ) AS px_weight,-- 总重
+        sum( gs.px_volume ) AS px_volume,-- 实际体积
+        sum( gs.px_settlement_volume ) AS px_settlement_volume -- 结算体积
+        from doc_gwcz_arrivalgoods ga
+        left join doc_gwcz_settlement gs on gs.order_id = ga.order_id
+    </sql>
+
+    <select id="selecGwczArrivalGoodsByOrderId" parameterType="String" resultMap="GWCZArrivalGoodsResult">
+        <include refid="selectDocOrderVo"/>
+        where ga.order_id = #{order_id} ORDER BY ga.create_time desc limit 1
+    </select>
+
+    <insert id="insertGwczArrivalGoods" parameterType="GWCZArrivalGoods" useGeneratedKeys="true" keyProperty="id">
+
+        insert into doc_gwcz_arrivalgoods
+
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null and orderId != ''">order_id,</if>
+            <if test="OrderNumber != null and OrderNumber != ''">OrderNumber,</if>
+            <if test="GoodsChsName != null and GoodsChsName != ''">GoodsChsName,</if>
+            <if test="GoodsEnName != null and GoodsEnName != ''">GoodsEnName,</if>
+            <if test="Shipper != null and Shipper != ''">Shipper,</if>
+            <if test="Receiver != null and Receiver != ''">Receiver,</if>
+            <if test="BookCabin != null and BookCabin != ''">BookCabin,</if>
+            <if test="Packing != null and Packing != ''">Packing,</if>
+            <if test="GoodsNum != null and GoodsNum != ''">GoodsNum,</if>
+            <if test="ContainerNum != null and ContainerNum != ''">ContainerNum,</if>
+            <if test="MeasuSpecifi != null and MeasuSpecifi != ''">MeasuSpecifi,</if>
+            <if test="MeasuVolum != null and MeasuVolum != ''">MeasuVolum,</if>
+            <if test="MeasuGroWei != null and MeasuGroWei != ''">MeasuGroWei,</if>
+            <if test="goods_cannotPileUp != null and goods_cannotPileUp != ''">goods_cannotPileUp,</if>
+            <if test="ArriveTime != null and ArriveTime != ''">ArriveTime,</if>
+            <if test="ArriveInfoactual != null and ArriveInfoactual != ''">ArriveInfoactual,</if>
+            <if test="CustomsType != null and   CustomsType != ''">CustomsType,</if>
+            <if test="MeasureDimention != null and MeasureDimention != ''">MeasureDimention,</if>
+            <if test="Remark != null and Remark != ''">Remark,</if>
+            <if test="Merchandiser != null and Merchandiser != ''">Merchandiser,</if>
+            <if test="Referrer != null and Referrer != ''">Referrer,</if>
+            <if test="DhType != null and DhType != ''">DhType,</if>
+            <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null and orderId != ''">#{orderId},</if>
+            <if test="OrderNumber != null and OrderNumber != ''">#{OrderNumber},</if>
+            <if test="GoodsChsName != null and GoodsChsName != ''">#{GoodsChsName},</if>
+            <if test="GoodsEnName != null and GoodsEnName != ''">#{GoodsEnName},</if>
+            <if test="Shipper != null and Shipper != ''">#{Shipper},</if>
+            <if test="Receiver != null and Receiver != ''">#{Receiver},</if>
+            <if test="BookCabin != null and BookCabin != ''">#{BookCabin},</if>
+            <if test="Packing != null and Packing != ''">#{Packing},</if>
+            <if test="GoodsNum != null and GoodsNum != ''">#{GoodsNum},</if>
+            <if test="ContainerNum != null and ContainerNum != ''">#{ContainerNum},</if>
+            <if test="MeasuSpecifi != null and MeasuSpecifi != ''">#{MeasuSpecifi},</if>
+            <if test="MeasuVolum != null and MeasuVolum != ''">#{MeasuVolum},</if>
+            <if test="MeasuGroWei != null and MeasuGroWei != ''">#{MeasuGroWei},</if>
+            <if test="goods_cannotPileUp != null and goods_cannotPileUp != ''">#{goods_cannotPileUp},</if>
+            <if test="ArriveTime != null and ArriveTime != ''">#{ArriveTime},</if>
+            <if test="ArriveInfoactual != null and ArriveInfoactual != ''">#{ArriveInfoactual},</if>
+            <if test="CustomsType != null and   CustomsType != ''">#{CustomsType},</if>
+            <if test="MeasureDimention != null and MeasureDimention != ''">#{MeasureDimention},</if>
+            <if test="Remark != null and Remark != ''">#{Remark},</if>
+            <if test="Merchandiser != null and Merchandiser != ''">#{Merchandiser},</if>
+            <if test="Referrer != null and Referrer != ''">#{Referrer},</if>
+            <if test="DhType != null and DhType != ''">#{DhType},</if>
+            <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <delete id="deleteByOrderId" parameterType="String">
+
+        delete from doc_gwcz_arrivalgoods where order_id = #{order_id}
+
+    </delete>
+</mapper>

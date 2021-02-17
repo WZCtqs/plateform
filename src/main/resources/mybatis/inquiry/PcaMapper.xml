@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.inquiry.mapper.PcaMapper">
+
+    <select id="selectProvince" resultType="com.szhbl.project.inquiry.domain.Province">
+        select
+          province_code as provinceCode,
+          province_name as provinceName,
+          province_name_en as provinceNameEn
+        from province
+        where province_code = #{provinceCode}
+    </select>
+    <select id="selectCity" parameterType="java.lang.String" resultType="com.szhbl.project.inquiry.domain.City">
+        select
+          city_code as cityCode,
+          city_name as cityName,
+          city_name_en as cityNameEn
+        from city
+        where city_code = #{cityCode}
+
+    </select>
+    <select id="selectArea" resultType="com.szhbl.project.inquiry.domain.Area">
+        select
+          area_code as areaCode,
+          area_name as areaName,
+          area_name_en as areaNameEn
+        from area
+        where area_code = #{areaCode}
+    </select>
+    <select id="selectPc" resultType="com.szhbl.project.inquiry.dto.PcaDTO">
+        select
+          p.province_code as provinceCode,
+          p.province_name as provinceName,
+          p.province_name_en as provinceNameEn,
+          c.city_code as cityCode,
+          c.city_name as cityName,
+          c.city_name_en as cityNameEn
+        from city c
+        left join province p on c.province_code = p.province_code
+        where c.city_code = #{cityCode}
+    </select>
+    <select id="selectPca" resultType="com.szhbl.project.inquiry.dto.PcaDTO">
+        select
+          p.province_code as provinceCode,
+          p.province_name as provinceName,
+          p.province_name_en as provinceNameEn,
+          c.city_code as cityCode,
+          c.city_name as cityName,
+          c.city_name_en as cityNameEn,
+          a.area_code as areaCode,
+          a.area_name as areaName,
+          a.area_name_en as areaNameEn
+        from area a
+        left join city c on a.city_code = c.city_code
+        left join province p on c.province_code = p.province_code
+        where c.area_code = #{areaCode}
+    </select>
+
+</mapper>

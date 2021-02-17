@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.track.mapper.TrackAbroadMapper">
+    
+    <resultMap type="TrackAbroad" id="TrackAbroadResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="orderNumber"    column="order_number"    />
+        <result property="boxNum"    column="box_num"    />
+        <result property="boxType"    column="container_type"    />
+        <result property="customerEmails"    column="receive_order_receiveEmail"    />
+        <result property="documentaryEmails"    column="documentary_emails"    />
+        <result property="businessEmails"    column="business_emails"    />
+        <result property="downSite"    column="order_unloadSite"    />
+        <result property="departureDate"    column="departure_date"    />
+        <result property="leaveTime"    column="leave_time"    />
+        <result property="changeTime"    column="change_time"    />
+        <result property="changeNum"    column="change_num"    />
+        <result property="abroadContents"    column="abroad_contents"    />
+        <result property="trackTime"    column="track_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTrackAbroadVo">
+        select ta.id, ta.order_id, bs.order_number, ta.box_num, bs.container_type, bs.receive_order_receiveEmail, ta.documentary_emails,
+         ta.business_emails, bs.order_unloadSite, ta.departure_date, ta.leave_time, ta.change_time, ta.change_num,ta.abroad_contents,
+         ta.track_time, ta.remark, ta.del_flag, ta.create_by, ta.create_time, ta.update_by, ta.update_time from track_abroad ta
+        left join busi_shippingorder bs on bs.order_ID=ta.order_id
+    </sql>
+
+    <select id="selectTrackAbroadList" parameterType="TrackAbroad" resultMap="TrackAbroadResult">
+        <include refid="selectTrackAbroadVo"/>
+        left join track_goods_status tgs on tgs.order_id=ta.order_id and tgs.box_num=ta.box_num
+        <where>
+            ta.del_flag=0
+            <if test="orderNumber != null  and orderNumber != ''"> and bs.order_number = #{orderNumber}</if>
+            <if test="boxNum != null  and boxNum != ''"> and ta.box_num = #{boxNum}</if>
+            <if test="classId != null  and classId != ''"> and tgs.actual_class_id = #{classId}</if>
+            <if test="orderId != null  and orderId != ''"> and ta.order_id = #{orderId}</if>
+        </where>
+        order by  ta.update_time desc
+    </select>
+    
+    <select id="selectTrackAbroadById" parameterType="Integer" resultMap="TrackAbroadResult">
+        <include refid="selectTrackAbroadVo"/>
+        where ta.id = #{id}
+    </select>
+        
+    <insert id="insertTrackAbroad" parameterType="TrackAbroad" useGeneratedKeys="true" keyProperty="id">
+        insert into track_abroad
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null ">order_id,</if>
+            <if test="boxNum != null  and boxNum != ''">box_num,</if>
+            <if test="documentaryEmails != null  and documentaryEmails != ''">documentary_emails,</if>
+            <if test="businessEmails != null  and businessEmails != ''">business_emails,</if>
+            <if test="departureDate != null  and departureDate != ''">departure_date,</if>
+            <if test="leaveTime != null  and leaveTime != ''">leave_time,</if>
+            <if test="changeTime != null  and changeTime != ''">change_time,</if>
+            <if test="changeNum != null  and changeNum != ''">change_num,</if>
+            <if test="abroadContents != null  and abroadContents != ''">abroad_contents,</if>
+            <if test="trackTime != null  and trackTime != ''">track_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="delFlag != null ">del_flag,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null and orderId != '' ">#{orderId},</if>
+            <if test="boxNum != null  and boxNum != ''">#{boxNum},</if>
+            <if test="documentaryEmails != null  and documentaryEmails != ''">#{documentaryEmails},</if>
+            <if test="businessEmails != null  and businessEmails != ''">#{businessEmails},</if>
+            <if test="departureDate != null  and departureDate != ''">#{departureDate},</if>
+            <if test="leaveTime != null  and leaveTime != ''">#{leaveTime},</if>
+            <if test="changeTime != null  and changeTime != ''">#{changeTime},</if>
+            <if test="changeNum != null  and changeNum != ''">#{changeNum},</if>
+            <if test="abroadContents != null  and abroadContents != ''">#{abroadContents},</if>
+            <if test="trackTime != null  and trackTime != ''">#{trackTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="delFlag != null ">#{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTrackAbroad" parameterType="TrackAbroad">
+        update track_abroad
+        <trim prefix="SET" suffixOverrides=",">
+            track_time = #{trackTime},
+            <if test="orderId != null and orderId != '' ">order_id = #{orderId},</if>
+            <if test="boxNum != null  and boxNum != ''">box_num = #{boxNum},</if>
+            <if test="documentaryEmails != null  and documentaryEmails != ''">documentary_emails = #{documentaryEmails},</if>
+            <if test="businessEmails != null  and businessEmails != ''">business_emails = #{businessEmails},</if>
+            <if test="departureDate != null  and departureDate != ''">departure_date = #{departureDate},</if>
+            <if test="leaveTime != null  and leaveTime != ''">leave_time = #{leaveTime},</if>
+            <if test="changeTime != null  and changeTime != ''">change_time = #{changeTime},</if>
+            <if test="changeNum != null  and changeNum != ''">change_num = #{changeNum},</if>
+            <if test="abroadContents != null  and abroadContents != ''">abroad_contents = #{abroadContents},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="delFlag != null ">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTrackAbroadById" parameterType="Integer">
+        delete from track_abroad where id = #{id}
+    </delete>
+
+    <delete id="deleteTrackAbroadByIds" parameterType="String">
+        delete from track_abroad where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.track.mapper.TrackAbnormalBoxMapper">
+    
+    <resultMap type="TrackAbnormalBox" id="TrackAbnormalBoxResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="boxNum"    column="box_num"    />
+        <result property="unloadReason"    column="unload_reason"    />
+        <result property="unloadTime"    column="unload_time"    />
+        <result property="solveTime"    column="solve_time"    />
+        <result property="classNum"    column="class_num"    />
+        <result property="isSeparate"    column="is_separate"    />
+        <result property="isArrive"    column="is_arrive"    />
+        <result property="abnormalType"    column="abnormal_type"    />
+        <result property="unloadSite"    column="unload_site"    />
+        <result property="inputTime"    column="input_time"    />
+        <result property="chargePerson"    column="charge_person"    />
+        <result property="realReason"    column="real_reason"    />
+        <result property="arriveTime"    column="arrive_time"    />
+        <result property="inspectionType"    column="inspection_type"    />
+        <result property="abnormalInformation"    column="abnormal_information"    />
+        <result property="receiveEmails"    column="receive_emails"    />
+        <result property="secretEmails"    column="secret_emails"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <resultMap type="TrackAbnormalBoxVo" id="orderListResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_ID"    />
+        <result property="orderNumber"    column="order_number"    />
+        <result property="boxNum"    column="box_num"    />
+        <result property="classDate"    column="Class_date"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="goodsEnName"    column="goods_en_name"    />
+        <result property="upSite"    column="order_uploadSite"    />
+        <result property="classEastAndWest"    column="class_EastAndWest"    />
+        <result property="consolidationType"    column="IsConsolidation"    />
+    </resultMap>
+
+    <sql id="selectTrackAbnormalBoxVo">
+        select id, track_abnormal_box.order_id, box_num, unload_reason, unload_time, solve_time, class_num, is_separate, is_arrive, abnormal_type,
+         unload_site, input_time, charge_person, real_reason, arrive_time, inspection_type, abnormal_information,
+         receive_emails, secret_emails, remark, del_flag, create_by, create_time, update_by, update_time from track_abnormal_box
+    </sql>
+
+    <select id="selectOrderAbnormalBoxList" parameterType="TrackAbnormalBoxVo" resultMap="orderListResult">
+        select tgs.id,bs.order_ID,bs.order_number,tgs.box_num,DATE_FORMAT(bs.Class_date,'%Y-%m-%d') Class_date,bsg.goods_name,bsg.goods_en_name,bs.order_uploadSite,
+        bs.class_EastAndWest,bs.IsConsolidation from busi_shippingorder bs
+        left join track_goods_status tgs on tgs.order_id = bs.order_ID
+        left join busi_shippingorder_goods bsg on bsg.order_ID = bs.order_ID
+        <where>
+            tgs.del_flag=0 and tgs.is_normal=1
+            <if test="orderNumber != null  and orderNumber != ''"> and bs.order_number = #{orderNumber}</if>
+            <if test="boxNum != null  and boxNum != ''"> and tgs.box_num = #{boxNum}</if>
+            <if test="classDate != null  and classDate != ''"> and DATE_FORMAT(bs.Class_date,'%Y-%m-%d')  = #{classDate}</if>
+            <if test="classEastAndWest != null  and classEastAndWest != ''"> and bs.class_EastAndWest = #{classEastAndWest}</if>
+            <if test="lineTypeId != null  and lineTypeId != ''"> and bs.line_typeid = #{lineTypeId}</if>
+            <if test="startTime != null  and startTime != ''">and bs.order_ID in
+                (select order_ID from track_abnormal_box WHERE DATE_FORMAT(input_time,'%Y-%m-%d')  &gt;= #{startTime})</if>
+            <if test="endTime != null  and endTime != ''"> and bs.order_ID in
+                (select order_ID from track_abnormal_box WHERE DATE_FORMAT(input_time,'%Y-%m-%d') &lt;= #{endTime})</if>
+            <if test="inputTime != null and inputTime != '' "> and bs.order_ID in
+                (select order_ID from track_abnormal_box WHERE DATE_FORMAT(input_time,'%Y-%m-%d') =#{inputTime}) </if>
+        </where>
+        order by tgs.update_time desc
+    </select>
+
+    <select id="selectTrackAbnormalBoxList" parameterType="TrackAbnormalBox" resultMap="TrackAbnormalBoxResult">
+        <include refid="selectTrackAbnormalBoxVo"/>
+        <where>
+            del_flag=0
+            <if test="orderId != null  and orderId != ''"> and order_id = #{orderId}</if>
+            <if test="boxNum != null  and boxNum != ''"> and box_num = #{boxNum}</if>
+            order by update_time desc
+        </where>
+    </select>
+    
+    <select id="selectTrackAbnormalBoxById" parameterType="Integer" resultMap="TrackAbnormalBoxResult">
+        <include refid="selectTrackAbnormalBoxVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectByBoxNumAndClassDate" parameterType="String" resultMap="TrackAbnormalBoxResult">
+        <include refid="selectTrackAbnormalBoxVo"/>
+        left join busi_shippingorder bs on track_abnormal_box.order_id = bs.order_ID
+        where box_num = #{boxNum}
+        <if test="classDate != null  and classDate != ''"> and DATE_FORMAT(bs.Class_date,'%Y-%m-%d')  = #{classDate}</if>
+        and del_flag=0 order by update_time desc limit 1
+    </select>
+        
+    <insert id="insertTrackAbnormalBox" parameterType="TrackAbnormalBox" useGeneratedKeys="true" keyProperty="id">
+        insert into track_abnormal_box
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id,</if>
+            <if test="boxNum != null  and boxNum != ''">box_num,</if>
+            <if test="unloadReason != null  and unloadReason != ''">unload_reason,</if>
+            <if test="unloadTime != null  and unloadTime != ''">unload_time,</if>
+            <if test="solveTime != null  and solveTime != ''">solve_time,</if>
+            <if test="classNum != null  and classNum != ''">class_num,</if>
+            <if test="isSeparate != null ">is_separate,</if>
+            <if test="isArrive != null ">is_arrive,</if>
+            <if test="abnormalType != null  and abnormalType != ''">abnormal_type,</if>
+            <if test="unloadSite != null  and unloadSite != ''">unload_site,</if>
+            <if test="inputTime != null  and inputTime != ''">input_time,</if>
+            <if test="chargePerson != null  and chargePerson != ''">charge_person,</if>
+            <if test="realReason != null  and realReason != ''">real_reason,</if>
+            <if test="arriveTime != null  and arriveTime != ''">arrive_time,</if>
+            <if test="inspectionType != null ">inspection_type,</if>
+            <if test="abnormalInformation != null  and abnormalInformation != ''">abnormal_information,</if>
+            <if test="receiveEmails != null  and receiveEmails != ''">receive_emails,</if>
+            <if test="secretEmails != null  and secretEmails != ''">secret_emails,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="delFlag != null ">del_flag,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">#{orderId},</if>
+            <if test="boxNum != null  and boxNum != ''">#{boxNum},</if>
+            <if test="unloadReason != null  and unloadReason != ''">#{unloadReason},</if>
+            <if test="unloadTime != null  and unloadTime != ''">#{unloadTime},</if>
+            <if test="solveTime != null  and solveTime != ''">#{solveTime},</if>
+            <if test="classNum != null  and classNum != ''">#{classNum},</if>
+            <if test="isSeparate != null ">#{isSeparate},</if>
+            <if test="isArrive != null ">#{isArrive},</if>
+            <if test="abnormalType != null  and abnormalType != ''">#{abnormalType},</if>
+            <if test="unloadSite != null  and unloadSite != ''">#{unloadSite},</if>
+            <if test="inputTime != null  and inputTime != ''">#{inputTime},</if>
+            <if test="chargePerson != null  and chargePerson != ''">#{chargePerson},</if>
+            <if test="realReason != null  and realReason != ''">#{realReason},</if>
+            <if test="arriveTime != null  and arriveTime != ''">#{arriveTime},</if>
+            <if test="inspectionType != null ">#{inspectionType},</if>
+            <if test="abnormalInformation != null  and abnormalInformation != ''">#{abnormalInformation},</if>
+            <if test="receiveEmails != null  and receiveEmails != ''">#{receiveEmails},</if>
+            <if test="secretEmails != null  and secretEmails != ''">#{secretEmails},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="delFlag != null ">#{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTrackAbnormalBox" parameterType="TrackAbnormalBox">
+        update track_abnormal_box
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id = #{orderId},</if>
+            <if test="boxNum != null  and boxNum != ''">box_num = #{boxNum},</if>
+            <if test="unloadReason != null  and unloadReason != ''">unload_reason = #{unloadReason},</if>
+            <if test="unloadTime != null  and unloadTime != ''">unload_time = #{unloadTime},</if>
+            <if test="solveTime != null  and solveTime != ''">solve_time = #{solveTime},</if>
+            <if test="classNum != null  and classNum != ''">class_num = #{classNum},</if>
+            <if test="isSeparate != null ">is_separate = #{isSeparate},</if>
+            <if test="isArrive != null ">is_arrive = #{isArrive},</if>
+            <if test="abnormalType != null  and abnormalType != ''">abnormal_type = #{abnormalType},</if>
+            <if test="unloadSite != null  and unloadSite != ''">unload_site = #{unloadSite},</if>
+            <if test="inputTime != null  and inputTime != ''">input_time = #{inputTime},</if>
+            <if test="chargePerson != null  and chargePerson != ''">charge_person = #{chargePerson},</if>
+            <if test="realReason != null  and realReason != ''">real_reason = #{realReason},</if>
+            <if test="arriveTime != null  and arriveTime != ''">arrive_time = #{arriveTime},</if>
+            <if test="inspectionType != null ">inspection_type = #{inspectionType},</if>
+            <if test="abnormalInformation != null  and abnormalInformation != ''">abnormal_information = #{abnormalInformation},</if>
+            <if test="receiveEmails != null  and receiveEmails != ''">receive_emails = #{receiveEmails},</if>
+            <if test="secretEmails != null  and secretEmails != ''">secret_emails = #{secretEmails},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="delFlag != null ">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="deleteTrackAbnormalBoxById" parameterType="Integer">
+        update track_abnormal_box set del_flag=1 where id = #{id}
+    </update>
+
+    <update id="deleteTrackAbnormalBoxByIds" parameterType="String">
+        update track_abnormal_box set del_flag=1 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="selectDayAbnormalBox" parameterType="TrackAbnormalBoxVo" resultType="AbnormalDay">
+         select bs.Class_date as classDate,su.nick_name as referee,bsg.goods_name as goodsName,bs.order_uploadSite as uploadSite,bs.order_unloadSite as unloadSite,
+         bs.container_type as boxType,bc.e_Merchandiser_id as eMerchandiserId, bc.w_Merchandiser_id as wMerchandiserId,bs.class_EastAndWest as eastAndWest,tab.box_num as boxNum,
+         bs.order_number as orderNum,tab.unload_reason as unloadReason,tab.unload_site as abnormalSite,tab.unload_time as unloadTime,tab.solve_time as solveTime,
+         tab.abnormal_type as abnormalType,tab.charge_person as chargePerson,tab.abnormal_information as abnormalInformation,tab.is_separate as isSeparate,tab.arrive_time as arriveTime,
+         bcs.class_StationOfDeparture as startBh,bcs.class_StationOfDestination as endBh,bcs.class_bh as classBh
+         from track_abnormal_box tab
+         left join busi_shippingorder bs on bs.order_ID= tab.order_id
+         left join busi_shippingorder_goods bsg on bsg.order_ID= tab.order_id
+         left join busi_clients bc on bc.client_ID= bs.client_ID
+         left join sys_user su on su.tjr_id= bc.client_tjr_id
+         left join busi_classes bcs on bcs.class_ID= bs.class_ID
+         <where>
+             tab.del_flag=0 and su.reference_type = '1' and
+             tab.input_time IN (SELECT MAX(input_time) FROM track_abnormal_box ab
+             WHERE tab.order_id = ab.order_id and tab.box_num= ab.box_num and ab.del_flag=0
+             <if test="orderNumber != null  and orderNumber != ''"> and bs.order_number = #{orderNumber}</if>
+             <if test="boxNum != null  and boxNum != ''"> and ab.box_num = #{boxNum}</if>
+             <if test="classDate != null  and classDate != ''"> and DATE_FORMAT(bs.Class_date,'%Y-%m-%d') = #{classDate}</if>
+             <if test="classEastAndWest != null  and classEastAndWest != ''"> and bs.class_EastAndWest = #{classEastAndWest}</if>
+             <if test="lineTypeId != null  and lineTypeId != ''"> and bs.line_typeid = #{lineTypeId}</if>
+             <if test="startTime != null  and startTime != ''"> and DATE_FORMAT(input_time,'%Y-%m-%d') &gt;= #{startTime}</if>
+             <if test="endTime != null  and endTime != ''"> and DATE_FORMAT(input_time,'%Y-%m-%d') &lt;= #{endTime}</if>
+             <if test="inputTime != null and inputTime != '' "> and DATE_FORMAT(input_time,'%Y-%m-%d') = #{inputTime}</if>
+             GROUP BY ab.order_id,ab.box_num)
+         </where>
+        order by bcs.class_STime desc
+    </select>
+
+    <select id="selectAbnormalInformation" parameterType="String" resultType="String">
+        select tt.track_contents from track_train tt
+        left join busi_classes bc on bc.class_ID= tt.class_id
+        where bc.class_bh=#{classNum} and tt.del_flag='0'
+        and tt.id in (SELECT MAX(id) FROM track_train t
+             WHERE tt.del_flag='0' and tt.class_id = t.class_id GROUP BY t.class_id)
+    </select>
+
+    <select id="selectAbVo" parameterType="String" resultType="AbnormalBoxEmailsVo">
+        SELECT ancestors as ancestors,su.email as yewuEmail,bs.receive_order_receiveEmail as bccMails,
+        bc.e_Merchandiser_id as eMerchandiserId, bc.w_Merchandiser_id as wMerchandiserId,
+        bs.class_EastAndWest as goCome,bs.IsConsolidation as isFull from sys_dept sd
+        LEFT JOIN sys_user su on su.dept_id=sd.dept_id
+        LEFT JOIN busi_shippingorder bs on su.tjr_id=bs.client_tjr_id
+        left join busi_clients bc on bc.client_ID= bs.client_ID
+        WHERE bs.order_ID =#{orderId} and su.reference_type = '1'
+    </select>
+
+    <select id="selectLeaders"  resultType="java.lang.String">
+        SELECT leader from sys_dept
+        WHERE dept_id in
+        <foreach collection="array" item="deptId" index="index" open="(" close=")" separator=",">
+            #{deptId}
+        </foreach>
+    </select>
+
+    <select id="selectLeaderEmails"  resultType="java.lang.String">
+        SELECT email from sys_user
+        WHERE nick_name in
+        <foreach collection="array" item="leader" index="index" open="(" close=")" separator=",">
+            #{leader}
+        </foreach>
+    </select>
+
+
+</mapper>

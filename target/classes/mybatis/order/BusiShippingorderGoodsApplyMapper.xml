@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.order.mapper.BusiShippingorderGoodsApplyMapper">
+    
+    <resultMap type="BusiShippingorderGoods" id="BusiShippingorderGoodsApplyResult">
+        <result property="goodsId"    column="goods_ID"    />
+        <result property="orderId"    column="order_ID"    />
+        <result property="goodsMark"    column="goods_mark"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="goodsEnName"    column="goods_en_name"    />
+        <result property="goodsPacking"    column="goods_packing"    />
+        <result property="goodsNumber"    column="goods_number"    />
+        <result property="goodsClearance"    column="goods_clearance"    />
+        <result property="goodsOutClearance"    column="goods_out_clearance"    />
+        <result property="goodsInReport"    column="goods_in_report"    />
+        <result property="goodsReport"    column="goods_report"    />
+        <result property="goodsStandard"    column="goods_standard"    />
+        <result property="goodsKgs"    column="goods_KGS"    />
+        <result property="goodsCbm"    column="goods_CBM"    />
+        <result property="goodsIsscheme"    column="goods_isScheme"    />
+        <result property="remark"    column="remark"    />
+        <result property="createdate"    column="createdate"    />
+        <result property="goodsHistoryEditrecord"    column="goods_history_editrecord"    />
+        <result property="goodsbz"    column="goodsbz"    />
+        <result property="hsbz"    column="HSbz"    />
+        <result property="radioaction"    column="radioaction"    />
+        <result property="kpState"    column="kp_state"    />
+    </resultMap>
+
+    <sql id="selectBusiShippingorderGoodsApplyVo">
+        select goods_ID, order_ID, goods_mark, goods_name, goods_en_name, goods_packing, goods_number, goods_clearance, goods_out_clearance, goods_in_report, goods_report, goods_standard, goods_KGS, goods_CBM, goods_isScheme, remark, createdate, goods_history_editrecord, goodsbz, HSbz, radioaction, kp_state from busi_shippingorder_goods_apply
+    </sql>
+
+    <select id="selectBusiShippingorderGoodsApplyList" parameterType="BusiShippingorderGoods" resultMap="BusiShippingorderGoodsApplyResult">
+        <include refid="selectBusiShippingorderGoodsApplyVo"/>
+        <where>  
+            <if test="orderId != null  and orderId != ''"> and order_ID = #{orderId}</if>
+            <if test="goodsMark != null  and goodsMark != ''"> and goods_mark = #{goodsMark}</if>
+            <if test="goodsName != null  and goodsName != ''"> and goods_name like concat('%', #{goodsName}, '%')</if>
+            <if test="goodsEnName != null  and goodsEnName != ''"> and goods_en_name like concat('%', #{goodsEnName}, '%')</if>
+            <if test="goodsPacking != null  and goodsPacking != ''"> and goods_packing = #{goodsPacking}</if>
+            <if test="goodsNumber != null  and goodsNumber != ''"> and goods_number = #{goodsNumber}</if>
+            <if test="goodsClearance != null  and goodsClearance != ''"> and goods_clearance = #{goodsClearance}</if>
+            <if test="goodsOutClearance != null  and goodsOutClearance != ''"> and goods_out_clearance = #{goodsOutClearance}</if>
+            <if test="goodsInReport != null  and goodsInReport != ''"> and goods_in_report = #{goodsInReport}</if>
+            <if test="goodsReport != null  and goodsReport != ''"> and goods_report = #{goodsReport}</if>
+            <if test="goodsStandard != null  and goodsStandard != ''"> and goods_standard = #{goodsStandard}</if>
+            <if test="goodsKgs != null  and goodsKgs != ''"> and goods_KGS = #{goodsKgs}</if>
+            <if test="goodsCbm != null  and goodsCbm != ''"> and goods_CBM = #{goodsCbm}</if>
+            <if test="goodsIsscheme != null  and goodsIsscheme != ''"> and goods_isScheme = #{goodsIsscheme}</if>
+            <if test="createdate != null "> and createdate = #{createdate}</if>
+            <if test="goodsHistoryEditrecord != null  and goodsHistoryEditrecord != ''"> and goods_history_editrecord = #{goodsHistoryEditrecord}</if>
+            <if test="goodsbz != null  and goodsbz != ''"> and goodsbz = #{goodsbz}</if>
+            <if test="hsbz != null  and hsbz != ''"> and HSbz = #{hsbz}</if>
+            <if test="radioaction != null  and radioaction != ''"> and radioaction = #{radioaction}</if>
+            <if test="kpState != null  and kpState != ''"> and kp_state = #{kpState}</if>
+        </where>
+    </select>
+    
+    <select id="selectBusiShippingorderGoodsApplyByOrderId" parameterType="String" resultMap="BusiShippingorderGoodsApplyResult">
+        <include refid="selectBusiShippingorderGoodsApplyVo"/>
+        where order_ID = #{orderId}
+    </select>
+        
+    <insert id="insertBusiShippingorderGoodsApply" parameterType="BusiShippingorderGoods">
+        insert into busi_shippingorder_goods_apply
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null  and goodsId != ''">goods_ID,</if>
+            <if test="orderId != null  and orderId != ''">order_ID,</if>
+            <if test="goodsMark != null  and goodsMark != ''">goods_mark,</if>
+            <if test="goodsName != null  and goodsName != ''">goods_name,</if>
+            <if test="goodsEnName != null  and goodsEnName != ''">goods_en_name,</if>
+            <if test="goodsPacking != null  and goodsPacking != ''">goods_packing,</if>
+            <if test="goodsNumber != null  and goodsNumber != ''">goods_number,</if>
+            <if test="goodsClearance != null  and goodsClearance != ''">goods_clearance,</if>
+            <if test="goodsOutClearance != null  and goodsOutClearance != ''">goods_out_clearance,</if>
+            <if test="goodsInReport != null  and goodsInReport != ''">goods_in_report,</if>
+            <if test="goodsReport != null  and goodsReport != ''">goods_report,</if>
+            <if test="goodsStandard != null  and goodsStandard != ''">goods_standard,</if>
+            <if test="goodsKgs != null  and goodsKgs != ''">goods_KGS,</if>
+            <if test="goodsCbm != null  and goodsCbm != ''">goods_CBM,</if>
+            <if test="goodsIsscheme != null  and goodsIsscheme != ''">goods_isScheme,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createdate != null ">createdate,</if>
+            <if test="goodsHistoryEditrecord != null  and goodsHistoryEditrecord != ''">goods_history_editrecord,</if>
+            <if test="goodsbz != null  and goodsbz != ''">goodsbz,</if>
+            <if test="hsbz != null  and hsbz != ''">HSbz,</if>
+            <if test="radioaction != null  and radioaction != ''">radioaction,</if>
+            <if test="kpState != null  and kpState != ''">kp_state,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null  and goodsId != ''">#{goodsId},</if>
+            <if test="orderId != null  and orderId != ''">#{orderId},</if>
+            <if test="goodsMark != null  and goodsMark != ''">#{goodsMark},</if>
+            <if test="goodsName != null  and goodsName != ''">#{goodsName},</if>
+            <if test="goodsEnName != null  and goodsEnName != ''">#{goodsEnName},</if>
+            <if test="goodsPacking != null  and goodsPacking != ''">#{goodsPacking},</if>
+            <if test="goodsNumber != null  and goodsNumber != ''">#{goodsNumber},</if>
+            <if test="goodsClearance != null  and goodsClearance != ''">#{goodsClearance},</if>
+            <if test="goodsOutClearance != null  and goodsOutClearance != ''">#{goodsOutClearance},</if>
+            <if test="goodsInReport != null  and goodsInReport != ''">#{goodsInReport},</if>
+            <if test="goodsReport != null  and goodsReport != ''">#{goodsReport},</if>
+            <if test="goodsStandard != null  and goodsStandard != ''">#{goodsStandard},</if>
+            <if test="goodsKgs != null  and goodsKgs != ''">#{goodsKgs},</if>
+            <if test="goodsCbm != null  and goodsCbm != ''">#{goodsCbm},</if>
+            <if test="goodsIsscheme != null  and goodsIsscheme != ''">#{goodsIsscheme},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createdate != null ">#{createdate},</if>
+            <if test="goodsHistoryEditrecord != null  and goodsHistoryEditrecord != ''">#{goodsHistoryEditrecord},</if>
+            <if test="goodsbz != null  and goodsbz != ''">#{goodsbz},</if>
+            <if test="hsbz != null  and hsbz != ''">#{hsbz},</if>
+            <if test="radioaction != null  and radioaction != ''">#{radioaction},</if>
+            <if test="kpState != null  and kpState != ''">#{kpState},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBusiShippingorderGoodsApply" parameterType="BusiShippingorderGoods">
+        update busi_shippingorder_goods_apply
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_ID = #{orderId},</if>
+            <if test="goodsMark != null  and goodsMark != ''">goods_mark = #{goodsMark},</if>
+            <if test="goodsName != null  and goodsName != ''">goods_name = #{goodsName},</if>
+            <if test="goodsEnName != null  and goodsEnName != ''">goods_en_name = #{goodsEnName},</if>
+            <if test="goodsPacking != null  and goodsPacking != ''">goods_packing = #{goodsPacking},</if>
+            <if test="goodsNumber != null  and goodsNumber != ''">goods_number = #{goodsNumber},</if>
+            <if test="goodsClearance != null  and goodsClearance != ''">goods_clearance = #{goodsClearance},</if>
+            <if test="goodsOutClearance != null  and goodsOutClearance != ''">goods_out_clearance = #{goodsOutClearance},</if>
+            <if test="goodsInReport != null  and goodsInReport != ''">goods_in_report = #{goodsInReport},</if>
+            <if test="goodsReport != null  and goodsReport != ''">goods_report = #{goodsReport},</if>
+            <if test="goodsStandard != null  and goodsStandard != ''">goods_standard = #{goodsStandard},</if>
+            <if test="goodsKgs != null  and goodsKgs != ''">goods_KGS = #{goodsKgs},</if>
+            <if test="goodsCbm != null  and goodsCbm != ''">goods_CBM = #{goodsCbm},</if>
+            <if test="goodsIsscheme != null  and goodsIsscheme != ''">goods_isScheme = #{goodsIsscheme},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createdate != null ">createdate = #{createdate},</if>
+            <if test="goodsHistoryEditrecord != null  and goodsHistoryEditrecord != ''">goods_history_editrecord = #{goodsHistoryEditrecord},</if>
+            <if test="goodsbz != null  and goodsbz != ''">goodsbz = #{goodsbz},</if>
+            <if test="hsbz != null  and hsbz != ''">HSbz = #{hsbz},</if>
+            <if test="radioaction != null  and radioaction != ''">radioaction = #{radioaction},</if>
+            <if test="kpState != null  and kpState != ''">kp_state = #{kpState},</if>
+        </trim>
+        where goods_ID = #{goodsId}
+    </update>
+
+    <delete id="deleteBusiShippingorderGoodsApplyById" parameterType="String">
+        delete from busi_shippingorder_goods_apply where order_ID = #{orderId}
+    </delete>
+
+    <delete id="deleteBusiShippingorderGoodsApplyByIds" parameterType="String">
+        delete from busi_shippingorder_goods_apply where goods_ID in 
+        <foreach item="goodsId" collection="array" open="(" separator="," close=")">
+            #{goodsId}
+        </foreach>
+    </delete>
+    
+</mapper>

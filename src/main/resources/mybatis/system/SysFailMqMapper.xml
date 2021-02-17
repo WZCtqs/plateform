@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.system.mapper.SysFailMqMapper">
+    
+    <resultMap type="SysFailMq" id="SysFailMqResult">
+        <result property="id"    column="id"    />
+        <result property="body"    column="body"    />
+        <result property="code"    column="code"    />
+        <result property="text"    column="text"    />
+        <result property="exchange"    column="exchange"    />
+        <result property="routingkey"    column="routingkey"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectSysFailMqVo">
+        select id, body, code, text, exchange, routingkey, create_time from sys_fail_mq
+    </sql>
+
+    <select id="selectSysFailMqList" parameterType="SysFailMq" resultMap="SysFailMqResult">
+        <include refid="selectSysFailMqVo"/>
+        <where>  
+            <if test="body != null  and body != ''"> and body = #{body}</if>
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="text != null  and text != ''"> and text = #{text}</if>
+            <if test="exchange != null  and exchange != ''"> and exchange = #{exchange}</if>
+            <if test="routingkey != null  and routingkey != ''"> and routingkey = #{routingkey}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysFailMqById" parameterType="Long" resultMap="SysFailMqResult">
+        <include refid="selectSysFailMqVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSysFailMq" parameterType="SysFailMq" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_fail_mq
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="body != null  and body != ''">body,</if>
+            <if test="code != null  ">code,</if>
+            <if test="text != null  and text != ''">text,</if>
+            <if test="exchange != null  and exchange != ''">exchange,</if>
+            <if test="routingkey != null  and routingkey != ''">routingkey,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="body != null  and body != ''">#{body},</if>
+            <if test="code != null  ">#{code},</if>
+            <if test="text != null  and text != ''">#{text},</if>
+            <if test="exchange != null  and exchange != ''">#{exchange},</if>
+            <if test="routingkey != null  and routingkey != ''">#{routingkey},</if>
+            <if test="createTime != null ">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysFailMq" parameterType="SysFailMq">
+        update sys_fail_mq
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="body != null  and body != ''">body = #{body},</if>
+            <if test="code != null  and code != ''">code = #{code},</if>
+            <if test="text != null  and text != ''">text = #{text},</if>
+            <if test="exchange != null  and exchange != ''">exchange = #{exchange},</if>
+            <if test="routingkey != null  and routingkey != ''">routingkey = #{routingkey},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysFailMqById" parameterType="Long">
+        delete from sys_fail_mq where id = #{id}
+    </delete>
+
+    <delete id="deleteSysFailMqByIds" parameterType="String">
+        delete from sys_fail_mq where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

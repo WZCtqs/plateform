@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.inquiry.mapper.BookingInquiryOrderMapper">
+    
+    <resultMap type="com.szhbl.project.inquiry.domain.BookingInquiryOrder" id="BookingInquiryOrderResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="inquiryResultId"    column="inquiry_result_id"    />
+    </resultMap>
+
+    <sql id="selectBookingInquiryOrderVo">
+        select id, order_id, inquiry_result_id from booking_inquiry_order
+    </sql>
+
+    <select id="selectBookingInquiryOrderList" parameterType="BookingInquiryOrder" resultMap="BookingInquiryOrderResult">
+        <include refid="selectBookingInquiryOrderVo"/>
+        <where>
+            <if test="orderId != null  and orderId != ''"> and order_id = #{orderId}</if>
+            <if test="inquiryResultId != null "> and inquiry_result_id = #{inquiryResultId}</if>
+        </where>
+    </select>
+
+    <select id="selectPreInquiryOrder" parameterType="String" resultMap="BookingInquiryOrderResult">
+        <include refid="selectBookingInquiryOrderVo"/>
+        where
+        order_id = #{orderId}
+        order by id desc limit 1
+    </select>
+        
+    <insert id="insertBookingInquiryOrder" parameterType="BookingInquiryOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into booking_inquiry_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id,</if>
+            <if test="inquiryResultId != null ">inquiry_result_id,</if>
+            <if test="createTime != null ">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">#{orderId},</if>
+            <if test="inquiryResultId != null ">#{inquiryResultId},</if>
+            <if test="createTime != null ">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBookingInquiryOrder" parameterType="BookingInquiryOrder">
+        update booking_inquiry_order set inquiry_result_id = #{inquiryResultId}
+        where order_id = #{orderId}
+    </update>
+    
+</mapper>

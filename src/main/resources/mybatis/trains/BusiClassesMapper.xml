@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.trains.mapper.BusiClassesMapper">
+    
+    <resultMap type="BusiClasses" id="BusiClassesResult">
+        <result property="classId"    column="class_ID"    />
+        <result property="classBh"    column="class_bh"    />
+        <result property="lineTypeid"    column="line_typeid"    />
+        <result property="lineId"    column="line_id"    />
+        <result property="classTId"    column="class_t_ID"    />
+        <result property="classNumber"    column="class_number"    />
+        <result property="classBlocktrain"    column="class_BlockTrain"    />
+        <result property="classClasstype"    column="class_ClassType"    />
+        <result property="classEastandwest"    column="class_EastAndWest"    />
+        <result property="classStationofdeparture"    column="class_StationOfDeparture"    />
+        <result property="classStationofdestination"    column="class_StationOfDestination"    />
+        <result property="classTransporttime"    column="class_TransportTime"    />
+        <result property="ispublicly"    column="isPublicly"    />
+        <result property="classSpacenumber"    column="class_spacenumber"    />
+        <result property="zxcnt"    column="zxcnt"    />
+        <result property="pxstate"    column="pxstate"    />
+        <result property="pxcnt"    column="pxcnt"    />
+        <result property="pxkgs"    column="pxkgs"    />
+        <result property="classStime"    column="class_STime"    />
+        <result property="classEtime"    column="class_ETime"    />
+        <result property="classState"    column="class_state"    />
+        <result property="receiveSiteFull"    column="receive_site_full"    />
+        <result property="receiveSiteLcl"    column="receive_site_lcl"    />
+        <result property="createdate"    column="createdate"    />
+        <result property="createuserid"    column="createuserid"    />
+        <result property="createusername"    column="createusername"    />
+        <result property="remark"    column="remark"    />
+        <result property="costentryState"    column="CostEntry_State"    />
+        <result property="distributionTime"    column="Distribution_time"    />
+        <result property="xhentryState"    column="XHEntry_State"    />
+        <result property="pxentryState"    column="PXEntry_State"    />
+    </resultMap>
+
+    <sql id="selectBusiClassesVo">
+        select class_ID, class_bh, line_typeid, line_id, class_t_ID, class_number, class_BlockTrain, class_ClassType, class_EastAndWest, class_StationOfDeparture, class_StationOfDestination, class_TransportTime, isPublicly, class_spacenumber, zxcnt, pxstate, pxcnt, pxkgs, class_STime, class_ETime, class_state, receive_site_full, receive_site_lcl, createdate, createuserid, createusername, remark, CostEntry_State, Distribution_time, XHEntry_State, PXEntry_State from busi_classes
+    </sql>
+
+    <sql id="selectBusiClassesVos">
+        select class.class_ID as classId,class.class_number as classNumber,class.class_bh as classBh,class.line_typeid as lineTypeid,class.line_id as lineId,class.class_EastAndWest as classEastandwest,
+        upsta.name_cn as classStationofdepartureName,class.class_StationOfDeparture as classStationofdeparture, downsta.name_cn as classStationofdestinationName,
+        class.class_StationOfDestination as classStationofdestination,class.class_BlockTrain as classBlocktrain,
+        class.class_TransportTime as classTransporttime,class.class_spacenumber as classSpacenumber,class.zxcnt as zxcnt,class.pxstate as pxstate,class.pxcnt as pxcnt,class.pxkgs as pxkgs,class.class_STime as classStime,class.class_ETime as classEtime,
+        class.class_state as classState,class.receive_site_full as receiveSiteFull,class.receive_site_lcl as receiveSiteLcl,class.createdate as createdate,class.createusername as createusername,
+        class.CostEntry_State as costentryState,class.Distribution_time as distributionTime,class.XHEntry_State as xhentryState,class.PXEntry_State as pxentryState,class.USDtoRMBe asusdtormbe,
+        class.EURtoRMBe as eurtormbe,class.EUTtoUSDe as euttousde,class.RURtoRMBe as rurtormbe,class.remark as remark,line.name_cn as nameCn,line.class_t_port as classPortNum
+        from busi_classes class
+    </sql>
+
+    <select id="selectBusiClassesList" parameterType="BusiClasses" resultType="BusiClasses">
+        <include refid="selectBusiClassesVos"/>
+        left join busi_site upsta on upsta.code = class.class_StationOfDeparture
+        left join busi_site downsta on downsta.code = class.class_StationOfDestination
+        left join busi_linesite line on line.id = class.line_id
+        <where>
+            <if test="classNumber != null  and classNumber != ''"> and class.class_number = #{classNumber}</if>
+            <if test="classBh != null  and classBh != ''"> and class.class_bh = #{classBh}</if>
+            <if test="classStationofdeparture != null  and classStationofdeparture != ''"> and upsta.name_cn like concat('%', #{classStationofdeparture}, '%')</if>
+            <if test="classStationofdestination != null  and classStationofdestination != ''"> and downsta.name_cn like concat('%', #{classStationofdestination}, '%')</if>
+            <if test="lineTypeid != null "> and class.line_typeid = #{lineTypeid}</if>
+            <if test="classEastandwest != null  and classEastandwest != ''"> and class.class_EastAndWest = #{classEastandwest}</if>
+            <if test="classState != null  and classState != ''"> and class.class_state = #{classState}</if>
+            <if test="pxentryState != null "> and class.PXEntry_State = #{pxentryState}</if>
+            <if test="classStime != null "> and <![CDATA[class.class_STime = #{classStime,jdbcType=DATE}]]></if>
+        </where>
+        order by class.class_STime desc
+    </select>
+
+    <select id="selectBusiClassesLists" parameterType="BusiClasses" resultMap="BusiClassesResult">
+        <include refid="selectBusiClassesVo"/>
+        <where>  
+            <if test="classBh != null  and classBh != ''"> and class_bh = #{classBh}</if>
+            <if test="lineTypeid != null "> and line_typeid = #{lineTypeid}</if>
+            <if test="lineId != null and lineId != ''"> and line_id = #{lineId}</if>
+            <if test="classTId != null  and classTId != ''"> and class_t_ID = #{classTId}</if>
+            <if test="classNumber != null  and classNumber != ''"> and class_number = #{classNumber}</if>
+            <if test="classBlocktrain != null  and classBlocktrain != ''"> and class_BlockTrain = #{classBlocktrain}</if>
+            <if test="classClasstype != null  and classClasstype != ''"> and class_ClassType = #{classClasstype}</if>
+            <if test="classEastandwest != null  and classEastandwest != ''"> and class_EastAndWest = #{classEastandwest}</if>
+            <if test="classStationofdeparture != null  and classStationofdeparture != ''"> and class_StationOfDeparture = #{classStationofdeparture}</if>
+            <if test="classStationofdestination != null  and classStationofdestination != ''"> and class_StationOfDestination = #{classStationofdestination}</if>
+            <if test="classTransporttime != null  and classTransporttime != ''"> and class_TransportTime = #{classTransporttime}</if>
+            <if test="ispublicly != null  and ispublicly != ''"> and isPublicly = #{ispublicly}</if>
+            <if test="classSpacenumber != null "> and class_spacenumber = #{classSpacenumber}</if>
+            <if test="zxcnt != null "> and zxcnt = #{zxcnt}</if>
+            <if test="pxstate != null  and pxstate != ''"> and pxstate = #{pxstate}</if>
+            <if test="pxcnt != null "> and pxcnt = #{pxcnt}</if>
+            <if test="pxkgs != null "> and pxkgs = #{pxkgs}</if>
+            <if test="classStime != null ">
+                and DATE_FORMAT(class_STime,'%Y-%m-%d') <![CDATA[>= ]]> #{classStime}
+             </if>
+            <if test="classStimeEnd != null ">
+                and DATE_FORMAT(class_STime,'%Y-%m-%d') <![CDATA[<= ]]> #{classStimeEnd}
+             </if>
+            <if test="classEtime != null "> and class_ETime = #{classEtime}</if>
+            <if test="classState != null  and classState != ''"> and class_state = #{classState}</if>
+            <if test="receiveSiteFull != null  and receiveSiteFull != ''"> and receive_site_full = #{receiveSiteFull}</if>
+            <if test="receiveSiteLcl != null  and receiveSiteLcl != ''"> and receive_site_lcl = #{receiveSiteLcl}</if>
+            <if test="createdate != null "> and createdate = #{createdate}</if>
+            <if test="createuserid != null  and createuserid != ''"> and createuserid = #{createuserid}</if>
+            <if test="createusername != null  and createusername != ''"> and createusername like concat('%', #{createusername}, '%')</if>
+            <if test="costentryState != null "> and CostEntry_State = #{costentryState}</if>
+            <if test="distributionTime != null  and distributionTime != ''"> and Distribution_time = #{distributionTime}</if>
+            <if test="xhentryState != null "> and XHEntry_State = #{xhentryState}</if>
+            <if test="pxentryState != null "> and PXEntry_State = #{pxentryState}</if>
+        </where>
+    </select>
+
+    <select id="selectBusiClassesById" parameterType="String" resultType="BusiClasses">
+        <include refid="selectBusiClassesVos"/>
+        left join busi_site upsta on upsta.code = class.class_StationOfDeparture
+        left join busi_site downsta on downsta.code = class.class_StationOfDestination
+        left join busi_linesite line on line.id = class.line_id
+        where class.class_ID = #{classId}
+    </select>
+
+    <select id="selectBusiClassesByBh" parameterType="String" resultType="BusiClasses">
+        <include refid="selectBusiClassesVos"/>
+        left join busi_site upsta on upsta.code = class.class_StationOfDeparture
+        left join busi_site downsta on downsta.code = class.class_StationOfDestination
+        left join busi_linesite line on line.id = class.line_id
+        where class.class_bh = #{classBh}
+    </select>
+    
+    <select id="selectBusiClassesByIdOld" parameterType="Long" resultMap="BusiClassesResult">
+        <include refid="selectBusiClassesVo"/>
+        where class_ID = #{classId}
+    </select>
+
+    <select id="checkclassBhUnique" parameterType="String" resultType="int">
+		select count(1) from busi_classes where class_bh = #{classBh}
+	</select>
+
+    <select id="checkclassBhUniqueUpd" parameterType="String" resultMap="BusiClassesResult">
+		select class_ID, class_bh from busi_classes where class_bh = #{classBh}
+	</select>
+
+    <select id="hasChildByTemId" parameterType="String" resultType="int">
+		select count(1) from busi_classes
+		where class_t_ID = #{classTId}
+	</select>
+        
+    <insert id="insertBusiClasses" parameterType="BusiClasses" useGeneratedKeys="true" keyProperty="classId">
+        insert into busi_classes
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="classId != null  and classId != ''">class_ID,</if>
+            <if test="classBh != null  and classBh != ''">class_bh,</if>
+            <if test="lineTypeid != null ">line_typeid,</if>
+            <if test="lineId != null and lineId != ''">line_id,</if>
+            <if test="classTId != null  and classTId != ''">class_t_ID,</if>
+            <if test="classNumber != null  and classNumber != ''">class_number,</if>
+            <if test="classBlocktrain != null  and classBlocktrain != ''">class_BlockTrain,</if>
+            <if test="classClasstype != null  and classClasstype != ''">class_ClassType,</if>
+            <if test="classEastandwest != null  and classEastandwest != ''">class_EastAndWest,</if>
+            <if test="classStationofdeparture != null  and classStationofdeparture != ''">class_StationOfDeparture,</if>
+            <if test="classStationofdestination != null  and classStationofdestination != ''">class_StationOfDestination,</if>
+            <if test="classTransporttime != null  and classTransporttime != ''">class_TransportTime,</if>
+            <if test="ispublicly != null  and ispublicly != ''">isPublicly,</if>
+            <if test="classSpacenumber != null ">class_spacenumber,</if>
+            <if test="zxcnt != null ">zxcnt,</if>
+            <if test="pxstate != null  and pxstate != ''">pxstate,</if>
+            <if test="pxcnt != null ">pxcnt,</if>
+            <if test="pxkgs != null ">pxkgs,</if>
+            <if test="classStime != null ">class_STime,</if>
+            <if test="classEtime != null ">class_ETime,</if>
+            <if test="classState != null  and classState != ''">class_state,</if>
+            <if test="receiveSiteFull != null  and receiveSiteFull != ''">receive_site_full,</if>
+            <if test="receiveSiteLcl != null  and receiveSiteLcl != ''">receive_site_lcl,</if>
+            <if test="createdate != null ">createdate,</if>
+            <if test="createuserid != null  and createuserid != ''">createuserid,</if>
+            <if test="createusername != null  and createusername != ''">createusername,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="costentryState != null ">CostEntry_State,</if>
+            <if test="distributionTime != null  and distributionTime != ''">Distribution_time,</if>
+            <if test="xhentryState != null ">XHEntry_State,</if>
+            <if test="pxentryState != null ">PXEntry_State,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="classId != null  and classId != ''">#{classId},</if>
+            <if test="classBh != null  and classBh != ''">#{classBh},</if>
+            <if test="lineTypeid != null ">#{lineTypeid},</if>
+            <if test="lineId != null and lineId != ''">#{lineId},</if>
+            <if test="classTId != null  and classTId != ''">#{classTId},</if>
+            <if test="classNumber != null  and classNumber != ''">#{classNumber},</if>
+            <if test="classBlocktrain != null  and classBlocktrain != ''">#{classBlocktrain},</if>
+            <if test="classClasstype != null  and classClasstype != ''">#{classClasstype},</if>
+            <if test="classEastandwest != null  and classEastandwest != ''">#{classEastandwest},</if>
+            <if test="classStationofdeparture != null  and classStationofdeparture != ''">#{classStationofdeparture},</if>
+            <if test="classStationofdestination != null  and classStationofdestination != ''">#{classStationofdestination},</if>
+            <if test="classTransporttime != null  and classTransporttime != ''">#{classTransporttime},</if>
+            <if test="ispublicly != null  and ispublicly != ''">#{ispublicly},</if>
+            <if test="classSpacenumber != null ">#{classSpacenumber},</if>
+            <if test="zxcnt != null ">#{zxcnt},</if>
+            <if test="pxstate != null  and pxstate != ''">#{pxstate},</if>
+            <if test="pxcnt != null ">#{pxcnt},</if>
+            <if test="pxkgs != null ">#{pxkgs},</if>
+            <if test="classStime != null ">#{classStime},</if>
+            <if test="classEtime != null ">#{classEtime},</if>
+            <if test="classState != null  and classState != ''">#{classState},</if>
+            <if test="receiveSiteFull != null  and receiveSiteFull != ''">#{receiveSiteFull},</if>
+            <if test="receiveSiteLcl != null  and receiveSiteLcl != ''">#{receiveSiteLcl},</if>
+            <if test="createdate != null ">#{createdate},</if>
+            <if test="createuserid != null  and createuserid != ''">#{createuserid},</if>
+            <if test="createusername != null  and createusername != ''">#{createusername},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="costentryState != null ">#{costentryState},</if>
+            <if test="distributionTime != null  and distributionTime != ''">#{distributionTime},</if>
+            <if test="xhentryState != null ">#{xhentryState},</if>
+            <if test="pxentryState != null ">#{pxentryState},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBusiClasses" parameterType="BusiClasses">
+        update busi_classes
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="classId != null  and classId != ''">class_ID = #{classId},</if>
+            <if test="classBh != null  and classBh != ''">class_bh = #{classBh},</if>
+            <if test="lineTypeid != null ">line_typeid = #{lineTypeid},</if>
+            <if test="lineId != null and lineId != ''">line_id = #{lineId},</if>
+            <if test="classTId != null  and classTId != ''">class_t_ID = #{classTId},</if>
+            <if test="classNumber != null  and classNumber != ''">class_number = #{classNumber},</if>
+            <if test="classBlocktrain != null  and classBlocktrain != ''">class_BlockTrain = #{classBlocktrain},</if>
+            <if test="classClasstype != null  and classClasstype != ''">class_ClassType = #{classClasstype},</if>
+            <if test="classEastandwest != null  and classEastandwest != ''">class_EastAndWest = #{classEastandwest},</if>
+            <if test="classStationofdeparture != null  and classStationofdeparture != ''">class_StationOfDeparture = #{classStationofdeparture},</if>
+            <if test="classStationofdestination != null  and classStationofdestination != ''">class_StationOfDestination = #{classStationofdestination},</if>
+            <if test="classTransporttime != null  and classTransporttime != ''">class_TransportTime = #{classTransporttime},</if>
+            <if test="ispublicly != null  and ispublicly != ''">isPublicly = #{ispublicly},</if>
+            <if test="classSpacenumber != null ">class_spacenumber = #{classSpacenumber},</if>
+            <if test="zxcnt != null ">zxcnt = #{zxcnt},</if>
+            <if test="pxstate != null  and pxstate != ''">pxstate = #{pxstate},</if>
+            <if test="pxcnt != null ">pxcnt = #{pxcnt},</if>
+            <if test="pxkgs != null ">pxkgs = #{pxkgs},</if>
+            <if test="classStime != null ">class_STime = #{classStime},</if>
+            <if test="classEtime != null ">class_ETime = #{classEtime},</if>
+            <if test="classState != null  and classState != ''">class_state = #{classState},</if>
+            <if test="receiveSiteFull != null  and receiveSiteFull != ''">receive_site_full = #{receiveSiteFull},</if>
+            <if test="receiveSiteLcl != null  and receiveSiteLcl != ''">receive_site_lcl = #{receiveSiteLcl},</if>
+            <if test="createdate != null ">createdate = #{createdate},</if>
+            <if test="createuserid != null  and createuserid != ''">createuserid = #{createuserid},</if>
+            <if test="createusername != null  and createusername != ''">createusername = #{createusername},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="costentryState != null ">CostEntry_State = #{costentryState},</if>
+            <if test="distributionTime != null  and distributionTime != ''">Distribution_time = #{distributionTime},</if>
+            <if test="xhentryState != null ">XHEntry_State = #{xhentryState},</if>
+            <if test="pxentryState != null ">PXEntry_State = #{pxentryState},</if>
+        </trim>
+        where class_ID = #{classId}
+    </update>
+
+    <update id="updatePxStatus" parameterType="BusiLinesite">
+        update busi_classes set PXEntry_State = #{pxentryState} where class_ID = #{classId}
+    </update>
+
+    <update id="updateClassState" parameterType="Date">
+        update busi_classes set class_state = "1" where class_state = "0"
+        and <![CDATA[class_STime <= #{nowDate,jdbcType=DATE}]]>
+    </update>
+
+    <select id="updClassesList" parameterType="date" resultType="string">
+        select class_ID from busi_classes where class_state = "0" and <![CDATA[class_STime <= #{nowDate,jdbcType=DATE}]]>
+    </select>
+
+    <delete id="deleteBusiClassesById" parameterType="String">
+        delete from busi_classes where class_ID = #{classId}
+    </delete>
+
+    <delete id="deleteBusiClassesByIds" parameterType="String">
+        delete from busi_classes where class_ID in 
+        <foreach item="classId" collection="array" open="(" separator="," close=")">
+            #{classId}
+        </foreach>
+    </delete>
+    
+</mapper>

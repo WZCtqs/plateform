@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.track.mapper.TrackGoStationMapper">
+
+    <resultMap type="TrackGoStation" id="tgnResult">
+        <result property="id"    column="id"    />
+        <result property="classNum"    column="class_bh"    />
+        <result property="port"    column="port"    />
+        <result property="code"    column="code"    />
+        <result property="downStation"    column="down_station"    />
+        <result property="stationAddress"    column="station_address"    />
+        <result property="classDate"    column="class_STime"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <resultMap type="TrackIntransitMailVo" id="timResult">
+        <result property="orderId"    column="order_ID"    />
+        <result property="orderNum"    column="order_number"    />
+        <result property="intransitMail"    column="receive_order_receiveEmail"    />
+    </resultMap>
+
+    <select id="selectByTgn" parameterType="TrackGoStation" resultMap="tgnResult">
+        select tgsa.id,bc.class_bh,bc.class_STime,tgsa.port,tgsa.down_station,tgsa.station_address
+        from track_go_station_address tgsa
+        left join busi_classes bc on bc.class_ID= tgsa.class_id
+        <where>
+            tgsa.del_flag=0
+            <if test="classNum != null  and classNum != ''"> and bc.class_bh like concat('%', #{classNum}, '%')</if>
+            <if test="downStation != null  and downStation != ''"> and tgsa.down_station = #{downStation}</if>
+            <if test="port != null  and port != ''"> and tgsa.port = #{port})</if>
+            <if test="classDate != null  "> and DATE_FORMAT(bc.class_STime,'%Y-%m-%d') =#{classDate}</if>
+        </where>
+    </select>
+
+    <select id="selectById" parameterType="Long" resultMap="tgnResult">
+        select id,station_address from track_go_station_address
+        where id = #{id}
+    </select>
+
+    <update id="updateTgn" parameterType="TrackGoStation">
+        update track_go_station_address
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="stationAddress != null  and stationAddress != ''">station_address = #{stationAddress},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where del_flag=0 and id =#{id}
+    </update>
+
+    <insert id="insertTgn" parameterType="TrackGoStation">
+        insert into track_go_station_address (class_id,code,down_station,station_address,create_by,create_time,update_by,update_time)
+        select class_ID, #{code}, #{downStation},#{stationAddress},#{createBy},#{createTime},#{createBy},#{createTime}
+        from busi_classes where class_bh=#{classNum}
+    </insert>
+
+    <select id="selectByTimVo" parameterType="TrackIntransitMailVo" resultMap="timResult">
+        select order_ID,order_number,receive_order_receiveEmail
+        from busi_shippingorder
+        <where>
+            <if test="orderNum != null  and orderNum != ''"> and order_number =#{orderNum}</if>
+        </where>
+    </select>
+
+    <update id="updateTimVo" parameterType="TrackIntransitMailVo">
+        update busi_shippingorder
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="intransitMail != null  and intransitMail != ''">receive_order_receiveEmail = #{intransitMail},</if>
+        </trim>
+        where order_ID =#{orderId}
+    </update>
+
+    <update id="deleteByClassNum" parameterType="TrackIntransitMailVo">
+        update track_go_station_address set del_flag=1
+        where class_ID =( select class_ID from busi_classes where class_bh=#{classNum})
+    </update>
+</mapper>

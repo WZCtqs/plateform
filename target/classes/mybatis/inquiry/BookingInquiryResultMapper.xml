@@ -1,0 +1,677 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.inquiry.mapper.BookingInquiryResultMapper">
+
+    <resultMap type="BookingInquiryResult" id="BookingInquiryResultResult">
+        <result property="id" column="id"/>
+        <result property="inquiryId" column="inquiry_id"/>
+        <result property="uploadStation" column="upload_station"/>
+        <result property="dropStation" column="drop_station"/>
+        <result property="uploadStationRemark" column="upload_station_remark"/>
+        <result property="dropStationRemark" column="drop_station_remark"/>
+        <result property="pickUpAddress" column="pick_up_address"/>
+        <result property="pickUpDistance" column="pick_up_distance"/>
+        <result property="pickUpAging" column="pick_up_aging"/>
+        <result property="pickUpFees" column="pick_up_fees"/>
+        <result property="pickUpCurrencyType" column="pick_up_currency_type"/>
+        <result property="pickUpExpiration" column="pick_up_expiration"/>
+        <result property="pickUpRemark" column="pick_up_remark"/>
+        <result property="pickUpFeedbackTime" column="pick_up_feedback_time"/>
+        <result property="railwayFees" column="railway_fees"/>
+        <result property="railwayCurrencyType" column="railway_currency_type"/>
+        <result property="railwayCharges" column="railway_charges"/>
+        <result property="railwayExpiration" column="railway_expiration"/>
+        <result property="railwayAging" column="railway_aging"/>
+        <result property="railwayRemark" column="railway_remark"/>
+        <result property="railwayFeedbackTime" column="railway_feedback_time"/>
+        <result property="deliveryDistance" column="delivery_distance"/>
+        <result property="deliveryFees" column="delivery_fees"/>
+        <result property="deliveryCurrencyType" column="delivery_currency_type"/>
+        <result property="deliveryAging" column="delivery_aging"/>
+        <result property="deliveryExpiration" column="delivery_expiration"/>
+        <result property="deliveryRemark" column="delivery_remark"/>
+        <result property="deliveryFeedbackTime" column="delivery_feedback_time"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="confirmFlag" column="confirm_flag"/>
+        <result property="confirmTime" column="confirm_time"/>
+        <result property="confirmUser" column="confirm_user"/>
+        <result property="deliveryAddress" column="delivery_address"/>
+        <result property="jsRemark" column="js_remark"/>
+        <result property="pickUpBoxFee" column="pick_up_box_fee"/>
+        <result property="pickUpBoxExpiration" column="pick_up_box_expiration"/>
+        <result property="returnBoxFee" column="return_box_fee"/>
+        <result property="returnBoxExpiration" column="return_box_expiration"/>
+        <result property="lhuFee" column="lhu_fee"/>
+        <result property="ccczFee" column="cccz_fee"/>
+        <result property="tkxFee" column="tkx_fee"/>
+        <result property="jgFee" column="jg_fee"/>
+        <result property="dtFee" column="dt_fee"/>
+        <result property="zcxFee" column="zcx_fee"/>
+        <result property="totalFees" column="total_fees"/>
+        <result property="inquiryNumber" column="inquiry_number"/>
+        <result property="inquiryNum" column="inquiry_num"/>
+        <result property="enquiryState" column="enquiry_state"/>
+        <result property="hxAddress"    column="hx_address"    />
+        <result property="txAddress"    column="tx_address"    />
+        <result property="railRemark"    column="rail_remark"    />
+        <result property="xxyoRemark"    column="xxyo_remark"    />
+        <result property="businessRemark"    column="business_remark"    />
+        <result property="jsBidder"    column="js_bidder"    />
+        <!--<result property="againInquiryId"    column="again_inquiry_id"    />-->
+    </resultMap>
+
+    <sql id="selectBookingInquiryResultVo">
+        select id, inquiry_id, upload_station, drop_station, upload_station_remark, drop_station_remark,
+        pick_up_address, pick_up_distance, pick_up_aging, pick_up_fees, pick_up_currency_type, pick_up_expiration,
+        pick_up_remark, pick_up_feedback_time, railway_fees, railway_currency_type, railway_charges, railway_expiration,
+        railway_aging, railway_remark, railway_feedback_time, delivery_distance, delivery_fees, delivery_currency_type,
+        delivery_aging, delivery_expiration, delivery_remark, delivery_feedback_time, del_flag, confirm_flag,
+        confirm_time, confirm_user,delivery_address,js_remark,pick_up_box_fee,pick_up_box_expiration,return_box_fee,
+        return_box_expiration,lhu_fee,cccz_fee,tkx_fee,jg_fee,dt_fee,zcx_fee,total_fees,inquiry_number,
+        inquiry_num,enquiry_state,hx_address,tx_address,rail_remark,xxyo_remark,business_remark,js_bidder<!--,again_inquiry_id--> from booking_inquiry_result
+    </sql>
+
+    <select id="selectBookingInquiryResultList" parameterType="BookingInquiryResult" resultType="BookingInquiryResult">
+        select
+        r.id AS "id",
+        r.inquiry_id AS "inquiryId",
+        r.upload_station AS "uploadStation",
+        r.drop_station AS "dropStation",
+        r.upload_station_remark AS "uploadStationRemark",
+        r.drop_station_remark AS "dropStationRemark",
+        r.pick_up_address AS "pickUpAddress",
+        r.pick_up_distance AS "pickUpDistance",
+        r.pick_up_aging AS "pickUpAging",
+        r.pick_up_fees AS "pickUpFees",
+        r.pick_up_currency_type AS "pickUpCurrencyType",
+        r.pick_up_expiration AS "pickUpExpiration",
+        r.pick_up_remark AS "pickUpRemark",
+        r.pick_up_feedback_time AS "pickUpFeedbackTime",
+        r.railway_fees AS "railwayFees",
+        r.railway_currency_type AS "railwayCurrencyType",
+        r.railway_charges AS "railwayCharges",
+        r.railway_expiration AS "railwayExpiration",
+        r.railway_aging AS "railwayAging",
+        r.railway_remark AS "railwayRemark",
+        r.railway_feedback_time AS "railwayFeedbackTime",
+        r.delivery_distance AS "deliveryDistance",
+        r.delivery_fees AS "deliveryFees",
+        r.delivery_currency_type AS "deliveryCurrencyType",
+        r.delivery_aging AS "deliveryAging",
+        r.delivery_expiration AS "deliveryExpiration",
+        r.delivery_remark AS "deliveryRemark",
+        r.delivery_feedback_time AS "deliveryFeedbackTime",
+        r.del_flag AS "delFlag",
+        r.confirm_flag AS "confirmFlag",
+        r.confirm_time AS "confirmTime",
+        r.confirm_user AS "confirmUser",
+        r.delivery_address AS "deliveryAddress",
+        r.js_remark AS "jsRemark",
+        r.pick_up_box_fee AS "pickUpBoxFee",
+        r.pick_up_box_expiration AS "pickUpBoxExpiration",
+        r.return_box_fee AS "returnBoxFee",
+        r.return_box_expiration AS "returnBoxExpiration",
+        r.lhu_fee AS "lhuFee",
+        r.cccz_fee AS "ccczFee",
+        r.tkx_fee AS "tkxFee",
+        r.jg_fee AS "jgFee",
+        r.dt_fee AS "dtFee",
+        r.zcx_fee AS "zcxFee",
+        r.total_fees AS "totalFees",
+        r.inquiry_number AS "inquiryNumber",
+        r.inquiry_num AS "inquiryNum",
+        r.enquiry_state AS "enquiryState",
+        r.hx_address AS "hxAddress",
+        r.tx_address AS "txAddress",
+        r.rail_remark AS "railRemark",
+        r.xxyo_remark AS "xxyoRemark",
+        r.business_remark AS "businessRemark",
+        r.js_bidder AS "jsBidder",
+        <!-- r.again_inquiry_id AS "againInquiryId",-->
+        i.client_type AS "bookingInquiry.clientType",
+        i.client_unit AS "bookingInquiry.clientUnit",
+        i.container_belong AS "bookingInquiry.containerBelong",
+        i.goods_type AS "bookingInquiry.goodsType",
+        i.shipment_place AS "bookingInquiry.shipmentPlace",
+        i.sender_province AS "bookingInquiry.senderProvince",
+        i.sender_city AS "bookingInquiry.senderCity",
+        i.upload_station AS "bookingInquiry.uploadStation",
+        i.receipt_place AS "bookingInquiry.receiptPlace",
+        i.drop_station AS "bookingInquiry.dropStation",
+        i.booking_service AS "bookingInquiry.bookingService",
+        i.is_pick_up AS "bookingInquiry.isPickUp",
+        i.is_delivery AS "bookingInquiry.isDelivery",
+        i.is_order_customs AS "bookingInquiry.isOrderCustoms",
+        i.is_clear_customs AS "bookingInquiry.isClearCustoms",
+        i.container_type AS "bookingInquiry.containerType",
+        i.container_num AS "bookingInquiry.containerNum",
+        i.package_type AS "bookingInquiry.packageType",
+        i.is_stack AS "bookingInquiry.isStack",
+        i.total_amount AS "bookingInquiry.totalAmount",
+        i.total_weight AS "bookingInquiry.totalWeight",
+        i.total_volume AS "bookingInquiry.totalVolume",
+        i.billable_volume AS "bookingInquiry.billableVolume",
+        i.inquiry_time AS "bookingInquiry.inquiryTime",
+        i.inquiry_state AS "bookingInquiry.inquiryState",
+        i.client_id AS "bookingInquiry.clientId",
+        i.del_flag AS "bookingInquiry.delFlag",
+        i.line_type AS "bookingInquiry.lineType",
+        i.tx_address AS "bookingInquiry.txAddress",
+        i.hx_address AS "bookingInquiry.hxAddress",
+        i.hxAddress_id AS "bookingInquiry.hxAddressId",
+        i.east_or_west AS "bookingInquiry.eastOrWest",
+        i.upload_station_num AS "bookingInquiry.uploadStationNum",
+        i.drop_station_num AS "bookingInquiry.dropStationNum",
+        i.remark AS "bookingInquiry.remark",
+        i.truck_type AS "bookingInquiry.truckType",
+        i.limitation AS "bookingInquiry.limitation",
+        i.delivery_self_type AS "bookingInquiry.deliverySelfType",
+        i.delivery_type AS "bookingInquiry.deliveryType",
+        i.distribution_type AS "bookingInquiry.distributionType",
+        i.goods_fragile AS "bookingInquiry.goodsFragile",
+        i.goods_general AS "bookingInquiry.goodsGeneral",
+        i.qgfy AS "bookingInquiry.qgfy",
+        i.czfy AS "bookingInquiry.czfy",
+        i.turndown_reason AS "bookingInquiry.turndownReason",
+        i.country AS "bookingInquiry.country",
+        i.province_code AS "bookingInquiry.provinceCode",
+        i.city_code AS "bookingInquiry.cityCode",
+        i.area_code AS "bookingInquiry.areaCode",
+        i.valid_date AS "bookingInquiry.validDate",
+        i.language AS "bookingInquiry.language",
+        i.booking_time_flag AS "bookingInquiry.bookingTimeFlag"
+        from booking_inquiry_result r
+        LEFT JOIN booking_inquiry i ON i.id = r.inquiry_id
+        <where>
+            <if test="inquiryId != null ">and r.inquiry_id = #{inquiryId}</if>
+           <!-- <if test="againInquiryId != null ">and r.again_inquiry_id = #{againInquiryId}</if>-->
+            <if test="uploadStation != null  and uploadStation != ''">and r.upload_station = #{uploadStation}</if>
+            <if test="dropStation != null  and dropStation != ''">and r.drop_station = #{dropStation}</if>
+            <if test="uploadStationRemark != null  and uploadStationRemark != ''">and r.upload_station_remark =
+                #{uploadStationRemark}
+            </if>
+            <if test="dropStationRemark != null  and dropStationRemark != ''">and r.drop_station_remark =
+                #{dropStationRemark}
+            </if>
+            <if test="pickUpAddress != null  and pickUpAddress != ''">and r.pick_up_address = #{pickUpAddress}</if>
+            <if test="pickUpDistance != null  and pickUpDistance != ''">and r.pick_up_distance = #{pickUpDistance}</if>
+            <if test="pickUpAging != null  and pickUpAging != ''">and r.pick_up_aging = #{pickUpAging}</if>
+            <if test="pickUpFees != null  and pickUpFees != ''">and r.pick_up_fees = #{pickUpFees}</if>
+            <if test="pickUpCurrencyType != null  and pickUpCurrencyType != ''">and r.pick_up_currency_type =
+                #{pickUpCurrencyType}
+            </if>
+            <if test="pickUpExpiration != null ">and r.pick_up_expiration = #{pickUpExpiration}</if>
+            <if test="pickUpRemark != null  and pickUpRemark != ''">and r.pick_up_remark = #{pickUpRemark}</if>
+            <if test="pickUpFeedbackTime != null ">and r.pick_up_feedback_time = #{pickUpFeedbackTime}</if>
+            <if test="railwayFees != null  and railwayFees != ''">and r.railway_fees = #{railwayFees}</if>
+            <if test="railwayCurrencyType != null  and railwayCurrencyType != ''">and r.railway_currency_type =
+                #{railwayCurrencyType}
+            </if>
+            <if test="railwayCharges != null  and railwayCharges != ''">and r.railway_charges = #{railwayCharges}</if>
+            <if test="railwayExpiration != null ">and r.railway_expiration = #{railwayExpiration}</if>
+            <if test="railwayAging != null  and railwayAging != ''">and r.railway_aging = #{railwayAging}</if>
+            <if test="railwayRemark != null  and railwayRemark != ''">and r.railway_remark = #{railwayRemark}</if>
+            <if test="railwayFeedbackTime != null ">and r.railway_feedback_time = #{railwayFeedbackTime}</if>
+            <if test="deliveryDistance != null  and deliveryDistance != ''">and r.delivery_distance =
+                #{deliveryDistance}
+            </if>
+            <if test="deliveryFees != null  and deliveryFees != ''">and r.delivery_fees = #{deliveryFees}</if>
+            <if test="deliveryCurrencyType != null  and deliveryCurrencyType != ''">and r.delivery_currency_type =
+                #{deliveryCurrencyType}</if>
+            <if test="deliveryAging != null  and deliveryAging != ''">and r.delivery_aging = #{deliveryAging}</if>
+            <if test="deliveryExpiration != null ">and r.delivery_expiration = #{deliveryExpiration}</if>
+            <if test="deliveryRemark != null  and deliveryRemark != ''">and r.delivery_remark = #{deliveryRemark}</if>
+            <if test="deliveryFeedbackTime != null ">and r.delivery_feedback_time = #{deliveryFeedbackTime}</if>
+            <if test="confirmFlag != null  and confirmFlag != ''">and r.confirm_flag = #{confirmFlag}</if>
+            <if test="confirmTime != null ">and r.confirm_time = #{confirmTime}</if>
+            <if test="confirmUser != null ">and r.confirm_user = #{confirmUser}</if>
+            <if test="deliveryAddress != null  and deliveryAddress !=''">and r.delivery_address = #{deliveryAddress}</if>
+            <if test="jsRemark != null  and jsRemark != ''"> and js_remark = #{jsRemark}</if>
+            <if test="pickUpBoxFee != null  and pickUpBoxFee != ''"> and pick_up_box_fee = #{pickUpBoxFee}</if>
+            <if test="returnBoxFee != null  and returnBoxFee != ''"> and return_box_fee = #{returnBoxFee}</if>
+            <if test="lhuFee != null  and lhuFee != ''"> and lhu_fee = #{lhuFee}</if>
+            <if test="ccczFee != null  and ccczFee != ''"> and cccz_fee = #{ccczFee}</if>
+            <if test="tkxFee != null  and tkxFee != ''"> and tkx_fee = #{tkxFee}</if>
+            <if test="jgFee != null  and jgFee != ''"> and jg_fee = #{jgFee}</if>
+            <if test="dtFee != null  and dtFee != ''"> and dt_fee = #{dtFee}</if>
+            <if test="zcxFee != null  and zcxFee != ''"> and zcx_fee = #{zcxFee}</if>
+            <if test="totalFees != null  and totalFees != ''"> and total_fees = #{totalFees}</if>
+            <if test="enquiryState != null  and enquiryState != ''"> and enquiry_state = #{enquiryState}</if>
+
+        </where>
+    </select>
+
+    <select id="selectBookingInquiryResultById" parameterType="Long" resultType="BookingInquiryResult">
+        select
+        r.id AS "id",
+        r.inquiry_id AS "inquiryId",
+        r.upload_station AS "uploadStation",
+        r.drop_station AS "dropStation",
+        r.upload_station_remark AS "uploadStationRemark",
+        r.drop_station_remark AS "dropStationRemark",
+        r.pick_up_address AS "pickUpAddress",
+        r.pick_up_distance AS "pickUpDistance",
+        r.pick_up_aging AS "pickUpAging",
+        r.pick_up_fees AS "pickUpFees",
+        r.pick_up_currency_type AS "pickUpCurrencyType",
+        r.pick_up_expiration AS "pickUpExpiration",
+        r.pick_up_remark AS "pickUpRemark",
+        r.pick_up_feedback_time AS "pickUpFeedbackTime",
+        r.railway_fees AS "railwayFees",
+        r.railway_currency_type AS "railwayCurrencyType",
+        r.railway_charges AS "railwayCharges",
+        r.railway_expiration AS "railwayExpiration",
+        r.railway_aging AS "railwayAging",
+        r.railway_remark AS "railwayRemark",
+        r.railway_feedback_time AS "railwayFeedbackTime",
+        r.delivery_distance AS "deliveryDistance",
+        r.delivery_fees AS "deliveryFees",
+        r.delivery_currency_type AS "deliveryCurrencyType",
+        r.delivery_aging AS "deliveryAging",
+        r.delivery_expiration AS "deliveryExpiration",
+        r.delivery_remark AS "deliveryRemark",
+        r.delivery_feedback_time AS "deliveryFeedbackTime",
+        r.del_flag AS "delFlag",
+        r.confirm_flag AS "confirmFlag",
+        r.confirm_time AS "confirmTime",
+        r.confirm_user AS "confirmUser",
+        r.delivery_address AS "deliveryAddress",
+        r.js_remark AS "jsRemark",
+        r.pick_up_box_fee AS "pickUpBoxFee",
+        r.pick_up_box_expiration AS "pickUpBoxExpiration",
+        r.return_box_fee AS "returnBoxFee",
+        r.return_box_expiration AS "returnBoxExpiration",
+        r.lhu_fee AS "lhuFee",
+        r.cccz_fee AS "ccczFee",
+        r.tkx_fee AS "tkxFee",
+        r.jg_fee AS "jgFee",
+        r.dt_fee AS "dtFee",
+        r.zcx_fee AS "zcxFee",
+        r.total_fees AS "totalFees",
+        r.inquiry_number AS "inquiryNumber",
+        r.inquiry_num AS "inquiryNum",
+        r.enquiry_state AS "enquiryState",
+        r.hx_address AS "hxAddress",
+        r.tx_address AS "txAddress",
+        r.rail_remark AS "railRemark",
+        r.xxyo_remark AS "xxyoRemark",
+        r.business_remark AS "businessRemark",
+        r.js_bidder AS "jsBidder",
+        i.client_type AS "bookingInquiry.clientType",
+        i.client_unit AS "bookingInquiry.clientUnit",
+        i.container_belong AS "bookingInquiry.containerBelong",
+        i.goods_type AS "bookingInquiry.goodsType",
+        i.sender_province AS "bookingInquiry.senderProvince",
+        i.sender_city AS "bookingInquiry.senderCity",
+        i.sender_area AS "bookingInquiry.senderArea",
+        i.shipment_place AS "bookingInquiry.shipmentPlace",
+        i.upload_station AS "bookingInquiry.uploadStation",
+        i.receive_province AS "bookingInquiry.receiveProvince",
+        i.receive_city AS "bookingInquiry.receiveCity",
+        i.receive_area AS "bookingInquiry.receiveArea",
+        i.receipt_place AS "bookingInquiry.receiptPlace",
+        i.drop_station AS "bookingInquiry.dropStation",
+        i.booking_service AS "bookingInquiry.bookingService",
+        i.is_pick_up AS "bookingInquiry.isPickUp",
+        i.is_delivery AS "bookingInquiry.isDelivery",
+        i.is_order_customs AS "bookingInquiry.isOrderCustoms",
+        i.is_clear_customs AS "bookingInquiry.isClearCustoms",
+        i.container_type AS "bookingInquiry.containerType",
+        i.container_num AS "bookingInquiry.containerNum",
+        i.package_type AS "bookingInquiry.packageType",
+        i.is_stack AS "bookingInquiry.isStack",
+        i.total_amount AS "bookingInquiry.totalAmount",
+        i.total_weight AS "bookingInquiry.totalWeight",
+        i.total_volume AS "bookingInquiry.totalVolume",
+        i.billable_volume AS "bookingInquiry.billableVolume",
+        i.inquiry_time AS "bookingInquiry.inquiryTime",
+        i.inquiry_state AS "bookingInquiry.inquiryState",
+        i.client_id AS "bookingInquiry.clientId",
+        i.del_flag AS "bookingInquiry.delFlag",
+        i.line_type AS "bookingInquiry.lineType",
+        i.tx_address AS "bookingInquiry.txAddress",
+        i.hx_address AS "bookingInquiry.hxAddress",
+        i.hxAddress_id AS "bookingInquiry.hxAddressId",
+        i.east_or_west AS "bookingInquiry.eastOrWest",
+        i.upload_station_num AS "bookingInquiry.uploadStationNum",
+        i.drop_station_num AS "bookingInquiry.dropStationNum",
+        i.remark AS "bookingInquiry.remark",
+        i.truck_type AS "bookingInquiry.truckType",
+        i.limitation AS "bookingInquiry.limitation",
+        i.delivery_self_type AS "bookingInquiry.deliverySelfType",
+        i.delivery_type AS "bookingInquiry.deliveryType",
+        i.distribution_type AS "bookingInquiry.distributionType",
+        i.goods_fragile AS "bookingInquiry.goodsFragile",
+        i.goods_general AS "bookingInquiry.goodsGeneral",
+        i.qgfy AS "bookingInquiry.qgfy",
+        i.czfy AS "bookingInquiry.czfy",
+        i.turndown_reason AS "bookingInquiry.turndownReason",
+        i.country AS "bookingInquiry.country",
+        i.province_code AS "bookingInquiry.provinceCode",
+        i.city_code AS "bookingInquiry.cityCode",
+        i.area_code AS "bookingInquiry.areaCode",
+        i.valid_date AS "bookingInquiry.validDate",
+        i.language AS "bookingInquiry.language",
+        i.booking_time_flag AS "bookingInquiry.bookingTimeFlag",
+        i.order_id AS "bookingInquiry.orderId"
+        from booking_inquiry_result r
+        LEFT JOIN booking_inquiry i ON i.id = r.inquiry_id
+        where r.id = #{id}
+    </select>
+    <!--查询是否有相同的询价数据-->
+    <select id="selectBookingInquiryResultWithInquiryId" parameterType="Long" resultMap="BookingInquiryResultResult">
+        <include refid="selectBookingInquiryResultVo"/>
+        where inquiry_id = #{inquiryId}
+    </select>
+    <insert id="insertBookingInquiryResult" parameterType="BookingInquiryResult" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into booking_inquiry_result
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="inquiryId != null ">inquiry_id,</if>
+            <if test="uploadStation != null  and uploadStation != ''">upload_station,</if>
+            <if test="dropStation != null  and dropStation != ''">drop_station,</if>
+            <if test="uploadStationRemark != null  and uploadStationRemark != ''">upload_station_remark,</if>
+            <if test="dropStationRemark != null  and dropStationRemark != ''">drop_station_remark,</if>
+            <if test="pickUpAddress != null  and pickUpAddress != ''">pick_up_address,</if>
+            <if test="pickUpDistance != null  and pickUpDistance != ''">pick_up_distance,</if>
+            <if test="pickUpAging != null  and pickUpAging != ''">pick_up_aging,</if>
+            <if test="pickUpFees != null  and pickUpFees != ''">pick_up_fees,</if>
+            <if test="pickUpCurrencyType != null  and pickUpCurrencyType != ''">pick_up_currency_type,</if>
+            <if test="pickUpExpiration != null ">pick_up_expiration,</if>
+            <if test="pickUpRemark != null  and pickUpRemark != ''">pick_up_remark,</if>
+            <if test="pickUpFeedbackTime != null ">pick_up_feedback_time,</if>
+            <if test="railwayFees != null  and railwayFees != ''">railway_fees,</if>
+            <if test="railwayCurrencyType != null  and railwayCurrencyType != ''">railway_currency_type,</if>
+            <if test="railwayCharges != null  and railwayCharges != ''">railway_charges,</if>
+            <if test="railwayExpiration != null ">railway_expiration,</if>
+            <if test="railwayAging != null  and railwayAging != ''">railway_aging,</if>
+            <if test="railwayRemark != null  and railwayRemark != ''">railway_remark,</if>
+            <if test="railwayFeedbackTime != null ">railway_feedback_time,</if>
+            <if test="deliveryDistance != null  and deliveryDistance != ''">delivery_distance,</if>
+            <if test="deliveryFees != null  and deliveryFees != ''">delivery_fees,</if>
+            <if test="deliveryCurrencyType != null  and deliveryCurrencyType != ''">delivery_currency_type,</if>
+            <if test="deliveryAging != null  and deliveryAging != ''">delivery_aging,</if>
+            <if test="deliveryExpiration != null ">delivery_expiration,</if>
+            <if test="deliveryRemark != null  and deliveryRemark != ''">delivery_remark,</if>
+            <if test="deliveryFeedbackTime != null ">delivery_feedback_time,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="confirmFlag != null  and confirmFlag != ''">confirm_flag,</if>
+            <if test="confirmTime != null ">confirm_time,</if>
+            <if test="confirmUser != null ">confirm_user,</if>
+            <if test="deliveryAddress != null and deliveryAddress !=''">delivery_address,</if>
+            <if test="jsRemark != null and jsRemark !=''">js_remark,</if>
+            <if test="pickUpBoxFee != null  and pickUpBoxFee != ''">pick_up_box_fee,</if>
+            <if test="pickUpBoxExpiration != null">pick_up_box_expiration,</if>
+            <if test="returnBoxFee != null  and returnBoxFee != ''">return_box_fee,</if>
+            <if test="returnBoxExpiration != null ">return_box_expiration,</if>
+            <if test="lhuFee != null  and lhuFee != ''">lhu_fee,</if>
+            <if test="ccczFee != null  and ccczFee != ''">cccz_fee,</if>
+            <if test="tkxFee != null  and tkxFee != ''">tkx_fee,</if>
+            <if test="jgFee != null  and jgFee != ''">jg_fee,</if>
+            <if test="dtFee != null  and dtFee != ''">dt_fee,</if>
+            <if test="zcxFee != null  and zcxFee != ''">zcx_fee,</if>
+            <if test="totalFees != null  and totalFees != ''">total_fees,</if>
+            <if test="inquiryNumber != null  and inquiryNumber != ''">inquiry_number,</if>
+            <if test="inquiryNum != null  and inquiryNum != ''">inquiry_num,</if>
+            <if test="enquiryState != null  and enquiryState != ''">enquiry_state,</if>
+            <if test="hxAddress != null  and hxAddress != ''">hx_address,</if>
+            <if test="txAddress != null  and txAddress != ''">tx_address,</if>
+            <if test="railRemark != null  and railRemark != ''">rail_remark,</if>
+            <if test="xxyoRemark != null  and xxyoRemark != ''">xxyo_remark,</if>
+            <if test="businessRemark != null  and businessRemark != ''">business_remark,</if>
+            <if test="jsBidder != null  and jsBidder != ''">js_bidder,</if>
+            <!--<if test="againInquiryId != null  ">again_inquiry_id,</if>-->
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="inquiryId != null ">#{inquiryId},</if>
+            <if test="uploadStation != null  and uploadStation != ''">#{uploadStation},</if>
+            <if test="dropStation != null  and dropStation != ''">#{dropStation},</if>
+            <if test="uploadStationRemark != null  and uploadStationRemark != ''">#{uploadStationRemark},</if>
+            <if test="dropStationRemark != null  and dropStationRemark != ''">#{dropStationRemark},</if>
+            <if test="pickUpAddress != null  and pickUpAddress != ''">#{pickUpAddress},</if>
+            <if test="pickUpDistance != null  and pickUpDistance != ''">#{pickUpDistance},</if>
+            <if test="pickUpAging != null  and pickUpAging != ''">#{pickUpAging},</if>
+            <if test="pickUpFees != null  and pickUpFees != ''">#{pickUpFees},</if>
+            <if test="pickUpCurrencyType != null  and pickUpCurrencyType != ''">#{pickUpCurrencyType},</if>
+            <if test="pickUpExpiration != null ">#{pickUpExpiration},</if>
+            <if test="pickUpRemark != null  and pickUpRemark != ''">#{pickUpRemark},</if>
+            <if test="pickUpFeedbackTime != null ">#{pickUpFeedbackTime},</if>
+            <if test="railwayFees != null  and railwayFees != ''">#{railwayFees},</if>
+            <if test="railwayCurrencyType != null  and railwayCurrencyType != ''">#{railwayCurrencyType},</if>
+            <if test="railwayCharges != null  and railwayCharges != ''">#{railwayCharges},</if>
+            <if test="railwayExpiration != null ">#{railwayExpiration},</if>
+            <if test="railwayAging != null  and railwayAging != ''">#{railwayAging},</if>
+            <if test="railwayRemark != null  and railwayRemark != ''">#{railwayRemark},</if>
+            <if test="railwayFeedbackTime != null ">#{railwayFeedbackTime},</if>
+            <if test="deliveryDistance != null  and deliveryDistance != ''">#{deliveryDistance},</if>
+            <if test="deliveryFees != null  and deliveryFees != ''">#{deliveryFees},</if>
+            <if test="deliveryCurrencyType != null  and deliveryCurrencyType != ''">#{deliveryCurrencyType},</if>
+            <if test="deliveryAging != null  and deliveryAging != ''">#{deliveryAging},</if>
+            <if test="deliveryExpiration != null ">#{deliveryExpiration},</if>
+            <if test="deliveryRemark != null  and deliveryRemark != ''">#{deliveryRemark},</if>
+            <if test="deliveryFeedbackTime != null ">#{deliveryFeedbackTime},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="confirmFlag != null  and confirmFlag != ''">#{confirmFlag},</if>
+            <if test="confirmTime != null ">#{confirmTime},</if>
+            <if test="confirmUser != null ">#{confirmUser},</if>
+            <if test="deliveryAddress != null and deliveryAddress !=''">#{deliveryAddress},</if>
+            <if test="jsRemark != null and jsRemark !=''">#{jsRemark},</if>
+            <if test="pickUpBoxFee != null  and pickUpBoxFee != ''">#{pickUpBoxFee},</if>
+            <if test="pickUpBoxExpiration != null ">#{pickUpBoxExpiration},</if>
+            <if test="returnBoxFee != null  and returnBoxFee != ''">#{returnBoxFee},</if>
+            <if test="returnBoxExpiration != null ">#{returnBoxExpiration},</if>
+            <if test="lhuFee != null  and lhuFee != ''">#{lhuFee},</if>
+            <if test="ccczFee != null  and ccczFee != ''">#{ccczFee},</if>
+            <if test="tkxFee != null  and tkxFee != ''">#{tkxFee},</if>
+            <if test="jgFee != null  and jgFee != ''">#{jgFee},</if>
+            <if test="dtFee != null  and dtFee != ''">#{dtFee},</if>
+            <if test="zcxFee != null  and zcxFee != ''">#{zcxFee},</if>
+            <if test="totalFees != null  and totalFees != ''">#{totalFees},</if>
+            <if test="inquiryNumber != null  and inquiryNumber != ''">#{inquiryNumber},</if>
+            <if test="inquiryNum != null  and inquiryNum != ''">#{inquiryNum},</if>
+            <if test="enquiryState != null  and enquiryState != ''"> #{enquiryState},</if>
+            <if test="hxAddress != null  and hxAddress != ''">#{hxAddress},</if>
+            <if test="txAddress != null  and txAddress != ''">#{txAddress},</if>
+            <if test="railRemark != null  and railRemark != ''">#{railRemark},</if>
+            <if test="xxyoRemark != null  and xxyoRemark != ''">#{xxyoRemark},</if>
+            <if test="businessRemark != null  and businessRemark != ''">#{businessRemark},</if>
+            <if test="jsBidder != null  and jsBidder != ''">#{jsBidder},</if>
+           <!-- <if test="againInquiryId != null ">#{againInquiryId},</if>-->
+        </trim>
+    </insert>
+
+    <update id="updateBookingInquiryResult" parameterType="BookingInquiryResult">
+        update booking_inquiry_result
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="inquiryId != null ">inquiry_id = #{inquiryId},</if>
+            <if test="uploadStation != null  and uploadStation != ''">upload_station = #{uploadStation},</if>
+            <if test="dropStation != null  and dropStation != ''">drop_station = #{dropStation},</if>
+            <if test="uploadStationRemark != null  and uploadStationRemark != ''">upload_station_remark = #{uploadStationRemark}, </if>
+            <if test="dropStationRemark != null  and dropStationRemark != ''">drop_station_remark = #{dropStationRemark},</if>
+            <if test="pickUpAddress != null  and pickUpAddress != ''">pick_up_address = #{pickUpAddress},</if>
+            <if test="pickUpDistance != null  and pickUpDistance != ''">pick_up_distance = #{pickUpDistance},</if>
+            <if test="pickUpAging != null  and pickUpAging != ''">pick_up_aging = #{pickUpAging},</if>
+            <if test="pickUpFees != null  and pickUpFees != ''">pick_up_fees = #{pickUpFees},</if>
+            <if test="pickUpCurrencyType != null  and pickUpCurrencyType != ''">pick_up_currency_type = #{pickUpCurrencyType}, </if>
+            <if test="pickUpExpiration != null ">pick_up_expiration = #{pickUpExpiration},</if>
+            <if test="pickUpRemark != null  and pickUpRemark != ''">pick_up_remark = #{pickUpRemark},</if>
+            <if test="pickUpFeedbackTime != null ">pick_up_feedback_time = #{pickUpFeedbackTime},</if>
+            <if test="railwayFees != null  and railwayFees != ''">railway_fees = #{railwayFees},</if>
+            <if test="railwayCurrencyType != null  and railwayCurrencyType != ''">railway_currency_type = #{railwayCurrencyType}, </if>
+            <if test="railwayCharges != null  and railwayCharges != ''">railway_charges = #{railwayCharges},</if>
+            <if test="railwayExpiration != null ">railway_expiration = #{railwayExpiration},</if>
+            <if test="railwayAging != null  and railwayAging != ''">railway_aging = #{railwayAging},</if>
+            <if test="railwayRemark != null  and railwayRemark != ''">railway_remark = #{railwayRemark},</if>
+            <if test="railwayFeedbackTime != null ">railway_feedback_time = #{railwayFeedbackTime},</if>
+            <if test="deliveryDistance != null  and deliveryDistance != ''">delivery_distance = #{deliveryDistance},</if>
+            <if test="deliveryFees != null  and deliveryFees != ''">delivery_fees = #{deliveryFees},</if>
+            <if test="deliveryCurrencyType != null  and deliveryCurrencyType != ''">delivery_currency_type =#{deliveryCurrencyType}, </if>
+            <if test="deliveryAging != null  and deliveryAging != ''">delivery_aging = #{deliveryAging},</if>
+            <if test="deliveryExpiration != null ">delivery_expiration = #{deliveryExpiration},</if>
+            <if test="deliveryRemark != null  and deliveryRemark != ''">delivery_remark = #{deliveryRemark},</if>
+            <if test="deliveryFeedbackTime != null ">delivery_feedback_time = #{deliveryFeedbackTime},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="confirmFlag != null  and confirmFlag != ''">confirm_flag = #{confirmFlag},</if>
+            <if test="confirmTime != null ">confirm_time = #{confirmTime},</if>
+            <if test="confirmUser != null ">confirm_user = #{confirmUser},</if>
+            <if test="deliveryAddress != null and deliveryAddress !=''">delivery_address = #{deliveryAddress},</if>
+            <if test="jsRemark != null and jsRemark !=''">js_remark = #{jsRemark},</if>
+            <if test="pickUpBoxFee != null  and pickUpBoxFee != ''">pick_up_box_fee = #{pickUpBoxFee},</if>
+            <if test="pickUpBoxExpiration != null ">pick_up_box_expiration = #{pickUpBoxExpiration},</if>
+            <if test="returnBoxFee != null  and returnBoxFee != ''">return_box_fee = #{returnBoxFee},</if>
+            <if test="returnBoxExpiration != null ">return_box_expiration = #{returnBoxExpiration},</if>
+            <if test="lhuFee != null  and lhuFee != ''">lhu_fee = #{lhuFee},</if>
+            <if test="ccczFee != null  and ccczFee != ''">cccz_fee = #{ccczFee},</if>
+            <if test="tkxFee != null  and tkxFee != ''">tkx_fee = #{tkxFee},</if>
+            <if test="jgFee != null  and jgFee != ''">jg_fee = #{jgFee},</if>
+            <if test="dtFee != null  and dtFee != ''">dt_fee = #{dtFee},</if>
+            <if test="zcxFee != null  and zcxFee != ''">zcx_fee = #{zcxFee},</if>
+            <if test="totalFees != null  and totalFees != ''">total_fees = #{totalFees},</if>
+            <if test="inquiryNumber != null  and inquiryNumber != ''">inquiry_number = #{inquiryNumber},</if>
+            <if test="inquiryNum != null  and inquiryNum != ''">inquiry_num = #{inquiryNum},</if>
+            <if test="enquiryState != null  and enquiryState != ''">enquiry_state = #{enquiryState},</if>
+            <if test="hxAddress != null  and hxAddress != ''">hx_address = #{hxAddress},</if>
+            <if test="txAddress != null  and txAddress != ''">tx_address = #{txAddress},</if>
+            <if test="railRemark != null  and railRemark != ''">rail_remark = #{railRemark},</if>
+            <if test="xxyoRemark != null  and xxyoRemark != ''">xxyo_remark = #{xxyoRemark},</if>
+            <if test="businessRemark != null  and businessRemark != ''">business_remark = #{businessRemark},</if>
+            <if test="jsBidder != null  and jsBidder != ''">js_bidder = #{jsBidder},</if>
+            <!--<if test="againInquiryId != null ">again_inquiry_id = #{againInquiryId},</if>-->
+        </trim>
+        where id = #{id}
+    </update>
+
+
+    <!--更新询价结果反馈表-->
+    <update id="updateBookingInquiryResultWithInquiryId" parameterType="BookingInquiryResult">
+        update booking_inquiry_result
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="uploadStation != null  and uploadStation != ''">upload_station = #{uploadStation},</if>
+            <if test="dropStation != null  and dropStation != ''">drop_station = #{dropStation},</if>
+            <if test="uploadStationRemark != null  and uploadStationRemark != ''">upload_station_remark =
+                #{uploadStationRemark},
+            </if>
+            <if test="dropStationRemark != null  and dropStationRemark != ''">drop_station_remark =
+                #{dropStationRemark},
+            </if>
+            <if test="pickUpAddress != null  and pickUpAddress != ''">pick_up_address = #{pickUpAddress},</if>
+            <if test="pickUpDistance != null  and pickUpDistance != ''">pick_up_distance = #{pickUpDistance},</if>
+            <if test="pickUpAging != null  and pickUpAging != ''">pick_up_aging = #{pickUpAging},</if>
+            <if test="pickUpFees != null  and pickUpFees != ''">pick_up_fees = #{pickUpFees},</if>
+            <if test="pickUpCurrencyType != null  and pickUpCurrencyType != ''">pick_up_currency_type =
+                #{pickUpCurrencyType},
+            </if>
+            <if test="pickUpExpiration != null ">pick_up_expiration = #{pickUpExpiration},</if>
+            <if test="pickUpRemark != null  and pickUpRemark != ''">pick_up_remark = #{pickUpRemark},</if>
+            <if test="pickUpFeedbackTime != null ">pick_up_feedback_time = #{pickUpFeedbackTime},</if>
+            <if test="railwayFees != null  and railwayFees != ''">railway_fees = #{railwayFees},</if>
+            <if test="railwayCurrencyType != null  and railwayCurrencyType != ''">railway_currency_type =
+                #{railwayCurrencyType},
+            </if>
+            <if test="railwayCharges != null  and railwayCharges != ''">railway_charges = #{railwayCharges},</if>
+            <if test="railwayExpiration != null ">railway_expiration = #{railwayExpiration},</if>
+            <if test="railwayAging != null  and railwayAging != ''">railway_aging = #{railwayAging},</if>
+            <if test="railwayRemark != null  and railwayRemark != ''">railway_remark = #{railwayRemark},</if>
+            <if test="railwayFeedbackTime != null ">railway_feedback_time = #{railwayFeedbackTime},</if>
+            <if test="deliveryDistance != null  and deliveryDistance != ''">delivery_distance = #{deliveryDistance},
+            </if>
+            <if test="deliveryFees != null  and deliveryFees != ''">delivery_fees = #{deliveryFees},</if>
+            <if test="deliveryCurrencyType != null  and deliveryCurrencyType != ''">delivery_currency_type =
+                #{deliveryCurrencyType},
+            </if>
+            <if test="deliveryAging != null  and deliveryAging != ''">delivery_aging = #{deliveryAging},</if>
+            <if test="deliveryExpiration != null ">delivery_expiration = #{deliveryExpiration},</if>
+            <if test="deliveryRemark != null  and deliveryRemark != ''">delivery_remark = #{deliveryRemark},</if>
+            <if test="deliveryFeedbackTime != null ">delivery_feedback_time = #{deliveryFeedbackTime},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="confirmFlag != null  and confirmFlag != ''">confirm_flag = #{confirmFlag},</if>
+            <if test="confirmTime != null ">confirm_time = #{confirmTime},</if>
+            <if test="confirmUser != null ">confirm_user = #{confirmUser},</if>
+            <if test="deliveryAddress != null and deliveryAddress !=''">delivery_address = #{deliveryAddress},</if>
+            <if test="jsRemark != null and jsRemark !=''">js_remark = #{jsRemark},</if>
+            <if test="pickUpBoxFee != null  and pickUpBoxFee != ''">pick_up_box_fee = #{pickUpBoxFee},</if>
+            <if test="pickUpBoxExpiration != null ">pick_up_box_expiration = #{pickUpBoxExpiration},</if>
+            <if test="returnBoxFee != null  and returnBoxFee != ''">return_box_fee = #{returnBoxFee},</if>
+            <if test="returnBoxExpiration != null ">return_box_expiration = #{returnBoxExpiration},</if>
+            <if test="lhuFee != null  and lhuFee != ''">lhu_fee = #{lhuFee},</if>
+            <if test="ccczFee != null  and ccczFee != ''">cccz_fee = #{ccczFee},</if>
+            <if test="tkxFee != null  and tkxFee != ''">tkx_fee = #{tkxFee},</if>
+            <if test="jgFee != null  and jgFee != ''">jg_fee = #{jgFee},</if>
+            <if test="dtFee != null  and dtFee != ''">dt_fee = #{dtFee},</if>
+            <if test="zcxFee != null  and zcxFee != ''">zcx_fee = #{zcxFee},</if>
+            <if test="totalFees != null  and totalFees != ''">total_fees = #{totalFees},</if>
+            <if test="inquiryNumber != null  and inquiryNumber != ''">inquiry_number = #{inquiryNumber},</if>
+            <if test="inquiryNum != null  and inquiryNum != ''">inquiry_num = #{inquiryNum},</if>
+            <if test="enquiryState != null  and enquiryState != ''">enquiry_state = #{enquiryState},</if>
+            <if test="hxAddress != null  and hxAddress != ''">hx_address = #{hxAddress},</if>
+            <if test="txAddress != null  and txAddress != ''">tx_address = #{txAddress},</if>
+            <if test="railRemark != null  and railRemark != ''">rail_remark = #{railRemark},</if>
+            <if test="xxyoRemark != null  and xxyoRemark != ''">xxyo_remark = #{xxyoRemark},</if>
+            <if test="businessRemark != null  and businessRemark != ''">business_remark = #{businessRemark},</if>
+            <if test="jsBidder != null  and jsBidder != ''">js_bidder = #{jsBidder},</if>
+            <!-- <if test="againInquiryId != null ">again_inquiry_id = #{againInquiryId},</if> -->
+        </trim>
+        where inquiry_id = #{inquiryId}
+    </update>
+    <delete id="deleteBookingInquiryResultById" parameterType="Long">
+        delete from booking_inquiry_result where id = #{id}
+    </delete>
+
+    <delete id="deleteBookingInquiryResultByIds" parameterType="String">
+        delete from booking_inquiry_result where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectBookingInquiryResultByInquiryNum" parameterType="String" resultMap="BookingInquiryResultResult">
+        <include refid="selectBookingInquiryResultVo"/>
+        where inquiry_num = #{inquiryNum}
+    </select>
+    <!--根据订单id获取集疏报价编码-->
+    <select id="getJsNumByOrderId" parameterType="String" resultType="String">
+        select bir.inquiry_num from booking_inquiry_result bir
+        left join busi_shippingorder bs on bs.inquiry_record_id=bir.id
+        WHERE bs.order_ID= #{orderId}
+    </select>
+
+    <!--置空部分数据-->
+    <update id="updateBookingInquiryResultById" parameterType="BookingInquiryResult" >
+        update booking_inquiry_result set
+        upload_station = #{uploadStation},
+        drop_station = #{dropStation},
+        pick_up_aging = #{pickUpAging},
+        pick_up_fees = #{pickUpFees},
+        pick_up_currency_type = #{pickUpCurrencyType},
+        pick_up_remark = #{pickUpRemark},
+        delivery_fees = #{deliveryFees},
+        delivery_currency_type =#{deliveryCurrencyType},
+        delivery_aging = #{deliveryAging},
+        delivery_remark = #{deliveryRemark},
+        js_remark = #{jsRemark},
+        inquiry_num = #{inquiryNum},
+        js_bidder = #{jsBidder}
+        where id = #{id}
+    </update>
+
+    <!--根据orderid获取上次询价结果还箱地-->
+    <select id="getLastInquiryHxd" parameterType="String" resultType="String">
+        SELECT
+            hx_address
+        FROM
+        booking_inquiry_result
+        WHERE
+            id = (
+                SELECT inquiry_result_id
+                FROM booking_inquiry_order
+                WHERE order_id = #{orderId}
+                ORDER BY id DESC LIMIT 1
+            )
+    </select>
+
+    <select id="selectInquiryClassDateByOrderId" parameterType="String" resultType="date">
+        select Class_date from busi_shippingorder where order_ID = #{orderId}
+    </select>
+</mapper>

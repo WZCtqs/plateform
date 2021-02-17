@@ -1,0 +1,820 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.order.mapper.BusiShippingorderApplyMapper">
+    
+    <resultMap type="BusiShippingorders" id="BusiShippingorderApplyResult">
+        <result property="orderId"    column="order_ID"    />
+        <result property="stationid"    column="stationID"    />
+        <result property="orderNumber"    column="order_number"    />
+        <result property="bookingService"    column="booking_service"    />
+        <result property="orderAuditBelongto"    column="order_audit_belongTo"    />
+        <result property="orderAuditCreatedate"    column="order_audit_createdate"    />
+        <result property="orderAuditUserid"    column="order_audit_userid"    />
+        <result property="orderAuditUsername"    column="order_audit_username"    />
+        <result property="classId"    column="class_ID"    />
+        <result property="classDate"    column="Class_date"    />
+        <result property="classSite"    column="Class_site"    />
+        <result property="orderClassBh"    column="order_class_bh"    />
+        <result property="lineTypeid"    column="line_typeid"    />
+        <result property="classNumber"    column="class_number"    />
+        <result property="classEastandwest"    column="class_EastAndWest"    />
+        <result property="orderUploadsite"    column="order_uploadSite"    />
+        <result property="orderUnloadsite"    column="order_unloadSite"    />
+        <result property="orderUploadcode"    column="order_uploadCode"    />
+        <result property="orderUnloadcode"    column="order_unloadCode"    />
+        <result property="dictId"    column="dict_ID"    />
+        <result property="dictName"    column="dict_name"    />
+        <result property="orderDeptName"    column="order_deptName"    />
+        <result property="orderMerchandiser"    column="order_merchandiser"    />
+        <result property="orderMerchandiserId"    column="order_merchandiser_id"    />
+        <result property="orderIsticket"    column="order_isTicket"    />
+        <result property="clientId"    column="client_ID"    />
+        <result property="khId"    column="kh_id"    />
+        <result property="clientUnit"    column="client_unit"    />
+        <result property="clientContacts"    column="client_contacts"    />
+        <result property="clientTel"    column="client_tel"    />
+        <result property="clientEmail"    column="client_email"    />
+        <result property="clientAddress"    column="client_address"    />
+        <result property="clientOrderBindingaddress"    column="client_order_bindingAddress"    />
+        <result property="clientOrderBindingway"    column="client_order_bindingWay"    />
+        <result property="clientOrderRemarks"    column="client_order_remarks"    />
+        <result property="containerBoxamount"    column="container_boxAmount"    />
+        <result property="containerType"    column="container_type"    />
+        <result property="containerTypeval"    column="container_typeval"    />
+        <result property="clientOrderRepaycontainer"    column="client_order_repayContainer"    />
+        <result property="shipOrderIsdispatch"    column="ship_order_isDispatch"    />
+        <result property="shipOrderId"    column="ship_order_id"    />
+        <result property="shipOrederName"    column="ship_oreder_name"    />
+        <result property="shipOrederContacts"    column="ship_oreder_contacts"    />
+        <result property="shipOrederEmail"    column="ship_oreder_email"    />
+        <result property="shipOrederPhone"    column="ship_oreder_phone"    />
+        <result property="shipOrederAddress"    column="ship_oreder_address"    />
+        <result property="shipOrderBinningway"    column="ship_order_binningWay"    />
+        <result property="shipOrderUnloadaddress"    column="ship_order_unloadAddress"    />
+        <result property="shipOrderUnloadcontacts"    column="ship_order_unloadContacts"    />
+        <result property="shipOrderUnloadway"    column="ship_order_unloadWay"    />
+        <result property="shipOrderUnloadwayEmail"    column="ship_order_unloadWay_email"    />
+        <result property="shipOrderUnloadtime"    column="ship_order_unloadTime"    />
+        <result property="shipOrderSendtime"    column="ship_order_sendTime"    />
+        <result property="receiveOrderId"    column="receive_order_id"    />
+        <result property="receiveOrderName"    column="receive_order_name"    />
+        <result property="receiveOrderContacts"    column="receive_order_contacts"    />
+        <result property="receiveOrderMail"    column="receive_order_mail"    />
+        <result property="receiveOrderPhone"    column="receive_order_phone"    />
+        <result property="receiveOrderAddress"    column="receive_order_address"    />
+        <result property="receiveOrderIsclearance"    column="receive_order_isClearance"    />
+        <result property="receiveOrderIspart"    column="receive_order_isPart"    />
+        <result property="distributionType"    column="distribution_type"    />
+        <result property="receiveOrderZihemail"    column="receive_order_zihemail"    />
+        <result property="receiveOrderFbStatus"    column="receive_order_fb_status"    />
+        <result property="receiveOrderPartaddress"    column="receive_order_PartAddress"    />
+        <result property="receiveOrderReceiveemail"    column="receive_order_receiveEmail"    />
+        <result property="receiveOrderEnName"    column="receive_order_en_name"    />
+        <result property="receiveOrderEnContacts"    column="receive_order_en_contacts"    />
+        <result property="receiveOrderEnEmail"    column="receive_order_en_email"    />
+        <result property="receiveOrderEnPhone"    column="receive_order_en_phone"    />
+        <result property="receiveOrderEnAddress"    column="receive_order_en_address"    />
+        <result property="receiveOrderEname"    column="receive_order_Ename"    />
+        <result property="receiveOrderEcontacts"    column="receive_order_Econtacts"    />
+        <result property="receiveOrderEemail"    column="receive_order_Eemail"    />
+        <result property="receiveOrderEphone"    column="receive_order_Ephone"    />
+        <result property="receiveOrderEaddress"    column="receive_order_Eaddress"    />
+        <result property="consignorc"    column="ConsignorC"    />
+        <result property="econsignorstate"    column="EConsignorState"    />
+        <result property="etxCompany"    column="Etx_Company"    />
+        <result property="eduty"    column="Eduty"    />
+        <result property="etxName"    column="Etx_name"    />
+        <result property="receiveOrderZihcontacts"    column="receive_order_zihcontacts"    />
+        <result property="receiveOrderZihtel"    column="receive_order_zihtel"    />
+        <result property="goodsCannotpileup"    column="goods_cannotPileUp"    />
+        <result property="goodsFragile"    column="goods_fragile"    />
+        <result property="goodsGeneral"    column="goods_general"    />
+        <result property="isexamline"    column="IsExamline"    />
+        <result property="isconsolidation"    column="IsConsolidation"    />
+        <result property="createdate"    column="createdate"    />
+        <result property="createuserid"    column="createuserid"    />
+        <result property="createusername"    column="createusername"    />
+        <result property="shipThCost"    column="ship_th_cost"    />
+        <result property="clientBgCost"    column="client_bg_cost"    />
+        <result property="receiveHxAddress"    column="receive_hx_address"    />
+        <result property="receiveXgCost"    column="receive_xg_cost"    />
+        <result property="pickUpBoxFee"    column="pick_up_box_fee"    />
+        <result property="returnBoxFee"    column="return_box_fee"    />
+        <result property="receiveQgCost"    column="receive_qg_cost"    />
+        <result property="shipJzCost"    column="ship_jz_cost"    />
+        <result property="receiveShCost"    column="receive_sh_cost"    />
+        <result property="sitecost"    column="siteCost"    />
+        <result property="clientTjr"    column="client_tjr"    />
+        <result property="clientTjrId"    column="client_tjr_id"    />
+        <result property="shipFhSite"    column="ship_fh_site"    />
+        <result property="shipHyd"    column="ship_hyd"    />
+        <result property="receiveHyd"    column="receive_hyd"    />
+        <result property="shipThType"    column="ship_th_type"    />
+        <result property="shipThTypeId"    column="ship_th_type_id"    />
+        <result property="shipZsType"    column="ship_zs_type"    />
+        <result property="shipZsTypeId"    column="ship_zs_type_id"    />
+        <result property="yuyan"    column="yuyan"    />
+        <result property="tjTime"    column="tj_time"    />
+        <result property="tjFTime"    column="tj_f_time"    />
+        <result property="zxNumber"    column="zx_number"    />
+        <result property="isupdate"    column="isupdate"    />
+        <result property="isphone"    column="IsPhone"    />
+        <result property="zxThcostCurrency"    column="zx_THCost_Currency"    />
+        <result property="shipThCostNo"    column="ship_th_cost_NO"    />
+        <result property="ywNumber"    column="YW_Number"    />
+        <result property="clientYwNumber"    column="client_yw_number"    />
+        <result property="isgetin"    column="IsGetin"    />
+        <result property="turncount"    column="TurnCount"    />
+        <result property="totalturncount"    column="TotalTurnCount"    />
+        <result property="totalturncountavg"    column="TotalTurnCountAvg"    />
+        <result property="actualClassdate"    column="Actual_classDate"    />
+        <result property="ywFeedback"    column="YW_Feedback"    />
+        <result property="detailedAddress"    column="detailed_address"    />
+        <result property="putoffClass"    column="putoff_class"    />
+        <result property="costVerify"    column="Cost_verify"    />
+        <result property="dcGaidanState"    column="DC_gaidan_state"    />
+        <result property="receiveShCostId"    column="receive_sh_cost_id"    />
+        <result property="receiveOrderEmail"    column="receive_order_Email"    />
+        <result property="xgCostcurrency"    column="xg_costCurrency"    />
+        <result property="qgCostcurrency"    column="qg_costCurrency"    />
+        <result property="shCostcurrency"    column="sh_costCurrency"    />
+        <result property="sitecostCurrency"    column="siteCost_Currency"    />
+        <result property="exameTime"    column="Exame_time"    />
+        <result property="gdBoat"    column="gd_boat"    />
+        <result property="gdBoaturl"    column="gd_boaturl"    />
+        <result property="gdCjsremark"    column="GD_cjsRemark"    />
+        <result property="gdVoucherurl"    column="gd_voucherUrl"    />
+        <result property="gdVoucher"    column="gd_voucher"    />
+        <result property="inquiryRecordId"    column="inquiry_record_id"    />
+        <result property="limitation"    column="limitation"    />
+        <result property="truckType"    column="truck_type"    />
+        <result property="domesticNumber"    column="domestic_number"    />
+        <result property="foreignNumber"    column="foreign_number"    />
+    </resultMap>
+
+    <sql id="selectBusiShippingorderApplyVo">
+        select order_ID, inquiry_record_id,limitation,truck_type,domestic_number,foreign_number,stationID, order_number, booking_service, order_audit_belongTo, order_audit_createdate, order_audit_userid, order_audit_username, class_ID, Class_date, Class_site, order_class_bh, line_typeid, class_number, class_EastAndWest, order_uploadSite, order_unloadSite, order_uploadCode, order_unloadCode, dict_ID, dict_name, order_deptName, order_merchandiser, order_merchandiser_id, order_isTicket, client_ID,kh_id, client_unit, client_contacts, client_tel, client_email, client_address, client_order_bindingAddress, client_order_bindingWay, client_order_remarks, container_boxAmount, container_type, container_typeval, client_order_repayContainer, ship_order_isDispatch, ship_order_id, ship_oreder_name, ship_oreder_contacts, ship_oreder_email, ship_oreder_phone, ship_oreder_address, ship_order_binningWay, ship_order_unloadAddress, ship_order_unloadContacts, ship_order_unloadWay, ship_order_unloadWay_email, ship_order_unloadTime, ship_order_sendTime, receive_order_id, receive_order_name, receive_order_contacts, receive_order_mail, receive_order_phone, receive_order_address, receive_order_isClearance, receive_order_isPart,distribution_type, receive_order_zihemail, receive_order_fb_status, receive_order_PartAddress, receive_order_receiveEmail, receive_order_en_name, receive_order_en_contacts, receive_order_en_email, receive_order_en_phone, receive_order_en_address, receive_order_Ename, receive_order_Econtacts, receive_order_Eemail, receive_order_Ephone, receive_order_Eaddress,ConsignorC,EConsignorState, Etx_Company, Eduty, Etx_name, receive_order_zihcontacts, receive_order_zihtel, goods_cannotPileUp, goods_fragile, goods_general, IsExamline, IsConsolidation, createdate, createuserid, createusername, ship_th_cost, client_bg_cost, receive_hx_address, receive_xg_cost,pick_up_box_fee,return_box_fee, receive_qg_cost, ship_jz_cost, receive_sh_cost, siteCost, client_tjr, client_tjr_id, ship_fh_site, ship_hyd, receive_hyd, ship_th_type, ship_th_type_id, ship_zs_type, ship_zs_type_id, yuyan, tj_time, tj_f_time, zx_number, isupdate, IsPhone, zx_THCost_Currency, ship_th_cost_NO, YW_Number, client_yw_number, IsGetin, TurnCount, TotalTurnCount, TotalTurnCountAvg, Actual_classDate, YW_Feedback, detailed_address, putoff_class, Cost_verify, DC_gaidan_state, receive_sh_cost_id, receive_order_Email, xg_costCurrency, qg_costCurrency, sh_costCurrency, siteCost_Currency, Exame_time, gd_boat, gd_boaturl, GD_cjsRemark, gd_voucherUrl, gd_voucher, train_state from busi_shippingorder_apply
+    </sql>
+
+    <sql id="selectBusiShippingorderVos">
+        select ord.order_ID as orderId,ord.inquiry_record_id as inquiryRecordId,ord.limitation as limitation,ord.stationID as stationid, ord.order_number as orderNumber,
+        ord.booking_service as bookingService, ord.order_audit_belongTo as orderAuditBelongto, ord.order_audit_createdate as orderAuditCreatedate,
+        ord.order_audit_userid as orderAuditUserid, ord.order_audit_username as orderAuditUsername, ord.class_ID as classId, ord.Class_date as classDate,
+        ord.Class_site as classSite,ord.order_class_bh as orderClassBh,ord.line_typeid as lineTypeid, ord.class_number as classNumber, ord.class_EastAndWest as classEastandwest,
+        ord.order_uploadSite as orderUploadsite, ord.order_unloadSite as orderUnloadsite, ord.order_uploadCode as orderUploadcode, ord.order_unloadCode as orderUnloadcode,
+        ord.dict_ID as dictId, ord.dict_name as dictName,ord.order_deptName as orderDeptName, ord.order_merchandiser as orderMerchandiser, ord.order_merchandiser_id as orderMerchandiserId,
+        ord.order_isTicket as orderIsticket, ord.client_ID as clientId,ord.kh_id as khId, ord.client_unit as clientUnit, ord.client_contacts as clientContacts, ord.client_tel as clientTel,
+        ord.client_email as clientEmail, ord.client_address as clientAddress, ord.client_order_bindingAddress as clientOrderBindingaddress, ord.client_order_bindingWay as clientOrderBindingway,
+        ord.client_order_remarks as clientOrderRemarks, ord.container_boxAmount as containerBoxamount, ord.container_type as containerType, ord.container_typeval as containerTypeval,
+        ord.client_order_repayContainer as clientOrderRepaycontainer, ord.ship_order_isDispatch as shipOrderIsdispatch,ord.ship_order_id as shipOrderId, ord.ship_oreder_name as shipOrederName,
+        ord.ship_oreder_contacts as shipOrederContacts, ord.ship_oreder_email as shipOrederEmail, ord.ship_oreder_phone as shipOrederPhone, ord.ship_oreder_address as shipOrederAddress,
+        ord.ship_order_binningWay as shipOrderBinningway, ord.ship_order_unloadAddress as shipOrderUnloadaddress, ord.ship_order_unloadContacts as shipOrderUnloadcontacts,
+        ord.ship_order_unloadWay as shipOrderUnloadway, ord.ship_order_unloadWay_email as shipOrderUnloadwayEmail, ord.ship_order_unloadTime as shipOrderUnloadtime,
+        ord.ship_order_sendTime as shipOrderSendtime,ord.receive_order_id as receiveOrderId, ord.receive_order_name as receiveOrderName, ord.receive_order_contacts as receiveOrderContacts,
+        ord.receive_order_mail as receiveOrderMail, ord.receive_order_phone as receiveOrderPhone, ord.receive_order_address as receiveOrderAddress, ord.receive_order_isClearance as receiveOrderIsclearance,
+        ord.receive_order_isPart as receiveOrderIspart,ord.distribution_type as distributionType, ord.receive_order_zihemail as receiveOrderZihemail, ord.receive_order_fb_status as receiveOrderFbStatus,
+        ord.receive_order_PartAddress as receiveOrderPartaddress, ord.receive_order_receiveEmail receiveOrderReceiveemail, ord.receive_order_en_name as receiveOrderEnName,
+        ord.receive_order_en_contacts as receiveOrderEnContacts, ord.receive_order_en_email as receiveOrderEnEmail, ord.receive_order_en_phone as receiveOrderEnPhone,
+        ord.receive_order_en_address as receiveOrderEnAddress, ord.receive_order_Ename as receiveOrderEname, ord.receive_order_Econtacts as receiveOrderEcontacts,
+        ord.receive_order_Eemail as receiveOrderEemail, ord.receive_order_Ephone as receiveOrderEphone, ord.receive_order_Eaddress as receiveOrderEaddress,ord.EConsignorState as econsignorstate, ord.Etx_Company as etxCompany,
+        ord.ConsignorC as consignorc,ord.Eduty as eduty, ord.Etx_name as etxName, ord.receive_order_zihcontacts as receiveOrderZihcontacts, ord.receive_order_zihtel as receiveOrderZihtel,
+        ord.goods_cannotPileUp as goodsCannotpileup, ord.goods_fragile as goodsFragile, ord.goods_general as goodsGeneral, ord.IsExamline as isexamline, ord.IsConsolidation as isconsolidation,
+        ord.createdate as createdate, ord.createuserid as createuserid , ord.createusername as createusername, ord.ship_th_cost as shipThCost, ord.client_bg_cost as clientBgCost,
+        ord.receive_hx_address as receiveHxAddress, ord.receive_xg_cost as receiveXgCost,ord.pick_up_box_fee as pickUpBoxFee,ord.return_box_fee as returnBoxFee,
+        ord.receive_qg_cost as receiveQgCost, ord.ship_jz_cost as shipJzCost,ord.receive_sh_cost as receiveShCost, ord.siteCost as sitecost, ord.client_tjr as clientTjr, ord.client_tjr_id as clientTjrId, ord.ship_fh_site as shipFhSite,
+        ord.ship_hyd as shipHyd, ord.receive_hyd as receiveHyd, ord.ship_th_type as shipThType, ord.ship_th_type_id as shipThTypeId, ord.ship_zs_type as shipZsType, ord.ship_zs_type_id as shipZsTypeId,
+        ord.yuyan as yuyan, ord.tj_time as tjTime, ord.tj_f_time as tjFTime, ord.isupdate as isupdate, ord.IsPhone as isphone, ord.zx_THCost_Currency as zxThcostCurrency,
+        ord.ship_th_cost_NO as shipThCostNo, ord.YW_Number as ywNumber, ord.client_yw_number as clientYwNumber, ord.IsGetin as isgetin, ord.TurnCount as turncount, ord.TotalTurnCount as totalturncount,
+        ord.TotalTurnCountAvg as totalturncountavg, ord.Actual_classDate as actualClassdate, ord.YW_Feedback as ywFeedback, ord.detailed_address as detailedAddress,
+        ord.putoff_class as putoffClass, ord.Cost_verify as costVerify, ord.DC_gaidan_state as dcGaidanState, ord.receive_sh_cost_id as receiveShCostId,
+        ord.receive_order_Email as receiveOrderEmail, ord.xg_costCurrency as xgCostcurrency, ord.qg_costCurrency as qgCostcurrency, ord.sh_costCurrency as shCostcurrency,
+        ord.siteCost_Currency as sitecostCurrency, ord.Exame_time as exameTime, ord.gd_boat as gdBoat, ord.gd_boaturl as gdBoaturl, ord.GD_cjsRemark as gdCjsremark,
+        ord.gd_voucherUrl as gdVoucherurl, ord.gd_voucher as gdVoucher,ord.truck_type as truckType,ord.zx_number as zxNumber,
+        ord.domestic_number as domesticNumber,ord.foreign_number as foreignNumber
+        from busi_shippingorder_apply ord
+    </sql>
+
+    <select id="selectBusiShippingorderApplyList" parameterType="BusiShippingorders" resultMap="BusiShippingorderApplyResult">
+        <include refid="selectBusiShippingorderApplyVo"/>
+        <where>  
+            <if test="stationid != null  and stationid != ''"> and stationID = #{stationid}</if>
+            <if test="orderNumber != null  and orderNumber != ''"> and order_number = #{orderNumber}</if>
+            <if test="bookingService != null  and bookingService != ''"> and booking_service = #{bookingService}</if>
+            <if test="orderAuditBelongto != null  and orderAuditBelongto != ''"> and order_audit_belongTo = #{orderAuditBelongto}</if>
+            <if test="orderAuditCreatedate != null "> and order_audit_createdate = #{orderAuditCreatedate}</if>
+            <if test="orderAuditUserid != null  and orderAuditUserid != ''"> and order_audit_userid = #{orderAuditUserid}</if>
+            <if test="orderAuditUsername != null  and orderAuditUsername != ''"> and order_audit_username like concat('%', #{orderAuditUsername}, '%')</if>
+            <if test="classId != null  and classId != ''"> and class_ID = #{classId}</if>
+            <if test="classDate != null "> and Class_date = #{classDate}</if>
+            <if test="classSite != null  and classSite != ''"> and Class_site = #{classSite}</if>
+            <if test="orderClassBh != null  and orderClassBh != ''"> and order_class_bh = #{orderClassBh}</if>
+            <if test="lineTypeid != null  and lineTypeid != ''"> and line_typeid = #{lineTypeid}</if>
+            <if test="classNumber != null  and classNumber != ''"> and class_number = #{classNumber}</if>
+            <if test="classEastandwest != null  and classEastandwest != ''"> and class_EastAndWest = #{classEastandwest}</if>
+            <if test="orderUploadsite != null  and orderUploadsite != ''"> and order_uploadSite = #{orderUploadsite}</if>
+            <if test="orderUnloadsite != null  and orderUnloadsite != ''"> and order_unloadSite = #{orderUnloadsite}</if>
+            <if test="orderUploadcode != null  and orderUploadcode != ''"> and order_uploadCode = #{orderUploadcode}</if>
+            <if test="orderUnloadcode != null  and orderUnloadcode != ''"> and order_unloadCode = #{orderUnloadcode}</if>
+            <if test="dictId != null "> and dict_ID = #{dictId}</if>
+            <if test="dictName != null  and dictName != ''"> and dict_name like concat('%', #{dictName}, '%')</if>
+            <if test="orderDeptName != null  and orderDeptName != ''"> and order_deptName like concat('%', #{orderDeptname}, '%')</if>
+            <if test="orderMerchandiser != null  and orderMerchandiser != ''"> and order_merchandiser = #{orderMerchandiser}</if>
+            <if test="orderMerchandiserId != null  and orderMerchandiserId != ''"> and order_merchandiser_id = #{orderMerchandiserId}</if>
+            <if test="orderIsticket != null  and orderIsticket != ''"> and order_isTicket = #{orderIsticket}</if>
+            <if test="clientId != null  and clientId != ''"> and client_ID = #{clientId}</if>
+            <if test="khId != null"> and kh_id = #{khId}</if>
+            <if test="clientUnit != null  and clientUnit != ''"> and client_unit = #{clientUnit}</if>
+            <if test="clientContacts != null  and clientContacts != ''"> and client_contacts = #{clientContacts}</if>
+            <if test="clientTel != null  and clientTel != ''"> and client_tel = #{clientTel}</if>
+            <if test="clientEmail != null  and clientEmail != ''"> and client_email = #{clientEmail}</if>
+            <if test="clientAddress != null  and clientAddress != ''"> and client_address = #{clientAddress}</if>
+            <if test="clientOrderBindingaddress != null  and clientOrderBindingaddress != ''"> and client_order_bindingAddress = #{clientOrderBindingaddress}</if>
+            <if test="clientOrderBindingway != null  and clientOrderBindingway != ''"> and client_order_bindingWay = #{clientOrderBindingway}</if>
+            <if test="clientOrderRemarks != null  and clientOrderRemarks != ''"> and client_order_remarks = #{clientOrderRemarks}</if>
+            <if test="containerBoxamount != null  and containerBoxamount != ''"> and container_boxAmount = #{containerBoxamount}</if>
+            <if test="containerType != null  and containerType != ''"> and container_type = #{containerType}</if>
+            <if test="containerTypeval != null  and containerTypeval != ''"> and container_typeval = #{containerTypeval}</if>
+            <if test="clientOrderRepaycontainer != null  and clientOrderRepaycontainer != ''"> and client_order_repayContainer = #{clientOrderRepaycontainer}</if>
+            <if test="shipOrderIsdispatch != null  and shipOrderIsdispatch != ''"> and ship_order_isDispatch = #{shipOrderIsdispatch}</if>
+            <if test="shipOrderId != null  and shipOrderId != ''"> and ship_order_id = #{shipOrderId}</if>
+            <if test="shipOrederName != null  and shipOrederName != ''"> and ship_oreder_name like concat('%', #{shipOrederName}, '%')</if>
+            <if test="shipOrederContacts != null  and shipOrederContacts != ''"> and ship_oreder_contacts = #{shipOrederContacts}</if>
+            <if test="shipOrederEmail != null  and shipOrederEmail != ''"> and ship_oreder_email = #{shipOrederEmail}</if>
+            <if test="shipOrederPhone != null  and shipOrederPhone != ''"> and ship_oreder_phone = #{shipOrederPhone}</if>
+            <if test="shipOrederAddress != null  and shipOrederAddress != ''"> and ship_oreder_address = #{shipOrederAddress}</if>
+            <if test="shipOrderBinningway != null  and shipOrderBinningway != ''"> and ship_order_binningWay = #{shipOrderBinningway}</if>
+            <if test="shipOrderUnloadaddress != null  and shipOrderUnloadaddress != ''"> and ship_order_unloadAddress = #{shipOrderUnloadaddress}</if>
+            <if test="shipOrderUnloadcontacts != null  and shipOrderUnloadcontacts != ''"> and ship_order_unloadContacts = #{shipOrderUnloadcontacts}</if>
+            <if test="shipOrderUnloadway != null  and shipOrderUnloadway != ''"> and ship_order_unloadWay = #{shipOrderUnloadway}</if>
+            <if test="shipOrderUnloadwayEmail != null  and shipOrderUnloadwayEmail != ''"> and ship_order_unloadWay_email = #{shipOrderUnloadwayEmail}</if>
+            <if test="shipOrderUnloadtime != null "> and ship_order_unloadTime = #{shipOrderUnloadtime}</if>
+            <if test="shipOrderSendtime != null "> and ship_order_sendTime = #{shipOrderSendtime}</if>
+            <if test="receiveOrderId != null  and receiveOrderId != ''"> and receive_order_id = #{receiveOrderId}</if>
+            <if test="receiveOrderName != null  and receiveOrderName != ''"> and receive_order_name like concat('%', #{receiveOrderName}, '%')</if>
+            <if test="receiveOrderContacts != null  and receiveOrderContacts != ''"> and receive_order_contacts = #{receiveOrderContacts}</if>
+            <if test="receiveOrderMail != null  and receiveOrderMail != ''"> and receive_order_mail = #{receiveOrderMail}</if>
+            <if test="receiveOrderPhone != null  and receiveOrderPhone != ''"> and receive_order_phone = #{receiveOrderPhone}</if>
+            <if test="receiveOrderAddress != null  and receiveOrderAddress != ''"> and receive_order_address = #{receiveOrderAddress}</if>
+            <if test="receiveOrderIsclearance != null  and receiveOrderIsclearance != ''"> and receive_order_isClearance = #{receiveOrderIsclearance}</if>
+            <if test="receiveOrderIspart != null  and receiveOrderIspart != ''"> and receive_order_isPart = #{receiveOrderIspart}</if>
+            <if test="receiveOrderZihemail != null  and receiveOrderZihemail != ''"> and receive_order_zihemail = #{receiveOrderZihemail}</if>
+            <if test="receiveOrderFbStatus != null  and receiveOrderFbStatus != ''"> and receive_order_fb_status = #{receiveOrderFbStatus}</if>
+            <if test="receiveOrderPartaddress != null  and receiveOrderPartaddress != ''"> and receive_order_PartAddress = #{receiveOrderPartaddress}</if>
+            <if test="receiveOrderReceiveemail != null  and receiveOrderReceiveemail != ''"> and receive_order_receiveEmail = #{receiveOrderReceiveemail}</if>
+            <if test="receiveOrderEnName != null  and receiveOrderEnName != ''"> and receive_order_en_name like concat('%', #{receiveOrderEnName}, '%')</if>
+            <if test="receiveOrderEnContacts != null  and receiveOrderEnContacts != ''"> and receive_order_en_contacts = #{receiveOrderEnContacts}</if>
+            <if test="receiveOrderEnEmail != null  and receiveOrderEnEmail != ''"> and receive_order_en_email = #{receiveOrderEnEmail}</if>
+            <if test="receiveOrderEnPhone != null  and receiveOrderEnPhone != ''"> and receive_order_en_phone = #{receiveOrderEnPhone}</if>
+            <if test="receiveOrderEnAddress != null  and receiveOrderEnAddress != ''"> and receive_order_en_address = #{receiveOrderEnAddress}</if>
+            <if test="receiveOrderEname != null  and receiveOrderEname != ''"> and receive_order_Ename like concat('%', #{receiveOrderEname}, '%')</if>
+            <if test="receiveOrderEcontacts != null  and receiveOrderEcontacts != ''"> and receive_order_Econtacts = #{receiveOrderEcontacts}</if>
+            <if test="receiveOrderEemail != null  and receiveOrderEemail != ''"> and receive_order_Eemail = #{receiveOrderEemail}</if>
+            <if test="receiveOrderEphone != null  and receiveOrderEphone != ''"> and receive_order_Ephone = #{receiveOrderEphone}</if>
+            <if test="receiveOrderEaddress != null  and receiveOrderEaddress != ''"> and receive_order_Eaddress = #{receiveOrderEaddress}</if>
+            <if test="etxCompany != null  and etxCompany != ''"> and Etx_Company = #{etxCompany}</if>
+            <if test="eduty != null  and eduty != ''"> and Eduty = #{eduty}</if>
+            <if test="etxName != null  and etxName != ''"> and Etx_name like concat('%', #{etxName}, '%')</if>
+            <if test="receiveOrderZihcontacts != null  and receiveOrderZihcontacts != ''"> and receive_order_zihcontacts = #{receiveOrderZihcontacts}</if>
+            <if test="receiveOrderZihtel != null  and receiveOrderZihtel != ''"> and receive_order_zihtel = #{receiveOrderZihtel}</if>
+            <if test="goodsCannotpileup != null  and goodsCannotpileup != ''"> and goods_cannotPileUp = #{goodsCannotpileup}</if>
+            <if test="goodsFragile != null  and goodsFragile != ''"> and goods_fragile = #{goodsFragile}</if>
+            <if test="goodsGeneral != null  and goodsGeneral != ''"> and goods_general = #{goodsGeneral}</if>
+            <if test="isexamline != null  and isexamline != ''"> and IsExamline = #{isexamline}</if>
+            <if test="isconsolidation != null  and isconsolidation != ''"> and IsConsolidation = #{isconsolidation}</if>
+            <if test="createdate != null "> and createdate = #{createdate}</if>
+            <if test="createuserid != null  and createuserid != ''"> and createuserid = #{createuserid}</if>
+            <if test="createusername != null  and createusername != ''"> and createusername like concat('%', #{createusername}, '%')</if>
+            <if test="shipThCost != null  and shipThCost != ''"> and ship_th_cost = #{shipThCost}</if>
+            <if test="clientBgCost != null  and clientBgCost != ''"> and client_bg_cost = #{clientBgCost}</if>
+            <if test="receiveHxAddress != null  and receiveHxAddress != ''"> and receive_hx_address = #{receiveHxAddress}</if>
+            <if test="receiveXgCost != null  and receiveXgCost != ''"> and receive_xg_cost = #{receiveXgCost}</if>
+            <if test="receiveQgCost != null  and receiveQgCost != ''"> and receive_qg_cost = #{receiveQgCost}</if>
+            <if test="shipJzCost != null  and shipJzCost != ''"> and ship_jz_cost = #{shipJzCost}</if>
+            <if test="receiveShCost != null  and receiveShCost != ''"> and receive_sh_cost = #{receiveShCost}</if>
+            <if test="sitecost != null  and sitecost != ''"> and siteCost = #{sitecost}</if>
+            <if test="clientTjr != null  and clientTjr != ''"> and client_tjr = #{clientTjr}</if>
+            <if test="clientTjrId != null  and clientTjrId != ''"> and client_tjr_id = #{clientTjrId}</if>
+            <if test="shipFhSite != null  and shipFhSite != ''"> and ship_fh_site = #{shipFhSite}</if>
+            <if test="shipHyd != null  and shipHyd != ''"> and ship_hyd = #{shipHyd}</if>
+            <if test="receiveHyd != null  and receiveHyd != ''"> and receive_hyd = #{receiveHyd}</if>
+            <if test="shipThType != null  and shipThType != ''"> and ship_th_type = #{shipThType}</if>
+            <if test="shipThTypeId != null  and shipThTypeId != ''"> and ship_th_type_id = #{shipThTypeId}</if>
+            <if test="shipZsType != null  and shipZsType != ''"> and ship_zs_type = #{shipZsType}</if>
+            <if test="shipZsTypeId != null  and shipZsTypeId != ''"> and ship_zs_type_id = #{shipZsTypeId}</if>
+            <if test="yuyan != null  and yuyan != ''"> and yuyan = #{yuyan}</if>
+            <if test="tjTime != null "> and tj_time = #{tjTime}</if>
+            <if test="tjFTime != null "> and tj_f_time = #{tjFTime}</if>
+            <if test="zxNumber != null  and zxNumber != ''"> and zx_number = #{zxNumber}</if>
+            <if test="isupdate != null  and isupdate != ''"> and isupdate = #{isupdate}</if>
+            <if test="isphone != null  and isphone != ''"> and IsPhone = #{isphone}</if>
+            <if test="zxThcostCurrency != null  and zxThcostCurrency != ''"> and zx_THCost_Currency = #{zxThcostCurrency}</if>
+            <if test="shipThCostNo != null  and shipThCostNo != ''"> and ship_th_cost_NO = #{shipThCostNo}</if>
+            <if test="ywNumber != null  and ywNumber != ''"> and YW_Number = #{ywNumber}</if>
+            <if test="isgetin != null  and isgetin != ''"> and IsGetin = #{isgetin}</if>
+            <if test="turncount != null "> and TurnCount = #{turncount}</if>
+            <if test="totalturncount != null "> and TotalTurnCount = #{totalturncount}</if>
+            <if test="totalturncountavg != null "> and TotalTurnCountAvg = #{totalturncountavg}</if>
+            <if test="actualClassdate != null  and actualClassdate != ''"> and Actual_classDate = #{actualClassdate}</if>
+            <if test="ywFeedback != null "> and YW_Feedback = #{ywFeedback}</if>
+            <if test="detailedAddress != null  and detailedAddress != ''"> and detailed_address = #{detailedAddress}</if>
+            <if test="putoffClass != null "> and putoff_class = #{putoffClass}</if>
+            <if test="costVerify != null  and costVerify != ''"> and Cost_verify = #{costVerify}</if>
+            <if test="dcGaidanState != null  and dcGaidanState != ''"> and DC_gaidan_state = #{dcGaidanState}</if>
+            <if test="receiveShCostId != null  and receiveShCostId != ''"> and receive_sh_cost_id = #{receiveShCostId}</if>
+            <if test="receiveOrderEmail != null  and receiveOrderEmail != ''"> and receive_order_Email = #{receiveOrderEmail}</if>
+            <if test="xgCostcurrency != null  and xgCostcurrency != ''"> and xg_costCurrency = #{xgCostcurrency}</if>
+            <if test="qgCostcurrency != null  and qgCostcurrency != ''"> and qg_costCurrency = #{qgCostcurrency}</if>
+            <if test="shCostcurrency != null  and shCostcurrency != ''"> and sh_costCurrency = #{shCostcurrency}</if>
+            <if test="sitecostCurrency != null  and sitecostCurrency != ''"> and siteCost_Currency = #{sitecostCurrency}</if>
+            <if test="exameTime != null "> and Exame_time = #{exameTime}</if>
+            <if test="gdBoat != null  and gdBoat != ''"> and gd_boat = #{gdBoat}</if>
+            <if test="gdBoaturl != null  and gdBoaturl != ''"> and gd_boaturl = #{gdBoaturl}</if>
+            <if test="gdCjsremark != null  and gdCjsremark != ''"> and GD_cjsRemark = #{gdCjsremark}</if>
+            <if test="gdVoucherurl != null  and gdVoucherurl != ''"> and gd_voucherUrl = #{gdVoucherurl}</if>
+            <if test="gdVoucher != null  and gdVoucher != ''"> and gd_voucher = #{gdVoucher}</if>
+            <if test="trainState != null  and trainState != ''"> and train_state = #{trainState}</if>
+        </where>
+    </select>
+    
+    <select id="selectBusiShippingorderApplyByIdO" parameterType="String" resultMap="BusiShippingorderApplyResult">
+        <include refid="selectBusiShippingorderApplyVo"/>
+        where order_ID = #{orderId}
+    </select>
+
+    <select id="selectBusiShippingorderApplyById" parameterType="String" resultType="BusiShippingorders">
+        <include refid="selectBusiShippingorderVos"/>
+        where ord.order_ID = #{orderId}
+    </select>
+        
+    <insert id="insertBusiShippingorderApply" parameterType="BusiShippingorders">
+        insert into busi_shippingorder_apply
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_ID,</if>
+            <if test="stationid != null  and stationid != ''">stationID,</if>
+            <if test="orderNumber != null  and orderNumber != ''">order_number,</if>
+            <if test="bookingService != null  and bookingService != ''">booking_service,</if>
+            <if test="orderAuditBelongto != null  and orderAuditBelongto != ''">order_audit_belongTo,</if>
+            <if test="orderAuditCreatedate != null ">order_audit_createdate,</if>
+            <if test="orderAuditUserid != null  and orderAuditUserid != ''">order_audit_userid,</if>
+            <if test="orderAuditUsername != null  and orderAuditUsername != ''">order_audit_username,</if>
+            <if test="classId != null  and classId != ''">class_ID,</if>
+            <if test="classDate != null ">Class_date,</if>
+            <if test="classSite != null  and classSite != ''">Class_site,</if>
+            <if test="orderClassBh != null  and orderClassBh != ''">order_class_bh,</if>
+            <if test="lineTypeid != null  and lineTypeid != ''">line_typeid,</if>
+            <if test="classNumber != null  and classNumber != ''">class_number,</if>
+            <if test="classEastandwest != null  and classEastandwest != ''">class_EastAndWest,</if>
+            <if test="orderUploadsite != null  and orderUploadsite != ''">order_uploadSite,</if>
+            <if test="orderUnloadsite != null  and orderUnloadsite != ''">order_unloadSite,</if>
+            <if test="orderUploadcode != null  and orderUploadcode != ''">order_uploadCode,</if>
+            <if test="orderUnloadcode != null  and orderUnloadcode != ''">order_unloadCode,</if>
+            <if test="dictId != null ">dict_ID,</if>
+            <if test="dictName != null  and dictName != ''">dict_name,</if>
+            <if test="orderDeptName != null  and orderDeptName != ''">order_deptName,</if>
+            <if test="orderMerchandiser != null  and orderMerchandiser != ''">order_merchandiser,</if>
+            <if test="orderMerchandiserId != null  and orderMerchandiserId != ''">order_merchandiser_id,</if>
+            <if test="orderIsticket != null  and orderIsticket != ''">order_isTicket,</if>
+            <if test="clientId != null  and clientId != ''">client_ID,</if>
+            <if test="khId != null">kh_id,</if>
+            <if test="clientUnit != null  and clientUnit != ''">client_unit,</if>
+            <if test="clientContacts != null  and clientContacts != ''">client_contacts,</if>
+            <if test="clientTel != null  and clientTel != ''">client_tel,</if>
+            <if test="clientEmail != null  and clientEmail != ''">client_email,</if>
+            <if test="clientAddress != null  and clientAddress != ''">client_address,</if>
+            <if test="clientOrderBindingaddress != null  and clientOrderBindingaddress != ''">client_order_bindingAddress,</if>
+            <if test="clientOrderBindingway != null  and clientOrderBindingway != ''">client_order_bindingWay,</if>
+            <if test="clientOrderRemarks != null  and clientOrderRemarks != ''">client_order_remarks,</if>
+            <if test="containerBoxamount != null  and containerBoxamount != ''">container_boxAmount,</if>
+            <if test="containerType != null  and containerType != ''">container_type,</if>
+            <if test="containerTypeval != null  and containerTypeval != ''">container_typeval,</if>
+            <if test="clientOrderRepaycontainer != null  and clientOrderRepaycontainer != ''">client_order_repayContainer,</if>
+            <if test="shipOrderIsdispatch != null  and shipOrderIsdispatch != ''">ship_order_isDispatch,</if>
+            <if test="shipOrderId != null  and shipOrderId != ''">ship_order_id,</if>
+            <if test="shipOrederName != null  and shipOrederName != ''">ship_oreder_name,</if>
+            <if test="shipOrederContacts != null  and shipOrederContacts != ''">ship_oreder_contacts,</if>
+            <if test="shipOrederEmail != null  and shipOrederEmail != ''">ship_oreder_email,</if>
+            <if test="shipOrederPhone != null  and shipOrederPhone != ''">ship_oreder_phone,</if>
+            <if test="shipOrederAddress != null  and shipOrederAddress != ''">ship_oreder_address,</if>
+            <if test="shipOrderBinningway != null  and shipOrderBinningway != ''">ship_order_binningWay,</if>
+            <if test="shipOrderUnloadaddress != null  and shipOrderUnloadaddress != ''">ship_order_unloadAddress,</if>
+            <if test="shipOrderUnloadcontacts != null  and shipOrderUnloadcontacts != ''">ship_order_unloadContacts,</if>
+            <if test="shipOrderUnloadway != null  and shipOrderUnloadway != ''">ship_order_unloadWay,</if>
+            <if test="shipOrderUnloadwayEmail != null  and shipOrderUnloadwayEmail != ''">ship_order_unloadWay_email,</if>
+            <if test="shipOrderUnloadtime != null ">ship_order_unloadTime,</if>
+            <if test="shipOrderSendtime != null ">ship_order_sendTime,</if>
+            <if test="receiveOrderId != null  and receiveOrderId != ''">receive_order_id,</if>
+            <if test="receiveOrderName != null  and receiveOrderName != ''">receive_order_name,</if>
+            <if test="receiveOrderContacts != null  and receiveOrderContacts != ''">receive_order_contacts,</if>
+            <if test="receiveOrderMail != null  and receiveOrderMail != ''">receive_order_mail,</if>
+            <if test="receiveOrderPhone != null  and receiveOrderPhone != ''">receive_order_phone,</if>
+            <if test="receiveOrderAddress != null  and receiveOrderAddress != ''">receive_order_address,</if>
+            <if test="receiveOrderIsclearance != null  and receiveOrderIsclearance != ''">receive_order_isClearance,</if>
+            <if test="receiveOrderIspart != null  and receiveOrderIspart != ''">receive_order_isPart,</if>
+            <if test="distributionType != null  and distributionType != ''">distribution_type,</if>
+            <if test="receiveOrderZihemail != null  and receiveOrderZihemail != ''">receive_order_zihemail,</if>
+            <if test="receiveOrderFbStatus != null  and receiveOrderFbStatus != ''">receive_order_fb_status,</if>
+            <if test="receiveOrderPartaddress != null  and receiveOrderPartaddress != ''">receive_order_PartAddress,</if>
+            <if test="receiveOrderReceiveemail != null  and receiveOrderReceiveemail != ''">receive_order_receiveEmail,</if>
+            <if test="receiveOrderEnName != null  and receiveOrderEnName != ''">receive_order_en_name,</if>
+            <if test="receiveOrderEnContacts != null  and receiveOrderEnContacts != ''">receive_order_en_contacts,</if>
+            <if test="receiveOrderEnEmail != null  and receiveOrderEnEmail != ''">receive_order_en_email,</if>
+            <if test="receiveOrderEnPhone != null  and receiveOrderEnPhone != ''">receive_order_en_phone,</if>
+            <if test="receiveOrderEnAddress != null  and receiveOrderEnAddress != ''">receive_order_en_address,</if>
+            <if test="receiveOrderEname != null  and receiveOrderEname != ''">receive_order_Ename,</if>
+            <if test="receiveOrderEcontacts != null  and receiveOrderEcontacts != ''">receive_order_Econtacts,</if>
+            <if test="receiveOrderEemail != null  and receiveOrderEemail != ''">receive_order_Eemail,</if>
+            <if test="receiveOrderEphone != null  and receiveOrderEphone != ''">receive_order_Ephone,</if>
+            <if test="receiveOrderEaddress != null  and receiveOrderEaddress != ''">receive_order_Eaddress,</if>
+            <if test="consignorc != null  and consignorc != ''">ConsignorC,</if>
+            <if test="econsignorstate != null  and econsignorstate != ''">EConsignorState,</if>
+            <if test="etxCompany != null  and etxCompany != ''">Etx_Company,</if>
+            <if test="eduty != null  and eduty != ''">Eduty,</if>
+            <if test="etxName != null  and etxName != ''">Etx_name,</if>
+            <if test="receiveOrderZihcontacts != null  and receiveOrderZihcontacts != ''">receive_order_zihcontacts,</if>
+            <if test="receiveOrderZihtel != null  and receiveOrderZihtel != ''">receive_order_zihtel,</if>
+            <if test="goodsCannotpileup != null  and goodsCannotpileup != ''">goods_cannotPileUp,</if>
+            <if test="goodsFragile != null  and goodsFragile != ''">goods_fragile,</if>
+            <if test="goodsGeneral != null  and goodsGeneral != ''">goods_general,</if>
+            <if test="isexamline != null  and isexamline != ''">IsExamline,</if>
+            <if test="isconsolidation != null  and isconsolidation != ''">IsConsolidation,</if>
+            <if test="createdate != null ">createdate,</if>
+            <if test="createuserid != null  and createuserid != ''">createuserid,</if>
+            <if test="createusername != null  and createusername != ''">createusername,</if>
+            <if test="shipThCost != null  and shipThCost != ''">ship_th_cost,</if>
+            <if test="clientBgCost != null  and clientBgCost != ''">client_bg_cost,</if>
+            <if test="receiveHxAddress != null  and receiveHxAddress != ''">receive_hx_address,</if>
+            <if test="receiveXgCost != null  and receiveXgCost != ''">receive_xg_cost,</if>
+            <if test="pickUpBoxFee != null  and pickUpBoxFee != ''">pick_up_box_fee,</if>
+            <if test="returnBoxFee != null  and returnBoxFee != ''">return_box_fee,</if>
+            <if test="receiveQgCost != null  and receiveQgCost != ''">receive_qg_cost,</if>
+            <if test="shipJzCost != null  and shipJzCost != ''">ship_jz_cost,</if>
+            <if test="receiveShCost != null  and receiveShCost != ''">receive_sh_cost,</if>
+            <if test="sitecost != null  and sitecost != ''">siteCost,</if>
+            <if test="clientTjr != null  and clientTjr != ''">client_tjr,</if>
+            <if test="clientTjrId != null  and clientTjrId != ''">client_tjr_id,</if>
+            <if test="shipFhSite != null  and shipFhSite != ''">ship_fh_site,</if>
+            <if test="shipHyd != null  and shipHyd != ''">ship_hyd,</if>
+            <if test="receiveHyd != null  and receiveHyd != ''">receive_hyd,</if>
+            <if test="shipThType != null  and shipThType != ''">ship_th_type,</if>
+            <if test="shipThTypeId != null  and shipThTypeId != ''">ship_th_type_id,</if>
+            <if test="shipZsType != null  and shipZsType != ''">ship_zs_type,</if>
+            <if test="shipZsTypeId != null  and shipZsTypeId != ''">ship_zs_type_id,</if>
+            <if test="yuyan != null  and yuyan != ''">yuyan,</if>
+            <if test="tjTime != null ">tj_time,</if>
+            <if test="tjFTime != null ">tj_f_time,</if>
+            <if test="zxNumber != null  and zxNumber != ''">zx_number,</if>
+            <if test="isupdate != null  and isupdate != ''">isupdate,</if>
+            <if test="isphone != null  and isphone != ''">IsPhone,</if>
+            <if test="zxThcostCurrency != null  and zxThcostCurrency != ''">zx_THCost_Currency,</if>
+            <if test="shipThCostNo != null  and shipThCostNo != ''">ship_th_cost_NO,</if>
+            <if test="ywNumber != null  and ywNumber != ''">YW_Number,</if>
+            <if test="clientYwNumber != null  and clientYwNumber != ''">client_yw_number,</if>
+            <if test="isgetin != null  and isgetin != ''">IsGetin,</if>
+            <if test="turncount != null ">TurnCount,</if>
+            <if test="totalturncount != null ">TotalTurnCount,</if>
+            <if test="totalturncountavg != null ">TotalTurnCountAvg,</if>
+            <if test="actualClassdate != null  and actualClassdate != ''">Actual_classDate,</if>
+            <if test="ywFeedback != null ">YW_Feedback,</if>
+            <if test="detailedAddress != null  and detailedAddress != ''">detailed_address,</if>
+            <if test="putoffClass != null ">putoff_class,</if>
+            <if test="costVerify != null  and costVerify != ''">Cost_verify,</if>
+            <if test="dcGaidanState != null  and dcGaidanState != ''">DC_gaidan_state,</if>
+            <if test="receiveShCostId != null  and receiveShCostId != ''">receive_sh_cost_id,</if>
+            <if test="receiveOrderEmail != null  and receiveOrderEmail != ''">receive_order_Email,</if>
+            <if test="xgCostcurrency != null  and xgCostcurrency != ''">xg_costCurrency,</if>
+            <if test="qgCostcurrency != null  and qgCostcurrency != ''">qg_costCurrency,</if>
+            <if test="shCostcurrency != null  and shCostcurrency != ''">sh_costCurrency,</if>
+            <if test="sitecostCurrency != null  and sitecostCurrency != ''">siteCost_Currency,</if>
+            <if test="exameTime != null ">Exame_time,</if>
+            <if test="gdBoat != null  and gdBoat != ''">gd_boat,</if>
+            <if test="gdBoaturl != null  and gdBoaturl != ''">gd_boaturl,</if>
+            <if test="gdCjsremark != null  and gdCjsremark != ''">GD_cjsRemark,</if>
+            <if test="gdVoucherurl != null  and gdVoucherurl != ''">gd_voucherUrl,</if>
+            <if test="gdVoucher != null  and gdVoucher != ''">gd_voucher,</if>
+            <if test="trainState != null  and trainState != ''">train_state,</if>
+            <if test="inquiryRecordId != null  and inquiryRecordId != ''">inquiry_record_id,</if>
+            <if test="limitation != null  and limitation != ''">limitation,</if>
+            <if test="truckType != null  and truckType != ''">truck_type,</if>
+            <if test="domesticNumber != null  and domesticNumber != ''">domestic_number,</if>
+            <if test="foreignNumber != null  and foreignNumber != ''">foreign_number,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">#{orderId},</if>
+            <if test="stationid != null  and stationid != ''">#{stationid},</if>
+            <if test="orderNumber != null  and orderNumber != ''">#{orderNumber},</if>
+            <if test="bookingService != null  and bookingService != ''">#{bookingService},</if>
+            <if test="orderAuditBelongto != null  and orderAuditBelongto != ''">#{orderAuditBelongto},</if>
+            <if test="orderAuditCreatedate != null ">#{orderAuditCreatedate},</if>
+            <if test="orderAuditUserid != null  and orderAuditUserid != ''">#{orderAuditUserid},</if>
+            <if test="orderAuditUsername != null  and orderAuditUsername != ''">#{orderAuditUsername},</if>
+            <if test="classId != null  and classId != ''">#{classId},</if>
+            <if test="classDate != null ">#{classDate},</if>
+            <if test="classSite != null  and classSite != ''">#{classSite},</if>
+            <if test="orderClassBh != null  and orderClassBh != ''">#{orderClassBh},</if>
+            <if test="lineTypeid != null  and lineTypeid != ''">#{lineTypeid},</if>
+            <if test="classNumber != null  and classNumber != ''">#{classNumber},</if>
+            <if test="classEastandwest != null  and classEastandwest != ''">#{classEastandwest},</if>
+            <if test="orderUploadsite != null  and orderUploadsite != ''">#{orderUploadsite},</if>
+            <if test="orderUnloadsite != null  and orderUnloadsite != ''">#{orderUnloadsite},</if>
+            <if test="orderUploadcode != null  and orderUploadcode != ''">#{orderUploadcode},</if>
+            <if test="orderUnloadcode != null  and orderUnloadcode != ''">#{orderUnloadcode},</if>
+            <if test="dictId != null ">#{dictId},</if>
+            <if test="dictName != null  and dictName != ''">#{dictName},</if>
+            <if test="orderDeptName != null  and orderDeptName != ''">#{orderDeptName},</if>
+            <if test="orderMerchandiser != null  and orderMerchandiser != ''">#{orderMerchandiser},</if>
+            <if test="orderMerchandiserId != null  and orderMerchandiserId != ''">#{orderMerchandiserId},</if>
+            <if test="orderIsticket != null  and orderIsticket != ''">#{orderIsticket},</if>
+            <if test="clientId != null  and clientId != ''">#{clientId},</if>
+            <if test="khId != null">#{khId},</if>
+            <if test="clientUnit != null  and clientUnit != ''">#{clientUnit},</if>
+            <if test="clientContacts != null  and clientContacts != ''">#{clientContacts},</if>
+            <if test="clientTel != null  and clientTel != ''">#{clientTel},</if>
+            <if test="clientEmail != null  and clientEmail != ''">#{clientEmail},</if>
+            <if test="clientAddress != null  and clientAddress != ''">#{clientAddress},</if>
+            <if test="clientOrderBindingaddress != null  and clientOrderBindingaddress != ''">#{clientOrderBindingaddress},</if>
+            <if test="clientOrderBindingway != null  and clientOrderBindingway != ''">#{clientOrderBindingway},</if>
+            <if test="clientOrderRemarks != null  and clientOrderRemarks != ''">#{clientOrderRemarks},</if>
+            <if test="containerBoxamount != null  and containerBoxamount != ''">#{containerBoxamount},</if>
+            <if test="containerType != null  and containerType != ''">#{containerType},</if>
+            <if test="containerTypeval != null  and containerTypeval != ''">#{containerTypeval},</if>
+            <if test="clientOrderRepaycontainer != null  and clientOrderRepaycontainer != ''">#{clientOrderRepaycontainer},</if>
+            <if test="shipOrderIsdispatch != null  and shipOrderIsdispatch != ''">#{shipOrderIsdispatch},</if>
+            <if test="shipOrderId != null  and shipOrderId != ''">#{shipOrderId},</if>
+            <if test="shipOrederName != null  and shipOrederName != ''">#{shipOrederName},</if>
+            <if test="shipOrederContacts != null  and shipOrederContacts != ''">#{shipOrederContacts},</if>
+            <if test="shipOrederEmail != null  and shipOrederEmail != ''">#{shipOrederEmail},</if>
+            <if test="shipOrederPhone != null  and shipOrederPhone != ''">#{shipOrederPhone},</if>
+            <if test="shipOrederAddress != null  and shipOrederAddress != ''">#{shipOrederAddress},</if>
+            <if test="shipOrderBinningway != null  and shipOrderBinningway != ''">#{shipOrderBinningway},</if>
+            <if test="shipOrderUnloadaddress != null  and shipOrderUnloadaddress != ''">#{shipOrderUnloadaddress},</if>
+            <if test="shipOrderUnloadcontacts != null  and shipOrderUnloadcontacts != ''">#{shipOrderUnloadcontacts},</if>
+            <if test="shipOrderUnloadway != null  and shipOrderUnloadway != ''">#{shipOrderUnloadway},</if>
+            <if test="shipOrderUnloadwayEmail != null  and shipOrderUnloadwayEmail != ''">#{shipOrderUnloadwayEmail},</if>
+            <if test="shipOrderUnloadtime != null ">#{shipOrderUnloadtime},</if>
+            <if test="shipOrderSendtime != null ">#{shipOrderSendtime},</if>
+            <if test="receiveOrderId != null  and receiveOrderId != ''">#{receiveOrderId},</if>
+            <if test="receiveOrderName != null  and receiveOrderName != ''">#{receiveOrderName},</if>
+            <if test="receiveOrderContacts != null  and receiveOrderContacts != ''">#{receiveOrderContacts},</if>
+            <if test="receiveOrderMail != null  and receiveOrderMail != ''">#{receiveOrderMail},</if>
+            <if test="receiveOrderPhone != null  and receiveOrderPhone != ''">#{receiveOrderPhone},</if>
+            <if test="receiveOrderAddress != null  and receiveOrderAddress != ''">#{receiveOrderAddress},</if>
+            <if test="receiveOrderIsclearance != null  and receiveOrderIsclearance != ''">#{receiveOrderIsclearance},</if>
+            <if test="receiveOrderIspart != null  and receiveOrderIspart != ''">#{receiveOrderIspart},</if>
+            <if test="distributionType != null  and distributionType != ''">#{distributionType},</if>
+            <if test="receiveOrderZihemail != null  and receiveOrderZihemail != ''">#{receiveOrderZihemail},</if>
+            <if test="receiveOrderFbStatus != null  and receiveOrderFbStatus != ''">#{receiveOrderFbStatus},</if>
+            <if test="receiveOrderPartaddress != null  and receiveOrderPartaddress != ''">#{receiveOrderPartaddress},</if>
+            <if test="receiveOrderReceiveemail != null  and receiveOrderReceiveemail != ''">#{receiveOrderReceiveemail},</if>
+            <if test="receiveOrderEnName != null  and receiveOrderEnName != ''">#{receiveOrderEnName},</if>
+            <if test="receiveOrderEnContacts != null  and receiveOrderEnContacts != ''">#{receiveOrderEnContacts},</if>
+            <if test="receiveOrderEnEmail != null  and receiveOrderEnEmail != ''">#{receiveOrderEnEmail},</if>
+            <if test="receiveOrderEnPhone != null  and receiveOrderEnPhone != ''">#{receiveOrderEnPhone},</if>
+            <if test="receiveOrderEnAddress != null  and receiveOrderEnAddress != ''">#{receiveOrderEnAddress},</if>
+            <if test="receiveOrderEname != null  and receiveOrderEname != ''">#{receiveOrderEname},</if>
+            <if test="receiveOrderEcontacts != null  and receiveOrderEcontacts != ''">#{receiveOrderEcontacts},</if>
+            <if test="receiveOrderEemail != null  and receiveOrderEemail != ''">#{receiveOrderEemail},</if>
+            <if test="receiveOrderEphone != null  and receiveOrderEphone != ''">#{receiveOrderEphone},</if>
+            <if test="receiveOrderEaddress != null  and receiveOrderEaddress != ''">#{receiveOrderEaddress},</if>
+            <if test="consignorc != null  and consignorc != ''">#{consignorc},</if>
+            <if test="econsignorstate != null  and econsignorstate != ''">#{econsignorstate},</if>
+            <if test="etxCompany != null  and etxCompany != ''">#{etxCompany},</if>
+            <if test="eduty != null  and eduty != ''">#{eduty},</if>
+            <if test="etxName != null  and etxName != ''">#{etxName},</if>
+            <if test="receiveOrderZihcontacts != null  and receiveOrderZihcontacts != ''">#{receiveOrderZihcontacts},</if>
+            <if test="receiveOrderZihtel != null  and receiveOrderZihtel != ''">#{receiveOrderZihtel},</if>
+            <if test="goodsCannotpileup != null  and goodsCannotpileup != ''">#{goodsCannotpileup},</if>
+            <if test="goodsFragile != null  and goodsFragile != ''">#{goodsFragile},</if>
+            <if test="goodsGeneral != null  and goodsGeneral != ''">#{goodsGeneral},</if>
+            <if test="isexamline != null  and isexamline != ''">#{isexamline},</if>
+            <if test="isconsolidation != null  and isconsolidation != ''">#{isconsolidation},</if>
+            <if test="createdate != null ">#{createdate},</if>
+            <if test="createuserid != null  and createuserid != ''">#{createuserid},</if>
+            <if test="createusername != null  and createusername != ''">#{createusername},</if>
+            <if test="shipThCost != null  and shipThCost != ''">#{shipThCost},</if>
+            <if test="clientBgCost != null  and clientBgCost != ''">#{clientBgCost},</if>
+            <if test="receiveHxAddress != null  and receiveHxAddress != ''">#{receiveHxAddress},</if>
+            <if test="receiveXgCost != null  and receiveXgCost != ''">#{receiveXgCost},</if>
+            <if test="pickUpBoxFee != null  and pickUpBoxFee != ''">#{pickUpBoxFee},</if>
+            <if test="returnBoxFee != null  and returnBoxFee != ''">#{returnBoxFee},</if>
+            <if test="receiveQgCost != null  and receiveQgCost != ''">#{receiveQgCost},</if>
+            <if test="shipJzCost != null  and shipJzCost != ''">#{shipJzCost},</if>
+            <if test="receiveShCost != null  and receiveShCost != ''">#{receiveShCost},</if>
+            <if test="sitecost != null  and sitecost != ''">#{sitecost},</if>
+            <if test="clientTjr != null  and clientTjr != ''">#{clientTjr},</if>
+            <if test="clientTjrId != null  and clientTjrId != ''">#{clientTjrId},</if>
+            <if test="shipFhSite != null  and shipFhSite != ''">#{shipFhSite},</if>
+            <if test="shipHyd != null  and shipHyd != ''">#{shipHyd},</if>
+            <if test="receiveHyd != null  and receiveHyd != ''">#{receiveHyd},</if>
+            <if test="shipThType != null  and shipThType != ''">#{shipThType},</if>
+            <if test="shipThTypeId != null  and shipThTypeId != ''">#{shipThTypeId},</if>
+            <if test="shipZsType != null  and shipZsType != ''">#{shipZsType},</if>
+            <if test="shipZsTypeId != null  and shipZsTypeId != ''">#{shipZsTypeId},</if>
+            <if test="yuyan != null  and yuyan != ''">#{yuyan},</if>
+            <if test="tjTime != null ">#{tjTime},</if>
+            <if test="tjFTime != null ">#{tjFTime},</if>
+            <if test="zxNumber != null  and zxNumber != ''">#{zxNumber},</if>
+            <if test="isupdate != null  and isupdate != ''">#{isupdate},</if>
+            <if test="isphone != null  and isphone != ''">#{isphone},</if>
+            <if test="zxThcostCurrency != null  and zxThcostCurrency != ''">#{zxThcostCurrency},</if>
+            <if test="shipThCostNo != null  and shipThCostNo != ''">#{shipThCostNo},</if>
+            <if test="ywNumber != null  and ywNumber != ''">#{ywNumber},</if>
+            <if test="clientYwNumber != null  and clientYwNumber != ''">#{clientYwNumber},</if>
+            <if test="isgetin != null  and isgetin != ''">#{isgetin},</if>
+            <if test="turncount != null ">#{turncount},</if>
+            <if test="totalturncount != null ">#{totalturncount},</if>
+            <if test="totalturncountavg != null ">#{totalturncountavg},</if>
+            <if test="actualClassdate != null  and actualClassdate != ''">#{actualClassdate},</if>
+            <if test="ywFeedback != null ">#{ywFeedback},</if>
+            <if test="detailedAddress != null  and detailedAddress != ''">#{detailedAddress},</if>
+            <if test="putoffClass != null ">#{putoffClass},</if>
+            <if test="costVerify != null  and costVerify != ''">#{costVerify},</if>
+            <if test="dcGaidanState != null  and dcGaidanState != ''">#{dcGaidanState},</if>
+            <if test="receiveShCostId != null  and receiveShCostId != ''">#{receiveShCostId},</if>
+            <if test="receiveOrderEmail != null  and receiveOrderEmail != ''">#{receiveOrderEmail},</if>
+            <if test="xgCostcurrency != null  and xgCostcurrency != ''">#{xgCostcurrency},</if>
+            <if test="qgCostcurrency != null  and qgCostcurrency != ''">#{qgCostcurrency},</if>
+            <if test="shCostcurrency != null  and shCostcurrency != ''">#{shCostcurrency},</if>
+            <if test="sitecostCurrency != null  and sitecostCurrency != ''">#{sitecostCurrency},</if>
+            <if test="exameTime != null ">#{exameTime},</if>
+            <if test="gdBoat != null  and gdBoat != ''">#{gdBoat},</if>
+            <if test="gdBoaturl != null  and gdBoaturl != ''">#{gdBoaturl},</if>
+            <if test="gdCjsremark != null  and gdCjsremark != ''">#{gdCjsremark},</if>
+            <if test="gdVoucherurl != null  and gdVoucherurl != ''">#{gdVoucherurl},</if>
+            <if test="gdVoucher != null  and gdVoucher != ''">#{gdVoucher},</if>
+            <if test="trainState != null  and trainState != ''">#{trainState},</if>
+            <if test="inquiryRecordId != null  and inquiryRecordId != ''">#{inquiryRecordId},</if>
+            <if test="limitation != null  and limitation != ''">#{limitation},</if>
+            <if test="truckType != null  and truckType != ''">#{truckType},</if>
+            <if test="domesticNumber != null  and domesticNumber != ''">#{domesticNumber},</if>
+            <if test="foreignNumber != null  and foreignNumber != ''">#{foreignNumber},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBusiShippingorderApply" parameterType="BusiShippingorders">
+        update busi_shippingorder_apply
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="stationid != null  and stationid != ''">stationID = #{stationid},</if>
+            <if test="orderNumber != null  and orderNumber != ''">order_number = #{orderNumber},</if>
+            <if test="bookingService != null  and bookingService != ''">booking_service = #{bookingService},</if>
+            <if test="orderAuditBelongto != null  and orderAuditBelongto != ''">order_audit_belongTo = #{orderAuditBelongto},</if>
+            <if test="orderAuditCreatedate != null ">order_audit_createdate = #{orderAuditCreatedate},</if>
+            <if test="orderAuditUserid != null  and orderAuditUserid != ''">order_audit_userid = #{orderAuditUserid},</if>
+            <if test="orderAuditUsername != null  and orderAuditUsername != ''">order_audit_username = #{orderAuditUsername},</if>
+            <if test="classId != null  and classId != ''">class_ID = #{classId},</if>
+            <if test="classDate != null ">Class_date = #{classDate},</if>
+            <if test="classSite != null  and classSite != ''">Class_site = #{classSite},</if>
+            <if test="orderClassBh != null  and orderClassBh != ''">order_class_bh = #{orderClassBh},</if>
+            <if test="lineTypeid != null  and lineTypeid != ''">line_typeid = #{lineTypeid},</if>
+            <if test="classNumber != null  and classNumber != ''">class_number = #{classNumber},</if>
+            <if test="classEastandwest != null  and classEastandwest != ''">class_EastAndWest = #{classEastandwest},</if>
+            <if test="orderUploadsite != null  and orderUploadsite != ''">order_uploadSite = #{orderUploadsite},</if>
+            <if test="orderUnloadsite != null  and orderUnloadsite != ''">order_unloadSite = #{orderUnloadsite},</if>
+            <if test="orderUploadcode != null  and orderUploadcode != ''">order_uploadCode = #{orderUploadcode},</if>
+            <if test="orderUnloadcode != null  and orderUnloadcode != ''">order_unloadCode = #{orderUnloadcode},</if>
+            <if test="dictId != null ">dict_ID = #{dictId},</if>
+            <if test="dictName != null  and dictName != ''">dict_name = #{dictName},</if>
+            <if test="orderDeptName != null  and orderDeptName != ''">order_deptName = #{orderDeptname},</if>
+            <if test="orderMerchandiser != null  and orderMerchandiser != ''">order_merchandiser = #{orderMerchandiser},</if>
+            <if test="orderMerchandiserId != null  and orderMerchandiserId != ''">order_merchandiser_id = #{orderMerchandiserId},</if>
+            <if test="orderIsticket != null  and orderIsticket != ''">order_isTicket = #{orderIsticket},</if>
+            <if test="clientId != null  and clientId != ''">client_ID = #{clientId},</if>
+            <if test="khId != null">kh_id = #{khId},</if>
+            <if test="clientUnit != null  and clientUnit != ''">client_unit = #{clientUnit},</if>
+            <if test="clientContacts != null  and clientContacts != ''">client_contacts = #{clientContacts},</if>
+            <if test="clientTel != null  and clientTel != ''">client_tel = #{clientTel},</if>
+            <if test="clientEmail != null  and clientEmail != ''">client_email = #{clientEmail},</if>
+            <if test="clientAddress != null  and clientAddress != ''">client_address = #{clientAddress},</if>
+            <if test="clientOrderBindingaddress != null  and clientOrderBindingaddress != ''">client_order_bindingAddress = #{clientOrderBindingaddress},</if>
+            <if test="clientOrderBindingway != null  and clientOrderBindingway != ''">client_order_bindingWay = #{clientOrderBindingway},</if>
+            <if test="clientOrderRemarks != null  and clientOrderRemarks != ''">client_order_remarks = #{clientOrderRemarks},</if>
+            <if test="containerBoxamount != null  and containerBoxamount != ''">container_boxAmount = #{containerBoxamount},</if>
+            <if test="containerType != null  and containerType != ''">container_type = #{containerType},</if>
+            <if test="containerTypeval != null  and containerTypeval != ''">container_typeval = #{containerTypeval},</if>
+            <if test="clientOrderRepaycontainer != null  and clientOrderRepaycontainer != ''">client_order_repayContainer = #{clientOrderRepaycontainer},</if>
+            <if test="shipOrderIsdispatch != null  and shipOrderIsdispatch != ''">ship_order_isDispatch = #{shipOrderIsdispatch},</if>
+            <if test="shipOrderId != null  and shipOrderId != ''">ship_order_id = #{shipOrderId},</if>
+            <if test="shipOrederName != null  and shipOrederName != ''">ship_oreder_name = #{shipOrederName},</if>
+            <if test="shipOrederContacts != null  and shipOrederContacts != ''">ship_oreder_contacts = #{shipOrederContacts},</if>
+            <if test="shipOrederEmail != null  and shipOrederEmail != ''">ship_oreder_email = #{shipOrederEmail},</if>
+            <if test="shipOrederPhone != null  and shipOrederPhone != ''">ship_oreder_phone = #{shipOrederPhone},</if>
+            <if test="shipOrederAddress != null  and shipOrederAddress != ''">ship_oreder_address = #{shipOrederAddress},</if>
+            <if test="shipOrderBinningway != null  and shipOrderBinningway != ''">ship_order_binningWay = #{shipOrderBinningway},</if>
+            <if test="shipOrderUnloadaddress != null  and shipOrderUnloadaddress != ''">ship_order_unloadAddress = #{shipOrderUnloadaddress},</if>
+            <if test="shipOrderUnloadcontacts != null  and shipOrderUnloadcontacts != ''">ship_order_unloadContacts = #{shipOrderUnloadcontacts},</if>
+            <if test="shipOrderUnloadway != null  and shipOrderUnloadway != ''">ship_order_unloadWay = #{shipOrderUnloadway},</if>
+            <if test="shipOrderUnloadwayEmail != null  and shipOrderUnloadwayEmail != ''">ship_order_unloadWay_email = #{shipOrderUnloadwayEmail},</if>
+            <if test="shipOrderUnloadtime != null ">ship_order_unloadTime = #{shipOrderUnloadtime},</if>
+            <if test="shipOrderSendtime != null ">ship_order_sendTime = #{shipOrderSendtime},</if>
+            <if test="receiveOrderId != null  and receiveOrderId != ''">receive_order_id = #{receiveOrderId},</if>
+            <if test="receiveOrderName != null  and receiveOrderName != ''">receive_order_name = #{receiveOrderName},</if>
+            <if test="receiveOrderContacts != null  and receiveOrderContacts != ''">receive_order_contacts = #{receiveOrderContacts},</if>
+            <if test="receiveOrderMail != null  and receiveOrderMail != ''">receive_order_mail = #{receiveOrderMail},</if>
+            <if test="receiveOrderPhone != null  and receiveOrderPhone != ''">receive_order_phone = #{receiveOrderPhone},</if>
+            <if test="receiveOrderAddress != null  and receiveOrderAddress != ''">receive_order_address = #{receiveOrderAddress},</if>
+            <if test="receiveOrderIsclearance != null  and receiveOrderIsclearance != ''">receive_order_isClearance = #{receiveOrderIsclearance},</if>
+            <if test="receiveOrderIspart != null  and receiveOrderIspart != ''">receive_order_isPart = #{receiveOrderIspart},</if>
+            <if test="distributionType != null  and distributionType != ''">distribution_type = #{distributionType},</if>
+            <if test="receiveOrderZihemail != null  and receiveOrderZihemail != ''">receive_order_zihemail = #{receiveOrderZihemail},</if>
+            <if test="receiveOrderFbStatus != null  and receiveOrderFbStatus != ''">receive_order_fb_status = #{receiveOrderFbStatus},</if>
+            <if test="receiveOrderPartaddress != null  and receiveOrderPartaddress != ''">receive_order_PartAddress = #{receiveOrderPartaddress},</if>
+            <if test="receiveOrderReceiveemail != null  and receiveOrderReceiveemail != ''">receive_order_receiveEmail = #{receiveOrderReceiveemail},</if>
+            <if test="receiveOrderEnName != null  and receiveOrderEnName != ''">receive_order_en_name = #{receiveOrderEnName},</if>
+            <if test="receiveOrderEnContacts != null  and receiveOrderEnContacts != ''">receive_order_en_contacts = #{receiveOrderEnContacts},</if>
+            <if test="receiveOrderEnEmail != null  and receiveOrderEnEmail != ''">receive_order_en_email = #{receiveOrderEnEmail},</if>
+            <if test="receiveOrderEnPhone != null  and receiveOrderEnPhone != ''">receive_order_en_phone = #{receiveOrderEnPhone},</if>
+            <if test="receiveOrderEnAddress != null  and receiveOrderEnAddress != ''">receive_order_en_address = #{receiveOrderEnAddress},</if>
+            <if test="receiveOrderEname != null  and receiveOrderEname != ''">receive_order_Ename = #{receiveOrderEname},</if>
+            <if test="receiveOrderEcontacts != null  and receiveOrderEcontacts != ''">receive_order_Econtacts = #{receiveOrderEcontacts},</if>
+            <if test="receiveOrderEemail != null  and receiveOrderEemail != ''">receive_order_Eemail = #{receiveOrderEemail},</if>
+            <if test="receiveOrderEphone != null  and receiveOrderEphone != ''">receive_order_Ephone = #{receiveOrderEphone},</if>
+            <if test="receiveOrderEaddress != null  and receiveOrderEaddress != ''">receive_order_Eaddress = #{receiveOrderEaddress},</if>
+            <if test="consignorc != null  and consignorc != ''">ConsignorC = #{consignorc},</if>
+            <if test="econsignorstate != null  and econsignorstate != ''">EConsignorState = #{econsignorstate},</if>
+            <if test="etxCompany != null  and etxCompany != ''">Etx_Company = #{etxCompany},</if>
+            <if test="eduty != null  and eduty != ''">Eduty = #{eduty},</if>
+            <if test="etxName != null  and etxName != ''">Etx_name = #{etxName},</if>
+            <if test="receiveOrderZihcontacts != null  and receiveOrderZihcontacts != ''">receive_order_zihcontacts = #{receiveOrderZihcontacts},</if>
+            <if test="receiveOrderZihtel != null  and receiveOrderZihtel != ''">receive_order_zihtel = #{receiveOrderZihtel},</if>
+            <if test="goodsCannotpileup != null  and goodsCannotpileup != ''">goods_cannotPileUp = #{goodsCannotpileup},</if>
+            <if test="goodsFragile != null  and goodsFragile != ''">goods_fragile = #{goodsFragile},</if>
+            <if test="goodsGeneral != null  and goodsGeneral != ''">goods_general = #{goodsGeneral},</if>
+            <if test="isexamline != null  and isexamline != ''">IsExamline = #{isexamline},</if>
+            <if test="isconsolidation != null  and isconsolidation != ''">IsConsolidation = #{isconsolidation},</if>
+            <if test="createdate != null ">createdate = #{createdate},</if>
+            <if test="createuserid != null  and createuserid != ''">createuserid = #{createuserid},</if>
+            <if test="createusername != null  and createusername != ''">createusername = #{createusername},</if>
+            <if test="shipThCost != null  and shipThCost != ''">ship_th_cost = #{shipThCost},</if>
+            <if test="clientBgCost != null  and clientBgCost != ''">client_bg_cost = #{clientBgCost},</if>
+            <if test="receiveHxAddress != null  and receiveHxAddress != ''">receive_hx_address = #{receiveHxAddress},</if>
+            <if test="receiveXgCost != null  and receiveXgCost != ''">receive_xg_cost = #{receiveXgCost},</if>
+            <if test="pickUpBoxFee != null  and pickUpBoxFee != ''">pick_up_box_fee = #{pickUpBoxFee},</if>
+            <if test="returnBoxFee != null  and returnBoxFee != ''">return_box_fee = #{returnBoxFee},</if>
+            <if test="receiveQgCost != null  and receiveQgCost != ''">receive_qg_cost = #{receiveQgCost},</if>
+            <if test="shipJzCost != null  and shipJzCost != ''">ship_jz_cost = #{shipJzCost},</if>
+            <if test="receiveShCost != null  and receiveShCost != ''">receive_sh_cost = #{receiveShCost},</if>
+            <if test="sitecost != null  and sitecost != ''">siteCost = #{sitecost},</if>
+            <if test="clientTjr != null  and clientTjr != ''">client_tjr = #{clientTjr},</if>
+            <if test="clientTjrId != null  and clientTjrId != ''">client_tjr_id = #{clientTjrId},</if>
+            <if test="shipFhSite != null  and shipFhSite != ''">ship_fh_site = #{shipFhSite},</if>
+            <if test="shipHyd != null  and shipHyd != ''">ship_hyd = #{shipHyd},</if>
+            <if test="receiveHyd != null  and receiveHyd != ''">receive_hyd = #{receiveHyd},</if>
+            <if test="shipThType != null  and shipThType != ''">ship_th_type = #{shipThType},</if>
+            <if test="shipThTypeId != null  and shipThTypeId != ''">ship_th_type_id = #{shipThTypeId},</if>
+            <if test="shipZsType != null  and shipZsType != ''">ship_zs_type = #{shipZsType},</if>
+            <if test="shipZsTypeId != null  and shipZsTypeId != ''">ship_zs_type_id = #{shipZsTypeId},</if>
+            <if test="yuyan != null  and yuyan != ''">yuyan = #{yuyan},</if>
+            <if test="tjTime != null ">tj_time = #{tjTime},</if>
+            <if test="tjFTime != null ">tj_f_time = #{tjFTime},</if>
+            <if test="zxNumber != null  and zxNumber != ''">zx_number = #{zxNumber},</if>
+            <if test="isupdate != null  and isupdate != ''">isupdate = #{isupdate},</if>
+            <if test="isphone != null  and isphone != ''">IsPhone = #{isphone},</if>
+            <if test="zxThcostCurrency != null  and zxThcostCurrency != ''">zx_THCost_Currency = #{zxThcostCurrency},</if>
+            <if test="shipThCostNo != null  and shipThCostNo != ''">ship_th_cost_NO = #{shipThCostNo},</if>
+            <if test="ywNumber != null  and ywNumber != ''">YW_Number = #{ywNumber},</if>
+            <if test="clientYwNumber != null  and clientYwNumber != ''">client_yw_number = #{clientYwNumber},</if>
+            <if test="isgetin != null  and isgetin != ''">IsGetin = #{isgetin},</if>
+            <if test="turncount != null ">TurnCount = #{turncount},</if>
+            <if test="totalturncount != null ">TotalTurnCount = #{totalturncount},</if>
+            <if test="totalturncountavg != null ">TotalTurnCountAvg = #{totalturncountavg},</if>
+            <if test="actualClassdate != null  and actualClassdate != ''">Actual_classDate = #{actualClassdate},</if>
+            <if test="ywFeedback != null ">YW_Feedback = #{ywFeedback},</if>
+            <if test="detailedAddress != null  and detailedAddress != ''">detailed_address = #{detailedAddress},</if>
+            <if test="putoffClass != null ">putoff_class = #{putoffClass},</if>
+            <if test="costVerify != null  and costVerify != ''">Cost_verify = #{costVerify},</if>
+            <if test="dcGaidanState != null  and dcGaidanState != ''">DC_gaidan_state = #{dcGaidanState},</if>
+            <if test="receiveShCostId != null  and receiveShCostId != ''">receive_sh_cost_id = #{receiveShCostId},</if>
+            <if test="receiveOrderEmail != null  and receiveOrderEmail != ''">receive_order_Email = #{receiveOrderEmail},</if>
+            <if test="xgCostcurrency != null  and xgCostcurrency != ''">xg_costCurrency = #{xgCostcurrency},</if>
+            <if test="qgCostcurrency != null  and qgCostcurrency != ''">qg_costCurrency = #{qgCostcurrency},</if>
+            <if test="shCostcurrency != null  and shCostcurrency != ''">sh_costCurrency = #{shCostcurrency},</if>
+            <if test="sitecostCurrency != null  and sitecostCurrency != ''">siteCost_Currency = #{sitecostCurrency},</if>
+            <if test="exameTime != null ">Exame_time = #{exameTime},</if>
+            <if test="gdBoat != null  and gdBoat != ''">gd_boat = #{gdBoat},</if>
+            <if test="gdBoaturl != null  and gdBoaturl != ''">gd_boaturl = #{gdBoaturl},</if>
+            <if test="gdCjsremark != null  and gdCjsremark != ''">GD_cjsRemark = #{gdCjsremark},</if>
+            <if test="gdVoucherurl != null  and gdVoucherurl != ''">gd_voucherUrl = #{gdVoucherurl},</if>
+            <if test="gdVoucher != null  and gdVoucher != ''">gd_voucher = #{gdVoucher},</if>
+            <if test="trainState != null  and trainState != ''">train_state = #{trainState},</if>
+            <if test="inquiryRecordId != null  and inquiryRecordId != ''">inquiry_record_id = #{inquiryRecordId},</if>
+            <if test="limitation != null  and limitation != ''">limitation = #{limitation},</if>
+            <if test="truckType != null  and truckType != ''">truck_type = #{truckType},</if>
+            <if test="domesticNumber != null  and domesticNumber != ''">domestic_number = #{domesticNumber},</if>
+            <if test="foreignNumber != null  and foreignNumber != ''">foreign_number = #{foreignNumber},</if>
+        </trim>
+        where order_ID = #{orderId}
+    </update>
+
+    <delete id="deleteBusiShippingorderApplyById" parameterType="String">
+        delete from busi_shippingorder_apply where order_ID = #{orderId}
+    </delete>
+
+    <delete id="deleteBusiShippingorderApplyByIds" parameterType="String">
+        delete from busi_shippingorder_apply where order_ID in 
+        <foreach item="orderId" collection="array" open="(" separator="," close=")">
+            #{orderId}
+        </foreach>
+    </delete>
+    
+</mapper>

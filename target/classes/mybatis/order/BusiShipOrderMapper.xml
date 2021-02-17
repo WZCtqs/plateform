@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.order.mapper.BusiShipOrderMapper">
+
+    <!--查询整柜价格信息-->
+    <select id="inquiryPirce" parameterType="string" resultType="com.szhbl.project.order.domain.vo.inquiryResultZx" >
+        select inq.id as inquiryId,inq.container_num as containerNum,res.id as inquiryResultId,res.pick_up_fees as pickUpFees,
+        res.railway_fees as railwayFees,res.delivery_fees as deliveryFees,res.pick_up_box_fee as pickUpBoxFee,res.return_box_fee as returnBoxFee
+        from booking_inquiry_result res
+        left join booking_inquiry inq on inq.id = res.inquiry_id
+        where res.id = #{inquiryRecordId}
+    </select>
+
+    <!--查询托书中整柜箱量-->
+    <select id="orderZgCount" parameterType="string" resultType="string">
+        select container_boxAmount from busi_shippingorder where order_ID = #{orderId}
+    </select>
+
+    <!--查询班列已定的整柜数量-->
+    <select id="selectZgCount" parameterType="string" resultType="java.lang.Double">
+        SELECT IFNULL(sum(if(b.container_type like "%20%",b.container_boxAmount/2,b.container_boxAmount)   ),  0)
+        from busi_shippingorder b
+        left join busi_classes a on a.class_ID = b.class_ID
+        WHERE a.class_ID= #{classId} and b.IsConsolidation=0 and b.IsExamline in ('0','1','4','5','7','9','10','11','12','13')
+    </select>
+
+    <!--查询班列整柜总数-->
+    <select id="selectClassZgCount" parameterType="string" resultType="java.lang.Integer">
+        select zxcnt from busi_classes where class_ID = #{classId}
+    </select>
+
+    <!--查询提货、送货报价编号-->
+    <select id="inquiryNum" parameterType="string" resultType="com.szhbl.project.order.domain.vo.inquiryResultZx" >
+        select inq.id as inquiryId,res.id as inquiryResultId,res.upload_station as uploadStation,res.drop_station as dropStation,
+        res.tx_address as txAddress,res.pick_up_box_fee as pickUpBoxFee,res.hx_address as hxAddress,res.return_box_fee as returnBoxFee,
+        res.pick_up_fees as pickUpFees, res.pick_up_currency_type as pickUpCurrencyType,res.railway_fees as railwayFees,
+        res.railway_currency_type as railwayCurrencyType, res.delivery_fees as deliveryFees,res.delivery_currency_type as deliveryCurrencyType,
+        case when '0'= inq.east_or_west then res.inquiry_number else res.inquiry_num end as shipThCostNo,
+        case when '0'= inq.east_or_west then res.inquiry_num else res.inquiry_number end as receiveShCostId
+        from booking_inquiry_result res
+        left join booking_inquiry inq on inq.id = res.inquiry_id
+        where res.id = #{inquiryRecordId}
+    </select>
+
+    <!--委托书汇总筛选条件-->
+    <sql id="selectBusiShipOrderWhere">
+        <if test="orderNumber != null  and orderNumber != ''"> and ord.order_number like concat('%', #{orderNumber}, '%')</if>
+        <if test="classNumber != null  and classNumber != ''"> and class.class_number = #{classNumber}</if>
+        <if test="classDate != null"> and <![CDATA[class.class_STime = #{classDate,jdbcType=DATE}]]></if>
+        <if test="classDateStart != null"> and <![CDATA[class.class_STime >= #{classDateStart,jdbcType=DATE}]]></if>
+        <if test="classDateEnd != null"> and <![CDATA[class.class_STime <= #{classDateEnd,jdbcType=DATE}]]></if>
+        <if test="orderClassBh != null  and orderClassBh != ''"> and class.class_bh = #{orderClassBh}</if>
+        <if test="orderUploadcode != null  and orderUploadcode != ''"> and ord.order_uploadCode = #{orderUploadcode}</if>
+        <if test="orderUnloadcode != null  and orderUnloadcode != ''"> and ord.order_unloadCode = #{orderUnloadcode}</if>
+        <if test="lineTypeid != null  and lineTypeid != ''"> and ord.line_typeid = #{lineTypeid}</if>
+        <if test="isexamline != null  and isexamline != ''">
+            <choose>
+                <when test="isexamline==14">
+                    and ord.IsExamline in ('4','9','10','11','12')
+                </when>
+                <otherwise>
+                    and ord.IsExamline = #{isexamline}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="classEastandwest != null  and classEastandwest != ''"> and ord.class_EastAndWest = #{classEastandwest}</if>
+        <if test="station != null  and station != ''"> and sta.statioin like concat('%', #{station}, '%')</if>
+        <if test="orderMerchandiser != null  and orderMerchandiser != ''"> and ord.order_merchandiser like concat('%', #{orderMerchandiser}, '%')</if>
+        <if test="orderMerchandiserNumber != null  and orderMerchandiserNumber != ''">
+            and ord.client_ID in(
+            select client_ID from busi_clients where (w_Merchandiser_id in (select dc_user_id from sys_user where job_number = #{orderMerchandiserNumber}))
+            or (e_Merchandiser_id in (select dc_user_id from sys_user where job_number = #{orderMerchandiserNumber}))
+            )
+        </if>
+        <if test="clientTjr != null  and clientTjr != ''">
+            and ord.client_ID in (
+            select client_ID from busi_clients
+            where client_tjr like concat('%', #{clientTjr}, '%')
+            )
+        </if>
+        <if test="clientUnit != null  and clientUnit != ''"> and ord.client_unit like concat('%', #{clientUnit}, '%')</if>
+        <if test="shipOrederName != null  and shipOrederName != ''"> and ord.ship_oreder_name like concat('%', #{shipOrederName}, '%')</if>
+        <if test="receiveOrderName != null  and receiveOrderName != ''"> and ord.receive_order_name like concat('%', #{receiveOrderName}, '%')</if>
+        <if test="goodsName != null  and goodsName != ''"> and goods.goods_name like concat('%', #{goodsName}, '%')</if>
+        <if test="shipOrderBinningway != null  and shipOrderBinningway != ''"> and ord.ship_order_binningWay = #{shipOrderBinningway}</if>
+        <if test="receiveOrderIspart != null  and receiveOrderIspart != ''"> and ord.receive_order_isPart = #{receiveOrderIspart}</if>
+        <if test="putoffClass != null "> and ord.putoff_class = #{putoffClass}</if>
+        <if test="shipFhSite != null  and shipFhSite != ''"> and (ord.ship_fh_site = #{shipFhSite} or ord.ship_hyd = #{shipFhSite})</if>
+        <if test="receiveHxAddress != null  and receiveHxAddress != ''"> and ord.receive_hx_address = #{receiveHxAddress}</if>
+        <if test="yuyan != null  and yuyan != ''"> and ord.yuyan = #{yuyan}</if>
+        <if test="shipThTypeId != null  and shipThTypeId != ''"> and ord.ship_th_type_id = #{shipThTypeId} and ord.ship_order_binningWay = '0'</if>
+        <if test="shipZsTypeId != null  and shipZsTypeId != ''"> and ord.ship_zs_type_id = #{shipZsTypeId} and ord.ship_order_binningWay = '1'</if>
+        <if test="readType != null  and readType != ''">
+            <if test="readType == '2'.toString()">
+                and ord.client_ID in(
+                select client_ID from busi_clients where
+                client_tjr_id in (
+                select usr.tjr_id from sys_user usr
+                left join sys_dept dept on dept.dept_id = usr.dept_id
+                where dept.dept_code like concat('%', #{organizationCode}, '%') and usr.reference_type = '1'
+                )
+                )
+            </if>
+            <if test="readType == '3'.toString()">
+                and ord.client_ID in(
+                select client_ID from busi_clients where
+                client_tjr_id in (
+                select usr.tjr_id from sys_user usr
+                left join sys_dept dept on dept.dept_id = usr.dept_id
+                where dept.dept_code like concat('%', #{deptCode}, '%') and usr.reference_type = '1'
+                )
+                )
+            </if>
+            <if test="readType == '4'.toString()">
+                and ord.client_ID in(
+                select client_ID from busi_clients where
+                client_tjr_id in (
+                select usr.tjr_id from sys_user usr
+                left join sys_dept dept on dept.dept_id = usr.dept_id
+                where dept.dept_code like '%YWB1000100%' or dept.dept_code like '%YWB1000103%' and usr.reference_type = '1'
+                )
+                )
+            </if>
+            <if test="readType == '5'.toString()">
+                and ord.client_ID in(
+                select client_ID from busi_clients where
+                client_tjr_id in (
+                select usr.tjr_id from sys_user usr
+                left join sys_dept dept on dept.dept_id = usr.dept_id
+                where dept.dept_code like '%YWB1000101%' or dept.dept_code like '%YWB1000104%' and usr.reference_type = '1'
+                )
+                )
+            </if>
+            <if test="readType == '6'.toString()">
+                and ord.client_ID in(
+                select client_ID from busi_clients where
+                client_tjr_id in (
+                select usr.tjr_id from sys_user usr
+                left join sys_dept dept on dept.dept_id = usr.dept_id
+                where dept.dept_code like '%YWB1000200%' or dept.dept_code like '%YWB1000202%' and usr.reference_type = '1'
+                )
+                )
+            </if>
+            <if test="readType == '7'.toString()">
+                and ord.client_ID in(
+                select client_ID from busi_clients where
+                client_tjr_id in (
+                select usr.tjr_id from sys_user usr
+                left join sys_dept dept on dept.dept_id = usr.dept_id
+                where dept.dept_code like '%YWB1000201%' or dept.dept_code like '%YWB1000203%' and usr.reference_type = '1'
+                )
+                )
+            </if>
+            <if test="readType == '8'.toString()">
+                and ord.client_ID in(
+                select client_ID from busi_clients where
+                client_tjr_id in (select tjr_id from sys_user where user_id = #{userid})
+                )
+            </if>
+            <if test="readType == '9'.toString()">
+                and ord.client_ID in(
+                select client_ID from busi_clients where
+                (w_Merchandiser_id in (select dc_user_id from sys_user where user_id = #{userid})) or
+                (e_Merchandiser_id in (select dc_user_id from sys_user where user_id = #{userid}))
+                )
+            </if>
+        </if>
+    </sql>
+
+    <!--委托书汇总订单列表-->
+    <select id="selectOrderImportList" parameterType="com.szhbl.project.order.domain.vo.OrderImportList" resultType="com.szhbl.project.order.domain.vo.OrderImportList" >
+        select ord.order_ID as orderId, ord.zx_number as zxNumber,ord.booking_service as bookingService,ord.order_number as orderNumber,ord.IsExamline as isexamline,
+        ord.IsConsolidation as isconsolidation,ord.dict_ID as dictId,ord.dict_name as dictName,clients.client_tjr_id as clientTjrId,clients.client_tjr as clientTjr,
+        ord.class_ID as classId,class.class_bh as orderClassBh,ord.class_EastAndWest as classEastandwest,ord.line_typeid as lineTypeid,class.class_STime as classDate,class.class_number as classNumber,
+        ord.order_uploadCode as orderUploadcode,ord.order_uploadSite as orderUploadsite,ord.order_unloadCode as orderUnloadcode,ord.order_unloadSite as orderUnloadsite,
+        ord.order_isTicket as orderIsticket,ord.putoff_class as putoffClass,ord.DC_gaidan_state as dcGaidanState,ord.siteCost as sitecost,
+        ord.siteCost_Currency as sitecostCurrency,ord.client_ID as clientId,ord.kh_id as khId,ord.client_unit as clientUnit,ord.client_address as clientAddress,
+        ord.client_contacts as clientContacts,ord.client_tel as clientTel,ord.client_email as clientEmail,ord.order_audit_belongTo as orderAuditBelongto,
+        ord.container_boxAmount as containerBoxamount,ord.container_type as containerType,ord.client_order_bindingAddress as clientOrderBindingaddress,
+        ord.client_order_bindingWay as clientOrderBindingway,ord.YW_Number as ywNumber,ord.client_yw_number as clientYwNumber,ord.client_bg_cost as clientBgCost,ord.goods_cannotPileUp as goodsCannotpileup,
+        ord.goods_fragile as goodsFragile,ord.goods_general as goodsGeneral,ord.ship_order_id as shipOrderId,ord.ship_oreder_name as shipOrederName,
+        ord.ship_oreder_contacts as shipOrederContacts,ord.ship_oreder_phone as shipOrederPhone,ord.ship_oreder_address as shipOrederAddress,
+        ord.ship_oreder_email as shipOrederEmail,ord.ship_order_binningWay as shipOrderBinningway,ord.ship_order_sendTime as shipOrderSendtime,
+        ord.ship_zs_type_id as shipZsTypeId,ord.ship_zs_type as shipZsType,
+        ord.ship_order_unloadTime as shipOrderUnloadtime,ord.ship_order_unloadWay as shipOrderUnloadway,ord.ship_order_unloadAddress as shipOrderUnloadaddress,
+        ord.detailed_address as detailedAddress,ord.ship_order_unloadWay_email as shipOrderUnloadwayEmail,ord.ship_th_cost as shipThCost,
+        ord.zx_THCost_Currency as zxThcostCurrency,ord.ship_th_cost_NO as shipThCostNo,ord.ship_th_type_id as shipThTypeId,ord.ship_th_type as shipThType,
+        ord.receive_order_id as receiveOrderId,ord.receive_order_name as receiveOrderName,ord.receive_order_contacts as receiveOrderContacts,
+        ord.receive_order_Email as receiveOrderEmail,ord.receive_order_phone as receiveOrderPhone,ord.receive_order_address as receiveOrderAddress,
+        ord.receive_order_isClearance as receiveOrderIsclearance,ord.receive_qg_cost as receiveQgCost,
+        ord.qg_costCurrency as qgCostcurrency,ord.receive_order_isPart as receiveOrderIspart,ord.distribution_type as distributionType,ord.receive_order_zihcontacts as receiveOrderZihcontacts,
+        ord.receive_order_zihemail as receiveOrderZihemail,ord.receive_order_PartAddress as receiveOrderPartaddress,ord.receive_order_zihtel as receiveOrderZihtel,
+        ord.receive_sh_cost as receiveShCost,ord.sh_costCurrency as shCostcurrency,ord.receive_sh_cost_id as receiveShCostId,ord.receive_xg_cost as receiveXgCost,
+        ord.xg_costCurrency as xgCostcurrency,ord.pick_up_box_fee as pickUpBoxFee,ord.return_box_fee as returnBoxFee,ord.client_order_repayContainer as clientOrderRepaycontainer,
+        ord.receive_order_receiveEmail as receiveOrderReceiveemail,ord.receive_order_mail as receiveOrderMail,goods.goods_mark as goodsMark,goods.goods_name as goodsName,
+        goods.goods_en_name as goodsEnName,goods.goods_packing as goodsPacking,goods.goods_number as goodsNumber,goods.goods_CBM as goodsCbm,goods.goods_KGS as goodsKgs,
+        goods.goods_standard as goodsStandard,goods.remark as remark,goods.goods_isScheme as goodsIsscheme,goods.goodsbz as goodsbz,goods.HSbz as hsbz,
+        ord.ship_order_isDispatch as shipOrderIsdispatch,ord.yuyan as yuyan,ord.receive_order_Ename as receiveOrderEname,ord.receive_order_Econtacts as receiveOrderEcontacts,
+        ord.receive_order_Eemail as receiveOrderEemail,ord.receive_order_Ephone as receiveOrderEphone,ord.receive_order_Eaddress as receiveOrderEaddress,
+        ord.ConsignorC as consignorc,ord.EConsignorState as econsignorstate,ord.Etx_Company as etxCompany,ord.Eduty as eduty,ord.Etx_name as etxName,sta.statioin as station,ord.TurnCount as turncount,
+        ord.ship_order_unloadContacts as shipOrderUnloadcontacts,ord.stationID as stationid,ord.container_typeval as containerTypeval,ord.receive_hyd as receiveHyd,
+        ord.receive_hx_address as receiveHxAddress,ord.createdate as createdate,ord.ship_jz_cost as shipJzCost,ord.Exame_time as exameTime,ord.limitation as limitation,
+        ord.inquiry_record_id as inquiryRecordId,ord.order_audit_createdate as orderAuditCreatedate,ord.tj_time as tjTime,ord.isupdate as isupdate,class.class_BlockTrain as lineName,
+        ord.order_merchandiser as orderMerchandiser,ord.TotalTurnCount as totalturncount,
+        case when '2'= ord.line_typeid then ord.TotalTurnCount else ord.TotalTurnCountAvg end as totalturncountavg,
+        case when '0'= ord.class_EastAndWest then goods.goods_in_report else goods.goods_report end as goodsReport,
+        case when '0'= ord.class_EastAndWest then goods.goods_out_clearance else goods.goods_clearance end as goodsClearance,
+        case when '0'= ord.class_EastAndWest then ord.ship_fh_site else ord.ship_hyd end as shipFhSite
+        from busi_shippingorder ord
+        left join busi_shippingorder_goods goods on goods.order_ID = ord.order_ID
+        left join busi_station sta on sta.station_id = ord.stationID
+        left join busi_clients clients on clients.client_ID = ord.client_ID
+        left join busi_classes class on class.class_ID = ord.class_ID
+        <where>
+            <include refid="selectBusiShipOrderWhere"/>
+            <if test="isconsolidation != null  and isconsolidation != ''"> and ord.IsConsolidation = #{isconsolidation}</if>
+        </where>
+        <choose>
+            <when test="type ==0">
+                order by ord.createdate desc
+            </when>
+            <otherwise>
+                order by ord.IsConsolidation asc,ord.order_number asc
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--委托书汇总导出-整柜箱量-->
+    <select id="importZgCount" parameterType="com.szhbl.project.order.domain.vo.OrderImportList" resultType="java.lang.Double">
+        SELECT IFNULL(sum(if(ord.container_type like "%20%",ord.container_boxAmount/2,ord.container_boxAmount)   ),  0)
+        from busi_shippingorder ord
+        left join busi_shippingorder_goods goods on goods.order_ID = ord.order_ID
+        left join busi_classes class on class.class_ID = ord.class_ID
+        left join busi_station sta on sta.station_id = ord.stationID
+        <where>
+            <include refid="selectBusiShipOrderWhere"/>
+            and ord.IsConsolidation = "0"
+        </where>
+    </select>
+
+    <!--委托书汇总导出-拼箱体积重量-->
+    <select id="importPxVm" parameterType="com.szhbl.project.order.domain.vo.OrderImportList" resultType="com.szhbl.project.order.domain.vo.OrderImportList">
+        select sum(CONVERT(goods.goods_KGS,DECIMAL(10,2))) as totalWeight,sum(CONVERT(goods.goods_CBM,DECIMAL(10,2))) as totalVolumn
+        from busi_shippingorder ord
+        left join busi_shippingorder_goods goods on goods.order_ID = ord.order_ID
+        left join busi_classes class on class.class_ID = ord.class_ID
+        left join busi_station sta on sta.station_id = ord.stationID
+        <where>
+            <include refid="selectBusiShipOrderWhere"/>
+            and ord.IsConsolidation = "1"
+        </where>
+    </select>
+
+    <!--再次订舱更新托书询价信息-->
+    <update id="updateOrderinquiry" parameterType="com.szhbl.project.order.domain.BusiShippingorders">
+        update busi_shippingorder
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderUploadcode != null  and orderUploadcode != ''">order_uploadCode = #{orderUploadcode},</if>
+            <if test="orderUploadsite != null  and orderUploadsite != ''">order_uploadSite = #{orderUploadsite},</if>
+            <if test="orderUnloadcode != null  and orderUnloadcode != ''">order_unloadCode = #{orderUnloadcode},</if>
+            <if test="orderUnloadsite != null  and orderUnloadsite != ''">order_unloadSite = #{orderUnloadsite},</if>
+            <if test="tjTime != null ">tj_time = #{tjTime},</if>
+            <if test="shipFhSite != null  and shipFhSite != ''">ship_fh_site = #{shipFhSite},</if>
+            <if test="shipHyd != null  and shipHyd != ''">ship_hyd = #{shipHyd},</if>
+            <if test="pickUpBoxFee != null  and pickUpBoxFee != ''">pick_up_box_fee = #{pickUpBoxFee},</if>
+            <if test="receiveHxAddress != null  and receiveHxAddress != ''">receive_hx_address = #{receiveHxAddress},</if>
+            <if test="returnBoxFee != null  and returnBoxFee != ''">return_box_fee = #{returnBoxFee},</if>
+            ship_th_cost_NO = #{shipThCostNo},
+            ship_th_cost = #{shipThCost},
+            zx_THCost_Currency = #{zxThcostCurrency},
+            receive_sh_cost_id = #{receiveShCostId},
+            receive_sh_cost = #{receiveShCost},
+            sh_costCurrency = #{shCostcurrency},
+            siteCost = #{sitecost},
+            siteCost_Currency = #{sitecostCurrency},
+        </trim>
+        where order_ID = #{orderId}
+    </update>
+
+    <!--查询托书最新上货站-->
+    <select id="orderSiteCode" parameterType="string" resultType="string">
+        select c.code from busi_shippingorder a
+        left join booking_inquiry_result b on b.id = a.inquiry_record_id
+        left join busi_site c on c.name_cn = b.upload_station or c.name_en = b.upload_station
+        where a.order_ID = #{orderId}
+    </select>
+
+    <!--查询客户跟单-->
+    <select id="selectMerchandiser" parameterType="string" resultType="string">
+        select case when '0'= #{classEastandwest} then w_Merchandiser_id else e_Merchandiser_id end as merchandiserId
+        from busi_clients where client_ID = #{clientId}
+    </select>
+
+    <!--查询客户跟单列表-->
+    <select id="selectMerchandiserList" parameterType="string" resultType="com.szhbl.project.order.domain.vo.Merchandiser">
+        select dc_user_id as orderMerchandiserId,nick_name as orderMerchandiser from sys_user where dc_user_id IN
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!--客户二个月托书数量-->
+    <select id="orderIdListByClient" parameterType="string" resultType="string">
+        select order_ID from busi_shippingorder
+        where client_ID = #{clientId} and IsExamline = '1' and DATE_SUB(CURDATE(), INTERVAL 3 MONTH) &lt;= date(createdate)
+    </select>
+
+    <!--客户某时间内托书，测试使用-->
+    <select id="orderIdListT" parameterType="string" resultType="string">
+        select order_ID from busi_shippingorder
+        where IsExamline = '1'
+        <if test="dateType == 1">and DATE_SUB(CURDATE(), INTERVAL 1 DAY) &lt;= date(createdate) </if>
+        <if test="dateType == 2">
+            and DATE_SUB(CURDATE(), INTERVAL 2 DAY) &lt;= date(createdate)
+            and DATE_SUB(CURDATE(), INTERVAL 1 DAY) > date(createdate)
+        </if>
+        <if test="dateType == 3">
+            and DATE_SUB(CURDATE(), INTERVAL 3 DAY) &lt;= date(createdate)
+            and DATE_SUB(CURDATE(), INTERVAL 2 DAY) > date(createdate)
+        </if>
+        <if test="dateType == 4">
+            and DATE_SUB(CURDATE(), INTERVAL 4 DAY) &lt;= date(createdate)
+            and DATE_SUB(CURDATE(), INTERVAL 3 DAY) > date(createdate)
+        </if>
+        <if test="dateType == 5">
+            and DATE_SUB(CURDATE(), INTERVAL 5 DAY) &lt;= date(createdate)
+            and DATE_SUB(CURDATE(), INTERVAL 4 DAY) > date(createdate)
+        </if>
+        <if test="dateType == 6">
+            and DATE_SUB(CURDATE(), INTERVAL 6 DAY) &lt;= date(createdate)
+            and DATE_SUB(CURDATE(), INTERVAL 5 DAY) > date(createdate)
+        </if>
+        <if test="dateType == 7">
+            and DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(createdate)
+            and DATE_SUB(CURDATE(), INTERVAL 6 DAY) > date(createdate)
+        </if>
+        <if test="dateType == 8">
+            and DATE_SUB(CURDATE(), INTERVAL 8 DAY) &lt;= date(createdate)
+            and DATE_SUB(CURDATE(), INTERVAL 7 DAY) > date(createdate)
+        </if>
+        <if test="dateType == 9">
+            and DATE_SUB(CURDATE(), INTERVAL 9 DAY) &lt;= date(createdate)
+            and DATE_SUB(CURDATE(), INTERVAL 8 DAY) > date(createdate)
+        </if>
+    </select>
+
+    <update id="updateInquiry" parameterType="com.szhbl.project.order.domain.vo.inquiryResultZx">
+        update booking_inquiry
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="containerNum != null ">container_num = #{containerNum},</if>
+        </trim>
+        where id = #{inquiryId}
+    </update>
+
+    <update id="updateInquiryResult" parameterType="com.szhbl.project.order.domain.vo.inquiryResultZx">
+        update booking_inquiry_result
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pickUpFees != null  and pickUpFees != ''">pick_up_fees = #{pickUpFees},</if>
+            <if test="railwayFees != null  and railwayFees != ''">railway_fees = #{railwayFees},</if>
+            <if test="deliveryFees != null  and deliveryFees != ''">delivery_fees = #{deliveryFees},</if>
+            <if test="pickUpBoxFee != null  and pickUpBoxFee != ''">pick_up_box_fee = #{pickUpBoxFee},</if>
+            <if test="returnBoxFee != null  and returnBoxFee != ''">return_box_fee = #{returnBoxFee},</if>
+        </trim>
+        where id = #{inquiryResultId}
+    </update>
+
+</mapper>

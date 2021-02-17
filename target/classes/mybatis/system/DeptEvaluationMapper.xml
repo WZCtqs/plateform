@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.system.mapper.DeptEvaluationMapper">
+
+    <resultMap type="com.szhbl.project.system.domain.DeptEvaluation" id="DeptEvaluationResult">
+        <result property="id"    column="id"    />
+        <result property="evaluationId"    column="evaluation_id"    />
+        <result property="evaluationTime"    column="evaluation_time"    />
+        <result property="evaluationName"    column="evaluation_name"    />
+        <result property="evaluationNo"    column="evaluation_no"    />
+        <result property="evaluationtor"    column="evaluationtor"    />
+        <result property="managedeEfficiency"    column="ManageDe_efficiency"    />
+        <result property="managedeQuality"    column="ManageDe_quality"    />
+        <result property="managedeDuty"    column="ManageDe_duty"    />
+        <result property="managedeAttitude"    column="ManageDe_attitude"    />
+        <result property="managedeTeam"    column="ManageDe_team"    />
+        <result property="managedeTotal"    column="ManageDe_total"    />
+        <result property="managedeAve"    column="ManageDe_ave"    />
+        <result property="managedegrading"    column="ManageDegrading"    />
+        <result property="jsbEfficiency"    column="JSB_efficiency"    />
+        <result property="jsbQuality"    column="JSB_quality"    />
+        <result property="jsbDuty"    column="JSB_duty"    />
+        <result property="jsbAttitude"    column="JSB_attitude"    />
+        <result property="jsbTeam"    column="JSB_team"    />
+        <result property="jsbTotal"    column="JSB_total"    />
+        <result property="jsbAve"    column="JSB_ave"    />
+        <result property="jsbgrading"    column="JSBgrading"    />
+        <result property="cz1Efficiency"    column="CZ1_efficiency"    />
+        <result property="cz1Quality"    column="CZ1_quality"    />
+        <result property="cz1Duty"    column="CZ1_duty"    />
+        <result property="cz1Attitude"    column="CZ1_attitude"    />
+        <result property="cz1Team"    column="CZ1_team"    />
+        <result property="cz1Total"    column="CZ1_total"    />
+        <result property="cz1Ave"    column="CZ1_ave"    />
+        <result property="cz1grading"    column="CZ1grading"    />
+        <result property="cz3Efficiency"    column="CZ3_efficiency"    />
+        <result property="cz3Quality"    column="CZ3_quality"    />
+        <result property="cz3Duty"    column="CZ3_duty"    />
+        <result property="cz3Attitude"    column="CZ3_attitude"    />
+        <result property="cz3Team"    column="CZ3_team"    />
+        <result property="cz3Total"    column="CZ3_total"    />
+        <result property="cz3Ave"    column="CZ3_ave"    />
+        <result property="cz3grading"    column="CZ3grading"    />
+        <result property="jsEfficiency"    column="JS_efficiency"    />
+        <result property="jsQuality"    column="JS_quality"    />
+        <result property="jsDuty"    column="JS_duty"    />
+        <result property="jsAttitude"    column="JS_attitude"    />
+        <result property="jsTeam"    column="JS_team"    />
+        <result property="jsTotal"    column="JS_total"    />
+        <result property="jsAve"    column="JS_ave"    />
+        <result property="jsgrading"    column="JSgrading"    />
+        <result property="xg1Efficiency"    column="XG1_efficiency"    />
+        <result property="xg1Quality"    column="XG1_quality"    />
+        <result property="xg1Duty"    column="XG1_duty"    />
+        <result property="xg1Attitude"    column="XG1_attitude"    />
+        <result property="xg1Team"    column="XG1_team"    />
+        <result property="xg1Total"    column="XG1_total"    />
+        <result property="xg1Ave"    column="XG1_ave"    />
+        <result property="xg1grading"    column="XG1grading"    />
+        <result property="xg2Efficiency"    column="XG2_efficiency"    />
+        <result property="xg2Quality"    column="XG2_quality"    />
+        <result property="xg2Duty"    column="XG2_duty"    />
+        <result property="xg2Attitude"    column="XG2_attitude"    />
+        <result property="xg2Team"    column="XG2_team"    />
+        <result property="xg2Total"    column="XG2_total"    />
+        <result property="xg2Ave"    column="XG2_ave"    />
+        <result property="xg2grading"    column="XG2grading"    />
+        <result property="pxEfficiency"    column="PX_efficiency"    />
+        <result property="pxQuality"    column="PX_quality"    />
+        <result property="pxDuty"    column="PX_duty"    />
+        <result property="pxAttitude"    column="PX_attitude"    />
+        <result property="pxTeam"    column="PX_team"    />
+        <result property="pxTotal"    column="PX_total"    />
+        <result property="pxAve"    column="PX_ave"    />
+        <result property="pxgrading"    column="PXgrading"    />
+        <result property="dslyEfficiency"    column="DSLY_efficiency"    />
+        <result property="dslyQuality"    column="DSLY_quality"    />
+        <result property="dslyDuty"    column="DSLY_duty"    />
+        <result property="dslyAttitude"    column="DSLY_attitude"    />
+        <result property="dslyTeam"    column="DSLY_team"    />
+        <result property="dslyTotal"    column="DSLY_total"    />
+        <result property="dslyAve"    column="DSLY_ave"    />
+        <result property="dslygrading"    column="DSLYgrading"    />
+        <result property="roadEfficiency"    column="ROAD_efficiency"    />
+        <result property="roadQuality"    column="ROAD_quality"    />
+        <result property="roadDuty"    column="ROAD_duty"    />
+        <result property="roadAttitude"    column="ROAD_attitude"    />
+        <result property="roadTeam"    column="ROAD_team"    />
+        <result property="roadTotal"    column="ROAD_total"    />
+        <result property="roadAve"    column="ROAD_ave"    />
+        <result property="roadgrading"    column="ROADgrading"    />
+        <result property="bg1Efficiency"    column="BG1_efficiency"    />
+        <result property="bg1Quality"    column="BG1_quality"    />
+        <result property="bg1Duty"    column="BG1_duty"    />
+        <result property="bg1Attitude"    column="BG1_attitude"    />
+        <result property="bg1Team"    column="BG1_team"    />
+        <result property="bg1Total"    column="BG1_total"    />
+        <result property="bg1Ave"    column="BG1_ave"    />
+        <result property="bg1grading"    column="BG1grading"    />
+        <result property="bg2Efficiency"    column="BG2_efficiency"    />
+        <result property="bg2Quality"    column="BG2_quality"    />
+        <result property="bg2Duty"    column="BG2_duty"    />
+        <result property="bg2Attitude"    column="BG2_attitude"    />
+        <result property="bg2Team"    column="BG2_team"    />
+        <result property="bg2Total"    column="BG2_total"    />
+        <result property="bg2Ave"    column="BG2_ave"    />
+        <result property="bg2grading"    column="BG2grading"    />
+        <result property="gdEfficiency"    column="GD_efficiency"    />
+        <result property="gdQuality"    column="GD_quality"    />
+        <result property="gdDuty"    column="GD_duty"    />
+        <result property="gdAttitude"    column="GD_attitude"    />
+        <result property="gdTeam"    column="GD_team"    />
+        <result property="gdTotal"    column="GD_total"    />
+        <result property="gdAve"    column="GD_ave"    />
+        <result property="gdgrading"    column="GDgrading"    />
+    </resultMap>
+
+    <sql id="selectDeptEvaluationVo">
+        select id, evaluation_id, evaluation_time, evaluation_name, evaluation_no, evaluationtor,
+        ManageDe_efficiency, ManageDe_quality, ManageDe_duty, ManageDe_attitude, ManageDe_team, ManageDe_total, ManageDe_ave, ManageDegrading,
+        JSB_efficiency, JSB_quality, JSB_duty, JSB_attitude, JSB_team, JSB_total, JSB_ave, JSBgrading,
+        CZ1_efficiency, CZ1_quality, CZ1_duty, CZ1_attitude, CZ1_team, CZ1_total, CZ1_ave, CZ1grading,
+        CZ3_efficiency, CZ3_quality, CZ3_duty, CZ3_attitude, CZ3_team, CZ3_total, CZ3_ave, CZ3grading,
+        JS_efficiency, JS_quality, JS_duty, JS_attitude, JS_team, JS_total, JS_ave, JSgrading,
+        XG1_efficiency, XG1_quality, XG1_duty, XG1_attitude, XG1_team, XG1_total, XG1_ave, XG1grading,
+        XG2_efficiency, XG2_quality, XG2_duty, XG2_attitude, XG2_team, XG2_total, XG2_ave, XG2grading,
+        PX_efficiency, PX_quality, PX_duty, PX_attitude, PX_team, PX_total, PX_ave, PXgrading,
+        DSLY_efficiency, DSLY_quality, DSLY_duty, DSLY_attitude, DSLY_team, DSLY_total, DSLY_ave, DSLYgrading,
+        ROAD_efficiency, ROAD_quality, ROAD_duty, ROAD_attitude, ROAD_team, ROAD_total, ROAD_ave, ROADgrading,
+        BG1_efficiency, BG1_quality, BG1_duty, BG1_attitude, BG1_team, BG1_total, BG1_ave, BG1grading,
+        BG2_efficiency, BG2_quality, BG2_duty, BG2_attitude, BG2_team, BG2_total, BG2_ave, BG2grading,
+        GD_efficiency, GD_quality, GD_duty, GD_attitude, GD_team, GD_total, GD_ave, GDgrading
+         from dept_evaluation
+    </sql>
+
+    <select id="selectDeptEvaluationList" parameterType="DeptEvaluation" resultMap="DeptEvaluationResult">
+        <include refid="selectDeptEvaluationVo"/>
+        <where>
+            <if test="startTime != null "> and evaluation_time &gt;= #{startTime}</if>
+            <if test="endTime != null "> and evaluation_time &lt;= #{endTime}</if>
+        </where>
+        order by evaluation_time desc
+    </select>
+
+    <!--部门统计导出-->
+    <select id="selectForExportSimple" parameterType="DeptEvaluation" resultType="DeptEvaluationExportSimple">
+
+        SELECT '操作一' AS evaluationDept,avg( CZ1_total ) AS score FROM dept_evaluation
+        <where>
+            <if test="startTime != null "> and evaluation_time &gt;= #{startTime}</if>
+            <if test="endTime != null "> and evaluation_time &lt;= #{endTime}</if>
+        </where>
+        UNION ALL
+        SELECT '集输部' AS evaluationDept,avg( JS_total ) AS score FROM dept_evaluation
+        <where>
+            <if test="startTime != null "> and evaluation_time &gt;= #{startTime}</if>
+            <if test="endTime != null "> and evaluation_time &lt;= #{endTime}</if>
+        </where>
+        UNION ALL
+        SELECT '箱管一' AS evaluationDept,avg( XG1_total ) AS score FROM dept_evaluation
+        <where>
+            <if test="startTime != null "> and evaluation_time &gt;= #{startTime}</if>
+            <if test="endTime != null "> and evaluation_time &lt;= #{endTime}</if>
+        </where>
+        UNION ALL
+        SELECT '箱管二' AS evaluationDept,avg( XG2_total ) AS score FROM dept_evaluation
+        <where>
+            <if test="startTime != null "> and evaluation_time &gt;= #{startTime}</if>
+            <if test="endTime != null "> and evaluation_time &lt;= #{endTime}</if>
+        </where>
+        UNION ALL
+        SELECT '拼箱部' AS evaluationDept,avg( PX_total ) AS score FROM dept_evaluation
+        <where>
+            <if test="startTime != null "> and evaluation_time &gt;= #{startTime}</if>
+            <if test="endTime != null "> and evaluation_time &lt;= #{endTime}</if>
+        </where>
+        UNION ALL
+        SELECT '多式联运' AS evaluationDept,avg( DSLY_total ) AS score FROM dept_evaluation
+        <where>
+            <if test="startTime != null "> and evaluation_time &gt;= #{startTime}</if>
+            <if test="endTime != null "> and evaluation_time &lt;= #{endTime}</if>
+        </where>
+        UNION ALL
+        SELECT '公路部' AS evaluationDept,avg( ROAD_total ) AS score FROM dept_evaluation
+        <where>
+            <if test="startTime != null "> and evaluation_time &gt;= #{startTime}</if>
+            <if test="endTime != null "> and evaluation_time &lt;= #{endTime}</if>
+        </where>
+        UNION ALL
+        SELECT '报关一' AS evaluationDept,avg( BG1_total ) AS score FROM dept_evaluation
+        <where>
+            <if test="startTime != null "> and evaluation_time &gt;= #{startTime}</if>
+            <if test="endTime != null "> and evaluation_time &lt;= #{endTime}</if>
+        </where>
+        UNION ALL
+        SELECT '报关二' AS evaluationDept,avg( BG2_total )  AS score FROM dept_evaluation
+        <where>
+            <if test="startTime != null "> and evaluation_time &gt;= #{startTime}</if>
+            <if test="endTime != null "> and evaluation_time &lt;= #{endTime}</if>
+        </where>
+        UNION ALL
+        SELECT '跟单' AS evaluationDept,avg( GD_total )  AS score FROM dept_evaluation
+        <where>
+            <if test="startTime != null "> and evaluation_time &gt;= #{startTime}</if>
+            <if test="endTime != null "> and evaluation_time &lt;= #{endTime}</if>
+        </where>
+    </select>
+
+    <select id="selectDeptEvaluationById" parameterType="Long" resultMap="DeptEvaluationResult">
+        <include refid="selectDeptEvaluationVo"/>
+        where id = #{id}
+        order by evaluation_time desc
+    </select>
+
+    <insert id="insertDeptEvaluation" parameterType="DeptEvaluation" useGeneratedKeys="true" keyProperty="id">
+        insert into dept_evaluation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="evaluationTime != null ">evaluation_time,</if>
+            <if test="evaluationName != null  and evaluationName != ''">evaluation_name,</if>
+            <if test="evaluationNo != null ">evaluation_no,</if>
+            <if test="evaluationtor != null  and evaluationtor != ''">evaluationtor,</if>
+            <if test="managedeEfficiency != null ">ManageDe_efficiency,</if>
+            <if test="managedeQuality != null ">ManageDe_quality,</if>
+            <if test="managedeDuty != null ">ManageDe_duty,</if>
+            <if test="managedeAttitude != null ">ManageDe_attitude,</if>
+            <if test="managedeTeam != null ">ManageDe_team,</if>
+            <if test="managedeTotal != null ">ManageDe_total,</if>
+            <if test="managedeAve != null ">ManageDe_ave,</if>
+            <if test="managedegrading != null  and managedegrading != ''">ManageDegrading,</if>
+            <if test="jsbEfficiency != null ">JSB_efficiency,</if>
+            <if test="jsbQuality != null ">JSB_quality,</if>
+            <if test="jsbDuty != null ">JSB_duty,</if>
+            <if test="jsbAttitude != null ">JSB_attitude,</if>
+            <if test="jsbTeam != null ">JSB_team,</if>
+            <if test="jsbTotal != null ">JSB_total,</if>
+            <if test="jsbAve != null ">JSB_ave,</if>
+            <if test="jsbgrading != null  and jsbgrading != ''">JSBgrading,</if>
+            <if test="cz1Efficiency != null ">CZ1_efficiency,</if>
+            <if test="cz1Quality != null ">CZ1_quality,</if>
+            <if test="cz1Duty != null ">CZ1_duty,</if>
+            <if test="cz1Attitude != null ">CZ1_attitude,</if>
+            <if test="cz1Team != null ">CZ1_team,</if>
+            <if test="cz1Total != null ">CZ1_total,</if>
+            <if test="cz1Ave != null ">CZ1_ave,</if>
+            <if test="cz1grading != null  and cz1grading != ''">CZ1grading,</if>
+            <if test="cz3Efficiency != null ">CZ3_efficiency,</if>
+            <if test="cz3Quality != null ">CZ3_quality,</if>
+            <if test="cz3Duty != null ">CZ3_duty,</if>
+            <if test="cz3Attitude != null ">CZ3_attitude,</if>
+            <if test="cz3Team != null ">CZ3_team,</if>
+            <if test="cz3Total != null ">CZ3_total,</if>
+            <if test="cz3Ave != null ">CZ3_ave,</if>
+            <if test="cz3grading != null  and cz3grading != ''">CZ3grading,</if>
+            <if test="jsEfficiency != null ">JS_efficiency,</if>
+            <if test="jsQuality != null ">JS_quality,</if>
+            <if test="jsDuty != null ">JS_duty,</if>
+            <if test="jsAttitude != null ">JS_attitude,</if>
+            <if test="jsTeam != null ">JS_team,</if>
+            <if test="jsTotal != null ">JS_total,</if>
+            <if test="jsAve != null ">JS_ave,</if>
+            <if test="jsgrading != null  and jsgrading != ''">JSgrading,</if>
+            <if test="xg1Efficiency != null ">XG1_efficiency,</if>
+            <if test="xg1Quality != null ">XG1_quality,</if>
+            <if test="xg1Duty != null ">XG1_duty,</if>
+            <if test="xg1Attitude != null ">XG1_attitude,</if>
+            <if test="xg1Team != null ">XG1_team,</if>
+            <if test="xg1Total != null ">XG1_total,</if>
+            <if test="xg1Ave != null ">XG1_ave,</if>
+            <if test="xg1grading != null  and xg1grading != ''">XG1grading,</if>
+            <if test="xg2Efficiency != null ">XG2_efficiency,</if>
+            <if test="xg2Quality != null ">XG2_quality,</if>
+            <if test="xg2Duty != null ">XG2_duty,</if>
+            <if test="xg2Attitude != null ">XG2_attitude,</if>
+            <if test="xg2Team != null ">XG2_team,</if>
+            <if test="xg2Total != null ">XG2_total,</if>
+            <if test="xg2Ave != null ">XG2_ave,</if>
+            <if test="xg2grading != null  and xg2grading != ''">XG2grading,</if>
+            <if test="pxEfficiency != null ">PX_efficiency,</if>
+            <if test="pxQuality != null ">PX_quality,</if>
+            <if test="pxDuty != null ">PX_duty,</if>
+            <if test="pxAttitude != null ">PX_attitude,</if>
+            <if test="pxTeam != null ">PX_team,</if>
+            <if test="pxTotal != null ">PX_total,</if>
+            <if test="pxAve != null ">PX_ave,</if>
+            <if test="pxgrading != null  and pxgrading != ''">PXgrading,</if>
+            <if test="dslyEfficiency != null ">DSLY_efficiency,</if>
+            <if test="dslyQuality != null ">DSLY_quality,</if>
+            <if test="dslyDuty != null ">DSLY_duty,</if>
+            <if test="dslyAttitude != null ">DSLY_attitude,</if>
+            <if test="dslyTeam != null ">DSLY_team,</if>
+            <if test="dslyTotal != null ">DSLY_total,</if>
+            <if test="dslyAve != null ">DSLY_ave,</if>
+            <if test="dslygrading != null  and dslygrading != ''">DSLYgrading,</if>
+
+            <if test="roadEfficiency != null ">ROAD_efficiency,</if>
+            <if test="roadQuality != null ">ROAD_quality,</if>
+            <if test="roadDuty != null ">ROAD_duty,</if>
+            <if test="roadAttitude != null ">ROAD_attitude,</if>
+            <if test="roadTeam != null ">ROAD_team,</if>
+            <if test="roadTotal != null ">ROAD_total,</if>
+            <if test="roadAve != null ">ROAD_ave,</if>
+            <if test="roadgrading != null  and roadgrading != ''">ROADgrading,</if>
+
+            <if test="bg1Efficiency != null ">BG1_efficiency,</if>
+            <if test="bg1Quality != null ">BG1_quality,</if>
+            <if test="bg1Duty != null ">BG1_duty,</if>
+            <if test="bg1Attitude != null ">BG1_attitude,</if>
+            <if test="bg1Team != null ">BG1_team,</if>
+            <if test="bg1Total != null ">BG1_total,</if>
+            <if test="bg1Ave != null ">BG1_ave,</if>
+            <if test="bg1grading != null  and bg1grading != ''">BG1grading,</if>
+
+            <if test="bg2Efficiency != null ">BG2_efficiency,</if>
+            <if test="bg2Quality != null ">BG2_quality,</if>
+            <if test="bg2Duty != null ">BG2_duty,</if>
+            <if test="bg2Attitude != null ">BG2_attitude,</if>
+            <if test="bg2Team != null ">BG2_team,</if>
+            <if test="bg2Total != null ">BG2_total,</if>
+            <if test="bg2Ave != null ">BG2_ave,</if>
+            <if test="bg2grading != null  and bg2grading != ''">BG2grading,</if>
+
+            <if test="gdEfficiency != null ">GD_efficiency,</if>
+            <if test="gdQuality != null ">GD_quality,</if>
+            <if test="gdDuty != null ">GD_duty,</if>
+            <if test="gdAttitude != null ">GD_attitude,</if>
+            <if test="gdTeam != null ">GD_team,</if>
+            <if test="gdTotal != null ">GD_total,</if>
+            <if test="gdAve != null ">GD_ave,</if>
+            <if test="gdgrading != null  and gdgrading != ''">GDgrading,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="evaluationTime != null ">#{evaluationTime},</if>
+            <if test="evaluationName != null  and evaluationName != ''">#{evaluationName},</if>
+            <if test="evaluationNo != null ">#{evaluationNo},</if>
+            <if test="evaluationtor != null  and evaluationtor != ''">#{evaluationtor},</if>
+            <if test="managedeEfficiency != null ">#{managedeEfficiency},</if>
+            <if test="managedeQuality != null ">#{managedeQuality},</if>
+            <if test="managedeDuty != null ">#{managedeDuty},</if>
+            <if test="managedeAttitude != null ">#{managedeAttitude},</if>
+            <if test="managedeTeam != null ">#{managedeTeam},</if>
+            <if test="managedeTotal != null ">#{managedeTotal},</if>
+            <if test="managedeAve != null ">#{managedeAve},</if>
+            <if test="managedegrading != null  and managedegrading != ''">#{managedegrading},</if>
+            <if test="jsbEfficiency != null ">#{jsbEfficiency},</if>
+            <if test="jsbQuality != null ">#{jsbQuality},</if>
+            <if test="jsbDuty != null ">#{jsbDuty},</if>
+            <if test="jsbAttitude != null ">#{jsbAttitude},</if>
+            <if test="jsbTeam != null ">#{jsbTeam},</if>
+            <if test="jsbTotal != null ">#{jsbTotal},</if>
+            <if test="jsbAve != null ">#{jsbAve},</if>
+            <if test="jsbgrading != null  and jsbgrading != ''">#{jsbgrading},</if>
+            <if test="cz1Efficiency != null ">#{cz1Efficiency},</if>
+            <if test="cz1Quality != null ">#{cz1Quality},</if>
+            <if test="cz1Duty != null ">#{cz1Duty},</if>
+            <if test="cz1Attitude != null ">#{cz1Attitude},</if>
+            <if test="cz1Team != null ">#{cz1Team},</if>
+            <if test="cz1Total != null ">#{cz1Total},</if>
+            <if test="cz1Ave != null ">#{cz1Ave},</if>
+            <if test="cz1grading != null  and cz1grading != ''">#{cz1grading},</if>
+            <if test="cz3Efficiency != null ">#{cz3Efficiency},</if>
+            <if test="cz3Quality != null ">#{cz3Quality},</if>
+            <if test="cz3Duty != null ">#{cz3Duty},</if>
+            <if test="cz3Attitude != null ">#{cz3Attitude},</if>
+            <if test="cz3Team != null ">#{cz3Team},</if>
+            <if test="cz3Total != null ">#{cz3Total},</if>
+            <if test="cz3Ave != null ">#{cz3Ave},</if>
+            <if test="cz3grading != null  and cz3grading != ''">#{cz3grading},</if>
+            <if test="jsEfficiency != null ">#{jsEfficiency},</if>
+            <if test="jsQuality != null ">#{jsQuality},</if>
+            <if test="jsDuty != null ">#{jsDuty},</if>
+            <if test="jsAttitude != null ">#{jsAttitude},</if>
+            <if test="jsTeam != null ">#{jsTeam},</if>
+            <if test="jsTotal != null ">#{jsTotal},</if>
+            <if test="jsAve != null ">#{jsAve},</if>
+            <if test="jsgrading != null  and jsgrading != ''">#{jsgrading},</if>
+            <if test="xg1Efficiency != null ">#{xg1Efficiency},</if>
+            <if test="xg1Quality != null ">#{xg1Quality},</if>
+            <if test="xg1Duty != null ">#{xg1Duty},</if>
+            <if test="xg1Attitude != null ">#{xg1Attitude},</if>
+            <if test="xg1Team != null ">#{xg1Team},</if>
+            <if test="xg1Total != null ">#{xg1Total},</if>
+            <if test="xg1Ave != null ">#{xg1Ave},</if>
+            <if test="xg1grading != null  and xg1grading != ''">#{xg1grading},</if>
+            <if test="xg2Efficiency != null ">#{xg2Efficiency},</if>
+            <if test="xg2Quality != null ">#{xg2Quality},</if>
+            <if test="xg2Duty != null ">#{xg2Duty},</if>
+            <if test="xg2Attitude != null ">#{xg2Attitude},</if>
+            <if test="xg2Team != null ">#{xg2Team},</if>
+            <if test="xg2Total != null ">#{xg2Total},</if>
+            <if test="xg2Ave != null ">#{xg2Ave},</if>
+            <if test="xg2grading != null  and xg2grading != ''">#{xg2grading},</if>
+            <if test="pxEfficiency != null ">#{pxEfficiency},</if>
+            <if test="pxQuality != null ">#{pxQuality},</if>
+            <if test="pxDuty != null ">#{pxDuty},</if>
+            <if test="pxAttitude != null ">#{pxAttitude},</if>
+            <if test="pxTeam != null ">#{pxTeam},</if>
+            <if test="pxTotal != null ">#{pxTotal},</if>
+            <if test="pxAve != null ">#{pxAve},</if>
+            <if test="pxgrading != null  and pxgrading != ''">#{pxgrading},</if>
+            <if test="dslyEfficiency != null ">#{dslyEfficiency},</if>
+            <if test="dslyQuality != null ">#{dslyQuality},</if>
+            <if test="dslyDuty != null ">#{dslyDuty},</if>
+            <if test="dslyAttitude != null ">#{dslyAttitude},</if>
+            <if test="dslyTeam != null ">#{dslyTeam},</if>
+            <if test="dslyTotal != null ">#{dslyTotal},</if>
+            <if test="dslyAve != null ">#{dslyAve},</if>
+            <if test="dslygrading != null  and dslygrading != ''">#{dslygrading},</if>
+            <if test="roadEfficiency != null ">#{roadEfficiency},</if>
+            <if test="roadQuality != null ">#{roadQuality},</if>
+            <if test="roadDuty != null ">#{roadDuty},</if>
+            <if test="roadAttitude != null ">#{roadAttitude},</if>
+            <if test="roadTeam != null ">#{roadTeam},</if>
+            <if test="roadTotal != null ">#{roadTotal},</if>
+            <if test="roadAve != null ">#{roadAve},</if>
+            <if test="roadgrading != null  and roadgrading != ''">#{roadgrading},</if>
+            <if test="bg1Efficiency != null ">#{bg1Efficiency},</if>
+            <if test="bg1Quality != null ">#{bg1Quality},</if>
+            <if test="bg1Duty != null ">#{bg1Duty},</if>
+            <if test="bg1Attitude != null ">#{bg1Attitude},</if>
+            <if test="bg1Team != null ">#{bg1Team},</if>
+            <if test="bg1Total != null ">#{bg1Total},</if>
+            <if test="bg1Ave != null ">#{bg1Ave},</if>
+            <if test="bg1grading != null  and bg1grading != ''">#{bg1grading},</if>
+            <if test="bg2Efficiency != null ">#{bg2Efficiency},</if>
+            <if test="bg2Quality != null ">#{bg2Quality},</if>
+            <if test="bg2Duty != null ">#{bg2Duty},</if>
+            <if test="bg2Attitude != null ">#{bg2Attitude},</if>
+            <if test="bg2Team != null ">#{bg2Team},</if>
+            <if test="bg2Total != null ">#{bg2Total},</if>
+            <if test="bg2Ave != null ">#{bg2Ave},</if>
+            <if test="bg2grading != null  and bg2grading != ''">#{bg2grading},</if>
+            <if test="gdEfficiency != null ">#{gdEfficiency},</if>
+            <if test="gdQuality != null ">#{gdQuality},</if>
+            <if test="gdDuty != null ">#{gdDuty},</if>
+            <if test="gdAttitude != null ">#{gdAttitude},</if>
+            <if test="gdTeam != null ">#{gdTeam},</if>
+            <if test="gdTotal != null ">#{gdTotal},</if>
+            <if test="gdAve != null ">#{gdAve},</if>
+            <if test="gdgrading != null  and gdgrading !=''">#{gdgrading},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDeptEvaluation" parameterType="DeptEvaluation">
+        update dept_evaluation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="evaluationTime != null ">evaluation_time = #{evaluationTime},</if>
+            <if test="evaluationName != null  and evaluationName != ''">evaluation_name = #{evaluationName},</if>
+            <if test="evaluationNo != null ">evaluation_no = #{evaluationNo},</if>
+            <if test="evaluationtor != null  and evaluationtor != ''">evaluationtor = #{evaluationtor},</if>
+            <if test="managedeEfficiency != null ">ManageDe_efficiency = #{managedeEfficiency},</if>
+            <if test="managedeQuality != null ">ManageDe_quality = #{managedeQuality},</if>
+            <if test="managedeDuty != null ">ManageDe_duty = #{managedeDuty},</if>
+            <if test="managedeAttitude != null ">ManageDe_attitude = #{managedeAttitude},</if>
+            <if test="managedeTeam != null ">ManageDe_team = #{managedeTeam},</if>
+            <if test="managedeTotal != null ">ManageDe_total = #{managedeTotal},</if>
+            <if test="managedeAve != null ">ManageDe_ave = #{managedeAve},</if>
+            <if test="managedegrading != null  and managedegrading != ''">ManageDegrading = #{managedegrading},</if>
+            <if test="jsbEfficiency != null ">JSB_efficiency = #{jsbEfficiency},</if>
+            <if test="jsbQuality != null ">JSB_quality = #{jsbQuality},</if>
+            <if test="jsbDuty != null ">JSB_duty = #{jsbDuty},</if>
+            <if test="jsbAttitude != null ">JSB_attitude = #{jsbAttitude},</if>
+            <if test="jsbTeam != null ">JSB_team = #{jsbTeam},</if>
+            <if test="jsbTotal != null ">JSB_total = #{jsbTotal},</if>
+            <if test="jsbAve != null ">JSB_ave = #{jsbAve},</if>
+            <if test="jsbgrading != null  and jsbgrading != ''">JSBgrading = #{jsbgrading},</if>
+            <if test="cz1Efficiency != null ">CZ1_efficiency = #{cz1Efficiency},</if>
+            <if test="cz1Quality != null ">CZ1_quality = #{cz1Quality},</if>
+            <if test="cz1Duty != null ">CZ1_duty = #{cz1Duty},</if>
+            <if test="cz1Attitude != null ">CZ1_attitude = #{cz1Attitude},</if>
+            <if test="cz1Team != null ">CZ1_team = #{cz1Team},</if>
+            <if test="cz1Total != null ">CZ1_total = #{cz1Total},</if>
+            <if test="cz1Ave != null ">CZ1_ave = #{cz1Ave},</if>
+            <if test="cz1grading != null  and cz1grading != ''">CZ1grading = #{cz1grading},</if>
+            <if test="cz3Efficiency != null ">CZ3_efficiency = #{cz3Efficiency},</if>
+            <if test="cz3Quality != null ">CZ3_quality = #{cz3Quality},</if>
+            <if test="cz3Duty != null ">CZ3_duty = #{cz3Duty},</if>
+            <if test="cz3Attitude != null ">CZ3_attitude = #{cz3Attitude},</if>
+            <if test="cz3Team != null ">CZ3_team = #{cz3Team},</if>
+            <if test="cz3Total != null ">CZ3_total = #{cz3Total},</if>
+            <if test="cz3Ave != null ">CZ3_ave = #{cz3Ave},</if>
+            <if test="cz3grading != null  and cz3grading != ''">CZ3grading = #{cz3grading},</if>
+            <if test="jsEfficiency != null ">JS_efficiency = #{jsEfficiency},</if>
+            <if test="jsQuality != null ">JS_quality = #{jsQuality},</if>
+            <if test="jsDuty != null ">JS_duty = #{jsDuty},</if>
+            <if test="jsAttitude != null ">JS_attitude = #{jsAttitude},</if>
+            <if test="jsTeam != null ">JS_team = #{jsTeam},</if>
+            <if test="jsTotal != null ">JS_total = #{jsTotal},</if>
+            <if test="jsAve != null ">JS_ave = #{jsAve},</if>
+            <if test="jsgrading != null  and jsgrading != ''">JSgrading = #{jsgrading},</if>
+            <if test="xg1Efficiency != null ">XG1_efficiency = #{xg1Efficiency},</if>
+            <if test="xg1Quality != null ">XG1_quality = #{xg1Quality},</if>
+            <if test="xg1Duty != null ">XG1_duty = #{xg1Duty},</if>
+            <if test="xg1Attitude != null ">XG1_attitude = #{xg1Attitude},</if>
+            <if test="xg1Team != null ">XG1_team = #{xg1Team},</if>
+            <if test="xg1Total != null ">XG1_total = #{xg1Total},</if>
+            <if test="xg1Ave != null ">XG1_ave = #{xg1Ave},</if>
+            <if test="xg1grading != null  and xg1grading != ''">XG1grading = #{xg1grading},</if>
+            <if test="xg2Efficiency != null ">XG2_efficiency = #{xg2Efficiency},</if>
+            <if test="xg2Quality != null ">XG2_quality = #{xg2Quality},</if>
+            <if test="xg2Duty != null ">XG2_duty = #{xg2Duty},</if>
+            <if test="xg2Attitude != null ">XG2_attitude = #{xg2Attitude},</if>
+            <if test="xg2Team != null ">XG2_team = #{xg2Team},</if>
+            <if test="xg2Total != null ">XG2_total = #{xg2Total},</if>
+            <if test="xg2Ave != null ">XG2_ave = #{xg2Ave},</if>
+            <if test="xg2grading != null  and xg2grading != ''">XG2grading = #{xg2grading},</if>
+            <if test="pxEfficiency != null ">PX_efficiency = #{pxEfficiency},</if>
+            <if test="pxQuality != null ">PX_quality = #{pxQuality},</if>
+            <if test="pxDuty != null ">PX_duty = #{pxDuty},</if>
+            <if test="pxAttitude != null ">PX_attitude = #{pxAttitude},</if>
+            <if test="pxTeam != null ">PX_team = #{pxTeam},</if>
+            <if test="pxTotal != null ">PX_total = #{pxTotal},</if>
+            <if test="pxAve != null ">PX_ave = #{pxAve},</if>
+            <if test="pxgrading != null  and pxgrading != ''">PXgrading = #{pxgrading},</if>
+            <if test="dslyEfficiency != null ">DSLY_efficiency = #{dslyEfficiency},</if>
+            <if test="dslyQuality != null ">DSLY_quality = #{dslyQuality},</if>
+            <if test="dslyDuty != null ">DSLY_duty = #{dslyDuty},</if>
+            <if test="dslyAttitude != null ">DSLY_attitude = #{dslyAttitude},</if>
+            <if test="dslyTeam != null ">DSLY_team = #{dslyTeam},</if>
+            <if test="dslyTotal != null ">DSLY_total = #{dslyTotal},</if>
+            <if test="dslyAve != null ">DSLY_ave = #{dslyAve},</if>
+            <if test="dslygrading != null  and dslygrading != ''">DSLYgrading = #{dslygrading},</if>
+            <if test="roadEfficiency != null ">ROAD_efficiency = #{roadEfficiency},</if>
+            <if test="roadQuality != null ">ROAD_quality = #{roadQuality},</if>
+            <if test="roadDuty != null ">ROAD_duty = #{roadDuty},</if>
+            <if test="roadAttitude != null ">ROAD_attitude = #{roadAttitude},</if>
+            <if test="roadTeam != null ">ROAD_team = #{roadTeam},</if>
+            <if test="roadTotal != null ">ROAD_total = #{roadTotal},</if>
+            <if test="roadAve != null ">ROAD_ave = #{roadAve},</if>
+            <if test="roadgrading != null  and roadgrading != ''">ROADgrading = #{roadgrading},</if>
+            <if test="bg1Efficiency != null ">BG1_efficiency = #{bg1Efficiency},</if>
+            <if test="bg1Quality != null ">BG1_quality = #{bg1Quality},</if>
+            <if test="bg1Duty != null ">BG1_duty = #{bg1Duty},</if>
+            <if test="bg1Attitude != null ">BG1_attitude = #{bg1Attitude},</if>
+            <if test="bg1Team != null ">BG1_team = #{bg1Team},</if>
+            <if test="bg1Total != null ">BG1_total = #{bg1Total},</if>
+            <if test="bg1Ave != null ">BG1_ave = #{bg1Ave},</if>
+            <if test="bg1grading != null  and bg1grading != ''">BG1grading = #{bg1grading},</if>
+            <if test="bg2Efficiency != null ">BG2_efficiency = #{bg2Efficiency},</if>
+            <if test="bg2Quality != null ">BG2_quality = #{bg2Quality},</if>
+            <if test="bg2Duty != null ">BG2_duty = #{bg2Duty},</if>
+            <if test="bg2Attitude != null ">BG2_attitude = #{bg2Attitude},</if>
+            <if test="bg2Team != null ">BG2_team = #{bg2Team},</if>
+            <if test="bg2Total != null ">BG2_total = #{bg2Total},</if>
+            <if test="bg2Ave != null ">BG2_ave = #{bg2Ave},</if>
+            <if test="bg2grading != null  and bg2grading != ''">BG2grading = #{bg2grading},</if>
+            <if test="gdEfficiency != null ">GD_efficiency = #{gdEfficiency},</if>
+            <if test="gdQuality != null ">GD_quality = #{gdQuality},</if>
+            <if test="gdDuty != null ">GD_duty = #{gdDuty},</if>
+            <if test="gdAttitude != null ">GD_attitude = #{gdAttitude},</if>
+            <if test="gdTeam != null ">GD_team = #{gdTeam},</if>
+            <if test="gdTotal != null ">GD_total = #{gdTotal},</if>
+            <if test="gdAve != null ">GD_ave = #{gdAve},</if>
+            <if test="gdgrading != null  and gdgrading != ''">GDgrading = #{gdgrading},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeptEvaluationById" parameterType="Long">
+        delete from dept_evaluation where id = #{id}
+    </delete>
+
+    <delete id="deleteDeptEvaluationByIds" parameterType="String">
+        delete from dept_evaluation where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

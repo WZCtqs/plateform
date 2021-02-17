@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.client.mapper.BusiClientsatisfactionMapper">
+    
+    <resultMap type="BusiClientsatisfaction" id="BusiClientsatisfactionResult">
+        <result property="satisfactionId"    column="satisfaction_id"    />
+        <result property="clientId"    column="client_id"    />
+        <result property="clientUnit"    column="client_unit"    />
+        <result property="organizationCode"    column="organization_code"    />
+        <result property="organizationName"    column="organization_name"    />
+        <result property="clientTjr"    column="client_tjr"    />
+        <result property="roadService"    column="road_service"    />
+        <result property="instationService"    column="instation_service"    />
+        <result property="incustomsService"    column="incustoms_service"    />
+        <result property="railageService"    column="railage_service"    />
+        <result property="outcustomsService"    column="outcustoms_service"    />
+        <result property="outstationService"    column="outstation_service"    />
+        <result property="jsService"    column="js_service"    />
+        <result property="containerService"    column="container_service"    />
+        <result property="msgService"    column="msg_service"    />
+        <result property="satisfactionDegree"    column="satisfaction_degree"    />
+        <result property="satisfactionRemake"    column="satisfaction_remake"    />
+        <result property="satisfactionDate"    column="satisfaction_date"    />
+        <result property="operator"    column="operator"    />
+    </resultMap>
+
+    <sql id="selectBusiClientsatisfactionVo">
+        select satisfaction_id, client_id, client_unit, organization_code, organization_name, client_tjr, road_service, instation_service, incustoms_service, railage_service, outcustoms_service, outstation_service, js_service, container_service, msg_service, satisfaction_degree, satisfaction_remake, satisfaction_date, operator from busi_clientsatisfaction
+    </sql>
+
+    <select id="selectBusiClientsatisfactionList" parameterType="BusiClientsatisfaction" resultMap="BusiClientsatisfactionResult">
+        select
+        b.satisfaction_id, c.client_ID AS "clientId",c.client_unit AS "clientUnit", b.organization_code, b.organization_name, b.client_tjr, b.road_service, b.instation_service, b.incustoms_service, b.railage_service, b.outcustoms_service, b.outstation_service, b.js_service, b.container_service, b.msg_service, b.satisfaction_degree, b.satisfaction_remake, b.satisfaction_date, b.operator FROM busi_clients c
+        LEFT JOIN  busi_clientsatisfaction b ON b.client_ID = c.client_id
+        <where>  
+            <if test="clientUnit != null  and clientUnit != ''"> and b.client_unit = #{clientUnit}</if>
+            <if test="startDate != null  and startDate != ''">
+                and DATE_FORMAT(b.satisfaction_date,'%Y-%m-%d') <![CDATA[>= ]]> #{sstartDate}
+            </if>
+            <if test="endDate != null  and endDate != ''">
+                and DATE_FORMAT(b.satisfaction_date,'%Y-%m-%d') <![CDATA[<= ]]> #{endDate}
+            </if>
+
+        </where>
+    </select>
+    <!--根据clientId查找-->
+    <select id="selectBusiClientsatisfactionWithClientId" parameterType="String" resultMap="BusiClientsatisfactionResult">
+        <include refid="selectBusiClientsatisfactionVo"/>
+        where client_ID = #{clientId}
+    </select>
+
+    <select id="selectBusiClientsatisfactionById" parameterType="String" resultMap="BusiClientsatisfactionResult">
+        <include refid="selectBusiClientsatisfactionVo"/>
+        where satisfaction_id = #{satisfactionId}
+    </select>
+        
+    <insert id="insertBusiClientsatisfaction" parameterType="BusiClientsatisfaction">
+        insert into busi_clientsatisfaction
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="satisfactionId != null  and satisfactionId != ''">satisfaction_id,</if>
+            <if test="clientId != null  and clientId != ''">client_id,</if>
+            <if test="clientUnit != null  and clientUnit != ''">client_unit,</if>
+            <if test="organizationCode != null  and organizationCode != ''">organization_code,</if>
+            <if test="organizationName != null  and organizationName != ''">organization_name,</if>
+            <if test="clientTjr != null  and clientTjr != ''">client_tjr,</if>
+            <if test="roadService != null ">road_service,</if>
+            <if test="instationService != null ">instation_service,</if>
+            <if test="incustomsService != null ">incustoms_service,</if>
+            <if test="railageService != null ">railage_service,</if>
+            <if test="outcustomsService != null ">outcustoms_service,</if>
+            <if test="outstationService != null ">outstation_service,</if>
+            <if test="jsService != null ">js_service,</if>
+            <if test="containerService != null ">container_service,</if>
+            <if test="msgService != null ">msg_service,</if>
+            <if test="satisfactionDegree != null  and satisfactionDegree != ''">satisfaction_degree,</if>
+            <if test="satisfactionRemake != null  and satisfactionRemake != ''">satisfaction_remake,</if>
+            <if test="satisfactionDate != null ">satisfaction_date,</if>
+            <if test="operator != null  and operator != ''">operator,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="satisfactionId != null  and satisfactionId != ''">#{satisfactionId},</if>
+            <if test="clientId != null  and clientId != ''">#{clientId},</if>
+            <if test="clientUnit != null  and clientUnit != ''">#{clientUnit},</if>
+            <if test="organizationCode != null  and organizationCode != ''">#{organizationCode},</if>
+            <if test="organizationName != null  and organizationName != ''">#{organizationName},</if>
+            <if test="clientTjr != null  and clientTjr != ''">#{clientTjr},</if>
+            <if test="roadService != null ">#{roadService},</if>
+            <if test="instationService != null ">#{instationService},</if>
+            <if test="incustomsService != null ">#{incustomsService},</if>
+            <if test="railageService != null ">#{railageService},</if>
+            <if test="outcustomsService != null ">#{outcustomsService},</if>
+            <if test="outstationService != null ">#{outstationService},</if>
+            <if test="jsService != null ">#{jsService},</if>
+            <if test="containerService != null ">#{containerService},</if>
+            <if test="msgService != null ">#{msgService},</if>
+            <if test="satisfactionDegree != null  and satisfactionDegree != ''">#{satisfactionDegree},</if>
+            <if test="satisfactionRemake != null  and satisfactionRemake != ''">#{satisfactionRemake},</if>
+            <if test="satisfactionDate != null ">#{satisfactionDate},</if>
+            <if test="operator != null  and operator != ''">#{operator},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBusiClientsatisfaction" parameterType="BusiClientsatisfaction">
+        update busi_clientsatisfaction
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="clientId != null  and clientId != ''">client_id = #{clientId},</if>
+            <if test="clientUnit != null  and clientUnit != ''">client_unit = #{clientUnit},</if>
+            <if test="organizationCode != null  and organizationCode != ''">organization_code = #{organizationCode},</if>
+            <if test="organizationName != null  and organizationName != ''">organization_name = #{organizationName},</if>
+            <if test="clientTjr != null  and clientTjr != ''">client_tjr = #{clientTjr},</if>
+            <if test="roadService != null ">road_service = #{roadService},</if>
+            <if test="instationService != null ">instation_service = #{instationService},</if>
+            <if test="incustomsService != null ">incustoms_service = #{incustomsService},</if>
+            <if test="railageService != null ">railage_service = #{railageService},</if>
+            <if test="outcustomsService != null ">outcustoms_service = #{outcustomsService},</if>
+            <if test="outstationService != null ">outstation_service = #{outstationService},</if>
+            <if test="jsService != null ">js_service = #{jsService},</if>
+            <if test="containerService != null ">container_service = #{containerService},</if>
+            <if test="msgService != null ">msg_service = #{msgService},</if>
+            <if test="satisfactionDegree != null  and satisfactionDegree != ''">satisfaction_degree = #{satisfactionDegree},</if>
+            <if test="satisfactionRemake != null  and satisfactionRemake != ''">satisfaction_remake = #{satisfactionRemake},</if>
+            <if test="satisfactionDate != null ">satisfaction_date = #{satisfactionDate},</if>
+            <if test="operator != null  and operator != ''">operator = #{operator},</if>
+        </trim>
+        where satisfaction_id = #{satisfactionId}
+    </update>
+
+    <delete id="deleteBusiClientsatisfactionById" parameterType="String">
+        delete from busi_clientsatisfaction where satisfaction_id = #{satisfactionId}
+    </delete>
+
+    <delete id="deleteBusiClientsatisfactionByIds" parameterType="String">
+        delete from busi_clientsatisfaction where satisfaction_id in 
+        <foreach item="satisfactionId" collection="array" open="(" separator="," close=")">
+            #{satisfactionId}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.track.mapper.TrackOneLevelMapper">
+
+    <resultMap type="TrackOneLevel" id="TrackOneLevelResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="nameZh"    column="name_zh"    />
+        <result property="nameEn"    column="name_en"    />
+        <result property="state"    column="state"    />
+        <result property="time"    column="time"    />
+        <result property="sort"    column="sort"    />
+        <result property="icon"    column="icon"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="fromSystem"    column="from_system"    />
+    </resultMap>
+
+    <resultMap type="TrackQueryVo" id="TqvoResult">
+        <result property="orderId"    column="order_ID"    />
+        <result property="classId"    column="class_ID"    />
+        <result property="classEastAndWest"    column="class_EastAndWest"    />
+        <result property="classDate"    column="Class_date"    />
+        <result property="orderNumber"    column="order_number"    />
+        <result property="boxNum"    column="box_num"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="goodsEnName"    column="goods_en_name"    />
+        <result property="shipOrederName"    column="ship_oreder_contacts"    />
+        <result property="trackState"    column="name_zh"    />
+        <result property="isNormal"    column="is_normal"    />
+    </resultMap>
+
+    <resultMap type="TrackOneLevelVo" id="TolvoResult">
+        <result property="orderNum"    column="order_number"    />
+<!--        <result property="updateTime"    column="time"    />-->
+        <result property="updateTime"    column="update_time"    />
+        <result property="exceptTime"    column="class_ETime"    />
+        <result property="startAddress"    column="order_uploadSite"    />
+        <result property="endAddress"    column="order_unloadSite"    />
+        <result property="endAddressCode"    column="order_unloadCode"    />
+    </resultMap>
+
+   <resultMap type="TrackTrainResultVo" id="TtrvoResult">
+       <result property="classId"    column="class_id"    />
+       <result property="trackTime"    column="track_time"    />
+       <result property="updateTime"    column="update_time"    />
+       <result property="state"    column="state_value"    />
+       <result property="currentLocation"    column="current_location"    />
+       <result property="stationOneName"    column="station_one_name"    />
+       <result property="stationOneDistance"    column="station_one_distance"    />
+       <result property="stationTwoName"    column="station_two_name"    />
+       <result property="stationTwoDistance"    column="station_two_distance"    />
+       <result property="stationThrName"    column="station_thr_name"    />
+       <result property="stationThrDistance"    column="station_thr_distance"    />
+       <result property="stationFouName"    column="station_fou_name"    />
+       <result property="stationFouDistance"    column="station_fou_distance"    />
+       <result property="exceptTime"    column="exceptTime"    />
+       <result property="remark"    column="remark"    />
+       <result property="goCome"    column="class_EastAndWest"    />
+       <result property="block"    column="class_BlockTrain"    />
+       <result property="lineType"    column="line_typeid"    />
+       <result property="chPort"    column="name_cn"    />
+       <result property="enPort"    column="name_en"    />
+    </resultMap>
+
+    <sql id="selectTrackOneLevelVo">
+        select id, order_id, name_zh, name_en, state, time, sort, remark, del_flag, create_by, create_time, update_by, update_time,from_system from track_one_level
+    </sql>
+
+    <select id="selectTrackOneLevelList" parameterType="TrackOneLevel" resultMap="TrackOneLevelResult">
+        <include refid="selectTrackOneLevelVo"/>
+        <where>
+            <if test="nameZh != null  and nameZh != ''"> and name_zh = #{nameZh}</if>
+            <if test="nameEn != null  and nameEn != ''"> and name_en = #{nameEn}</if>
+            <if test="state != null "> and state = #{state}</if>
+            <if test="time != null  and time != ''"> and time like concat('%', #{time}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectTrackOneLevelById" parameterType="Long" resultMap="TrackOneLevelResult">
+        <include refid="selectTrackOneLevelVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertTrackOneLevel" parameterType="TrackOneLevel">
+        insert into track_one_level
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="orderId != null  and orderId != ''">order_id,</if>
+            <if test="nameZh != null  and nameZh != ''">name_zh,</if>
+            <if test="nameEn != null  and nameEn != ''">name_en,</if>
+            <if test="state != null ">state,</if>
+            <if test="time != null  and time != ''">time,</if>
+            <if test="sort != null ">sort,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="delFlag != null ">del_flag,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="fromSystem != null and fromSystem != '' ">from_system,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="orderId != null  and orderId != ''">#{orderId},</if>
+            <if test="nameZh != null  and nameZh != ''">#{nameZh},</if>
+            <if test="nameEn != null  and nameEn != ''">#{nameEn},</if>
+            <if test="state != null ">#{state},</if>
+            <if test="time != null  and time != ''">#{time},</if>
+            <if test="sort != null ">#{sort},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="delFlag != null ">#{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="fromSystem != null  and fromSystem != ''">#{fromSystem},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTrackOneLevel" parameterType="TrackOneLevel">
+        update track_one_level
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id = #{orderId},</if>
+            <if test="nameZh != null  and nameZh != ''">name_zh = #{nameZh},</if>
+            <if test="nameEn != null  and nameEn != ''">name_en = #{nameEn},</if>
+            <if test="state != null ">state = #{state},</if>
+            <if test="time != null  and time != ''">time = #{time},</if>
+            <if test="sort != null ">sort = #{sort},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="delFlag != null ">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="fromSystem != null and fromSystem != '' ">from_system=#{fromSystem},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTrackOneLevelById" parameterType="Long">
+        delete from track_one_level where id = #{id}
+    </delete>
+
+    <delete id="deleteTrackOneLevelByOrderId" parameterType="String">
+        delete from track_one_level where order_id = #{orderId}
+    </delete>
+
+    <delete id="deleteTrackOneLevelByIds" parameterType="String">
+        delete from track_one_level where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectTrackList" parameterType="TrackQueryVo" resultMap="TqvoResult">
+        SELECT
+        case when ISNULL(tgs.actual_class_date)  then "0" else tgs.actual_class_id end as class_ID,
+        bs.order_ID, bs.order_number, bs.class_EastAndWest,bs.ship_oreder_contacts, bs.Class_date,bs.name_zh,
+        bsg.goods_name,bsg.goods_en_name,tgs.box_num,tgs.is_normal
+        FROM busi_shippingorder bs
+        LEFT JOIN busi_shippingorder_goods bsg ON bsg.order_ID = bs.order_ID
+        LEFT JOIN busi_classes bc ON bc.class_ID = bs.class_ID
+        LEFT JOIN track_goods_status tgs ON tgs.order_id = bs.order_ID AND tgs.del_flag = 0
+        <!--LEFT JOIN ( SELECT toll.order_id,toll.name_zh FROM track_one_level toll
+        RIGHT JOIN ( SELECT order_id, max(sort) sort FROM track_one_level GROUP BY order_id ) a ON a.order_id = toll.order_id AND a.sort = toll.sort) tol ON tol.order_id = bs.order_ID-->
+        <where>
+            bs.IsExamline='1'
+            and instr(bs.order_number,'PX') = 0
+            <if test="classDate!=null and classDate!=''"> and DATE_FORMAT(bs.Class_date,'%Y-%m-%d') =#{classDate}</if>
+            <if test="classEastAndWest!=null and classEastAndWest!=''">and bs.class_EastAndWest =#{classEastAndWest}</if>
+            <if test="orderNumber!=null and orderNumber!=''"> and bs.order_number  LIKE concat('%',#{orderNumber}, '%')  </if>
+            <if test="classBh!=null and classBh!=''"> and bc.class_bh =#{classBh} </if>
+            <if test="boxNum!=null and boxNum!=''"> and tgs.box_num =#{boxNum}</if>
+            <if test="readType == '0'.toString()">
+                and bs.client_ID in(
+                select client_ID from busi_clients where
+                client_tjr_id in (select tjr_id from sys_user where user_id = #{userId})
+                )
+            </if>
+            <if test="readType == '1'.toString()">
+                and bs.client_tjr_id in (
+                SELECT
+                usr.tjr_id
+                FROM
+                sys_user usr
+                LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                WHERE
+                dept.dept_code LIKE concat('%', #{deptCode}, '%')
+                )
+            </if>
+            <if test="readType == '2'.toString()">
+                and bs.client_tjr_id in (
+                SELECT
+                usr.tjr_id
+                FROM
+                sys_user usr
+                LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                WHERE
+                dept.dept_code like '%YWB1000100%' or dept.dept_code like '%YWB1000103%'
+                )
+            </if>
+            <if test="readType == '3'.toString()">
+                and bs.client_tjr_id in (
+                SELECT
+                usr.tjr_id
+                FROM
+                sys_user usr
+                LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                WHERE
+                dept.dept_code like '%YWB1000101%' or dept.dept_code  like '%YWB1000104%'
+                )
+            </if>
+            <if test="readType == '4'.toString()">
+                and bs.client_tjr_id in (
+                SELECT
+                usr.tjr_id
+                FROM
+                sys_user usr
+                LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                WHERE
+                dept.dept_code like '%YWB1000200%' or dept.dept_code like '%YWB1000202%'
+                )
+            </if>
+            <if test="readType == '5'.toString()">
+                and bs.client_tjr_id in (
+                SELECT
+                usr.tjr_id
+                FROM
+                sys_user usr
+                LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                WHERE
+                dept.dept_code like '%YWB1000201%' or dept.dept_code like '%YWB1000203%'
+                )
+            </if>
+        </where>
+        order by bs.Class_date desc
+    </select>
+
+    <select id="selectTolByOrderId" parameterType="String" resultMap="TrackOneLevelResult">
+		select tol.id,tol.order_id,IFNULL(tol.name_zh,ti.name_zh) name_zh,IFNULL(tol.name_en,ti.name_en) name_en,ti.sort,tol.state,DATE_FORMAT(tol.time,'%Y-%m-%d') time,ti.icon
+        from   track_icon ti
+        left join busi_shippingorder bs on ti.go_come = bs.class_EastAndWest and ti.consolidation_type = bs.IsConsolidation
+		left join track_one_level tol on ti.sort=tol.sort and tol.order_id=bs.order_ID
+        where bs.order_ID=#{orderId}
+		order by ti.sort
+    </select>
+
+    <select id="selectAddrssByOrderId" parameterType="String" resultMap="TolvoResult">
+        SELECT bc.class_ID, bs.order_ID,bs.order_number,IFNULL(CONCAT(train.except_early_time,'/',train.except_last_time),bc.class_ETime) class_ETime,ttl.time,
+	        ttl.update_time,bs.order_uploadSite,bs.order_unloadSite,bs.order_unloadCode
+        FROM busi_classes bc
+        LEFT JOIN busi_shippingorder bs ON bs.class_ID = bc.class_ID
+	    LEFT JOIN (SELECT t.time,t.order_id,t.update_time FROM track_two_level t
+		RIGHT join (SELECT order_id, max(sort) sort FROM track_two_level GROUP BY order_id) tt ON tt.order_id = t.order_id AND t.sort = tt.sort) ttl ON ttl.order_id = bs.order_ID
+		LEFT JOIN (SELECT tra.except_early_time,tra.except_last_time ,tra.class_id,tra.id FROM track_train tra
+		RIGHT join (SELECT class_id, max(track_time) track_time,max(id) id  FROM track_train GROUP BY class_id) trai ON trai.class_id = tra.class_id AND tra.id = trai.id
+		AND tra.track_time = trai.track_time) train ON train.class_id = bs.class_ID
+        where bs.order_ID=#{orderId}
+    </select>
+
+    <select id="selectTrainListByClassId" parameterType="String" resultMap="TtrvoResult">
+        select tt.class_id,tt.track_time,tt.update_time, tt.state_value,tt.current_location, tt.station_one_name, tt.station_one_distance,
+        tt.station_two_name, tt.station_two_distance, tt.station_thr_name, tt.station_thr_distance, tt.station_fou_name,tt.station_fou_distance, tt.remark,
+        bc.class_EastAndWest, bl.name_cn as class_BlockTrain,bs.name_cn,bs.name_en,bc.line_typeid, CONCAT(substring(tt.except_early_time,6),'/',substring(tt.except_last_time,6)) exceptTime
+        from track_train tt
+        left join busi_classes bc on tt.class_id=bc.class_ID
+        left join busi_linesite bl on bl.id=bc.line_id
+        left join busi_site bs on bl.class_t_port=bs.code
+        <where>
+            tt.class_id=#{classId} and tt.del_flag='0'
+            <if test="batchTime==null or  batchTime==''">
+                and actual_class_date=substring_index(#{actualDate},'-',1)
+            </if>
+            <if test="batchTime!=null and batchTime!=''">
+                and ( actual_class_date =substring_index(#{actualDate},'-',1) and tt.update_time &lt; #{batchTime})
+                or  (actual_class_date =substring_index(#{actualDate},'-D',1) and tt.update_time &gt; #{batchTime})
+            </if>
+            <if test="abnormalTime!=null and  abnormalTime!=''">
+                and tt.update_time &lt; #{abnormalTime}
+            </if>
+        </where>
+        order by tt.update_time desc
+    </select>
+
+    <select id="selectTrainListByTgs" parameterType="TrackGoodsStatus" resultMap="TtrvoResult">
+        select tt.class_id,tt.track_time,tt.update_time, tt.state_value,tt.current_location, tt.station_one_name, tt.station_one_distance,
+        tt.station_two_name, tt.station_two_distance, tt.station_thr_name, tt.station_thr_distance, tt.station_fou_name,tt.station_fou_distance, tt.remark,
+        bc.class_EastAndWest, bl.name_cn as class_BlockTrain,bs.name_cn,bs.name_en,bc.line_typeid, CONCAT(substring(tt.except_early_time,6),'/',substring(tt.except_last_time,6)) exceptTime
+        from track_train tt
+        left join busi_classes bc on tt.class_id=bc.class_ID
+        left join busi_linesite bl on bl.id=bc.line_id
+        left join busi_site bs on bl.class_t_port=bs.code
+        <where>
+            tt.class_id=#{actualClassId} and tt.del_flag='0'
+            <if test="batchDate==null or  batchDate==''">
+                and actual_class_date=substring_index(#{actualClassDate},'-',1)
+            </if>
+            <if test="batchDate!=null and batchDate!=''">
+                and ( actual_class_date =substring_index(#{batchDate},'-',1) and tt.update_time &lt; #{batchTime})
+                or  (actual_class_date =substring_index(#{batchDate},'-D',1) and tt.update_time &gt; #{batchTime})
+            </if>
+            <if test="batchDate2!=null and batchDate2!=''">
+                and ( actual_class_date =substring_index(#{batchDate},'-D',1) and tt.update_time &lt; #{batchTime2})
+                or  (actual_class_date =substring_index(#{batchDate2},'-D',1) and tt.update_time &gt; #{batchTime2})
+            </if>
+            <if test="batchDate3!=null and batchDate3!=''">
+                and ( actual_class_date =substring_index(#{batchDate2},'-D',1) and tt.update_time &lt; #{batchTime3})
+                or  (actual_class_date =substring_index(#{batchDate3},'-D',1) and tt.update_time &gt; #{batchTime3})
+            </if>
+            <if test="batchDate4!=null and batchDate4!=''">
+                and ( actual_class_date =substring_index(#{batchDate3},'-D',1) and tt.update_time &lt; #{batchTime4})
+                or  (actual_class_date =substring_index(#{batchDate4},'-D',1) and tt.update_time &gt; #{batchTime4})
+            </if>
+            <if test="abnormalTime!=null">
+                and tt.update_time &lt; #{abnormalTime}
+            </if>
+        </where>
+        order by tt.update_time desc
+    </select>
+
+    <select id="selectEmailRecords" parameterType="String" resultType="EmailRecordsVo">
+       select send_name as sendName,DATE_FORMAT(send_time,'%Y-%m-%d %H:%i:%s') as sendTime,send_email as sendEmail,order_number as orderNum
+       from email_record
+       <where>
+           <if test="orderNum!=null and orderNum!=''"> order_number=#{orderNum} </if>
+       </where>
+    </select>
+
+    <select id="selectOneId" parameterType="TrackOneLevel" resultType="Long">
+        select id from track_one_level
+        where sort=#{sort} and order_id=#{orderId}
+    </select>
+
+    <select id="getMaxTol" parameterType="String" resultMap="TrackOneLevelResult">
+        <include refid="selectTrackOneLevelVo"/>
+        where sort=( select max(sort) from track_one_level
+        where  order_id=#{orderId}) and order_id=#{orderId}
+    </select>
+
+    <update id="updateOrder" parameterType="TrackOneLevel">
+        update busi_shippingorder
+        set name_zh = #{nameZh},name_en = #{nameEn}
+        where order_ID =#{orderId}
+    </update>
+
+    <select id="getorderid"  resultType="java.lang.String">
+       select order_id from busi_shippingorder where IsExamline = 1
+    </select>
+
+    <select id="selectOneIdList"  resultType="Long">
+         select id from track_one_level
+        where sort=#{sort} and order_id=#{orderId}
+    </select>
+
+</mapper>

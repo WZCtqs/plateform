@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.documentcenter.mapper.DocPxYardLoadedInMapper">
+
+    <resultMap type="PxYardLoadedIn" id="PxYardLoadedInResult">
+        <result property="id" column="id"/>
+        <result property="order_id" column="order_id"/>
+        <result property="order_number" column="order_number"/>
+        <result property="xianghao" column="xianghao"/>
+        <result property="xiangxing" column="xiangxing"/>
+        <result property="SealNum" column="seal_num"/>
+        <result property="px_entry_date" column="px_entry_date"/>
+        <result property="px_entry_time" column="px_entry_time"/>
+        <result property="px_enter_car" column="px_enter_car"/>
+        <result property="px_enter_lead_number" column="px_enter_lead_number"/>
+        <result property="edit_remark" column="edit_remark"/>
+        <result property="cepian_result" column="cepian_result"/>
+        <result property="is_jg" column="is_jg"/>
+        <result property="ISJZ_LDbus" column="ISJZ_LDbus"/>
+        <result property="Position" column="position"/>
+        <result property="needRooting" column="need_rooting"/>
+        <result property="zx_weight" column="zx_weight"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <sql id="selectDocOrderVo">
+        select id, order_id, order_number, xianghao, seal_num, xiangxing, px_entry_date, px_entry_time, px_enter_car, px_enter_lead_number,
+        edit_remark, cepian_result, is_jg, ISJZ_LDbus,position,need_rooting,zx_weight, create_time from doc_order_yardloadedin
+    </sql>
+
+    <select id="selectDocYardLoadedInByOrderId" parameterType="String" resultMap="PxYardLoadedInResult">
+        <include refid="selectDocOrderVo"/>
+        where order_id = #{order_id} ORDER BY create_time desc
+    </select>
+
+    <insert id="insertDocYardLoadedIn" parameterType="PxYardLoadedIn" useGeneratedKeys="true" keyProperty="id">
+        insert into doc_order_yardloadedin
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="order_id != null and order_id != ''">order_id,</if>
+            <if test="order_number != null and order_number != ''">order_number,</if>
+            <if test="xianghao != null and xianghao != ''">xianghao,</if>
+            <if test="SealNum != null and SealNum != ''">seal_num,</if>
+            <if test="xiangxing != null and xiangxing != ''">xiangxing,</if>
+            <if test="px_entry_date != null and px_entry_date != ''">px_entry_date,</if>
+            <if test="px_entry_time != null and px_entry_time != ''">px_entry_time,</if>
+            <if test="px_enter_car != null and px_enter_car != ''">px_enter_car,</if>
+            <if test="px_enter_lead_number != null and px_enter_lead_number != ''">px_enter_lead_number,</if>
+            <if test="edit_remark != null and edit_remark != ''">edit_remark,</if>
+            <if test="cepian_result != null and cepian_result != ''">cepian_result,</if>
+            <if test="is_jg != null and is_jg != ''">is_jg,</if>
+            <if test="ISJZ_LDbus != null and ISJZ_LDbus != ''">ISJZ_LDbus,</if>
+            <if test="Position != null and Position != ''">position,</if>
+            <if test="needRooting != null and needRooting != ''">need_rooting,</if>
+            <if test="zx_weight != null and zx_weight != ''">zx_weight,</if>
+            <if test="createTime != null ">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="order_id != null and order_id != ''">#{order_id},</if>
+            <if test="order_number != null and order_number != ''">#{order_number},</if>
+            <if test="xianghao != null and xianghao != ''">#{xianghao},</if>
+            <if test="SealNum != null and SealNum != ''">#{SealNum},</if>
+            <if test="xiangxing != null and xiangxing != ''">#{xiangxing},</if>
+            <if test="px_entry_date != null and px_entry_date != ''">#{px_entry_date},</if>
+            <if test="px_entry_time != null and px_entry_time != ''">#{px_entry_time},</if>
+            <if test="px_enter_car != null and px_enter_car != ''">#{px_enter_car},</if>
+            <if test="px_enter_lead_number != null and px_enter_lead_number != ''">#{px_enter_lead_number},</if>
+            <if test="edit_remark != null and edit_remark != ''">#{edit_remark},</if>
+            <if test="cepian_result != null and cepian_result != ''">#{cepian_result},</if>
+            <if test="is_jg != null and is_jg != ''">#{is_jg},</if>
+            <if test="ISJZ_LDbus != null and ISJZ_LDbus != ''">#{ISJZ_LDbus},</if>
+            <if test="Position != null and Position != ''">#{Position},</if>
+            <if test="needRooting != null and needRooting != ''">#{needRooting},</if>
+            <if test="zx_weight != null and zx_weight != ''">#{zx_weight},</if>
+            <if test="createTime != null ">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <delete id="deleteDocYardLoadedInByOrderId" parameterType="String">
+        delete from doc_order_yardloadedin where order_id = #{order_id}
+    </delete>
+
+    <delete id="deleteDocYardLoadedInByOrderIdAndConno" parameterType="String">
+        delete from doc_order_yardloadedin where order_id = #{order_id} and xianghao = #{xianghao}
+    </delete>
+</mapper>

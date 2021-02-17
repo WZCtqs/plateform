@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.order.mapper.BusiCargobaseMapper">
+    
+    <resultMap type="com.szhbl.project.order.domain.BusiCargobase" id="BusiCargobaseResult">
+        <result property="id"    column="id"    />
+        <result property="cargoReport"    column="cargo_report"    />
+        <result property="cargoName"    column="cargo_name"    />
+        <result property="unloadSite"    column="unload_site"    />
+        <result property="searchResult"    column="search_result"    />
+        <result property="isRailway"    column="is_railway"    />
+        <result property="countryOrigin"    column="country_origin"    />
+        <result property="eastorwest"    column="eastorwest"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectBusiCargobaseVo">
+        select id, cargo_report, cargo_name, unload_site, search_result, is_railway, country_origin, eastorwest, create_by, create_time from busi_cargobase
+    </sql>
+
+    <select id="selectBusiCargobaseList" parameterType="BusiCargobase" resultMap="BusiCargobaseResult">
+        <include refid="selectBusiCargobaseVo"/>
+        <where>  
+            <if test="cargoReport != null  and cargoReport != ''"> and cargo_report like concat(#{cargoReport}, '%')</if>
+            <if test="cargoName != null  and cargoName != ''"> and cargo_name like concat('%', #{cargoName}, '%')</if>
+            <if test="unloadSite != null  and unloadSite != ''"> and unload_site like concat('%', #{unloadSite}, '%')</if>
+            <if test="countryOrigin != null  and countryOrigin != ''"> and country_origin like concat('%', #{countryOrigin}, '%')</if>
+            <if test="eastorwest != null  and eastorwest != ''"> and eastorwest = #{eastorwest}</if>
+        </where>
+        order by create_time desc
+    </select>
+    
+    <select id="selectBusiCargobaseById" parameterType="Long" resultMap="BusiCargobaseResult">
+        <include refid="selectBusiCargobaseVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBusiCargobase" parameterType="BusiCargobase">
+        insert into busi_cargobase
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cargoReport != null  and cargoReport != ''">cargo_report,</if>
+            <if test="cargoName != null  and cargoName != ''">cargo_name,</if>
+            <if test="unloadSite != null  and unloadSite != ''">unload_site,</if>
+            <if test="searchResult != null  and searchResult != ''">search_result,</if>
+            <if test="isRailway != null  and isRailway != ''">is_railway,</if>
+            <if test="countryOrigin != null  and countryOrigin != ''">country_origin,</if>
+            <if test="eastorwest != null  and eastorwest != ''">eastorwest,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cargoReport != null  and cargoReport != ''">#{cargoReport},</if>
+            <if test="cargoName != null  and cargoName != ''">#{cargoName},</if>
+            <if test="unloadSite != null  and unloadSite != ''">#{unloadSite},</if>
+            <if test="searchResult != null  and searchResult != ''">#{searchResult},</if>
+            <if test="isRailway != null  and isRailway != ''">#{isRailway},</if>
+            <if test="countryOrigin != null  and countryOrigin != ''">#{countryOrigin},</if>
+            <if test="eastorwest != null  and eastorwest != ''">#{eastorwest},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBusiCargobase" parameterType="BusiCargobase">
+        update busi_cargobase
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cargoReport != null  and cargoReport != ''">cargo_report = #{cargoReport},</if>
+            <if test="cargoName != null  and cargoName != ''">cargo_name = #{cargoName},</if>
+            <if test="unloadSite != null  and unloadSite != ''">unload_site = #{unloadSite},</if>
+            <if test="searchResult != null  and searchResult != ''">search_result = #{searchResult},</if>
+            <if test="isRailway != null  and isRailway != ''">is_railway = #{isRailway},</if>
+            <if test="countryOrigin != null  and countryOrigin != ''">country_origin = #{countryOrigin},</if>
+            <if test="eastorwest != null  and eastorwest != ''">eastorwest = #{eastorwest},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBusiCargobaseById" parameterType="Long">
+        delete from busi_cargobase where id = #{id}
+    </delete>
+
+    <delete id="deleteBusiCargobaseByIds" parameterType="String">
+        delete from busi_cargobase where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

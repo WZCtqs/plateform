@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.basic.mapper.BusiMoneyreteMapper">
+    
+    <resultMap type="BusiMoneyrete" id="BusiMoneyreteResult">
+        <result property="moneyrateId"    column="moneyrate_id"    />
+        <result property="classTime"    column="class_time"    />
+        <result property="usdtormbe"    column="USDtoRMBe"    />
+        <result property="eurtormbe"    column="EURtoRMBe"    />
+        <result property="euttousde"    column="EUTtoUSDe"    />
+        <result property="rurtormbe"    column="RURtoRMBe"    />
+        <result property="rateoperator"    column="RateOperator"    />
+        <result property="operationtime"    column="OperationTime"    />
+    </resultMap>
+
+    <sql id="selectBusiMoneyreteVo">
+        select moneyrate_id, class_time, USDtoRMBe, EURtoRMBe, EUTtoUSDe, RURtoRMBe, RateOperator, OperationTime from busi_moneyrete
+    </sql>
+
+    <select id="selectBusiMoneyreteList" parameterType="BusiMoneyrete" resultMap="BusiMoneyreteResult">
+        <include refid="selectBusiMoneyreteVo"/>
+        <where>  
+            <if test="classTime != null "> and class_time = #{classTime}</if>
+            <if test="usdtormbe != null "> and USDtoRMBe = #{usdtormbe}</if>
+            <if test="eurtormbe != null "> and EURtoRMBe = #{eurtormbe}</if>
+            <if test="euttousde != null "> and EUTtoUSDe = #{euttousde}</if>
+            <if test="rurtormbe != null "> and RURtoRMBe = #{rurtormbe}</if>
+            <if test="rateoperator != null  and rateoperator != ''"> and RateOperator = #{rateoperator}</if>
+            <if test="operationtime != null "> and OperationTime = #{operationtime}</if>
+        </where>
+        order by OperationTime desc
+    </select>
+    
+    <select id="selectBusiMoneyreteById" parameterType="String" resultMap="BusiMoneyreteResult">
+        <include refid="selectBusiMoneyreteVo"/>
+        where moneyrate_id = #{moneyrateId}
+    </select>
+        
+    <insert id="insertBusiMoneyrete" parameterType="BusiMoneyrete">
+        insert into busi_moneyrete
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="moneyrateId != null  and moneyrateId != ''">moneyrate_id,</if>
+            <if test="classTime != null ">class_time,</if>
+            <if test="usdtormbe != null ">USDtoRMBe,</if>
+            <if test="eurtormbe != null ">EURtoRMBe,</if>
+            <if test="euttousde != null ">EUTtoUSDe,</if>
+            <if test="rurtormbe != null ">RURtoRMBe,</if>
+            <if test="rateoperator != null  and rateoperator != ''">RateOperator,</if>
+            <if test="operationtime != null ">OperationTime,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="moneyrateId != null  and moneyrateId != ''">#{moneyrateId},</if>
+            <if test="classTime != null ">#{classTime},</if>
+            <if test="usdtormbe != null ">#{usdtormbe},</if>
+            <if test="eurtormbe != null ">#{eurtormbe},</if>
+            <if test="euttousde != null ">#{euttousde},</if>
+            <if test="rurtormbe != null ">#{rurtormbe},</if>
+            <if test="rateoperator != null  and rateoperator != ''">#{rateoperator},</if>
+            <if test="operationtime != null ">#{operationtime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBusiMoneyrete" parameterType="BusiMoneyrete">
+        update busi_moneyrete
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="classTime != null ">class_time = #{classTime},</if>
+            <if test="usdtormbe != null ">USDtoRMBe = #{usdtormbe},</if>
+            <if test="eurtormbe != null ">EURtoRMBe = #{eurtormbe},</if>
+            <if test="euttousde != null ">EUTtoUSDe = #{euttousde},</if>
+            <if test="rurtormbe != null ">RURtoRMBe = #{rurtormbe},</if>
+            <if test="rateoperator != null  and rateoperator != ''">RateOperator = #{rateoperator},</if>
+            <if test="operationtime != null ">OperationTime = #{operationtime},</if>
+        </trim>
+        where moneyrate_id = #{moneyrateId}
+    </update>
+
+    <delete id="deleteBusiMoneyreteById" parameterType="String">
+        delete from busi_moneyrete where moneyrate_id = #{moneyrateId}
+    </delete>
+
+    <delete id="deleteBusiMoneyreteByIds" parameterType="String">
+        delete from busi_moneyrete where moneyrate_id in 
+        <foreach item="moneyrateId" collection="array" open="(" separator="," close=")">
+            #{moneyrateId}
+        </foreach>
+    </delete>
+    
+</mapper>

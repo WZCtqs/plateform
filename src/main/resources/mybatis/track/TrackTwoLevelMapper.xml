@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.track.mapper.TrackTwoLevelMapper">
+    
+    <resultMap type="TrackTwoLevel" id="TrackTwoLevelResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="oneId"    column="one_id"    />
+        <result property="isCustom"    column="is_custom"    />
+        <result property="nameZh"    column="name_zh"    />
+        <result property="nameEn"    column="name_en"    />
+        <result property="state"    column="state"    />
+        <result property="time"    column="time"    />
+        <result property="sort"    column="sort"    />
+        <result property="remark"    column="remark"    />
+        <result property="remarkEn"    column="remark_en"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="fromSystem"    column="from_system"    />
+    </resultMap>
+
+    <sql id="selectTrackTwoLevelVo">
+        select id, order_id, one_id, is_custom, name_zh, name_en, state,time,
+        sort, remark, remark_en,del_flag, create_by, create_time, update_by, update_time,from_system from track_two_level
+    </sql>
+
+    <select id="selectTrackTwoLevelList" parameterType="TrackTwoLevel" resultMap="TrackTwoLevelResult">
+        <include refid="selectTrackTwoLevelVo"/>
+        <where>
+            <if test="oneId != null  and oneId != ''"> and one_id = #{oneId}</if>
+            <if test="orderId != null  and orderId != ''"> and order_id = #{orderId}</if>
+            <if test="nameZh != null  and nameZh != ''"> and name_zh = #{nameZh}</if>
+            <if test="nameEn != null  and nameEn != ''"> and name_en = #{nameEn}</if>
+            <if test="state != null "> and state = #{state}</if>
+            <if test="time != null  and time != ''"> and time like concat('%', #{time}, '%')</if>
+        </where>
+        order by sort
+    </select>
+    
+    <select id="selectTrackTwoLevelById" parameterType="Long" resultMap="TrackTwoLevelResult">
+        <include refid="selectTrackTwoLevelVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTrackTwoLevel" parameterType="TrackTwoLevel">
+        insert into track_two_level
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="orderId != null  and orderId != ''">order_id,</if>
+            <if test="oneId != null ">one_id,</if>
+            <if test="isCustom != null  and isCustom != ''">is_custom,</if>
+            <if test="nameZh != null  and nameZh != ''">name_zh,</if>
+            <if test="nameEn != null  and nameEn != ''">name_en,</if>
+            <if test="state != null ">state,</if>
+            <if test="time != null  and time != ''">time,</if>
+            <if test="sort != null ">sort,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="remarkEn != null  and remarkEn != ''">remark_en,</if>
+            <if test="delFlag != null ">del_flag,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="fromSystem != null and fromSystem != '' ">from_system,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="orderId != null  and orderId != ''">#{orderId},</if>
+            <if test="oneId != null ">#{oneId},</if>
+            <if test="isCustom != null  and isCustom != ''">#{isCustom},</if>
+            <if test="nameZh != null  and nameZh != ''">#{nameZh},</if>
+            <if test="nameEn != null  and nameEn != ''">#{nameEn},</if>
+            <if test="state != null ">#{state},</if>
+            <if test="time != null  and time != ''">#{time},</if>
+            <if test="sort != null ">#{sort},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="remarkEn != null  and remarkEn != ''">#{remarkEn},</if>
+            <if test="delFlag != null ">#{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="fromSystem != null  and fromSystem != ''">#{fromSystem},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTrackTwoLevel" parameterType="TrackTwoLevel">
+        update track_two_level
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id = #{orderId},</if>
+            <if test="oneId != null ">one_id = #{oneId},</if>
+            <if test="isCustom != null  and isCustom != ''">is_custom = #{isCustom},</if>
+            <if test="nameZh != null  and nameZh != ''">name_zh = #{nameZh},</if>
+            <if test="nameEn != null  and nameEn != ''">name_en = #{nameEn},</if>
+            <if test="state != null ">state = #{state},</if>
+            <if test="time != null  and time != ''">time = #{time},</if>
+            <if test="sort != null ">sort = #{sort},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="remarkEn != null  and remarkEn != ''">remark_en = #{remarkEn},</if>
+            <if test="delFlag != null ">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="fromSystem != null and fromSystem != '' ">from_system=#{fromSystem},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTrackTwoLevelById" parameterType="Long">
+        delete from track_two_level where id = #{id}
+    </delete>
+
+    <delete id="deleteTrackTwoLevelByOrderId" parameterType="String">
+        delete from track_two_level where order_id = #{orderId}
+    </delete>
+
+    <delete id="deleteTrackTwoLevelByIds" parameterType="String">
+        delete from track_two_level where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="detailByOrderId" parameterType="String" resultMap="TrackTwoLevelResult">
+    select ttl.id, ttl.order_id, one_id, is_custom, ttl.name_zh, ttl.name_en,ttl.state,DATE_FORMAT(ttl.time,'%Y-%m-%d %H:%i:%s') time,
+    ttl.sort, ttl.remark,ttl.remark_en from track_two_level ttl
+    LEFT JOIN track_one_level tol ON ttl.one_id=tol.id
+    where ttl.order_id= #{orderId}
+    ORDER BY ttl.sort
+    </select>
+
+    <select id="selectTwoId" parameterType="TrackTwoLevel" resultType="Long">
+        select id from track_two_level
+        where sort=#{sort} and order_id=#{orderId}
+    </select>
+
+    <select id="selectTrackTwoLevelByOrderIdAndName" resultMap="TrackTwoLevelResult" parameterType="String">
+        select order_id, name_zh, remark from track_two_level
+        where
+             order_id = #{orderId}
+            and name_zh like concat(#{nameZh}, '%')
+        order by id desc limit 1
+    </select>
+
+    <select id="selectAbroadTimeByOrderId" parameterType="String" resultType="com.szhbl.project.documentcenter.domain.vo.TrackAbroadTimeVO">
+        SELECT
+            order_id as orderId, time, remark, sort
+        FROM
+            track_two_level
+        WHERE
+            order_id = #{orderId}
+         and sort in (24,26)
+         and del_flag = 0
+    </select>
+
+</mapper>

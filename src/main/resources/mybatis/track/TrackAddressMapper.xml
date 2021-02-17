@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.track.mapper.TrackAddressMapper">
+
+    <resultMap type="TrackAddress" id="taResult">
+        <result property="id"    column="id"    />
+        <result property="nameCh"    column="name_ch"    />
+        <result property="nameEn"    column="name_en"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <select id="selectByTa" parameterType="TrackAddress" resultMap="taResult">
+        select id,name_ch,name_en,create_time
+        from track_address
+        <where>
+            del_flag=0
+            <if test="selectType == 0">
+                <if test="nameCh != null  and nameCh != '' and nameEn != null  and nameEn != ''">
+                 and (name_ch =#{nameCh} or name_en= #{nameEn})
+                </if>
+                <if test="nameCh != null  and nameCh != '' and (nameEn == null  or nameEn == '')">
+                    and name_ch= #{nameCh}
+                </if>
+                <if test="(nameCh == null  or nameCh == '') and nameEn != null  and nameEn != ''">
+                    and name_en= #{nameEn}
+                </if>
+                <if test="id != null "> and id != #{id}</if>
+            </if>
+            <if test="selectType == 1">
+                <if test="nameCh != null  and nameCh != ''">and name_ch = #{nameCh}</if>
+                <if test="nameEn != null  and nameEn != ''">and name_en= #{nameEn}</if>
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="selectById" parameterType="Long" resultMap="taResult">
+        select id,name_ch,name_en from track_address
+        where id = #{id}
+    </select>
+
+    <update id="updateTa" parameterType="TrackAddress">
+        update track_address
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="nameCh != null  and nameCh != ''">name_ch = #{nameCh},</if>
+            <if test="nameEn != null  and nameEn != ''">name_en= #{nameEn},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="delFlag != null">del_flag = #{delFlag}</if>
+        </trim>
+        <where>
+            del_flag=0 and id =#{id}
+        </where>
+    </update>
+
+    <insert id="addTa" parameterType="TrackAddress">
+        insert into track_address
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="nameCh != null  and nameCh != ''">name_ch ,</if>
+            <if test="nameEn != null  and nameEn != ''">name_en ,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="createBy != null  and createBy != ''">update_by,</if>
+            <if test="createTime != null ">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="nameCh != null  and nameCh != ''">#{nameCh},</if>
+            <if test="nameEn != null  and nameEn != ''">#{nameEn},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <select id="selectByName" parameterType="String" resultMap="taResult">
+        select id,name_ch,name_en from track_address
+        where name_ch = #{name} and del_flag=0
+    </select>
+
+</mapper>

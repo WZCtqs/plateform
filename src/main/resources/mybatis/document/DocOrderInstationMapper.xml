@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.documentcenter.mapper.DocOrderInstationMapper">
+
+    <resultMap type="DocOrderInstation" id="DocOrderInstationResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="sealnum"    column="sealnum"    />
+        <result property="customsbroker"    column="customsbroker"    />
+        <result property="containerType"    column="container_type"    />
+        <result property="containerNo"    column="container_no"    />
+        <result property="instationTime"    column="instation_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="fromSystem"    column="from_system"    />
+    </resultMap>
+
+    <sql id="selectDocOrderInstationVo">
+        select id, order_id, sealnum, customsbroker, container_type, container_no, instation_time, create_time,from_system from doc_order_instation
+    </sql>
+
+    <select id="selectDocOrderInstationList" parameterType="DocOrderInstation" resultMap="DocOrderInstationResult">
+        <include refid="selectDocOrderInstationVo"/>
+        <where>
+            <if test="orderId != null  and orderId != ''"> and order_id = #{orderId}</if>
+            <if test="sealnum != null  and sealnum != ''"> and sealnum = #{sealnum}</if>
+            <if test="customsbroker != null  and customsbroker != ''"> and customsbroker = #{customsbroker}</if>
+            <if test="containerType != null  and containerType != ''"> and container_type = #{containerType}</if>
+            <if test="containerNo != null  and containerNo != ''"> and container_no = #{containerNo}</if>
+            <if test="instationTime != null "> and instation_time = #{instationTime}</if>
+        </where>
+    </select>
+
+    <select id="getDocOrderInstByConNo" parameterType="String" resultType="com.szhbl.project.documentcenter.domain.DocOrderInstation">
+        select id, order_id, sealnum, container_type, container_no from doc_order_instation
+        where container_no = #{containerNo}
+    </select>
+
+    <select id="selectDocOrderInstationByOrderId" parameterType="String" resultMap="DocOrderInstationResult">
+        <include refid="selectDocOrderInstationVo"/>
+        where order_id = #{orderId}
+    </select>
+
+    <insert id="insertDocOrderInstation" parameterType="DocOrderInstation" useGeneratedKeys="true" keyProperty="id">
+        insert into doc_order_instation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id,</if>
+            <if test="sealnum != null  and sealnum != ''">sealnum,</if>
+            <if test="customsbroker != null  and customsbroker != ''">customsbroker,</if>
+            <if test="containerType != null  and containerType != ''">container_type,</if>
+            <if test="containerNo != null  and containerNo != ''">container_no,</if>
+            <if test="instationTime != null ">instation_time,</if>
+            <if test="fromSystem != null ">from_system,</if>
+            <if test="createTime != null ">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">#{orderId},</if>
+            <if test="sealnum != null  and sealnum != ''">#{sealnum},</if>
+            <if test="customsbroker != null  and customsbroker != ''">#{customsbroker},</if>
+            <if test="containerType != null  and containerType != ''">#{containerType},</if>
+            <if test="containerNo != null  and containerNo != ''">#{containerNo},</if>
+            <if test="instationTime != null ">#{instationTime},</if>
+            <if test="fromSystem != null ">#{fromSystem},</if>
+            <if test="createTime != null ">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDocOrderInstation" parameterType="DocOrderInstation">
+        update doc_order_instation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id = #{orderId},</if>
+            <if test="sealnum != null  and sealnum != ''">sealnum = #{sealnum},</if>
+            <if test="customsbroker != null  and customsbroker != ''">customsbroker = #{customsbroker},</if>
+            <if test="containerType != null  and containerType != ''">container_type = #{containerType},</if>
+            <if test="containerNo != null  and containerNo != ''">container_no = #{containerNo},</if>
+            <if test="instationTime != null ">instation_time = #{instationTime},</if>
+            <if test="fromSystem != null ">from_system = #{fromSystem},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDocOrderInstationByOrderId" parameterType="String">
+        delete from doc_order_instation where order_id = #{orderId}
+    </delete>
+
+    <delete id="deleteDocOrderInstationByIds" parameterType="String">
+        delete from doc_order_instation where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

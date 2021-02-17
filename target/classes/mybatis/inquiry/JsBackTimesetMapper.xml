@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.inquiry.mapper.JsBackTimesetMapper">
+    
+    <resultMap type="com.szhbl.project.inquiry.domain.JsBackTimeset" id="JsBackTimesetResult">
+        <result property="id"    column="id"    />
+        <result property="station"    column="station"    />
+        <result property="pickcountry"    column="pickcountry"    />
+        <result property="fcl"    column="fcl"    />
+        <result property="lcl"    column="lcl"    />
+    </resultMap>
+
+    <sql id="selectJsBackTimesetVo">
+        select id, station, pickcountry, fcl, lcl from js_back_timeset
+    </sql>
+
+    <select id="selectJsBackTimesetList" parameterType="com.szhbl.project.inquiry.domain.JsBackTimeset" resultMap="JsBackTimesetResult">
+        <include refid="selectJsBackTimesetVo"/>
+        <where>  
+            <if test="station != null  and station != ''"> and station = #{station}</if>
+            <if test="pickcountry != null  and pickcountry != ''"> and pickcountry = #{pickcountry}</if>
+            <if test="fcl != null "> and fcl = #{fcl}</if>
+            <if test="lcl != null "> and lcl = #{lcl}</if>
+        </where>
+    </select>
+
+    <select id="selectByStationPickCountry" parameterType="String" resultMap="JsBackTimesetResult">
+         select  fcl, lcl from js_back_timeset
+        <where>
+            <if test="station != null  and station != ''"> and station = #{station}</if>
+            <if test="pickcountry != null  and pickcountry != ''"> and pickcountry = #{pickcountry}</if>
+        </where>
+        limit 1
+    </select>
+    
+    <select id="selectJsBackTimesetById" parameterType="Long" resultMap="JsBackTimesetResult">
+        <include refid="selectJsBackTimesetVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertJsBackTimeset" parameterType="com.szhbl.project.inquiry.domain.JsBackTimeset" useGeneratedKeys="true" keyProperty="id">
+        insert into js_back_timeset
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="station != null  and station != ''">station,</if>
+            <if test="pickcountry != null  and pickcountry != ''">pickcountry,</if>
+            <if test="fcl != null ">fcl,</if>
+            <if test="lcl != null ">lcl,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="station != null  and station != ''">#{station},</if>
+            <if test="pickcountry != null  and pickcountry != ''">#{pickcountry},</if>
+            <if test="fcl != null ">#{fcl},</if>
+            <if test="lcl != null ">#{lcl},</if>
+         </trim>
+    </insert>
+
+    <update id="updateJsBackTimeset" parameterType="com.szhbl.project.inquiry.domain.JsBackTimeset">
+        update js_back_timeset
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="station != null  and station != ''">station = #{station},</if>
+            <if test="pickcountry != null  and pickcountry != ''">pickcountry = #{pickcountry},</if>
+            <if test="fcl != null ">fcl = #{fcl},</if>
+            <if test="lcl != null ">lcl = #{lcl},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteJsBackTimesetById" parameterType="Long">
+        delete from js_back_timeset where id = #{id}
+    </delete>
+
+    <delete id="deleteJsBackTimesetByIds" parameterType="String">
+        delete from js_back_timeset where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getCountry" resultType="java.lang.String">
+        select pickcountry from js_back_timeset GROUP BY pickcountry
+    </select>
+    
+</mapper>

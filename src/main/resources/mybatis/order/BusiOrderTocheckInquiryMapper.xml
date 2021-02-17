@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.order.mapper.BusiOrderTocheckInquiryMapper">
+
+    <resultMap type="BusiOrderTocheckInquiry" id="BusiOrderTocheckInquiryResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="inquiryId"    column="inquiry_id"    />
+        <result property="inquiryResultId"    column="inquiry_result_id"    />
+        <result property="xgExamine"    column="xg_examine"    />
+        <result property="xxyoExamine"    column="xxyo_examine"    />
+        <result property="jsExamine"    column="js_examine"    />
+        <result property="dcExamine"    column="dc_examine"    />
+        <result property="jsXxyoExamine"    column="js_xxyo_examine"    />
+        <result property="dczExamine"    column="dcz_examine"    />
+        <result property="clientExamine"    column="client_examine"    />
+        <result property="ywExamine"    column="yw_examine"    />
+        <result property="newInquiry"    column="new_inquiry"    />
+        <result property="gwczResult"    column="gwcz_result"    />
+        <result property="hxdXgExamine"    column="hxd_xg_examine"    />
+        <result property="gnInquiry"    column="gn_inquiry"    />
+        <result property="gwInquiry"    column="gw_inquiry"    />
+    </resultMap>
+
+    <sql id="selectBusiOrderTocheckInquiryVo">
+        select id, order_id, inquiry_id, inquiry_result_id, xg_examine, xxyo_examine, yw_examine, js_examine, dc_examine, js_xxyo_examine,
+        hxd_xg_examine, dcz_examine, client_examine,gwcz_result, new_inquiry, gn_inquiry, gw_inquiry
+        from busi_order_tocheck_inquiry
+    </sql>
+
+    <select id="selectBusiOrderTocheckInquiryList" parameterType="BusiOrderTocheckInquiry" resultMap="BusiOrderTocheckInquiryResult">
+        <include refid="selectBusiOrderTocheckInquiryVo"/>
+        <where>
+            <if test="orderId != null  and orderId != ''"> and order_id = #{orderId}</if>
+            <if test="inquiryId != null  and inquiryId != ''"> and inquiry_id = #{inquiryId}</if>
+            <if test="inquiryResultId != null  and inquiryResultId != ''"> and inquiry_result_id = #{inquiryResultId}</if>
+            <if test="xgExamine != null "> and xg_examine = #{xgExamine}</if>
+            <if test="ywExamine != null "> and yw_examine = #{ywExamine}</if>
+            <if test="xxyoExamine != null "> and xxyo_examine = #{xxyoExamine}</if>
+            <if test="jsExamine != null "> and js_examine = #{jsExamine}</if>
+            <if test="dcExamine != null "> and dc_examine = #{dcExamine}</if>
+            <if test="jsXxyoExamine != null "> and js_xxyo_examine = #{jsXxyoExamine}</if>
+            <if test="dczExamine != null "> and dcz_examine = #{dczExamine}</if>
+            <if test="hxdXgExamine != null "> and hxd_xg_examine = #{hxdXgExamine}</if>
+            <if test="clientExamine != null "> and client_examine = #{clientExamine}</if>
+            <if test="newInquiry != null "> and new_inquiry = #{newInquiry}</if>
+        </where>
+    </select>
+
+    <select id="selectBusiOrderTocheckInquiryById" parameterType="Long" resultMap="BusiOrderTocheckInquiryResult">
+        <include refid="selectBusiOrderTocheckInquiryVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectTocheckInquiryByOrderId" parameterType="String" resultMap="BusiOrderTocheckInquiryResult">
+        <include refid="selectBusiOrderTocheckInquiryVo"/>
+        where order_id = #{orderId}
+        order by id desc limit 1
+    </select>
+
+    <insert id="insertBusiOrderTocheckInquiry" parameterType="BusiOrderTocheckInquiry" useGeneratedKeys="true" keyProperty="id">
+        insert into busi_order_tocheck_inquiry
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id,</if>
+            <if test="inquiryId != null  and inquiryId != ''">inquiry_id,</if>
+            <if test="inquiryResultId != null  and inquiryResultId != ''">inquiry_result_id,</if>
+            <if test="xgExamine != null ">xg_examine,</if>
+            <if test="xxyoExamine != null ">xxyo_examine,</if>
+            <if test="jsExamine != null ">js_examine,</if>
+            <if test="dcExamine != null ">dc_examine,</if>
+            <if test="jsXxyoExamine != null ">js_xxyo_examine,</if>
+            <if test="dczExamine != null ">dcz_examine,</if>
+            <if test="clientExamine != null ">client_examine,</if>
+            <if test="ywExamine != null ">yw_examine,</if>
+            <if test="newInquiry != null ">new_inquiry,</if>
+            <if test="gwczResult != null ">gwcz_result,</if>
+            <if test="hxdXgExamine != null ">hxd_xg_examine,</if>
+            <if test="gnInquiry != null ">gn_inquiry,</if>
+            <if test="gwInquiry != null ">gw_inquiry,</if>
+            <if test="createTime != null ">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">#{orderId},</if>
+            <if test="inquiryId != null  and inquiryId != ''">#{inquiryId},</if>
+            <if test="inquiryResultId != null  and inquiryResultId != ''">#{inquiryResultId},</if>
+            <if test="xgExamine != null ">#{xgExamine},</if>
+            <if test="xxyoExamine != null ">#{xxyoExamine},</if>
+            <if test="jsExamine != null ">#{jsExamine},</if>
+            <if test="dcExamine != null ">#{dcExamine},</if>
+            <if test="jsXxyoExamine != null ">#{jsXxyoExamine},</if>
+            <if test="dczExamine != null ">#{dczExamine},</if>
+            <if test="clientExamine != null ">#{clientExamine},</if>
+            <if test="ywExamine != null ">#{ywExamine},</if>
+            <if test="newInquiry != null ">#{newInquiry},</if>
+            <if test="gwczResult != null ">#{gwczResult},</if>
+            <if test="hxdXgExamine != null ">#{hxdXgExamine},</if>
+            <if test="gnInquiry != null ">#{gnInquiry},</if>
+            <if test="gwInquiry != null ">#{gwInquiry},</if>
+            <if test="createTime != null ">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateByOrderId" parameterType="BusiOrderTocheckInquiry">
+        update busi_order_tocheck_inquiry
+            <trim prefix="SET" suffixOverrides=",">
+                <if test="inquiryId != null  and inquiryId != ''">inquiry_id = #{inquiryId},</if>
+                <if test="inquiryResultId != null  and inquiryResultId != ''">inquiry_result_id = #{inquiryResultId},</if>
+                <if test="xgExamine != null ">xg_examine = #{xgExamine},</if>
+                <if test="xxyoExamine != null ">xxyo_examine = #{xxyoExamine},</if>
+                <if test="jsExamine != null ">js_examine = #{jsExamine},</if>
+                <if test="dcExamine != null ">dc_examine = #{dcExamine},</if>
+                <if test="jsXxyoExamine != null ">js_xxyo_examine = #{jsXxyoExamine},</if>
+                <if test="dczExamine != null ">dcz_examine = #{dczExamine},</if>
+                <if test="clientExamine != null ">client_examine = #{clientExamine},</if>
+                <if test="ywExamine != null ">yw_examine = #{ywExamine},</if>
+                <if test="newInquiry != null ">new_inquiry = #{newInquiry},</if>
+                <if test="gwczResult != null ">gwcz_result = #{gwczResult},</if>
+                <if test="hxdXgExamine != null ">hxd_xg_examine = #{hxdXgExamine},</if>
+                <if test="gnInquiry != null ">gn_inquiry = #{gnInquiry},</if>
+                <if test="gwInquiry != null ">gw_inquiry = #{gwInquiry},</if>
+            </trim>
+            where order_id = #{orderId}
+    </update>
+
+    <update id="updateBusiOrderTocheckInquiry" parameterType="BusiOrderTocheckInquiry">
+        update busi_order_tocheck_inquiry
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id = #{orderId},</if>
+            <if test="inquiryId != null  and inquiryId != ''">inquiry_id = #{inquiryId},</if>
+            <if test="inquiryResultId != null  and inquiryResultId != ''">inquiry_result_id = #{inquiryResultId},</if>
+            <if test="xgExamine != null ">xg_examine = #{xgExamine},</if>
+            <if test="xxyoExamine != null ">xxyo_examine = #{xxyoExamine},</if>
+            <if test="jsExamine != null ">js_examine = #{jsExamine},</if>
+            <if test="dcExamine != null ">dc_examine = #{dcExamine},</if>
+            <if test="jsXxyoExamine != null ">js_xxyo_examine = #{jsXxyoExamine},</if>
+            <if test="dczExamine != null ">dcz_examine = #{dczExamine},</if>
+            <if test="clientExamine != null ">client_examine = #{clientExamine},</if>
+            <if test="ywExamine != null ">yw_examine = #{ywExamine},</if>
+            <if test="newInquiry != null ">new_inquiry = #{newInquiry},</if>
+            <if test="gwczResult != null ">gwcz_result = #{gwczResult},</if>
+            <if test="hxdXgExamine != null ">hxd_xg_examine = #{hxdXgExamine},</if>
+            <if test="gnInquiry != null ">gn_inquiry = #{gnInquiry},</if>
+            <if test="gwInquiry != null ">gw_inquiry = #{gwInquiry},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBusiOrderTocheckInquiryById" parameterType="Long">
+        delete from busi_order_tocheck_inquiry where id = #{id}
+    </delete>
+
+    <delete id="deleteBusiOrderTocheckInquiryByIds" parameterType="String">
+        delete from busi_order_tocheck_inquiry where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

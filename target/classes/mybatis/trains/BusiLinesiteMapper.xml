@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.trains.mapper.BusiLinesiteMapper">
+    
+    <resultMap type="BusiLinesite" id="BusiLinesiteResult">
+        <result property="id"    column="id"    />
+        <result property="typeid"    column="typeid"    />
+        <result property="nameCn"    column="name_cn"    />
+        <result property="nameEn"    column="name_en"    />
+        <result property="classTStationofdepartureCode"    column="class_t_StationOfDeparture_code"    />
+        <result property="classTPort"    column="class_t_port"    />
+        <result property="classTStationofdestinationCode"    column="class_t_StationOfDestination_code"    />
+        <result property="sort"    column="sort"    />
+        <result property="siteCodes"    column="site_codes"    />
+        <result property="state"    column="state"    />
+        <result property="classTEastandwest"    column="class_t_EastAndWest"    />
+        <result property="classTTransporttime"    column="class_t_TransportTime"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="updatename"    column="updatename"    />
+        <result property="updatetime"    column="updatetime"    />
+    </resultMap>
+
+    <sql id="selectBusiLinesiteVo">
+        select id, typeid, name_cn, name_en,class_t_StationOfDeparture_code,class_t_port,class_t_StationOfDestination_code, sort, site_codes, state,class_t_EastAndWest,class_t_TransportTime, del_flag,updatename,updatetime from busi_linesite
+    </sql>
+
+    <sql id="selectBusiLinesiteVos">
+        select a.id as id, a.typeid as typeid, a.name_cn as nameCn, a.name_en as nameEn,a.site_codes as siteCodes, a.state as state,
+        a.class_t_EastAndWest as classTEastandwest,a.class_t_TransportTime as classTTransporttime,a.class_t_StationOfDeparture_code as classTStationofdepartureCode,
+        b.name_cn as classTStationofdeparture,a.class_t_port as classTPort,c.name_cn as classPort,a.class_t_StationOfDestination_code as classTStationofdestinationCode,
+        d.name_cn as classTStationofdestination,a.updatename as updatename ,a.updatetime as updatetime from busi_linesite a
+    </sql>
+
+    <select id="selectBusiLinesiteList" parameterType="BusiLinesite" resultType="BusiLinesite">
+        <include refid="selectBusiLinesiteVos"/>
+        left join busi_site b on a.class_t_StationOfDeparture_code = b.code
+        left join busi_site c on a.class_t_port = c.code
+        left join busi_site d on a.class_t_StationOfDestination_code = d.code
+        <where>
+            a.del_flag = '0'
+            <if test="typeid != null "> and a.typeid = #{typeid}</if>
+            <if test="nameCn != null  and nameCn != ''"> and a.name_cn like concat('%', #{nameCn}, '%')</if>
+            <if test="nameEn != null  and nameEn != ''"> and a.name_en like concat('%', #{nameEn}, '%')</if>
+            <if test="state != null  and state != ''"> and a.state = #{state}</if>
+            <if test="classTEastandwest != null  and classTEastandwest != ''"> and a.class_t_EastAndWest = #{classTEastandwest}</if>
+            <if test="classTStationofdeparture != null  and classTStationofdeparture != ''"> and b.name_cn like concat('%', #{classTStationofdeparture}, '%')</if>
+            <if test="classPort != null  and classPort != ''"> and c.name_cn like concat('%', #{classPort}, '%')</if>
+            <if test="classTStationofdestination != null  and classTStationofdestination != ''"> and d.name_cn like concat('%', #{classTStationofdestination}, '%')</if>
+        </where>
+        order by a.updatetime desc
+    </select>
+    
+    <select id="selectBusiLinesiteByIds" parameterType="String" resultType="BusiLinesite">
+        <include refid="selectBusiLinesiteVos"/>
+        left join busi_site b on a.class_t_StationOfDeparture_code = b.code
+        left join busi_site c on a.class_t_port = c.code
+        left join busi_site d on a.class_t_StationOfDestination_code = d.code
+        where a.id = #{id}
+    </select>
+
+    <select id="selectBusiLinesiteById" parameterType="String" resultMap="BusiLinesiteResult">
+        <include refid="selectBusiLinesiteVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="checkNameCnUnique" parameterType="String" resultType="int">
+		select count(1) from busi_linesite where name_cn = #{nameCn} and del_flag = '0'
+	</select>
+
+    <select id="checkNameEnUnique" parameterType="String" resultType="int">
+		select count(1) from busi_linesite where name_en = #{nameEn} and del_flag = '0'
+	</select>
+
+    <select id="checkNameCnUpdUnique" parameterType="String" resultMap="BusiLinesiteResult">
+		select id,name_cn from busi_linesite where name_cn = #{nameCn} and del_flag = '0'
+	</select>
+
+    <select id="checkNameEnUpdUnique" parameterType="String" resultMap="BusiLinesiteResult">
+		select id,name_en from busi_linesite where name_en = #{nameEn} and del_flag = '0'
+	</select>
+        
+    <insert id="insertBusiLinesite" parameterType="BusiLinesite" useGeneratedKeys="true" keyProperty="id">
+        insert into busi_linesite
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="typeid != null ">typeid,</if>
+            <if test="nameCn != null  and nameCn != ''">name_cn,</if>
+            <if test="nameEn != null  and nameEn != ''">name_en,</if>
+            <if test="classTStationofdepartureCode != null  and classTStationofdepartureCode != ''">class_t_StationOfDeparture_code,</if>
+            <if test="classTPort != null  and classTPort != ''">class_t_port,</if>
+            <if test="classTStationofdestinationCode != null  and classTStationofdestinationCode != ''">class_t_StationOfDestination_code,</if>
+            <if test="sort != null ">sort,</if>
+            <if test="siteCodes != null  and siteCodes != ''">site_codes,</if>
+            <if test="state != null  and state != ''">state,</if>
+            <if test="classTEastandwest != null  and classTEastandwest != ''">class_t_EastAndWest,</if>
+            <if test="classTTransporttime != null">class_t_TransportTime,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="updatename != null  and updatename != ''">updatename,</if>
+            <if test="updatetime != null">updatetime,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="typeid != null ">#{typeid},</if>
+            <if test="nameCn != null  and nameCn != ''">#{nameCn},</if>
+            <if test="nameEn != null  and nameEn != ''">#{nameEn},</if>
+            <if test="classTStationofdepartureCode != null  and classTStationofdepartureCode != ''">#{classTStationofdepartureCode},</if>
+            <if test="classTPort != null  and classTPort != ''">#{classTPort},</if>
+            <if test="classTStationofdestinationCode != null  and classTStationofdestinationCode != ''">#{classTStationofdestinationCode},</if>
+            <if test="sort != null ">#{sort},</if>
+            <if test="siteCodes != null  and siteCodes != ''">#{siteCodes},</if>
+            <if test="state != null  and state != ''">#{state},</if>
+            <if test="classTEastandwest != null  and classTEastandwest != ''">#{classTEastandwest},</if>
+            <if test="classTTransporttime != null">#{classTTransporttime},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="updatename != null  and updatename != ''">#{updatename},</if>
+            <if test="updatetime != null">#{updatetime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBusiLinesite" parameterType="BusiLinesite">
+        update busi_linesite
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="typeid != null ">typeid = #{typeid},</if>
+            <if test="nameCn != null  and nameCn != ''">name_cn = #{nameCn},</if>
+            <if test="nameEn != null  and nameEn != ''">name_en = #{nameEn},</if>
+            <if test="classTStationofdepartureCode != null  and classTStationofdepartureCode != ''">class_t_StationOfDeparture_code = #{classTStationofdepartureCode},</if>
+            <if test="classTPort != null  and classTPort != ''">class_t_port = #{classTPort},</if>
+            <if test="classTStationofdestinationCode != null  and classTStationofdestinationCode != ''">class_t_StationOfDestination_code = #{classTStationofdestinationCode},</if>
+            <if test="sort != null ">sort = #{sort},</if>
+            <if test="siteCodes != null  and siteCodes != ''">site_codes = #{siteCodes},</if>
+            <if test="state != null  and state != ''">state = #{state},</if>
+            <if test="classTEastandwest != null  and classTEastandwest != ''">class_t_EastAndWest = #{classTEastandwest},</if>
+            <if test="classTTransporttime != null">class_t_TransportTime = #{classTTransporttime},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="updatename != null  and updatename != ''">updatename = #{updatename},</if>
+            <if test="updatetime != null">updatetime = #{updatetime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="updateLineStatus" parameterType="BusiLinesite">
+        update busi_linesite set state = #{state} where id = #{id}
+    </update>
+
+    <delete id="deleteBusiLinesiteById" parameterType="String">
+        update busi_linesite set del_flag = '1' where id = #{id}
+    </delete>
+
+    <delete id="deleteBusiLinesiteByIds" parameterType="String">
+        update busi_linesite
+        SET del_flag = '1'
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.order.mapper.BusiGoodsTrackMapper">
+    
+    <resultMap type="BusiGoodsTrack" id="BusiGoodsTrackResult">
+        <result property="id"    column="id"    />
+        <result property="actualClassId"    column="actual_class_id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="boxNum"    column="box_num"    />
+        <result property="boxType"    column="box_type"    />
+        <result property="goodsVolume"    column="goods_volume"    />
+        <result property="isBalance"    column="is_balance"    />
+        <result property="isStable"    column="is_stable"    />
+        <result property="actualClassDate"    column="actual_class_date"    />
+        <result property="actualClassDateValue"    column="actual_class_date_value"    />
+        <result property="isClassAdd"    column="is_class_add"    />
+        <result property="isRun"    column="is_run"    />
+        <result property="isGetin"    column="is_getin"    />
+        <result property="isApplyCode"    column="is_apply_code"    />
+        <result property="isNormal"    column="is_normal"    />
+        <result property="remark"    column="remark"    />
+        <result property="inStationDate"    column="in_station_date"    />
+        <result property="inStationTime"    column="in_station_time"    />
+        <result property="inSpaceDate"    column="in_space_date"    />
+        <result property="inSpaceTime"    column="in_space_time"    />
+        <result property="sealNum"    column="seal_num"    />
+        <result property="fromSystem"    column="from_system"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="bgPrincipal"    column="bg_principal"    />
+        <result property="bgVotesNumber"    column="bg_votes_number"    />
+        <result property="bgProgress"    column="bg_progress"    />
+        <result property="bgRemark"    column="bg_remark"    />
+        <result property="scPrincipal"    column="sc_principal"    />
+        <result property="scremark"    column="scremark"    />
+    </resultMap>
+
+    <sql id="selectBusiGoodsTrackVo">
+        select id, actual_class_id, order_id, box_num, box_type, goods_volume, is_balance, is_stable, actual_class_date, actual_class_date_value, is_class_add, is_run, is_getin, is_apply_code, is_normal, remark, in_station_date, in_station_time, in_space_date, in_space_time, seal_num, from_system, del_flag, create_by, create_time, update_by, update_time, bg_principal, bg_votes_number, bg_progress, bg_remark, sc_principal, scremark from track_goods_status
+    </sql>
+
+    <!--订舱组进站查看-->
+    <sql id="selectBusiGoodsTrackWhere">
+        track.del_flag = 0 and ord.line_typeid = '2' and ord.ship_oreder_name != '陆港拼箱'
+        <if test="orderNumber != null  and orderNumber != ''"> and ord.order_number like concat('%', #{orderNumber}, '%')</if>
+        <if test="lineTypeid != null  and lineTypeid != ''"> and ord.line_typeid = #{lineTypeid}</if>
+        <if test="boxNum != null  and boxNum != ''"> and track.box_num like concat('%', #{boxNum}, '%')</if>
+        <if test="classzyNo != null  and classzyNo != ''"> and zy.classzy_no like concat('%', #{classzyNo}, '%')</if>
+        <if test="classDateStart != null"> and <![CDATA[class.class_STime >= #{classDateStart,jdbcType=DATE}]]></if>
+        <if test="classDateEnd != null"> and <![CDATA[class.class_STime <= #{classDateEnd,jdbcType=DATE}]]></if>
+        <if test="classBh != null  and classBh != ''"> and class.class_bh = #{classBh}</if>
+        <if test="actualClassDateValueStart != null"> and <![CDATA[track.actual_class_date_value >= #{actualClassDateValueStart,jdbcType=DATE}]]></if>
+        <if test="actualClassDateValueEnd != null"> and <![CDATA[track.actual_class_date_value <= #{actualClassDateValueEnd,jdbcType=DATE}]]></if>
+        <if test="classEastandwest != null  and classEastandwest != ''"> and ord.class_EastAndWest = #{classEastandwest}</if>
+        <if test="bgProgress != null  and bgProgress != ''"> and FIND_IN_SET(#{bgProgress},zyo.bg_progress)</if>
+        <if test="guanwustate != null  and guanwustate != ''"> and FIND_IN_SET(#{guanwustate},zy.guanwustate)</if>
+        <if test="isRun != null  and isRun != ''"> and track.is_run = #{isRun}</if>
+        <if test="trackState != null  and trackState != ''">
+            <if test="trackState == '0'.toString()">
+                and track.in_space_date is not null
+                and track.in_station_date is null
+            </if>
+            <if test="trackState == '1'.toString()">
+                and track.in_space_date is not null
+                and track.in_station_date is not null
+            </if>
+        </if>
+        <if test="lieshu != null  and lieshu != ''"> and zy.lieshu like concat('%', #{lieshu}, '%')</if>
+        <if test="isexamline != null  and isexamline != ''"> and ord.IsExamline = #{isexamline}</if>
+        <if test="xgCheck != null  and xgCheck != ''"> and zy.xg_check = #{xgCheck}</if>
+        <if test="gdCheck != null  and gdCheck != ''"> and zy.gd_check = #{gdCheck}</if>
+        <if test="roadCheck != null  and roadCheck != ''"> and zy.road_check = #{roadCheck}</if>
+        <if test="readType != null  and readType != ''">
+            <if test="readType == '3'.toString()">
+                and ord.client_ID in(
+                select client_ID from busi_clients where
+                client_tjr_id in (
+                select usr.tjr_id from sys_user usr
+                left join sys_dept dept on dept.dept_id = usr.dept_id
+                where dept.dept_code like concat('%', #{deptCode}, '%') and usr.reference_type = '1'
+                )
+                )
+            </if>
+            <if test="readType == '4'.toString()">
+                and ord.client_ID in(
+                select client_ID from busi_clients where
+                client_tjr_id in (
+                select usr.tjr_id from sys_user usr
+                left join sys_dept dept on dept.dept_id = usr.dept_id
+                where dept.dept_code like '%YWB1000100%' or dept.dept_code like '%YWB1000103%' and usr.reference_type = '1'
+                )
+                )
+            </if>
+            <if test="readType == '5'.toString()">
+                and ord.client_ID in(
+                select client_ID from busi_clients where
+                client_tjr_id in (
+                select usr.tjr_id from sys_user usr
+                left join sys_dept dept on dept.dept_id = usr.dept_id
+                where dept.dept_code like '%YWB1000101%' or dept.dept_code like '%YWB1000104%' and usr.reference_type = '1'
+                )
+                )
+            </if>
+            <if test="readType == '6'.toString()">
+                and ord.client_ID in(
+                select client_ID from busi_clients where
+                client_tjr_id in (
+                select usr.tjr_id from sys_user usr
+                left join sys_dept dept on dept.dept_id = usr.dept_id
+                where dept.dept_code like '%YWB1000200%' or dept.dept_code like '%YWB1000202%' and usr.reference_type = '1'
+                )
+                )
+            </if>
+            <if test="readType == '7'.toString()">
+                and ord.client_ID in(
+                select client_ID from busi_clients where
+                client_tjr_id in (
+                select usr.tjr_id from sys_user usr
+                left join sys_dept dept on dept.dept_id = usr.dept_id
+                where dept.dept_code like '%YWB1000201%' or dept.dept_code like '%YWB1000203%' and usr.reference_type = '1'
+                )
+                )
+            </if>
+            <if test="readType == '8'.toString()">
+                and ord.client_ID in(
+                select client_ID from busi_clients where
+                client_tjr_id in (select tjr_id from sys_user where user_id = #{userid})
+                )
+            </if>
+        </if>
+    </sql>
+
+    <!--订舱组进站查看—货物状态列表-->
+    <select id="selectBusiGoodsTrackList" parameterType="BusiGoodsTrack" resultType="com.szhbl.project.order.domain.track.BusiGoodsTrack">
+        select class.class_STime as classDate,class.class_bh as classBh,track.id as id,track.actual_class_date_value as actualClassDateValue,ord.order_number as orderNumber,
+        track.box_num as boxNum,ord.order_uploadSite as orderUploadsite,ord.order_unloadSite as orderUnloadsite,ord.client_unit as clientUnit,ord.IsConsolidation as isconsolidation,
+        clients.client_tjr as clientTjr,ord.order_merchandiser as orderMerchandiser,ord.container_boxAmount as containerBoxamount,
+        goods.goods_name as goodsName,goods.goods_CBM as goodsCbm,goods.goods_KGS as goodsKgs,track.goods_volume as goodsVolume,track.is_apply_code as isApplyCode,
+        track.is_run as isRun,track.in_station_date as inStationDate,track.in_station_time as inStationTime,track.in_space_date as inSpaceDate,ord.line_typeid as lineTypeid,
+        track.in_space_time as inSpaceTime,ord.class_EastAndWest as classEastandwest,zy.xgtime as xgtime,zy.xg_check as xgCheck,zy.roadtime as roadtime,zy.road_check as roadCheck,
+        zy.gdtime as gdtime,zy.gd_check as gdCheck,zy.classzy_no as classzyNo,zy.classzyno_time as classzynoTime,zy.lieshu as lieshu,
+        zy.classzyno_remark as classzynoRemark,zy.fenghao as fenghao,zy.fhtime as fhtime,zy.gwfenghao as gwfenghao,zy.gd_remark as gdRemark,
+        zy.suichestate as suichestate,zy.SC_Operator as scOperator,zy.sc_remark as scRemarkXh,zyo.sc_principal as scPrincipal,zyo.scremark as scremark,
+        zy.guanwustate as guanwustate,zyo.bg_progress as bgProgress,zy.cepian_result as cepianResult,
+        case when '0'= ord.IsConsolidation then ord.container_type else track.box_type end as containerType
+        from track_goods_status track
+        left join busi_shippingorder ord on ord.order_ID = track.order_id
+        left join busi_shippingorder_goods goods on goods.order_ID = ord.order_ID
+        left join busi_zy_info zy on zy.track_id = track.id
+        left join busi_zy_order zyo on zyo.order_id = track.order_id
+        left join busi_clients clients on clients.client_ID = ord.client_ID
+        left join busi_classes class on class.class_ID = ord.class_ID
+        <where>
+            <include refid="selectBusiGoodsTrackWhere"/>
+            <if test="isconsolidation != null  and isconsolidation != ''"> and ord.IsConsolidation = #{isconsolidation}</if>
+        </where>
+        order by track.actual_class_date_value desc
+    </select>
+
+    <!--订舱组进站查看—箱量统计-->
+    <select id="selectAmount" parameterType="BusiGoodsTrack" resultType="java.util.Map">
+        select
+        left(ord.container_type,2) as boxType,
+        count(distinct track.box_num) as boxAmountSecond
+        from track_goods_status track
+        left join busi_shippingorder ord on ord.order_ID = track.order_id
+        left join busi_zy_info zy on zy.track_id = track.id
+        left join busi_zy_order zyo on zyo.order_id = track.order_id
+        left join busi_classes class on class.class_ID = ord.class_ID
+        <where>
+            <include refid="selectBusiGoodsTrackWhere"/>
+            and ord.IsConsolidation = "0"
+        </where>
+        GROUP by left(ord.container_type,2)
+    </select>
+
+    <select id="selectAmountVW" parameterType="BusiGoodsTrack" resultType="BusiGoodsTrack">
+        select sum(CONVERT(goods.goods_KGS,DECIMAL(10,2))) as totalWeight,sum(CONVERT(goods.goods_CBM,DECIMAL(10,2))) as totalVolumn
+        from track_goods_status track
+        left join busi_shippingorder ord on ord.order_ID = track.order_id
+        left join busi_shippingorder_goods goods on goods.order_ID = ord.order_ID
+        left join busi_zy_info zy on zy.track_id = track.id
+        left join busi_zy_order zyo on zyo.order_id = track.order_id
+        left join busi_classes class on class.class_ID = ord.class_ID
+        <where>
+            <include refid="selectBusiGoodsTrackWhere"/>
+            and ord.IsConsolidation = "1"
+        </where>
+    </select>
+
+    <!--订舱组进站查看———发运时间编辑,根据id-->
+    <update id="updateTrackById" parameterType="com.szhbl.project.order.domain.track.BusiGoodsTrack">
+        update track_goods_status
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="actualClassId != null  and actualClassId != ''">actual_class_id = #{actualClassId},</if>
+            <if test="actualClassDate != null  and actualClassDate != ''">actual_class_date = #{actualClassDate},</if>
+            <if test="actualClassDateValue != null">actual_class_date_value = #{actualClassDateValue},</if>
+            <if test="isClassAdd != null  and isClassAdd != ''">is_class_add = #{isClassAdd},</if>
+            <if test="isRun != null  and isRun != ''">is_run = #{isRun},</if>
+            <if test="isApplyCode != null  and isApplyCode != ''">is_apply_code = #{isApplyCode},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id in
+        <foreach item="id" collection="idsArr" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <!--订舱组进站查看———发运时间编辑,根据托书id,和箱号-->
+    <update id="updateTrackByOrder" parameterType="com.szhbl.project.order.domain.track.ImportTrackTime">
+        update track_goods_status
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="actualClassId != null  and actualClassId != ''">actual_class_id = #{actualClassId},</if>
+            <if test="actualClassDate != null  and actualClassDate != ''">actual_class_date = #{actualClassDate},</if>
+            <if test="actualClassDateValue != null">actual_class_date_value = #{actualClassDateValue},</if>
+            <if test="isClassAdd != null  and isClassAdd != ''">is_class_add = #{isClassAdd},</if>
+            <if test="isRun != null  and isRun != ''">is_run = #{isRun},</if>
+            <if test="isApplyCode != null  and isApplyCode != ''">is_apply_code = #{isApplyCode},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where order_id = #{orderId} and box_num = #{boxNum}
+    </update>
+
+    <!--订舱组进站查看———查询准确班列id-->
+    <select id="selectActualClassesId" parameterType="BusiGoodsTrack" resultType="BusiGoodsTrack">
+        select class_ID as actualClassId from busi_classes
+        <where>
+            <![CDATA[class_STime = #{actualClassDateValue,jdbcType=DATE}]]>
+            <if test="isClassAdd == 'P'.toString()">
+                and class_bh like '%P%'
+            </if>
+            <if test="isClassAdd != 'P'.toString()">
+                and class_bh not like '%P%'
+            </if>
+            and line_typeid = 2
+            and class_EastAndWest = "0"
+        </where>
+    </select>
+
+    <!--订舱组进站查看———查询准确班列id（导入）-->
+    <select id="selectActualClassesIdImport" parameterType="ImportTrackTime" resultType="ImportTrackTime">
+        select class_ID as actualClassId from busi_classes
+        <where>
+            <![CDATA[class_STime = #{actualClassDateValue,jdbcType=DATE}]]>
+            <if test="isClassAdd == 'P'.toString()">
+                and class_bh like '%P%'
+            </if>
+            <if test="isClassAdd != 'P'.toString()">
+                and class_bh not like '%P%'
+            </if>
+            and line_typeid = 2
+            and class_EastAndWest = "0"
+        </where>
+    </select>
+
+    <!--修改运踪_货物状态（1订舱组进站查看—申请代码编辑）-->
+    <update id="updateBusiGoodsTrack" parameterType="com.szhbl.project.order.domain.track.BusiGoodsTrack">
+        update track_goods_status
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="actualClassId != null  and actualClassId != ''">actual_class_id = #{actualClassId},</if>
+            <if test="actualClassDate != null  and actualClassDate != ''">actual_class_date = #{actualClassDate},</if>
+            <if test="actualClassDateValue != null">actual_class_date_value = #{actualClassDateValue},</if>
+            <if test="isClassAdd != null  and isClassAdd != ''">is_class_add = #{isClassAdd},</if>
+            <if test="isRun != null  and isRun != ''">is_run = #{isRun},</if>
+            <if test="isApplyCode != null  and isApplyCode != ''">is_apply_code = #{isApplyCode},</if>
+            <if test="orderId != null  and orderId != ''">order_id = #{orderId},</if>
+            <if test="boxNum != null  and boxNum != ''">box_num = #{boxNum},</if>
+            <if test="goodsVolume != null  and goodsVolume != ''">goods_volume = #{goodsVolume},</if>
+            <if test="isGetin != null ">is_getin = #{isGetin},</if>
+            <if test="isNormal != null ">is_normal = #{isNormal},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="delFlag != null ">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="bgPrincipal != null  and bgPrincipal != ''">bg_principal = #{bgPrincipal},</if>
+            <if test="bgVotesNumber != null  and bgVotesNumber != ''">bg_votes_number = #{bgVotesNumber},</if>
+            <if test="bgProgress != null  and bgProgress != ''">bg_progress = #{bgProgress},</if>
+            <if test="bgRemark != null  and bgRemark != ''">bg_remark = #{bgRemark},</if>
+            <if test="scPrincipal != null  and scPrincipal != ''">sc_principal = #{scPrincipal},</if>
+            <if test="scremark != null  and scremark != ''">scremark = #{scremark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <!--订舱组进站查看—导出进站跟踪列表-->
+    <select id="selectExportTrackList" parameterType="com.szhbl.project.order.domain.track.ExportTrack" resultType="com.szhbl.project.order.domain.track.ExportTrack">
+        select ord.order_number as orderNumber,goods.goods_name as goodsName,ord.order_merchandiser as orderMerchandiser,ord.order_merchandiser as orderMerchandiserW,
+        track.box_num as boxNum,ord.container_boxAmount as containerBoxamount,track.box_type as boxType,track.in_space_date as inSpaceDate,
+        track.in_space_time as inSpaceTime,track.in_station_date as inStationDate,track.in_station_time as inStationTime,track.actual_class_date as actualClassDate,
+        track.actual_class_date_value as actualClassDateValue,track.is_class_add as isClassAdd,zy.classzy_no as classzyNo,zy.isunify as isunify,zy.lieshu as lieshu,
+        zy.classzyno_time as classzynoTime,class.class_STime as classDate,track.remark as remark,clients.client_unit as clientUnit,
+        ord.ship_order_binningWay as shipOrderBinningway,goods.goods_report as goodsReport,goods.goods_in_report as goodsInReport,goods.goods_KGS as goodsKgs,
+        ord.order_unloadSite as orderUnloadsite,track.is_apply_code as isApplyCode,track.is_balance as isBalance,track.is_stable as isStable,zy.xg_xiangkuang as xk,
+        zy.xg_isrepair as wx,zy.xg_ismingpai as mp,zy.xg_boat as cjszm,zy.baoguan_docu as bgdz,zy.suiche_docu as scdz,zy.waybill as yd,zy.gd_consignee as zwshrmc,
+        zy.road_isbill as sfbhp,zy.xg_check as xgbshzt,zy.xgtime as xgtime,zy.gd_check as gdbshzt,zy.gdtime as gdtime,zy.road_check as glbshzt,zy.roadtime as roadtime,
+        zy.xg_send as fsyj,zy.xg_xsstate as xssc,clients.client_tjr as clientTjr,track.goods_volume as goodsVolume,ord.IsConsolidation as isconsolidation,
+        ord.class_EastAndWest as classEastandwest,track.id as id,zy.suichestate as suichestate,zy.SC_Operator as scOperator,zy.sc_remark as scRemarkXh,
+        zy.guanwustate as guanwustate,zyo.bg_progress as bgProgress,zyo.sc_principal as scPrincipal,zyo.scremark as scremark,zy.cepian_result as cepianResult,
+        zy.gd_remark as gdRemark,
+        case when '0'= ord.IsConsolidation then ord.container_type else track.box_type end as containerType
+        from track_goods_status track
+        left join busi_shippingorder ord on ord.order_ID = track.order_id
+        left join busi_clients clients on clients.client_ID = ord.client_ID
+        left join busi_shippingorder_goods goods on goods.order_ID = ord.order_ID
+        left join busi_zy_info zy on zy.track_id = track.id
+        left join busi_zy_order zyo on zyo.order_id = track.order_id
+        left join busi_classes class on class.class_ID = ord.class_ID
+        <where>
+            <include refid="selectBusiGoodsTrackWhere"/>
+        </where>
+    </select>
+
+    <!--订舱组进站查看—导出进站跟踪列表(多联)-->
+    <select id="selectExportTrackDlList" parameterType="ExportTrackDl" resultType="ExportTrackDl">
+        select class.class_STime as classDate,class.class_bh as classBh,track.id as id,track.actual_class_date_value as actualClassDateValue,ord.order_number as orderNumber,
+        track.is_class_add as isClassAdd,track.box_num as boxNum,ord.order_uploadSite as orderUploadsite,ord.order_unloadSite as orderUnloadsite,ord.client_unit as clientUnit,
+        ord.client_tjr as clientTjr,ord.order_merchandiser as orderMerchandiser,track.box_type as boxType,ord.container_boxAmount as containerBoxamount,
+        goods.goods_name as goodsName,goods.goods_CBM as goodsCbm,goods.goods_KGS as goodsKgs,goods.goods_in_report as goodsInReport,track.goods_volume as goodsVolume,
+        track.is_apply_code as isApplyCode,track.is_run as isRun,track.in_station_date as inStationDate,track.in_station_time as inStationTime,
+        track.in_space_date as inSpaceDate,track.in_space_time as inSpaceTime,ord.class_EastAndWest as classEastandwest,site.name_cn as classPort,
+        ord.ship_oreder_address as shipOrederAddress,ord.ship_oreder_phone as shipOrederPhone,ord.receive_order_address as receiveOrderAddress,
+        ord.receive_order_phone as receiveOrderPhone,ord.client_unit as clientUnit,ord.IsConsolidation as isconsolidation,
+        zy.suichestate as suichestate,zy.SC_Operator as scOperator,zy.sc_remark as scRemarkXh,zyo.sc_principal as scPrincipal,zyo.scremark as scremark,
+        case when '0'= ord.IsConsolidation then ord.container_type else track.box_type end as containerType
+        from track_goods_status track
+        left join busi_shippingorder ord on ord.order_ID = track.order_id
+        left join busi_shippingorder_goods goods on goods.order_ID = ord.order_ID
+        left join busi_classes class on class.class_ID = track.actual_class_id
+        left join busi_linesite line on line.id = class.line_id
+        left join busi_site site on site.code = line.class_t_port
+        left join busi_zy_info zy on zy.track_id = track.id
+        left join busi_zy_order zyo on zyo.order_id = track.order_id
+        <where>
+            <include refid="selectBusiGoodsTrackWhere"/>
+        </where>
+    </select>
+
+    <!--订舱组进站查看—发运时间导入 (不用)-->
+    <update id="updateTrackTime" parameterType="com.szhbl.project.order.domain.track.ImportTrackTime">
+        update track_goods_status
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="actualClassId != null  and actualClassId != ''">actual_class_id = #{actualClassId},</if>
+            <if test="actualClassDate != null  and actualClassDate != ''">actual_class_date = #{actualClassDate},</if>
+            <if test="actualClassDateValue != null">actual_class_date_value = #{actualClassDateValue},</if>
+            <if test="isClassAdd != null  and isClassAdd != ''">is_class_add = #{isClassAdd},</if>
+            <if test="isRun != null  and isRun != ''">is_run = #{isRun},</if>
+            <if test="isApplyCode != null  and isApplyCode != ''">is_apply_code = #{isApplyCode},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where order_id = #{orderId} and box_num = #{boxNum}
+    </update>
+
+    <!--订舱组进站查看/订舱组界面—删除货物状态-->
+    <update id="deleteBusiGoodsTrackByIdUpd" parameterType="integer">
+        update track_goods_status set del_flag = 1,from_system = '平台删除'
+        where id = #{id}
+    </update>
+    <delete id="deleteBusiGoodsTrackById" parameterType="integer">
+        delete from track_goods_status where id = #{id}
+    </delete>
+    <!--查询删除记录的托书id和箱号-->
+    <select id="selectOrderIdByTrack" parameterType="integer" resultType="com.szhbl.project.order.domain.track.OrderGoodsTrackDel">
+        select order_id as orderId,box_num as boxNum from track_goods_status where id = #{id} and del_flag = 0
+    </select>
+
+    <!--订舱组进站查看/订舱组界面—货物状态详细信息-->
+    <select id="selectBusiGoodsTrackById" parameterType="Integer" resultType="BusiGoodsTrack">
+        select track.id as id,track.actual_class_id as actualClassId,track.order_id as orderId,track.box_num as boxNum,track.goods_volume as goodsVolume,
+        track.actual_class_date as actualClassDate,track.actual_class_date_value as actualClassDateValue,track.is_class_add as isClassAdd,track.is_run as isRun,
+        track.is_getin as isGetin,track.is_normal as isNormal,track.remark as remark,track.is_apply_code as isApplyCode,track.in_station_date as inStationDate,
+        track.in_station_time as inStationTime,track.in_space_date as inSpaceDate,track.in_space_time as inSpaceTime,class.class_STime as classDate,
+        class.line_typeid as lineTypeid,class.class_EastAndWest as classEastandwest,ord.IsConsolidation as isconsolidation
+        from track_goods_status track
+        left join busi_shippingorder ord on ord.order_ID = track.order_id
+        left join busi_classes class on class.class_ID = ord.class_ID
+        where track.id = #{id}
+    </select>
+
+    <select id="selectBusiGoodsTrackByIdImport" parameterType="String" resultType="ImportTrackTime">
+        select class.class_STime as classDate,class.class_EastAndWest as classEastandwest,class.line_typeid as lineTypeid,ord.order_number as orderNumber,
+        ord.order_ID as orderId
+        from busi_shippingorder ord
+        left join busi_classes class on class.class_ID = ord.class_ID
+        where ord.order_number = #{orderNumber}
+    </select>
+
+    <select id="selectOrderIdByTrackId" parameterType="Integer" resultType="com.szhbl.project.order.domain.track.GoodsTrackMq">
+        select order_id as orderId,box_num as boxNum from track_goods_status
+        where id = #{id}
+    </select>
+
+    <!--订舱组进站查看/订舱组界面—发送消息队列-->
+    <select id="selectTrackInfoToMq" parameterType="String" resultType="com.szhbl.project.order.domain.track.GoodsTrackMq">
+        select track.order_id as orderId,track.box_num as boxNum,track.actual_class_date_value as actualClassDateValue,track.is_class_add as isClassAdd,
+        zy.lieshu as lieshu,zy.classzy_no as classzyNo,zy.classzyno_time as classzynoTime,zy.classzyno_remark as classzynoRemark
+        from track_goods_status track
+        left join busi_zy_info zy on zy.track_id = track.id
+        where track.order_id = #{orderId} and track.box_num = #{boxNum} and track.del_flag = 0
+    </select>
+
+    <!--订舱组界面-->
+    <sql id="selectBusiGoodsTrackDczVo">
+        select track.id as id,track.order_id as orderId,class.class_STime as classDate,zy.classzy_no as classzyNo,zy.classzyno_time as classzynoTime,
+        class.class_bh as classBh,class.class_BlockTrain as lineName,ord.order_number as orderNumber,track.box_num as boxNum,ord.IsConsolidation as isconsolidation,
+        ord.class_EastAndWest as classEastandwest,ord.container_boxAmount as containerBoxamount,ord.order_audit_belongTo as orderAuditBelongto,
+        track.in_space_date as inSpaceDate,track.in_space_time as inSpaceTime,track.in_station_date as inStationDate,track.in_station_time as inStationTime,
+        zy.SC_Operator as scOperator,zy.suichestate as suichestate,zy.sc_remark as scRemarkZy,zyo.sc_principal as scPrincipal,
+        zyo.scremark as scremark,zyo.bg_principal as bgPrincipal,zyo.bg_votes_number as bgVotesNumber,zyo.bg_progress as bgProgress,
+        zyo.bg_remark as bgRemark,zy.gw_piaoshu as gwPiaoshu,zy.guanwustate as guanwustate,zy.gw_remark as gwRemark,zy.bgremark as bgremarkPx,
+        clients.client_tjr as clientTjr,ord.client_unit as clientUnit,goods.goods_name as goodsName,zy.road_isbill as roadIsbill,zy.planUnloadTime as planunloadtime,
+        zy.fenghao as fenghao,zy.fhtime as fhtime,zy.gwfenghao as gwfenghao,ord.order_unloadSite as orderUnloadsite,ord.ship_order_binningWay as shipOrderBinningway,
+        zy.yundan_xweight as yundanXweight,goods.goods_CBM as goodsCbm,goods.goods_KGS as goodsKgs,zy.max_load as maxLoad,zy.classzyno_remark as classzynoRemark,
+        ord.order_merchandiser as orderMerchandiser,zy.cepian_result as cepianResult,
+        case when '0'= ord.IsConsolidation then ord.container_type else track.box_type end as containerType
+        from track_goods_status track
+    </sql>
+
+    <sql id="selectBusiGoodsTrackDczWhere">
+        track.del_flag = 0 and ord.line_typeid in ('0','3','4') and ord.ship_oreder_name != '陆港拼箱'
+        <if test="orderNumber != null  and orderNumber != ''"> and ord.order_number like concat('%', #{orderNumber}, '%')</if>
+        <if test="boxNum != null  and boxNum != ''"> and track.box_num like concat('%', #{boxNum}, '%')</if>
+        <if test="classDateStart != null"> and <![CDATA[class.class_STime >= #{classDateStart,jdbcType=DATE}]]></if>
+        <if test="classDateEnd != null"> and <![CDATA[class.class_STime <= #{classDateEnd,jdbcType=DATE}]]></if>
+        <if test="classBh != null  and classBh != ''"> and class.class_bh = #{classBh}</if>
+        <if test="classEastandwest != null  and classEastandwest != ''"> and ord.class_EastAndWest = #{classEastandwest}</if>
+        <if test="classzyNo != null  and classzyNo != ''"> and zy.classzy_no like concat('%', #{classzyNo}, '%')</if>
+        <if test="lineTypeid != null  and lineTypeid != ''"> and ord.line_typeid = #{lineTypeid}</if>
+        <if test="bgProgress != null  and bgProgress != ''"> and FIND_IN_SET(#{bgProgress},zyo.bg_progress)</if>
+        <if test="guanwustate != null  and guanwustate != ''"> and FIND_IN_SET(#{guanwustate},zy.guanwustate)</if>
+        <if test="isexamline != null  and isexamline != ''"> and ord.IsExamline = #{isexamline}</if>
+    </sql>
+
+    <!--订舱组界面—货物状态列表-->
+    <select id="selectBusiGoodsTrackDczList" parameterType="com.szhbl.project.order.domain.track.GoodsTrackDcz" resultType="com.szhbl.project.order.domain.track.GoodsTrackDcz">
+        <include refid="selectBusiGoodsTrackDczVo"/>
+        left join busi_shippingorder ord on ord.order_ID = track.order_id
+        left join busi_shippingorder_goods goods on goods.order_ID = ord.order_ID
+        left join busi_zy_order zyo on zyo.order_id = track.order_id
+        left join busi_classes class on class.class_ID = ord.class_ID
+        left join busi_zy_info zy on zy.track_id = track.id
+        left join busi_clients clients on clients.client_ID = ord.client_ID
+        <where>
+            <include refid="selectBusiGoodsTrackDczWhere"/>
+            <if test="isconsolidation != null  and isconsolidation != ''"> and ord.IsConsolidation = #{isconsolidation}</if>
+        </where>
+        <choose>
+            <when test="type ==0">
+                order by zy.createdate desc
+            </when>
+            <otherwise>
+                order by ord.IsConsolidation asc,ord.order_number asc,track.box_num asc
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--订舱组界面—箱量统计-->
+    <select id="selectAmountDcz" parameterType="com.szhbl.project.order.domain.track.GoodsTrackDcz" resultType="java.util.Map">
+        select
+        left(ord.container_type,2) as boxType,
+        count(distinct track.box_num) as boxAmountSecond
+        from track_goods_status track
+        left join busi_shippingorder ord on ord.order_ID = track.order_id
+        left join busi_zy_info zy on zy.track_id = track.id
+        left join busi_zy_order zyo on zyo.order_id = track.order_id
+        left join busi_classes class on class.class_ID = ord.class_ID
+        <where>
+            <include refid="selectBusiGoodsTrackDczWhere"/>
+            and ord.IsConsolidation = "0"
+        </where>
+        GROUP by left(ord.container_type,2)
+    </select>
+
+    <select id="selectAmountVWDcz" parameterType="com.szhbl.project.order.domain.track.GoodsTrackDcz" resultType="java.util.Map">
+        select
+        left(track.box_type,2) as boxType,
+        count(distinct track.box_num) as boxAmountSecond
+        from track_goods_status track
+        left join busi_shippingorder ord on ord.order_ID = track.order_id
+        left join busi_zy_info zy on zy.track_id = track.id
+        left join busi_zy_order zyo on zyo.order_id = track.order_id
+        left join busi_classes class on class.class_ID = ord.class_ID
+        <where>
+            <include refid="selectBusiGoodsTrackDczWhere"/>
+            and ord.IsConsolidation = "1"
+            and track.box_type is not null
+        </where>
+        GROUP by left(track.box_type,2)
+    </select>
+
+
+
+
+
+    <insert id="insertBusiGoodsTrack" parameterType="BusiGoodsTrack" useGeneratedKeys="true" keyProperty="id">
+        insert into track_goods_status
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="actualClassId != null  and actualClassId != ''">actual_class_id,</if>
+            <if test="orderId != null  and orderId != ''">order_id,</if>
+            <if test="boxNum != null  and boxNum != ''">box_num,</if>
+            <if test="goodsVolume != null  and goodsVolume != ''">goods_volume,</if>
+            <if test="isGetin != null ">is_getin,</if>
+            <if test="actualClassDate != null  and actualClassDate != ''">actual_class_date,</if>
+            <if test="isNormal != null ">is_normal,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="isApplyCode != null  and isApplyCode != ''">is_apply_code,</if>
+            <if test="delFlag != null ">del_flag,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="actualClassId != null  and actualClassId != ''">#{actualClassId},</if>
+            <if test="orderId != null  and orderId != ''">#{orderId},</if>
+            <if test="boxNum != null  and boxNum != ''">#{boxNum},</if>
+            <if test="goodsVolume != null  and goodsVolume != ''">#{goodsVolume},</if>
+            <if test="isGetin != null ">#{isGetin},</if>
+            <if test="actualClassDate != null  and actualClassDate != ''">#{actualClassDate},</if>
+            <if test="isNormal != null ">#{isNormal},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="isApplyCode != null  and isApplyCode != ''">#{isApplyCode},</if>
+            <if test="delFlag != null ">#{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <select id="selectBusiGoodsTrackLists" parameterType="BusiGoodsTrack" resultMap="BusiGoodsTrackResult">
+        <include refid="selectBusiGoodsTrackVo"/>
+        <where>
+            <if test="actualClassId != null  and actualClassId != ''"> and actual_class_id = #{actualClassId}</if>
+            <if test="orderId != null  and orderId != ''"> and order_id = #{orderId}</if>
+            <if test="boxNum != null  and boxNum != ''"> and box_num = #{boxNum}</if>
+            <if test="goodsVolume != null  and goodsVolume != ''"> and goods_volume = #{goodsVolume}</if>
+            <if test="isGetin != null "> and is_getin = #{isGetin}</if>
+            <if test="actualClassDate != null  and actualClassDate != ''"> and actual_class_date = #{actualClassDate}</if>
+            <if test="isNormal != null "> and is_normal = #{isNormal}</if>
+            <if test="isApplyCode != null  and isApplyCode != ''"> and is_apply_code = #{isApplyCode}</if>
+        </where>
+    </select>
+
+    <delete id="deleteBusiGoodsTrackByIds" parameterType="String">
+        delete from track_goods_status where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

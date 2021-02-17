@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.enquiry.mapper.ZgRailDivisionMapper">
+    
+    <resultMap type="ZgRailDivision" id="ZgRailDivisionResult">
+        <result property="id"    column="id"    />
+        <result property="lineType"    column="line_type"    />
+        <result property="orderUploadSite"    column="order_upload_site"    />
+        <result property="orderUnloadSite"    column="order_unload_site"    />
+        <result property="containerTypeValue"    column="container_type_value"    />
+        <result property="isContainer"    column="is_container"    />
+        <result property="railCost"    column="rail_cost"    />
+        <result property="isConsolidation"    column="is_consolidation"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="containerType"    column="container_type"    />
+        <result property="validStartDate"    column="valid_start_date"    />
+        <result property="validEndDate"    column="valid_end_date"    />
+        <result property="eastOrWest"    column="east_or_west"    />
+    </resultMap>
+
+    <sql id="selectZgRailDivisionVo">
+        select id, line_type, order_upload_site, order_unload_site, container_type_value, is_container, rail_cost, is_consolidation, del_flag, create_by, create_time, update_by, update_time, remark,valid_start_date,valid_end_date,container_type,east_or_west from zg_rail_division
+    </sql>
+
+    <select id="selectZgRailDivisionList" parameterType="ZgRailDivision" resultMap="ZgRailDivisionResult">
+        <include refid="selectZgRailDivisionVo"/>
+        <where>  
+            <if test="lineType != null  and lineType != ''"> and line_type = #{lineType}</if>
+            <if test="orderUploadSite != null  and orderUploadSite != ''"> and order_upload_site = #{orderUploadSite}</if>
+            <if test="orderUnloadSite != null  and orderUnloadSite != ''"> and order_unload_site = #{orderUnloadSite}</if>
+            <if test="eastOrWest != null  and eastOrWest != ''"> and east_or_west = #{eastOrWest}</if>
+            <if test="containerType != null  and containerType != ''"> and container_type_value like CONCAT('%','${containerType}','%') </if>
+            <if test="createStartTime != null  and createStartTime != ''">
+                and DATE_FORMAT(create_time,'%Y-%m-%d') <![CDATA[>= ]]> #{createStartTime}
+            </if>
+            <if test="createEndTime != null  and createEndTime != ''">
+                and DATE_FORMAT(create_time,'%Y-%m-%d') <![CDATA[<= ]]> #{createEndTime}
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectZgRailDivisionById" parameterType="Long" resultMap="ZgRailDivisionResult">
+        <include refid="selectZgRailDivisionVo"/>
+        where id = #{id}
+    </select>
+    <!--根据集货点和到货地查询铁路运费-->
+    <select id="selectZgRailDivisionWithMap" parameterType="map" resultMap="ZgRailDivisionResult">
+        <include refid="selectZgRailDivisionVo"/>
+        where
+        1=1
+        <if test="orderUploadSite != null  and orderUploadSite != ''"> and order_upload_site = #{orderUploadSite}</if>
+        <if test="orderUnloadSite != null  and orderUnloadSite != ''"> and order_unload_site = #{orderUnloadSite} </if>
+        <if test="containerBelong != null  and containerBelong != ''"> and is_container = #{containerBelong} </if>
+        <if test="containerType != null  and containerType != ''">
+            <if test='sameContainerType != ""'>
+            and (container_type_value = #{containerType} or container_type_value=#{sameContainerType})
+            </if>
+            <if test='sameContainerType == ""'>
+                and container_type_value = #{containerType}
+            </if>
+        </if>
+        and east_or_west = #{eastOrWest}
+        and line_type = #{lineType}
+        <if test="bookingTimeFlag == null or bookingTimeFlag == '' or bookingTimeFlag == '0'.toString()">
+            and DATE_FORMAT(valid_start_date,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(NOW(),'%Y-%m-%d')
+            and DATE_FORMAT(valid_end_date,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(NOW(),'%Y-%m-%d')
+        </if>
+        <if test="bookingTimeFlag == '1'.toString()">
+          and DATE_FORMAT(valid_start_date,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(date_add(curdate()-day(curdate())+1,interval 1 month),'%Y-%m-%d')
+          and DATE_FORMAT(valid_end_date,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(date_add(curdate()-day(curdate())+1,interval 1 month),'%Y-%m-%d')
+        </if>
+    </select>
+
+    <!--查询数据是否已存在-->
+    <select id="selectZgRailDivisionListWithZG" parameterType="ZgRailDivision" resultMap="ZgRailDivisionResult">
+        <include refid="selectZgRailDivisionVo"/>
+        <where>
+            <if test="lineType != null  and lineType != ''"> and line_type = #{lineType}</if>
+            <if test="orderUploadSite != null  and orderUploadSite != ''"> and order_upload_site = #{orderUploadSite}</if>
+            <if test="orderUnloadSite != null  and orderUnloadSite != ''"> and order_unload_site = #{orderUnloadSite}</if>
+            <if test="eastOrWest != null  and eastOrWest != ''"> and east_or_west = #{eastOrWest}</if>
+            <if test="containerTypeValue != null  and containerTypeValue != ''"> and container_type_value = #{containerTypeValue}</if>
+            <if test="isContainer != null  and isContainer != ''"> and is_container = #{isContainer}</if>
+            <if test="containerType != null  and containerType != ''"> and container_type = #{containerType}</if>
+            <if test="validStartDate != null ">
+                and DATE_FORMAT(valid_start_date,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(#{validStartDate},'%Y-%m-%d')
+            </if>
+            <if test="validEndDate != null ">
+                and DATE_FORMAT(valid_end_date,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(#{validEndDate},'%Y-%m-%d')
+            </if>
+        </where>
+    </select>
+    <!--中越线路铁路整柜-->
+    <select id="selectZynZgRailDivisionWithMap" parameterType="map" resultMap="ZgRailDivisionResult">
+        <include refid="selectZgRailDivisionVo"/>
+        where
+        1=1
+        <if test="orderUploadSite != null  and orderUploadSite != ''">
+         and order_upload_site like CONCAT('%','${orderUploadSite}','%')
+         </if>
+        <if test="orderUnloadSite != null  and orderUnloadSite != ''">
+         and order_unload_site like CONCAT('%','${orderUnloadSite}','%')
+        </if>
+        <if test="containerBelong != null  and containerBelong != ''"> and is_container = #{containerBelong} </if>
+        <if test="containerType != null  and containerType != ''">
+            <if test='sameContainerType != ""'>
+                and (container_type_value = #{containerType} or container_type_value=#{sameContainerType})
+            </if>
+            <if test='sameContainerType == ""'>
+                and container_type_value = #{containerType}
+            </if>
+        </if>
+        and east_or_west = #{eastOrWest}
+        and line_type = #{lineType}
+        <if test="bookingTimeFlag == null or bookingTimeFlag == '' or bookingTimeFlag == '0'.toString()">
+            and DATE_FORMAT(valid_start_date,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(NOW(),'%Y-%m-%d')
+            and DATE_FORMAT(valid_end_date,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(NOW(),'%Y-%m-%d')
+        </if>
+        <if test="bookingTimeFlag == '1'.toString()">
+            and DATE_FORMAT(valid_start_date,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(date_add(curdate()-day(curdate())+1,interval 1 month),'%Y-%m-%d')
+            and DATE_FORMAT(valid_end_date,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(date_add(curdate()-day(curdate())+1,interval 1 month),'%Y-%m-%d')
+        </if>
+    </select>
+    <select id="selectZgRailwayExpiration" parameterType="map" resultMap="ZgRailDivisionResult">
+        <include refid="selectZgRailDivisionVo"/>
+        where
+        line_type = #{lineType}
+        <if test="bookingTimeFlag == null or bookingTimeFlag == '' or bookingTimeFlag == '0'.toString()">
+            and DATE_FORMAT(valid_start_date,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(NOW(),'%Y-%m-%d')
+            and DATE_FORMAT(valid_end_date,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(NOW(),'%Y-%m-%d')
+        </if>
+        <if test="bookingTimeFlag == '1'.toString()">
+            and DATE_FORMAT(valid_start_date,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(date_add(curdate()-day(curdate())+1,interval 1 month),'%Y-%m-%d')
+            and DATE_FORMAT(valid_end_date,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(date_add(curdate()-day(curdate())+1,interval 1 month),'%Y-%m-%d')
+        </if>
+    </select>
+    <insert id="insertZgRailDivision" parameterType="ZgRailDivision">
+        insert into zg_rail_division
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="lineType != null  and lineType != ''">line_type,</if>
+            <if test="orderUploadSite != null  and orderUploadSite != ''">order_upload_site,</if>
+            <if test="orderUnloadSite != null  and orderUnloadSite != ''">order_unload_site,</if>
+            <if test="containerTypeValue != null  and containerTypeValue != ''">container_type_value,</if>
+            <if test="isContainer != null  and isContainer != ''">is_container,</if>
+            <if test="railCost != null ">rail_cost,</if>
+            <if test="isConsolidation != null and isConsolidation != ''">is_consolidation,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="validStartDate != null ">valid_start_date,</if>
+            <if test="validEndDate != null ">valid_end_date,</if>
+            <if test="containerType != null and containerType !=''">container_type,</if>
+            <if test="eastOrWest != null and eastOrWest !=''">east_or_west,</if>
+
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="lineType != null  and lineType != ''">#{lineType},</if>
+            <if test="orderUploadSite != null  and orderUploadSite != ''">#{orderUploadSite},</if>
+            <if test="orderUnloadSite != null  and orderUnloadSite != ''">#{orderUnloadSite},</if>
+            <if test="containerTypeValue != null  and containerTypeValue != ''">#{containerTypeValue},</if>
+            <if test="isContainer != null  and isContainer != ''">#{isContainer},</if>
+            <if test="railCost != null ">#{railCost},</if>
+            <if test="isConsolidation != null and isConsolidation != ''">#{isConsolidation},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="validStartDate != null ">#{validStartDate},</if>
+            <if test="validEndDate != null ">#{validEndDate},</if>
+            <if test="containerType != null and containerType !=''">#{containerType},</if>
+            <if test="eastOrWest != null and eastOrWest !=''">#{eastOrWest},</if>
+         </trim>
+    </insert>
+
+
+    <!--批量插入-->
+    <insert id="insertMoreZgRailDivision" parameterType="java.util.List" useGeneratedKeys="true">
+        insert into zg_rail_division
+    			(line_type,order_upload_site,order_unload_site,container_type_value,is_container,
+    			is_consolidation,del_flag,create_by,create_time,valid_start_date,valid_end_date,container_type)
+    			values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.lineType},
+            #{item.orderUploadSite},
+            #{item.orderUnloadSite},
+            #{item.containerTypeValue},
+            #{item.isContainer},
+            #{item.isConsolidation},
+            #{item.delFlag},
+            #{item.createBy},
+            #{item.createTime},
+            #{item.validStartDate},
+            #{item.validEndDate},
+            #{item.containerType},
+            #{item.eastOrWest}
+            )
+        </foreach>
+    </insert>
+    <update id="updateZgRailDivision" parameterType="ZgRailDivision">
+        update zg_rail_division
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="lineType != null  and lineType != ''">line_type = #{lineType},</if>
+            <if test="orderUploadSite != null  and orderUploadSite != ''">order_upload_site = #{orderUploadSite},</if>
+            <if test="orderUnloadSite != null  and orderUnloadSite != ''">order_unload_site = #{orderUnloadSite},</if>
+            <if test="containerTypeValue != null  and containerTypeValue != ''">container_type_value = #{containerTypeValue},</if>
+            <if test="isContainer != null  and isContainer != ''">is_container = #{isContainer},</if>
+            <if test="railCost != null ">rail_cost = #{railCost},</if>
+            <if test="isConsolidation != null and isConsolidation != ''">is_consolidation = #{isConsolidation},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="validStartDate != null ">valid_start_date = #{validStartDate},</if>
+            <if test="validEndDate != null ">valid_end_date = #{validEndDate},</if>
+            <if test="containerType != null and containerType !=''">container_type=#{containerType},</if>
+            <if test="eastOrWest != null and eastOrWest !=''">east_or_west=#{eastOrWest},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteZgRailDivisionById" parameterType="Long">
+        delete from zg_rail_division where id = #{id}
+    </delete>
+
+    <delete id="deleteZgRailDivisionByIds" parameterType="String">
+        delete from zg_rail_division where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

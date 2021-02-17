@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.inquiry.mapper.BookingInquiryResultRecordMapper">
+    
+    <resultMap type="BookingInquiryResultRecord" id="BookingInquiryResultRecordResult">
+        <result property="id"    column="id"    />
+        <result property="inquiryId"    column="inquiry_id"    />
+        <result property="inquiryResultId"    column="inquiry_result_id"    />
+        <result property="changeRecord"    column="change_record"    />
+        <result property="userId"    column="user_id"    />
+        <result property="changeTime"    column="change_time"    />
+    </resultMap>
+
+    <resultMap type="BookingInquiryResultRecord" id="BookingInquiryResultRecordResult2">
+        <result property="id"    column="id"    />
+        <result property="inquiryId"    column="inquiry_id"    />
+        <result property="inquiryResultId"    column="inquiry_result_id"    />
+        <result property="changeRecord"    column="change_record"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="nick_name"    />
+        <result property="changeTime"    column="change_time"    />
+        <result property="clientUnit"    column="client_unit"    />
+        <result property="inquiryTime"    column="inquiry_time"    />
+    </resultMap>
+
+    <sql id="selectBookingInquiryResultRecordVo">
+        select id, inquiry_id, inquiry_result_id, change_record, user_id, change_time from booking_inquiry_result_record
+    </sql>
+
+    <select id="selectBookingInquiryResultRecordList" parameterType="BookingInquiryResultRecord" resultMap="BookingInquiryResultRecordResult2">
+        select birr.id, birr.inquiry_id, birr.inquiry_result_id,
+        birr.change_record, birr.user_id, birr.change_time,
+        su.nick_name,bi.inquiry_time,bi.client_unit from booking_inquiry_result_record birr
+        left join sys_user su on birr.user_id = su.user_id
+        left join booking_inquiry bi on birr.inquiry_id = bi.id
+        <where>  
+            <if test="inquiryId != null "> and birr.inquiry_id = #{inquiryId}</if>
+            <if test="inquiryResultId != null "> and birr.inquiry_result_id = #{inquiryResultId}</if>
+            <if test="changeRecord != null  and changeRecord != ''"> and birr.change_record like concat('%', #{changeRecord}, '%') </if>
+            <if test="userId != null "> and birr.user_id = #{userId}</if>
+            <if test="changeTime != null "> and birr.change_time = #{changeTime}</if>
+            <if test="clientUnit != null and clientUnit !='' "> and bi.client_unit like concat('%', #{clientUnit}, '%')</if>
+        </where>
+        order by birr.change_time desc
+    </select>
+    
+    <select id="selectBookingInquiryResultRecordById" parameterType="Long" resultMap="BookingInquiryResultRecordResult">
+        <include refid="selectBookingInquiryResultRecordVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBookingInquiryResultRecord" parameterType="BookingInquiryResultRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into booking_inquiry_result_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="inquiryId != null ">inquiry_id,</if>
+            <if test="inquiryResultId != null ">inquiry_result_id,</if>
+            <if test="changeRecord != null  and changeRecord != ''">change_record,</if>
+            <if test="userId != null ">user_id,</if>
+            <if test="changeTime != null ">change_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="inquiryId != null ">#{inquiryId},</if>
+            <if test="inquiryResultId != null ">#{inquiryResultId},</if>
+            <if test="changeRecord != null  and changeRecord != ''">#{changeRecord},</if>
+            <if test="userId != null ">#{userId},</if>
+            <if test="changeTime != null ">#{changeTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBookingInquiryResultRecord" parameterType="BookingInquiryResultRecord">
+        update booking_inquiry_result_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="inquiryId != null ">inquiry_id = #{inquiryId},</if>
+            <if test="inquiryResultId != null ">inquiry_result_id = #{inquiryResultId},</if>
+            <if test="changeRecord != null  and changeRecord != ''">change_record = #{changeRecord},</if>
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="changeTime != null ">change_time = #{changeTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBookingInquiryResultRecordById" parameterType="Long">
+        delete from booking_inquiry_result_record where id = #{id}
+    </delete>
+
+    <delete id="deleteBookingInquiryResultRecordByIds" parameterType="String">
+        delete from booking_inquiry_result_record where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

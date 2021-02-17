@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.basic.mapper.BaseGoodsnoteMapper">
+    
+    <resultMap type="BaseGoodsnote" id="BaseGoodsnoteResult">
+        <result property="id"    column="id"    />
+        <result property="eastandwest"    column="EastAndWest"    />
+        <result property="goodsname"    column="goodsname"    />
+        <result property="inhs"    column="inHS"    />
+        <result property="unloadsite"    column="unloadSite"    />
+        <result property="station"    column="station"    />
+        <result property="specialnotes"    column="specialnotes"    />
+        <result property="specialnotesEn"    column="specialnotes_en"    />
+        <result property="radioaction"    column="radioaction"    />
+        <result property="goodsClass"    column="goods_class"    />
+    </resultMap>
+
+    <sql id="selectBaseGoodsnoteVo">
+        select id, EastAndWest, goodsname, inHS, unloadSite, station, specialnotes,specialnotes_en,radioaction, goods_class from base_goodsnote
+    </sql>
+
+    <select id="selectBaseGoodsnoteList" parameterType="BaseGoodsnote" resultMap="BaseGoodsnoteResult">
+        <include refid="selectBaseGoodsnoteVo"/>
+        <where>  
+            <if test="eastandwest != null  and eastandwest != ''"> and EastAndWest = #{eastandwest}</if>
+            <if test="goodsname != null  and goodsname != ''"> and goodsname like concat('%', #{goodsname}, '%')</if>
+            <if test="inhs != null  and inhs != ''"> and inHS = #{inhs}</if>
+            <if test="unloadsite != null  and unloadsite != ''"> and unloadSite = #{unloadsite}</if>
+            <if test="station != null  and station != ''"> and station = #{station}</if>
+            <if test="specialnotes != null  and specialnotes != ''"> and specialnotes = #{specialnotes}</if>
+            <if test="radioaction != null  and radioaction != ''"> and radioaction = #{radioaction}</if>
+            <if test="goodsClass != null  and goodsClass != ''"> and goods_class = #{goodsClass}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseGoodsnoteById" parameterType="Long" resultMap="BaseGoodsnoteResult">
+        <include refid="selectBaseGoodsnoteVo"/>
+        where id = #{id}
+    </select>
+
+    <!--查询特殊单证物品列表(根据有色金属备注)-->
+    <select id="selectBaseGoodsnoteListByHs" parameterType="String" resultMap="BaseGoodsnoteResult">
+        <include refid="selectBaseGoodsnoteVo"/>
+        where inHS = #{inhs} and goods_class = 1  order by id desc limit 1
+    </select>
+
+    <!--查询特殊单证物品列表(根据名称)-->
+    <select id="selectBaseGoodsnoteListByName" parameterType="String" resultMap="BaseGoodsnoteResult">
+        <include refid="selectBaseGoodsnoteVo"/>
+        where #{goodsname} like concat('%', `goodsname`, '%')
+        and goods_class = 0
+        and EastAndWest like concat('%', #{eastandwest}, '%')
+        and goodsname !=''
+    </select>
+
+    <!--查询特殊单证物品列表(根据编码)-->
+    <select id="selectBaseGoodsnoteListByOrderHs" parameterType="String" resultMap="BaseGoodsnoteResult">
+        <include refid="selectBaseGoodsnoteVo"/>
+        where #{inhs} like concat('%', `inHS`, '%')
+        and goods_class = 0
+        and EastAndWest like concat('%', #{eastandwest}, '%')
+        and inHS !=''
+    </select>
+        
+    <insert id="insertBaseGoodsnote" parameterType="BaseGoodsnote" useGeneratedKeys="true" keyProperty="id">
+        insert into base_goodsnote
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="eastandwest != null  and eastandwest != ''">EastAndWest,</if>
+            <if test="goodsname != null  and goodsname != ''">goodsname,</if>
+            <if test="inhs != null  and inhs != ''">inHS,</if>
+            <if test="unloadsite != null  and unloadsite != ''">unloadSite,</if>
+            <if test="station != null  and station != ''">station,</if>
+            <if test="specialnotes != null  and specialnotes != ''">specialnotes,</if>
+            <if test="specialnotesEn != null  and specialnotesEn != ''">specialnotes_en,</if>
+            <if test="radioaction != null  and radioaction != ''">radioaction,</if>
+            <if test="goodsClass != null  and goodsClass != ''">goods_class,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="eastandwest != null  and eastandwest != ''">#{eastandwest},</if>
+            <if test="goodsname != null  and goodsname != ''">#{goodsname},</if>
+            <if test="inhs != null  and inhs != ''">#{inhs},</if>
+            <if test="unloadsite != null  and unloadsite != ''">#{unloadsite},</if>
+            <if test="station != null  and station != ''">#{station},</if>
+            <if test="specialnotes != null  and specialnotes != ''">#{specialnotes},</if>
+            <if test="specialnotesEn != null  and specialnotesEn != ''">#{specialnotesEn},</if>
+            <if test="radioaction != null  and radioaction != ''">#{radioaction},</if>
+            <if test="goodsClass != null  and goodsClass != ''">#{goodsClass},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseGoodsnote" parameterType="BaseGoodsnote">
+        update base_goodsnote
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="eastandwest != null  and eastandwest != ''">EastAndWest = #{eastandwest},</if>
+            <if test="goodsname != null  and goodsname != ''">goodsname = #{goodsname},</if>
+            <if test="inhs != null  and inhs != ''">inHS = #{inhs},</if>
+            <if test="unloadsite != null  and unloadsite != ''">unloadSite = #{unloadsite},</if>
+            <if test="station != null  and station != ''">station = #{station},</if>
+            <if test="specialnotes != null  and specialnotes != ''">specialnotes = #{specialnotes},</if>
+            <if test="specialnotesEn != null  and specialnotesEn != ''">specialnotes_en = #{specialnotesEn},</if>
+            <if test="radioaction != null  and radioaction != ''">radioaction = #{radioaction},</if>
+            <if test="goodsClass != null  and goodsClass != ''">goods_class = #{goodsClass},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseGoodsnoteById" parameterType="Long">
+        delete from base_goodsnote where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseGoodsnoteByIds" parameterType="String">
+        delete from base_goodsnote where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

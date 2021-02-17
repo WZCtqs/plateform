@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.documentcenter.mapper.DocOrderSortMapper">
+
+    <resultMap type="DocOrderSort" id="DocOrderSortResult">
+        <result property="id" column="id"/>
+        <result property="orderid_doctype" column="orderidDoctype"/>
+    </resultMap>
+
+    <select id="getSortByOrderidDocType" parameterType="DocOrderSort" resultType="Integer">
+        select count(1) as sort from doc_order_sort where orderid_doctype = #{orderidDoctype}
+    </select>
+
+    <insert id="insertDocOrderSort" parameterType="DocOrderSort" useGeneratedKeys="true" keyProperty="id">
+        insert into doc_order_sort
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderidDoctype != null  and orderidDoctype != ''">orderid_doctype,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderidDoctype != null  and orderidDoctype != ''">#{orderidDoctype},</if>
+        </trim>
+    </insert>
+
+</mapper>

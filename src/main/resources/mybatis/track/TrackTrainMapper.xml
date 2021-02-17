@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.track.mapper.TrackTrainMapper">
+
+    <resultMap type="TrackTrain" id="TrackTrainResult">
+        <result property="id"    column="id"    />
+        <result property="classId"    column="class_id"    />
+        <result property="trackContents"    column="track_contents"    />
+        <result property="actualClassDate"    column="actual_class_date"    />
+        <result property="currentLocation"    column="current_location"    />
+        <result property="trackTime"    column="track_time"    />
+        <result property="exceptEarlyTime"    column="except_early_time"    />
+        <result property="exceptLastTime"    column="except_last_time"    />
+        <result property="stateValue"    column="state_value"    />
+        <result property="district"    column="district"    />
+        <result property="stationOneName"    column="station_one_name"    />
+        <result property="stationOneDistance"    column="station_one_distance"    />
+        <result property="stationTwoName"    column="station_two_name"    />
+        <result property="stationTwoDistance"    column="station_two_distance"    />
+        <result property="stationThrName"    column="station_thr_name"    />
+        <result property="stationThrDistance"    column="station_thr_distance"    />
+        <result property="stationFouName"    column="station_fou_name"    />
+        <result property="stationFouDistance"    column="station_fou_distance"    />
+        <result property="email"    column="receive_order_receiveEmail"    />
+        <result property="orderNum"    column="order_number"    />
+        <result property="consolidationType"    column="IsConsolidation"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="classBh"    column="class_bh"    />
+        <result property="classNum"    column="class_number"    />
+        <result property="classDate"    column="class_STime"    />
+        <result property="classEastAndWest"    column="class_EastAndWest"    />
+        <result property="exceptTime"    column="exceptTime"    />
+        <result property="exportRemark"    column="exportRemark"    />
+        <result property="classBlockTrain"    column="class_BlockTrain"    />
+        <result property="changePort"    column="change_port"    />
+        <result property="lineTypeId"    column="line_typeid"    />
+    </resultMap>
+
+    <resultMap type="TrackTrainVo" id="trainsResult">
+        <result property="classId"    column="class_ID"    />
+        <result property="classBlockTrain"    column="class_BlockTrain"    />
+        <result property="classSTime"    column="class_STime"    />
+        <result property="lineTypeid"    column="line_typeid"    />
+        <result property="classStationOfDeparture"    column="class_StationOfDeparture"    />
+        <result property="classStationOfDestination"    column="class_StationOfDestination"    />
+        <result property="classBh"    column="class_bh"    />
+        <result property="classNumber"    column="class_number"    />
+        <result property="distributionTime"    column="Distribution_time"    />
+        <result property="classClassType"    column="class_ClassType"    />
+        <result property="classEastAndWest"    column="class_EastAndWest"    />
+        <result property="classETime"    column="class_ETime"    />
+        <result property="isEdit"    column="is_edit"    />
+        <result property="changePort"    column="change_port"    />
+    </resultMap>
+
+    <resultMap type="GwTrackTrainVo" id="GwttResult">
+        <result property="CLASS_ID"    column="class_ID"    />
+        <result property="STATEVALUE"    column="state_value"    />
+        <result property="EN_LOCATION"    column="name_en"    />
+        <result property="ARRIVETIMESTART"    column="except_early_time"    />
+        <result property="ARRIVETIMEEND"    column="except_last_time"    />
+        <result property="INFO_DATE"    column="track_time"    />
+        <result property="LOGGIN_ABNORMALINFO"    column="abnormal_information"    />
+        <result property="UNLOAD_RE"    column="unload_reason"    />
+        <result property="LOGGING_DATE"    column="input_time"    />
+    </resultMap>
+
+    <sql id="selectTrackTrainVo">
+        select id, class_id, track_contents, actual_class_date, current_location, track_time,
+        except_early_time, except_last_time, state_value, district, station_one_name, station_one_distance,
+        station_two_name, station_two_distance, station_thr_name, station_thr_distance, station_fou_name,
+        station_fou_distance, remark, del_flag, create_by, create_time, update_by, update_time,change_port from track_train
+    </sql>
+
+    <select id="selectTrackTrainList" parameterType="TrackTrain" resultMap="TrackTrainResult">
+        select tt.id, tt.class_id, tt.track_contents, tt.actual_class_date, tt.current_location, tt.track_time,tt.except_early_time, tt.except_last_time, tt.state_value,
+        tt.district, tt.station_one_name, tt.station_one_distance,tt.station_two_name, tt.station_two_distance, tt.station_thr_name, tt.station_thr_distance, tt.station_fou_name,
+        tt.station_fou_distance, tt.remark exportRemark,tt.remark , tt.del_flag, tt.create_by, tt.create_time, tt.update_by, tt.update_time ,change_port,bl.name_cn as class_BlockTrain,
+        CONCAT(substring(tt.except_early_time,6),'/',substring(tt.except_last_time,6)) exceptTime,bc.class_bh, bc.class_number,bc.class_EastAndWest,bc.line_typeid,
+        DATE_FORMAT(bc.class_STime,'%Y-%m-%d') class_STime
+        from track_train tt
+        left join busi_classes bc on bc.class_ID=tt.class_id
+        left join busi_linesite bl on bl.id=bc.line_id
+        <where>
+            tt.del_flag=0
+            <if test="classBh != null  and classBh != ''"> and bc.class_bh = #{classBh}</if>
+            <if test="classEastAndWest != null  and classEastAndWest != ''"> and bc.class_EastAndWest = #{classEastAndWest}</if>
+            <if test="lineTypeId != null  and lineTypeId != ''"> and bc.line_typeid = #{lineTypeId}</if>
+            <if test="classDate != null  and classDate != ''"> and  DATE_FORMAT(bc.class_STime,'%Y-%m-%d') = #{classDate}</if>
+            <if test="updateTime != null "> and  DATE_FORMAT(tt.update_time,'%Y-%m-%d') =DATE_FORMAT(#{updateTime},'%Y-%m-%d') </if>
+            <if test="classId != null  and classId != ''"> and tt.class_id = #{classId}</if>
+            <if test="trackContents != null  and trackContents != ''"> and tt.track_contents = #{trackContents}</if>
+            <if test="actualClassDate != null  and actualClassDate != ''"> and tt.actual_class_date = #{actualClassDate}</if>
+            <if test="currentLocation != null  and currentLocation != ''"> and tt.current_location = #{currentLocation}</if>
+            <if test="trackTime != null  and trackTime != ''"> and tt.track_time = #{trackTime}</if>
+            <if test="exceptEarlyTime != null  and exceptEarlyTime != ''"> and tt.except_early_time = #{exceptEarlyTime}</if>
+            <if test="exceptLastTime != null  and exceptLastTime != ''"> and tt.except_last_time = #{exceptLastTime}</if>
+            <if test="stateValue != null  and stateValue != ''"> and tt.state_value = #{stateValue}</if>
+            <if test="district != null  and district != ''"> and tt.district = #{district}</if>
+            <if test="stationOneName != null  and stationOneName != ''"> and tt.station_one_name like concat('%', #{stationOneName}, '%')</if>
+            <if test="stationOneDistance != null  and stationOneDistance != ''"> and tt.station_one_distance = #{stationOneDistance}</if>
+            <if test="stationTwoName != null  and stationTwoName != ''"> and tt.station_two_name like concat('%', #{stationTwoName}, '%')</if>
+            <if test="stationTwoDistance != null  and stationTwoDistance != ''"> and tt.station_two_distance = #{stationTwoDistance}</if>
+            <if test="stationThrName != null  and stationThrName != ''"> and tt.station_thr_name like concat('%', #{stationThrName}, '%')</if>
+            <if test="stationThrDistance != null  and stationThrDistance != ''"> and tt.station_thr_distance = #{stationThrDistance}</if>
+            <if test="stationFouName != null  and stationFouName != ''"> and tt.station_fou_name like concat('%', #{stationFouName}, '%')</if>
+            <if test="stationFouDistance != null  and stationFouDistance != ''"> and tt.station_fou_distance = #{stationFouDistance}</if>
+        </where>
+        order by tt.update_time desc
+    </select>
+
+    <select id="selectTrackTrainById" parameterType="Integer" resultMap="TrackTrainResult">
+        <include refid="selectTrackTrainVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertTrackTrain" parameterType="TrackTrain" useGeneratedKeys="true" keyProperty="id">
+        insert into track_train
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="classId != null  and classId != ''">class_id,</if>
+            <if test="trackContents != null  and trackContents != ''">track_contents,</if>
+            <if test="actualClassDate != null  and actualClassDate != ''">actual_class_date,</if>
+            <if test="currentLocation != null  and currentLocation != ''">current_location,</if>
+            <if test="trackTime != null  and trackTime != ''">track_time,</if>
+            <if test="exceptEarlyTime != null  and exceptEarlyTime != ''">except_early_time,</if>
+            <if test="exceptLastTime != null  and exceptLastTime != ''">except_last_time,</if>
+            <if test="stateValue != null  and stateValue != ''">state_value,</if>
+            <if test="district != null  and district != ''">district,</if>
+            <if test="stationOneName != null  and stationOneName != ''">station_one_name,</if>
+            <if test="stationOneDistance != null  and stationOneDistance != ''">station_one_distance,</if>
+            <if test="stationTwoName != null  and stationTwoName != ''">station_two_name,</if>
+            <if test="stationTwoDistance != null  and stationTwoDistance != ''">station_two_distance,</if>
+            <if test="stationThrName != null  and stationThrName != ''">station_thr_name,</if>
+            <if test="stationThrDistance != null  and stationThrDistance != ''">station_thr_distance,</if>
+            <if test="stationFouName != null  and stationFouName != ''">station_fou_name,</if>
+            <if test="stationFouDistance != null  and stationFouDistance != ''">station_fou_distance,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="delFlag != null ">del_flag,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="changePort != null and changePort != ''">change_port,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="classId != null  and classId != ''">#{classId},</if>
+            <if test="trackContents != null  and trackContents != ''">#{trackContents},</if>
+            <if test="actualClassDate != null  and actualClassDate != ''">#{actualClassDate},</if>
+            <if test="currentLocation != null  and currentLocation != ''">#{currentLocation},</if>
+            <if test="trackTime != null  and trackTime != ''">#{trackTime},</if>
+            <if test="exceptEarlyTime != null  and exceptEarlyTime != ''">#{exceptEarlyTime},</if>
+            <if test="exceptLastTime != null  and exceptLastTime != ''">#{exceptLastTime},</if>
+            <if test="stateValue != null  and stateValue != ''">#{stateValue},</if>
+            <if test="district != null  and district != ''">#{district},</if>
+            <if test="stationOneName != null  and stationOneName != ''">#{stationOneName},</if>
+            <if test="stationOneDistance != null  and stationOneDistance != ''">#{stationOneDistance},</if>
+            <if test="stationTwoName != null  and stationTwoName != ''">#{stationTwoName},</if>
+            <if test="stationTwoDistance != null  and stationTwoDistance != ''">#{stationTwoDistance},</if>
+            <if test="stationThrName != null  and stationThrName != ''">#{stationThrName},</if>
+            <if test="stationThrDistance != null  and stationThrDistance != ''">#{stationThrDistance},</if>
+            <if test="stationFouName != null  and stationFouName != ''">#{stationFouName},</if>
+            <if test="stationFouDistance != null  and stationFouDistance != ''">#{stationFouDistance},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="delFlag != null ">#{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="changePort != null and changePort != '' ">#{changePort},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTrackTrain" parameterType="TrackTrain">
+        update track_train
+        <trim prefix="SET" suffixOverrides=",">
+            track_time = #{trackTime},
+            station_fou_name = #{stationFouName},
+            station_fou_distance = #{stationFouDistance},
+            <if test="classId != null  and classId != ''">class_id = #{classId},</if>
+            <if test="trackContents != null  and trackContents != ''">track_contents = #{trackContents},</if>
+            <if test="actualClassDate != null  and actualClassDate != ''">actual_class_date = #{actualClassDate},</if>
+            <if test="currentLocation != null  and currentLocation != ''">current_location = #{currentLocation},</if>
+            <if test="exceptEarlyTime != null  and exceptEarlyTime != ''">except_early_time = #{exceptEarlyTime},</if>
+            <if test="exceptLastTime != null  and exceptLastTime != ''">except_last_time = #{exceptLastTime},</if>
+            <if test="stateValue != null  and stateValue != ''">state_value = #{stateValue},</if>
+            <if test="district != null  and district != ''">district = #{district},</if>
+            <if test="stationOneName != null  and stationOneName != ''">station_one_name = #{stationOneName},</if>
+            <if test="stationOneDistance != null  and stationOneDistance != ''">station_one_distance = #{stationOneDistance},</if>
+            <if test="stationTwoName != null  and stationTwoName != ''">station_two_name = #{stationTwoName},</if>
+            <if test="stationTwoDistance != null  and stationTwoDistance != ''">station_two_distance = #{stationTwoDistance},</if>
+            <if test="stationThrName != null  and stationThrName != ''">station_thr_name = #{stationThrName},</if>
+            <if test="stationThrDistance != null  and stationThrDistance != ''">station_thr_distance = #{stationThrDistance},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null ">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="changePort != null and changePort != ''">change_port = #{changePort},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="deleteTrackTrainById" parameterType="Integer">
+        update track_train set del_flag=1 where id = #{id}
+    </update>
+
+    <update id="deleteTrackTrainByIds" parameterType="String">
+        update track_train set del_flag=1 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="selectTrainsList" parameterType="TrackTrainVo" resultMap="trainsResult">
+        select class_ID, bl.name_cn as class_BlockTrain, class_STime,line_typeid,class_StationOfDeparture, class_StationOfDestination, class_bh,
+        class_number,Distribution_time,class_ClassType, class_EastAndWest,  class_ETime ,is_edit from busi_classes bc
+        left join busi_linesite bl on bl.id=bc.line_id
+        <where>
+            <if test="classSTime == null  or classSTime == ''"> and DATE_FORMAT(bc.class_STime,'%Y-%m-%d') &lt;= DATE_FORMAT(now(),'%Y-%m-%d')</if>
+            <if test="classBlockTrain != null  and classBlockTrain != ''"> and bl.name_cn = #{classBlockTrain}</if>
+            <if test="classSTime != null   and classSTime != '' "> and DATE_FORMAT(bc.class_STime,'%Y-%m-%d') =#{classSTime}</if>
+            <if test="classStationOfDeparture != null  and classStationOfDeparture != ''"> and bc.class_StationOfDeparture= (select code from busi_site WHERE name_cn = #{classStationOfDeparture})</if>
+            <if test="classStationOfDestination != null  and classStationOfDestination != ''"> and bc.class_StationOfDestination= (select code from busi_site WHERE name_cn = #{classStationOfDestination})</if>
+            <if test="lineTypeids != null  "> and line_typeid in
+                <foreach collection="lineTypeids" item="typeid" open="(" close=")" separator=",">
+                    #{typeid}
+                </foreach>
+            </if>
+            <if test="classEastAndWest != null  and classEastAndWest != ''"> and class_EastAndWest = #{classEastAndWest}</if>
+        </where>
+        order by bc.class_bh desc
+    </select>
+
+    <update id="updateClass" parameterType="TrackTrain">
+       UPDATE busi_classes bs
+       INNER JOIN (SELECT MAX(update_time) update_time from track_train WHERE del_flag=0
+        <if test="id != null  ">and class_id= (SELECT class_id from track_train WHERE id=#{id})</if>
+        <if test="classId != null and classId != '' ">and  class_id=#{classId}</if>
+        ) tt
+       ON
+        <if test="id != null  ">class_id= (SELECT class_id from track_train WHERE id=#{id})</if>
+        <if test="classId != null and classId != '' "> and class_id=#{classId}</if>
+       SET bs.Distribution_time = tt.update_time
+       <where>
+        <if test="id != null  ">class_id= (SELECT class_id from track_train WHERE id=#{id})</if>
+        <if test="classId != null and classId != '' "> and class_id=#{classId}</if>
+       </where>
+    </update>
+
+    <select id="getSendMessage" parameterType="TrackTrain" resultMap="TrackTrainResult">
+        select bs.class_ID,tgs.actual_class_date,bs.order_ID,bs.receive_order_receiveEmail,bs.order_number,bs.IsConsolidation from  track_goods_status tgs
+        left join busi_shippingorder bs on tgs.order_id=bs.order_ID
+        left join busi_clients bcs  on bs.client_ID=bcs.client_ID
+        <where>
+            bs.IsExamline = 1  and tgs.is_normal=0 and tgs.actual_class_id=#{classId} and tgs.actual_class_date=#{actualClassDate}
+            <if test="isVip ==1 "> and bcs.is_vip=#{isVip}</if>
+        </where>
+        group by bs.order_number
+    </select>
+
+    <select id="getBoxNum" parameterType="String" resultType="java.lang.String">
+        select tgs.box_num from track_goods_status tgs
+        left join busi_shippingorder bs on bs.order_ID=tgs.order_id
+        where tgs.del_flag=0
+        and bs.order_number=#{orderNum} and tgs.actual_class_date=#{actualClassDate}
+    </select>
+
+    <select id="selectShippingOrderByClassId" parameterType="String" resultType="ShippingOrder">
+        select order_id as orderId,class_Eastandwest as classEastandwest from busi_shippingorder
+        where class_id=#{classId}
+    </select>
+
+    <select id="getFirstId" parameterType="String" resultType="Integer">
+        select min(id) from track_train where del_flag=0 and class_id=#{classId}
+    </select>
+
+    <update id="updateTrackState" parameterType="String" >
+        update busi_classes set is_edit=0 where class_ID=#{classId}
+    </update>
+
+    <update id="autoUpdateTrackState" >
+        update busi_classes set is_edit=1
+    </update>
+
+    <select id="selectExportTrainList" parameterType="TrackTrain" resultMap="TrackTrainResult">
+        select tt.id, tt.class_id, tt.track_contents, tt.actual_class_date, tt.current_location, tt.track_time,bl.name_cn as class_BlockTrain,tt.except_early_time, tt.except_last_time,
+        tt.state_value, tt.district, tt.station_one_name, tt.station_one_distance,tt.station_two_name, tt.station_two_distance, tt.station_thr_name, tt.station_thr_distance, tt.station_fou_name,
+        tt.station_fou_distance, tt.remark exportRemark,tt.remark , tt.del_flag, tt.create_by, tt.create_time, tt.update_by, tt.update_time ,bc.class_bh, bc.class_number,change_port,
+        CONCAT(substring(tt.except_early_time,6),'/',substring(tt.except_last_time,6)) exceptTime,bc.class_EastAndWest,DATE_FORMAT(bc.class_STime,'%Y-%m-%d') class_STime,bc.line_typeid
+        from track_train tt
+        left join busi_classes bc on bc.class_ID=tt.class_id
+        left join busi_linesite bl on bl.id=bc.line_id
+        <where>
+            tt.del_flag=0
+            and tt.id IN (SELECT MAX(id) FROM track_train ab
+            WHERE tt.class_id = ab.class_id and ab.del_flag=0
+            <if test="classBh != null  and classBh != ''"> and bc.class_bh = #{classBh}</if>
+            <if test="classEastAndWest != null  and classEastAndWest != ''"> and bc.class_EastAndWest = #{classEastAndWest}</if>
+            <if test="lineTypeId != null  and lineTypeId != ''"> and bc.line_typeid = #{lineTypeId}</if>
+            <if test="classDate != null  and classDate != ''"> and  DATE_FORMAT(bc.class_STime,'%Y-%m-%d') = #{classDate}</if>
+            <if test="updateTime != null "> and  DATE_FORMAT(ab.update_time,'%Y-%m-%d') =DATE_FORMAT(#{updateTime},'%Y-%m-%d') </if>
+            group by class_id,actual_class_date)
+        </where>
+        order by bc.class_STime desc
+    </select>
+
+    <select id="getArriveTime" parameterType="String" resultType="String">
+        select  CONCAT(substring(tt.except_early_time,6),'/',substring(tt.except_last_time,6)) classETime
+        from track_train tt
+        WHERE tt.class_id=#{classId} and tt.id=(SELECT max(id) FROM track_train WHERE track_train.class_id=#{classId})
+    </select>
+
+    <select id="selectGwTrackTrainList" parameterType="String" resultMap="GwttResult">
+        select tt.class_id,
+        case tt.state_value
+        when 0 then '到达/arrive in'
+        when 1 then '驶离/depart from'
+        when 2 then '在/in' end
+        state_value,
+        IFNULL(ta.name_en,tt.current_location) name_en,tt.except_early_time,tt.except_last_time,IFNULL(tt.track_time,tt.update_time) track_time
+        from track_train tt
+        left join track_address ta on ta.name_ch=tt.current_location
+        <where>
+            tt.class_id=#{classId} and tt.del_flag='0'
+            <if test="batchTime==null or  batchTime==''">
+                and actual_class_date =substring_index(#{actualDate},'-',1)
+            </if>
+            <if test="batchTime!=null and batchTime!=''">
+                and ( actual_class_date =substring_index(#{actualDate},'-',1) and tt.update_time &lt; #{batchTime})
+                or  (actual_class_date =substring_index(#{actualDate},'-D',1) and tt.update_time &gt; #{batchTime})
+            </if>
+            <if test="abnormalTime!=null and  abnormalTime!=''">
+                and tt.update_time &lt; #{abnormalTime}
+            </if>
+        </where>
+        order by tt.update_time desc
+    </select>
+</mapper>

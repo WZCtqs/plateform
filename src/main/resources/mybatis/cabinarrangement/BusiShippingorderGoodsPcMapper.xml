@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.cabinarrangement.mapper.BusiShippingorderGoodsPcMapper">
+    
+    <resultMap type="com.szhbl.project.cabinarrangement.domain.BusiShippingorderGoodsPc" id="BusiShippingorderGoodsResult">
+        <result property="goodsId"    column="goods_ID"    />
+        <result property="orderId"    column="order_ID"    />
+        <result property="goodsMark"    column="goods_mark"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="goodsEnName"    column="goods_en_name"    />
+        <result property="goodsReport"    column="goods_report"    />
+        <result property="goodsClearance"    column="goods_clearance"    />
+        <result property="goodsPacking"    column="goods_packing"    />
+        <result property="goodsNumber"    column="goods_number"    />
+        <result property="goodsStandard"    column="goods_standard"    />
+        <result property="goodsKgs"    column="goods_KGS"    />
+        <result property="goodsCbm"    column="goods_CBM"    />
+        <result property="goodsIsscheme"    column="goods_isScheme"    />
+        <result property="remark"    column="remark"    />
+        <result property="createdate"    column="createdate"    />
+        <result property="goodsHistoryEditrecord"    column="goods_history_editrecord"    />
+        <result property="isDg"    column="is_DG"    />
+        <result property="goodsbz"    column="goodsbz"    />
+        <result property="hsbz"    column="HSbz"    />
+        <result property="radioaction"    column="radioaction"    />
+        <result property="isPxupload"    column="is_pxUpload"    />
+        <result property="receiveOrderIspart1"    column="receive_order_isPart1"    />
+        <result property="baojiano"    column="baojiaNO"    />
+        <result property="customsreq"    column="CustomsReq"    />
+        <result property="receiveOrderPartaddress1"    column="receive_order_PartAddress1"    />
+        <result property="receiveShCost1"    column="receive_sh_cost1"    />
+        <result property="shCostcurrency1"    column="sh_costCurrency1"    />
+        <result property="receiveOrderCname"    column="receive_order_Cname"    />
+        <result property="receiveOrderEname"    column="receive_order_Ename"    />
+        <result property="receiveOrderCaddress"    column="receive_order_Caddress"    />
+        <result property="receiveOrderEaddress"    column="receive_order_Eaddress"    />
+        <result property="receiveOrderCcontacts"    column="receive_order_Ccontacts"    />
+        <result property="receiveOrderEcontacts"    column="receive_order_Econtacts"    />
+        <result property="etxCompany"    column="Etx_Company"    />
+        <result property="eduty"    column="Eduty"    />
+        <result property="eemail"    column="Eemail"    />
+        <result property="ephone"    column="Ephone"    />
+        <result property="kpState"    column="kp_state"    />
+    </resultMap>
+
+    <sql id="selectBusiShippingorderGoodsVo">
+        select goods_ID, order_ID, goods_mark, goods_name, goods_en_name, goods_report, goods_clearance, goods_packing, goods_number, goods_standard, goods_KGS, goods_CBM, goods_isScheme, remark, createdate, goods_history_editrecord, is_DG, goodsbz, HSbz, radioaction, is_pxUpload, receive_order_isPart1, baojiaNO, CustomsReq, receive_order_PartAddress1, receive_sh_cost1, sh_costCurrency1, receive_order_Cname, receive_order_Ename, receive_order_Caddress, receive_order_Eaddress, receive_order_Ccontacts, receive_order_Econtacts, Etx_Company, Eduty, Eemail, Ephone, kp_state from busi_shippingorder_goods
+    </sql>
+
+    <select id="selectBusiShippingorderGoodsList" parameterType="com.szhbl.project.cabinarrangement.domain.BusiShippingorderGoodsPc" resultMap="BusiShippingorderGoodsResult">
+        <include refid="selectBusiShippingorderGoodsVo"/>
+        <where>  
+            <if test="orderId != null  and orderId != ''"> and order_ID = #{orderId}</if>
+            <if test="goodsMark != null  and goodsMark != ''"> and goods_mark = #{goodsMark}</if>
+            <if test="goodsName != null  and goodsName != ''"> and goods_name like concat('%', #{goodsName}, '%')</if>
+            <if test="goodsEnName != null  and goodsEnName != ''"> and goods_en_name like concat('%', #{goodsEnName}, '%')</if>
+            <if test="goodsReport != null  and goodsReport != ''"> and goods_report = #{goodsReport}</if>
+            <if test="goodsClearance != null  and goodsClearance != ''"> and goods_clearance = #{goodsClearance}</if>
+            <if test="goodsPacking != null  and goodsPacking != ''"> and goods_packing = #{goodsPacking}</if>
+            <if test="goodsNumber != null  and goodsNumber != ''"> and goods_number = #{goodsNumber}</if>
+            <if test="goodsStandard != null  and goodsStandard != ''"> and goods_standard = #{goodsStandard}</if>
+            <if test="goodsKgs != null  and goodsKgs != ''"> and goods_KGS = #{goodsKgs}</if>
+            <if test="goodsCbm != null  and goodsCbm != ''"> and goods_CBM = #{goodsCbm}</if>
+            <if test="goodsIsscheme != null  and goodsIsscheme != ''"> and goods_isScheme = #{goodsIsscheme}</if>
+            <if test="createdate != null "> and createdate = #{createdate}</if>
+            <if test="goodsHistoryEditrecord != null  and goodsHistoryEditrecord != ''"> and goods_history_editrecord = #{goodsHistoryEditrecord}</if>
+            <if test="isDg != null  and isDg != ''"> and is_DG = #{isDg}</if>
+            <if test="goodsbz != null  and goodsbz != ''"> and goodsbz = #{goodsbz}</if>
+            <if test="hsbz != null  and hsbz != ''"> and HSbz = #{hsbz}</if>
+            <if test="radioaction != null  and radioaction != ''"> and radioaction = #{radioaction}</if>
+            <if test="isPxupload != null  and isPxupload != ''"> and is_pxUpload = #{isPxupload}</if>
+            <if test="receiveOrderIspart1 != null  and receiveOrderIspart1 != ''"> and receive_order_isPart1 = #{receiveOrderIspart1}</if>
+            <if test="baojiano != null  and baojiano != ''"> and baojiaNO = #{baojiano}</if>
+            <if test="customsreq != null  and customsreq != ''"> and CustomsReq = #{customsreq}</if>
+            <if test="receiveOrderPartaddress1 != null  and receiveOrderPartaddress1 != ''"> and receive_order_PartAddress1 = #{receiveOrderPartaddress1}</if>
+            <if test="receiveShCost1 != null  and receiveShCost1 != ''"> and receive_sh_cost1 = #{receiveShCost1}</if>
+            <if test="shCostcurrency1 != null  and shCostcurrency1 != ''"> and sh_costCurrency1 = #{shCostcurrency1}</if>
+            <if test="receiveOrderCname != null  and receiveOrderCname != ''"> and receive_order_Cname like concat('%', #{receiveOrderCname}, '%')</if>
+            <if test="receiveOrderEname != null  and receiveOrderEname != ''"> and receive_order_Ename like concat('%', #{receiveOrderEname}, '%')</if>
+            <if test="receiveOrderCaddress != null  and receiveOrderCaddress != ''"> and receive_order_Caddress = #{receiveOrderCaddress}</if>
+            <if test="receiveOrderEaddress != null  and receiveOrderEaddress != ''"> and receive_order_Eaddress = #{receiveOrderEaddress}</if>
+            <if test="receiveOrderCcontacts != null  and receiveOrderCcontacts != ''"> and receive_order_Ccontacts = #{receiveOrderCcontacts}</if>
+            <if test="receiveOrderEcontacts != null  and receiveOrderEcontacts != ''"> and receive_order_Econtacts = #{receiveOrderEcontacts}</if>
+            <if test="etxCompany != null  and etxCompany != ''"> and Etx_Company = #{etxCompany}</if>
+            <if test="eduty != null  and eduty != ''"> and Eduty = #{eduty}</if>
+            <if test="eemail != null  and eemail != ''"> and Eemail = #{eemail}</if>
+            <if test="ephone != null  and ephone != ''"> and Ephone = #{ephone}</if>
+            <if test="kpState != null  and kpState != ''"> and kp_state = #{kpState}</if>
+        </where>
+    </select>
+    
+    <select id="selectBusiShippingorderGoodsById" parameterType="java.lang.String" resultMap="BusiShippingorderGoodsResult">
+        <include refid="selectBusiShippingorderGoodsVo"/>
+        where goods_ID = #{goodsId}
+    </select>
+        
+    <insert id="insertBusiShippingorderGoods" parameterType="com.szhbl.project.cabinarrangement.domain.BusiShippingorderGoodsPc">
+        insert into busi_shippingorder_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null  and goodsId != ''">goods_ID,</if>
+            <if test="orderId != null  and orderId != ''">order_ID,</if>
+            <if test="goodsMark != null  and goodsMark != ''">goods_mark,</if>
+            <if test="goodsName != null  and goodsName != ''">goods_name,</if>
+            <if test="goodsEnName != null  and goodsEnName != ''">goods_en_name,</if>
+            <if test="goodsReport != null  and goodsReport != ''">goods_report,</if>
+            <if test="goodsClearance != null  and goodsClearance != ''">goods_clearance,</if>
+            <if test="goodsPacking != null  and goodsPacking != ''">goods_packing,</if>
+            <if test="goodsNumber != null  and goodsNumber != ''">goods_number,</if>
+            <if test="goodsStandard != null  and goodsStandard != ''">goods_standard,</if>
+            <if test="goodsKgs != null  and goodsKgs != ''">goods_KGS,</if>
+            <if test="goodsCbm != null  and goodsCbm != ''">goods_CBM,</if>
+            <if test="goodsIsscheme != null  and goodsIsscheme != ''">goods_isScheme,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createdate != null ">createdate,</if>
+            <if test="goodsHistoryEditrecord != null  and goodsHistoryEditrecord != ''">goods_history_editrecord,</if>
+            <if test="isDg != null  and isDg != ''">is_DG,</if>
+            <if test="goodsbz != null  and goodsbz != ''">goodsbz,</if>
+            <if test="hsbz != null  and hsbz != ''">HSbz,</if>
+            <if test="radioaction != null  and radioaction != ''">radioaction,</if>
+            <if test="isPxupload != null  and isPxupload != ''">is_pxUpload,</if>
+            <if test="receiveOrderIspart1 != null  and receiveOrderIspart1 != ''">receive_order_isPart1,</if>
+            <if test="baojiano != null  and baojiano != ''">baojiaNO,</if>
+            <if test="customsreq != null  and customsreq != ''">CustomsReq,</if>
+            <if test="receiveOrderPartaddress1 != null  and receiveOrderPartaddress1 != ''">receive_order_PartAddress1,</if>
+            <if test="receiveShCost1 != null  and receiveShCost1 != ''">receive_sh_cost1,</if>
+            <if test="shCostcurrency1 != null  and shCostcurrency1 != ''">sh_costCurrency1,</if>
+            <if test="receiveOrderCname != null  and receiveOrderCname != ''">receive_order_Cname,</if>
+            <if test="receiveOrderEname != null  and receiveOrderEname != ''">receive_order_Ename,</if>
+            <if test="receiveOrderCaddress != null  and receiveOrderCaddress != ''">receive_order_Caddress,</if>
+            <if test="receiveOrderEaddress != null  and receiveOrderEaddress != ''">receive_order_Eaddress,</if>
+            <if test="receiveOrderCcontacts != null  and receiveOrderCcontacts != ''">receive_order_Ccontacts,</if>
+            <if test="receiveOrderEcontacts != null  and receiveOrderEcontacts != ''">receive_order_Econtacts,</if>
+            <if test="etxCompany != null  and etxCompany != ''">Etx_Company,</if>
+            <if test="eduty != null  and eduty != ''">Eduty,</if>
+            <if test="eemail != null  and eemail != ''">Eemail,</if>
+            <if test="ephone != null  and ephone != ''">Ephone,</if>
+            <if test="kpState != null  and kpState != ''">kp_state,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null  and goodsId != ''">#{goodsId},</if>
+            <if test="orderId != null  and orderId != ''">#{orderId},</if>
+            <if test="goodsMark != null  and goodsMark != ''">#{goodsMark},</if>
+            <if test="goodsName != null  and goodsName != ''">#{goodsName},</if>
+            <if test="goodsEnName != null  and goodsEnName != ''">#{goodsEnName},</if>
+            <if test="goodsReport != null  and goodsReport != ''">#{goodsReport},</if>
+            <if test="goodsClearance != null  and goodsClearance != ''">#{goodsClearance},</if>
+            <if test="goodsPacking != null  and goodsPacking != ''">#{goodsPacking},</if>
+            <if test="goodsNumber != null  and goodsNumber != ''">#{goodsNumber},</if>
+            <if test="goodsStandard != null  and goodsStandard != ''">#{goodsStandard},</if>
+            <if test="goodsKgs != null  and goodsKgs != ''">#{goodsKgs},</if>
+            <if test="goodsCbm != null  and goodsCbm != ''">#{goodsCbm},</if>
+            <if test="goodsIsscheme != null  and goodsIsscheme != ''">#{goodsIsscheme},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createdate != null ">#{createdate},</if>
+            <if test="goodsHistoryEditrecord != null  and goodsHistoryEditrecord != ''">#{goodsHistoryEditrecord},</if>
+            <if test="isDg != null  and isDg != ''">#{isDg},</if>
+            <if test="goodsbz != null  and goodsbz != ''">#{goodsbz},</if>
+            <if test="hsbz != null  and hsbz != ''">#{hsbz},</if>
+            <if test="radioaction != null  and radioaction != ''">#{radioaction},</if>
+            <if test="isPxupload != null  and isPxupload != ''">#{isPxupload},</if>
+            <if test="receiveOrderIspart1 != null  and receiveOrderIspart1 != ''">#{receiveOrderIspart1},</if>
+            <if test="baojiano != null  and baojiano != ''">#{baojiano},</if>
+            <if test="customsreq != null  and customsreq != ''">#{customsreq},</if>
+            <if test="receiveOrderPartaddress1 != null  and receiveOrderPartaddress1 != ''">#{receiveOrderPartaddress1},</if>
+            <if test="receiveShCost1 != null  and receiveShCost1 != ''">#{receiveShCost1},</if>
+            <if test="shCostcurrency1 != null  and shCostcurrency1 != ''">#{shCostcurrency1},</if>
+            <if test="receiveOrderCname != null  and receiveOrderCname != ''">#{receiveOrderCname},</if>
+            <if test="receiveOrderEname != null  and receiveOrderEname != ''">#{receiveOrderEname},</if>
+            <if test="receiveOrderCaddress != null  and receiveOrderCaddress != ''">#{receiveOrderCaddress},</if>
+            <if test="receiveOrderEaddress != null  and receiveOrderEaddress != ''">#{receiveOrderEaddress},</if>
+            <if test="receiveOrderCcontacts != null  and receiveOrderCcontacts != ''">#{receiveOrderCcontacts},</if>
+            <if test="receiveOrderEcontacts != null  and receiveOrderEcontacts != ''">#{receiveOrderEcontacts},</if>
+            <if test="etxCompany != null  and etxCompany != ''">#{etxCompany},</if>
+            <if test="eduty != null  and eduty != ''">#{eduty},</if>
+            <if test="eemail != null  and eemail != ''">#{eemail},</if>
+            <if test="ephone != null  and ephone != ''">#{ephone},</if>
+            <if test="kpState != null  and kpState != ''">#{kpState},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBusiShippingorderGoods" parameterType="com.szhbl.project.cabinarrangement.domain.BusiShippingorderGoodsPc">
+        update busi_shippingorder_goods
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_ID = #{orderId},</if>
+            <if test="goodsMark != null  and goodsMark != ''">goods_mark = #{goodsMark},</if>
+            <if test="goodsName != null  and goodsName != ''">goods_name = #{goodsName},</if>
+            <if test="goodsEnName != null  and goodsEnName != ''">goods_en_name = #{goodsEnName},</if>
+            <if test="goodsReport != null  and goodsReport != ''">goods_report = #{goodsReport},</if>
+            <if test="goodsClearance != null  and goodsClearance != ''">goods_clearance = #{goodsClearance},</if>
+            <if test="goodsPacking != null  and goodsPacking != ''">goods_packing = #{goodsPacking},</if>
+            <if test="goodsNumber != null  and goodsNumber != ''">goods_number = #{goodsNumber},</if>
+            <if test="goodsStandard != null  and goodsStandard != ''">goods_standard = #{goodsStandard},</if>
+            <if test="goodsKgs != null  and goodsKgs != ''">goods_KGS = #{goodsKgs},</if>
+            <if test="goodsCbm != null  and goodsCbm != ''">goods_CBM = #{goodsCbm},</if>
+            <if test="goodsIsscheme != null  and goodsIsscheme != ''">goods_isScheme = #{goodsIsscheme},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createdate != null ">createdate = #{createdate},</if>
+            <if test="goodsHistoryEditrecord != null  and goodsHistoryEditrecord != ''">goods_history_editrecord = #{goodsHistoryEditrecord},</if>
+            <if test="isDg != null  and isDg != ''">is_DG = #{isDg},</if>
+            <if test="goodsbz != null  and goodsbz != ''">goodsbz = #{goodsbz},</if>
+            <if test="hsbz != null  and hsbz != ''">HSbz = #{hsbz},</if>
+            <if test="radioaction != null  and radioaction != ''">radioaction = #{radioaction},</if>
+            <if test="isPxupload != null  and isPxupload != ''">is_pxUpload = #{isPxupload},</if>
+            <if test="receiveOrderIspart1 != null  and receiveOrderIspart1 != ''">receive_order_isPart1 = #{receiveOrderIspart1},</if>
+            <if test="baojiano != null  and baojiano != ''">baojiaNO = #{baojiano},</if>
+            <if test="customsreq != null  and customsreq != ''">CustomsReq = #{customsreq},</if>
+            <if test="receiveOrderPartaddress1 != null  and receiveOrderPartaddress1 != ''">receive_order_PartAddress1 = #{receiveOrderPartaddress1},</if>
+            <if test="receiveShCost1 != null  and receiveShCost1 != ''">receive_sh_cost1 = #{receiveShCost1},</if>
+            <if test="shCostcurrency1 != null  and shCostcurrency1 != ''">sh_costCurrency1 = #{shCostcurrency1},</if>
+            <if test="receiveOrderCname != null  and receiveOrderCname != ''">receive_order_Cname = #{receiveOrderCname},</if>
+            <if test="receiveOrderEname != null  and receiveOrderEname != ''">receive_order_Ename = #{receiveOrderEname},</if>
+            <if test="receiveOrderCaddress != null  and receiveOrderCaddress != ''">receive_order_Caddress = #{receiveOrderCaddress},</if>
+            <if test="receiveOrderEaddress != null  and receiveOrderEaddress != ''">receive_order_Eaddress = #{receiveOrderEaddress},</if>
+            <if test="receiveOrderCcontacts != null  and receiveOrderCcontacts != ''">receive_order_Ccontacts = #{receiveOrderCcontacts},</if>
+            <if test="receiveOrderEcontacts != null  and receiveOrderEcontacts != ''">receive_order_Econtacts = #{receiveOrderEcontacts},</if>
+            <if test="etxCompany != null  and etxCompany != ''">Etx_Company = #{etxCompany},</if>
+            <if test="eduty != null  and eduty != ''">Eduty = #{eduty},</if>
+            <if test="eemail != null  and eemail != ''">Eemail = #{eemail},</if>
+            <if test="ephone != null  and ephone != ''">Ephone = #{ephone},</if>
+            <if test="kpState != null  and kpState != ''">kp_state = #{kpState},</if>
+        </trim>
+        where goods_ID = #{goodsId}
+    </update>
+
+    <delete id="deleteBusiShippingorderGoodsById" parameterType="java.lang.String">
+        delete from busi_shippingorder_goods where goods_ID = #{goodsId}
+    </delete>
+
+    <delete id="deleteBusiShippingorderGoodsByIds" parameterType="java.lang.String">
+        delete from busi_shippingorder_goods where goods_ID in 
+        <foreach item="goodsId" collection="array" open="(" separator="," close=")">
+            #{goodsId}
+        </foreach>
+    </delete>
+
+    <select id="pxCount" resultType="com.szhbl.project.cabinarrangement.vo.px">
+        select
+        round(sum(goods_KGS),2)  as kg,
+        round(sum(goods_CBM),2) as val
+        from busi_shippingorder_goods bsg
+        left join busi_shippingorder bs on  bs.order_ID = bsg.order_ID
+        where  bs.class_ID = #{classId} and bs.IsConsolidation = "1" and bs.IsExamline != "2" and bs.IsExamline != "3" and bs.IsExamline != "8"
+    </select>
+
+    <select id="selectPx" resultType="com.szhbl.project.cabinarrangement.vo.px">
+        select
+        round(sum(goods_KGS),2) as kg,
+        round(sum(goods_CBM),2) as val
+        from busi_shippingorder_goods bsg
+        left join busi_shippingorder bs on  bs.order_ID = bsg.order_ID
+        where  bs.class_ID = #{classId} and bs.IsConsolidation = "1"
+        and bs.IsExamline != "2" and bs.IsExamline != "3" and bs.IsExamline != "8"
+        <if test="westAndEast == 0">
+            and bs.order_unloadSite = #{station}
+        </if>
+        <if test="westAndEast == 1">
+            and bs.order_uploadSite = #{station}
+        </if>
+    </select>
+
+
+    
+</mapper>

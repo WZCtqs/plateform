@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.client.mapper.SystemDictMapper">
+    
+    <resultMap type="SystemDict" id="SystemDictResult">
+        <result property="id"    column="id"    />
+        <result property="fid"    column="fid"    />
+        <result property="ancestors"    column="ancestors"    />
+        <result property="mcheng"    column="mCheng"    />
+        <result property="state"    column="state"    />
+        <result property="sort"    column="sort"    />
+        <result property="yuyan"    column="yuyan"    />
+        <result property="westMerchandiser"    column="west_merchandiser"    />
+        <result property="westMerchandiserId"    column="west_merchandiser_id"    />
+        <result property="eastMerchandiser"    column="east_merchandiser"    />
+        <result property="eastMerchandiserId"    column="east_merchandiser_id"    />
+        <result property="mails"    column="mails"    />
+    </resultMap>
+
+    <sql id="selectSystemDictVo">
+        select id, fid, ancestors, mCheng, state, sort, yuyan, west_merchandiser, west_merchandiser_id, east_merchandiser, east_merchandiser_id, mails from system_dict
+    </sql>
+
+    <select id="selectSystemDictList" parameterType="SystemDict" resultMap="SystemDictResult">
+        <include refid="selectSystemDictVo"/>
+        <where>  
+            <if test="mcheng != null  and mcheng != ''"> and mCheng = #{mcheng}</if>
+            <if test="state != null  and state != ''"> and state = #{state}</if>
+        </where>
+    </select>
+    
+    <select id="selectSystemDictById" parameterType="Long" resultMap="SystemDictResult">
+        <include refid="selectSystemDictVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSystemDict" parameterType="SystemDict" useGeneratedKeys="true" keyProperty="id">
+        insert into system_dict
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="fid != null ">fid,</if>
+            <if test="ancestors != null  and ancestors != ''">ancestors,</if>
+            <if test="mcheng != null  and mcheng != ''">mCheng,</if>
+            <if test="state != null  and state != ''">state,</if>
+            <if test="sort != null  and sort != ''">sort,</if>
+            <if test="yuyan != null  and yuyan != ''">yuyan,</if>
+            <if test="westMerchandiser != null  and westMerchandiser != ''">west_merchandiser,</if>
+            <if test="westMerchandiserId != null ">west_merchandiser_id,</if>
+            <if test="eastMerchandiser != null  and eastMerchandiser != ''">east_merchandiser,</if>
+            <if test="eastMerchandiserId != null ">east_merchandiser_id,</if>
+            <if test="mails != null  and mails != ''">mails,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="fid != null ">#{fid},</if>
+            <if test="ancestors != null  and ancestors != ''">#{ancestors},</if>
+            <if test="mcheng != null  and mcheng != ''">#{mcheng},</if>
+            <if test="state != null  and state != ''">#{state},</if>
+            <if test="sort != null  and sort != ''">#{sort},</if>
+            <if test="yuyan != null  and yuyan != ''">#{yuyan},</if>
+            <if test="westMerchandiser != null  and westMerchandiser != ''">#{westMerchandiser},</if>
+            <if test="westMerchandiserId != null ">#{westMerchandiserId},</if>
+            <if test="eastMerchandiser != null  and eastMerchandiser != ''">#{eastMerchandiser},</if>
+            <if test="eastMerchandiserId != null ">#{eastMerchandiserId},</if>
+            <if test="mails != null  and mails != ''">#{mails},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSystemDict" parameterType="SystemDict">
+        update system_dict
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fid != null ">fid = #{fid},</if>
+            <if test="ancestors != null  and ancestors != ''">ancestors = #{ancestors},</if>
+            <if test="mcheng != null  and mcheng != ''">mCheng = #{mcheng},</if>
+            <if test="state != null  and state != ''">state = #{state},</if>
+            <if test="sort != null  and sort != ''">sort = #{sort},</if>
+            <if test="yuyan != null  and yuyan != ''">yuyan = #{yuyan},</if>
+            <if test="westMerchandiser != null  and westMerchandiser != ''">west_merchandiser = #{westMerchandiser},</if>
+            <if test="westMerchandiserId != null ">west_merchandiser_id = #{westMerchandiserId},</if>
+            <if test="eastMerchandiser != null  and eastMerchandiser != ''">east_merchandiser = #{eastMerchandiser},</if>
+            <if test="eastMerchandiserId != null ">east_merchandiser_id = #{eastMerchandiserId},</if>
+            <if test="mails != null  and mails != ''">mails = #{mails},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSystemDictById" parameterType="Long">
+        delete from system_dict where id = #{id}
+    </delete>
+
+    <delete id="deleteSystemDictByIds" parameterType="String">
+        delete from system_dict where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

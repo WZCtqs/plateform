@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.documentcenter.mapper.DocOrderPickconCommandMapper">
+    
+    <resultMap type="DocOrderPickconCommand" id="DocOrderPickconCommandResult">
+        <result property="id"    column="id"    />
+        <result property="classNum"    column="class_num"    />
+        <result property="containerNo"    column="container_no"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="fileUrl"    column="file_url"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectDocOrderPickconCommandVo">
+        select id, class_num, container_no, file_name, file_url, update_time from doc_order_pickcon_command
+    </sql>
+
+    <select id="selectDocOrderPickconCommandList" parameterType="DocOrderPickconCommand" resultMap="DocOrderPickconCommandResult">
+        <include refid="selectDocOrderPickconCommandVo"/>
+        <where>  
+            <if test="classNum != null  and classNum != ''"> and class_num = #{classNum}</if>
+            <if test="containerNo != null  and containerNo != ''"> and container_no = #{containerNo}</if>
+            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
+            <if test="fileUrl != null  and fileUrl != ''"> and file_url = #{fileUrl}</if>
+        </where>
+    </select>
+    
+    <select id="selectDocOrderPickconCommandById" parameterType="Long" resultMap="DocOrderPickconCommandResult">
+        <include refid="selectDocOrderPickconCommandVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDocOrderPickconCommand" parameterType="DocOrderPickconCommand" useGeneratedKeys="true" keyProperty="id">
+        insert into doc_order_pickcon_command
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="classNum != null  and classNum != ''">class_num,</if>
+            <if test="containerNo != null  and containerNo != ''">container_no,</if>
+            <if test="fileName != null  and fileName != ''">file_name,</if>
+            <if test="fileUrl != null  and fileUrl != ''">file_url,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="classNum != null  and classNum != ''">#{classNum},</if>
+            <if test="containerNo != null  and containerNo != ''">#{containerNo},</if>
+            <if test="fileName != null  and fileName != ''">#{fileName},</if>
+            <if test="fileUrl != null  and fileUrl != ''">#{fileUrl},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDocOrderPickconCommand" parameterType="DocOrderPickconCommand">
+        update doc_order_pickcon_command
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="classNum != null  and classNum != ''">class_num = #{classNum},</if>
+            <if test="containerNo != null  and containerNo != ''">container_no = #{containerNo},</if>
+            <if test="fileName != null  and fileName != ''">file_name = #{fileName},</if>
+            <if test="fileUrl != null  and fileUrl != ''">file_url = #{fileUrl},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDocOrderPickconCommandById" parameterType="Long">
+        delete from doc_order_pickcon_command where id = #{id}
+    </delete>
+
+    <delete id="deleteDocOrderPickconCommandByIds" parameterType="String">
+        delete from doc_order_pickcon_command where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

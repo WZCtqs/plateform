@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.enquiry.mapper.ZgRussiaGoingFeeMapper">
+
+    <resultMap type="ZgRussiaGoingFee" id="ZgRussiaGoingFeeResult">
+        <result property="id"    column="id"    />
+        <result property="pickUpCity"    column="pick_up_city"    />
+        <result property="cargoCollectionPoint"    column="cargo_collection_point"    />
+        <result property="distance"    column="distance"    />
+        <result property="pickGoodsFee"    column="pick_goods_fee"    />
+        <result property="pickGoodsShowFee"    column="pick_goods_show_fee"    />
+        <result property="pickUnit"    column="pick_unit"    />
+        <result property="containerType"    column="container_type"    />
+        <result property="validStartDate"    column="valid_start_date"    />
+        <result property="validEndDate"    column="valid_end_date"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectZgRussiaGoingFeeVo">
+        select id, pick_up_city, cargo_collection_point, distance, pick_goods_fee,pick_goods_show_fee, pick_unit, container_type, valid_start_date, valid_end_date, create_time from zg_russia_going_fee
+    </sql>
+
+    <select id="selectZgRussiaGoingFeeList" parameterType="ZgRussiaGoingFee" resultMap="ZgRussiaGoingFeeResult">
+        <include refid="selectZgRussiaGoingFeeVo"/>
+        <where>
+            <if test="pickUpCity != null  and pickUpCity != ''"> and pick_up_city = #{pickUpCity}</if>
+            <if test="cargoCollectionPoint != null  and cargoCollectionPoint != ''"> and cargo_collection_point = #{cargoCollectionPoint}</if>
+            <if test="distance != null "> and distance = #{distance}</if>
+            <if test="pickGoodsFee != null "> and pick_goods_fee = #{pickGoodsFee}</if>
+            <if test="pickGoodsShowFee != null "> and pick_goods_show_fee = #{pickGoodsShowFee}</if>
+            <if test="pickUnit != null  and pickUnit != ''"> and pick_unit = #{pickUnit}</if>
+            <if test="containerType != null  and containerType != ''"> and container_type = #{containerType}</if>
+            <if test="validStartDate != null "> and valid_start_date = #{validStartDate}</if>
+            <if test="validEndDate != null "> and valid_end_date = #{validEndDate}</if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="selectZgRussiaGoingFeeById" parameterType="Long" resultMap="ZgRussiaGoingFeeResult">
+        <include refid="selectZgRussiaGoingFeeVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertZgRussiaGoingFee" parameterType="ZgRussiaGoingFee" useGeneratedKeys="true" keyProperty="id">
+        insert into zg_russia_going_fee
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pickUpCity != null  and pickUpCity != ''">pick_up_city,</if>
+            <if test="cargoCollectionPoint != null  and cargoCollectionPoint != ''">cargo_collection_point,</if>
+            <if test="distance != null ">distance,</if>
+            <if test="pickGoodsFee != null ">pick_goods_fee,</if>
+            <if test="pickGoodsShowFee != null ">pick_goods_show_fee,</if>
+            <if test="pickUnit != null  and pickUnit != ''">pick_unit,</if>
+            <if test="containerType != null  and containerType != ''">container_type,</if>
+            <if test="validStartDate != null ">valid_start_date,</if>
+            <if test="validEndDate != null ">valid_end_date,</if>
+            <if test="createTime != null ">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pickUpCity != null  and pickUpCity != ''">#{pickUpCity},</if>
+            <if test="cargoCollectionPoint != null  and cargoCollectionPoint != ''">#{cargoCollectionPoint},</if>
+            <if test="distance != null ">#{distance},</if>
+            <if test="pickGoodsFee != null ">#{pickGoodsFee},</if>
+            <if test="pickGoodsShowFee != null ">#{pickGoodsShowFee},</if>
+            <if test="pickUnit != null  and pickUnit != ''">#{pickUnit},</if>
+            <if test="containerType != null  and containerType != ''">#{containerType},</if>
+            <if test="validStartDate != null ">#{validStartDate},</if>
+            <if test="validEndDate != null ">#{validEndDate},</if>
+            <if test="createTime != null ">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateZgRussiaGoingFee" parameterType="ZgRussiaGoingFee">
+        update zg_russia_going_fee
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pickUpCity != null  and pickUpCity != ''">pick_up_city = #{pickUpCity},</if>
+            <if test="cargoCollectionPoint != null  and cargoCollectionPoint != ''">cargo_collection_point = #{cargoCollectionPoint},</if>
+            <if test="distance != null ">distance = #{distance},</if>
+            <if test="pickGoodsFee != null ">pick_goods_fee = #{pickGoodsFee},</if>
+            <if test="pickGoodsShowFee != null ">pick_goods_show_fee = #{pickGoodsShowFee},</if>
+            <if test="pickUnit != null  and pickUnit != ''">pick_unit = #{pickUnit},</if>
+            <if test="containerType != null  and containerType != ''">container_type = #{containerType},</if>
+            <if test="validStartDate != null ">valid_start_date = #{validStartDate},</if>
+            <if test="validEndDate != null ">valid_end_date = #{validEndDate},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteZgRussiaGoingFeeById" parameterType="Long">
+        delete from zg_russia_going_fee where id = #{id}
+    </delete>
+
+    <delete id="deleteZgRussiaGoingFeeByIds" parameterType="String">
+        delete from zg_russia_going_fee where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectZgRussiaGoingFeeByCity" resultMap="ZgRussiaGoingFeeResult">
+        <include refid="selectZgRussiaGoingFeeVo"/>
+        <where>
+            <if test="pickUpCity != null  and pickUpCity != ''"> and pick_up_city = #{pickUpCity}</if>
+            <if test="cargoCollectionPoint != null  and cargoCollectionPoint != ''"> and cargo_collection_point = #{cargoCollectionPoint}</if>
+            <if test="containerType != null  and containerType != ''">and container_type = #{containerType}</if>
+            <if test="validStartDate != null  ">
+                and DATE_FORMAT(valid_start_date,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(#{validStartDate},'%Y-%m-%d')
+            </if>
+            <if test="validEndDate != null ">
+                and DATE_FORMAT(valid_end_date,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(#{validEndDate},'%Y-%m-%d')
+            </if>
+        </where>
+    </select>
+    <select id="selectZePickFee" resultMap="ZgRussiaGoingFeeResult">
+        <include refid="selectZgRussiaGoingFeeVo"/>
+        <where>
+            1=1
+            <if test="pickUpCity != null  and pickUpCity != ''"> and pick_up_city = #{pickUpCity}</if>
+            <if test="cargoCollectionPoint != null  and cargoCollectionPoint != ''"> and cargo_collection_point = #{cargoCollectionPoint}</if>
+            <if test="containerType != null  and containerType != ''">and container_type = #{containerType}</if>
+            and DATE_FORMAT(valid_start_date,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(NOW(),'%Y-%m-%d')
+            and DATE_FORMAT(valid_end_date,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(NOW(),'%Y-%m-%d')
+        </where>
+    </select>
+
+</mapper>

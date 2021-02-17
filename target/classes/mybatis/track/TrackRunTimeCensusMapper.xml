@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.track.mapper.TrackRunTimeCensusMapper">
+    
+    <resultMap type="TrackRunTimeCensus" id="TrackRunTimeCensusResult">
+        <result property="id"    column="id"    />
+        <result property="classId"    column="class_id"    />
+        <result property="planRunTime"    column="plan_run_time"    />
+        <result property="actualRunTime"    column="actual_run_time"    />
+        <result property="domesticDay"    column="domestic_day"    />
+        <result property="arriveOneTime"    column="arrive_one_time"    />
+        <result property="oneStayDay"    column="one_stay_day"    />
+        <result property="departOneTime"    column="depart_one_time"    />
+        <result property="oneTwoDay"    column="one_two_day"    />
+        <result property="arriveTwoTime"    column="arrive_two_time"    />
+        <result property="twoStayDay"    column="two_stay_day"    />
+        <result property="departTwoTime"    column="depart_two_time"    />
+        <result property="twoThrDay"    column="two_thr_day"    />
+        <result property="arriveThrTime"    column="arrive_thr_time"    />
+        <result property="thrStayDay"    column="thr_stay_day"    />
+        <result property="departThrTime"    column="depart_thr_time"    />
+        <result property="thrFouDay"    column="thr_fou_day"    />
+        <result property="arriveFouTime"    column="arrive_fou_time"    />
+        <result property="fouStayDay"    column="fou_stay_day"    />
+        <result property="departFouTime"    column="depart_fou_time"    />
+        <result property="lastDestinationDate"    column="last_destination_date"    />
+        <result property="destinationTime"    column="destination_time"    />
+        <result property="changePlace"    column="change_place"    />
+        <result property="territoryDay"    column="territory_day"    />
+        <result property="totalDay"    column="total_day"    />
+        <result property="isEdit"    column="is_edit"    />
+        <result property="delayReason"    column="delay_reason"    />
+        <result property="changeDate"    column="change_date"    />
+        <result property="classDate"    column="calss_date"    />
+        <result property="port"    column="port"    />
+        <result property="classEastAndWest"    column="class_east_and_west"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <resultMap type="TrackRunTimeCensusVo" id="trtcVoResult">
+        <result property="classId"    column="class_ID"    />
+        <result property="classBh"    column="class_bh"    />
+        <result property="classNum"    column="class_number"    />
+        <result property="classBlockTrain"    column="class_BlockTrain"    />
+        <result property="isEdit"    column="is_edit"    />
+        <result property="classEastAndWest"    column="class_EastAndWest"    />
+        <result property="startStation"    column="class_StationOfDeparture"    />
+        <result property="classStationofdestinationName"    column="class_StationOfDestination"    />
+        <result property="classSTime"    column="class_STime"    />
+        <result property="classETime"    column="class_ETime"    />
+    </resultMap>
+
+    <resultMap type="BusiSiteVo" id="bsVoResult">
+        <result property="code"    column="code"    />
+        <result property="nameCn"    column="name_cn"    />
+        <result property="nameEn"    column="name_en"    />
+    </resultMap>
+
+    <sql id="selectTrackRunTimeCensusVo">
+        select id, class_id, plan_run_time, actual_run_time, change_date,domestic_day, arrive_one_time, one_stay_day, depart_one_time, one_two_day, arrive_two_time, two_stay_day,depart_two_time,
+        two_thr_day, arrive_thr_time, thr_stay_day, depart_thr_time, thr_fou_day, arrive_fou_time, fou_stay_day, depart_fou_time, last_destination_date,destination_time,  change_place,
+        territory_day, total_day,  trtc.is_edit, delay_reason, calss_date,port,class_east_and_west,remark, del_flag, create_by, create_time, update_by, update_time from track_run_time_census trtc
+    </sql>
+
+    <select id="selectTrackRunTimeCensusList" parameterType="TrackRunTimeCensus" resultMap="TrackRunTimeCensusResult">
+        select trtc.id, trtc.class_id, plan_run_time, actual_run_time, change_date,domestic_day, arrive_one_time, one_stay_day, depart_one_time, one_two_day, arrive_two_time, two_stay_day,depart_two_time,
+        two_thr_day, arrive_thr_time, thr_stay_day, depart_thr_time, thr_fou_day, arrive_fou_time, fou_stay_day, depart_fou_time, last_destination_date,IFNULL(destination_time,arrive_two_time) destination_time, change_place,
+        territory_day, total_day, trtc.is_edit, delay_reason, calss_date,port,class_east_and_west from track_run_time_census trtc
+        left join busi_classes bc on bc.class_ID=trtc.class_id
+        left join busi_site bs on bs.code=bc.class_StationOfDestination
+        left join busi_linesite bl on bl.id=bc.line_id
+        <where>
+            trtc.is_edit=1
+            <if test="lineTypeId != null  and lineTypeId != ''"> and bc.line_typeid = #{lineTypeId}</if>
+            <if test="classBlockTrain != null  and classBlockTrain != ''">and bl.name_cn=#{classBlockTrain}</if>
+            <if test="classEastAndWest != null  and classEastAndWest != ''">and trtc.class_east_and_west=#{classEastAndWest}</if>
+            <if test="startTime != null  and startTime != ''">and trtc.calss_date &gt;= #{startTime}</if>
+            <if test="endTime != null  and endTime != ''">and  trtc.calss_date &lt;= #{endTime}</if>
+            <if test="classStationofdestinationName != null  and classStationofdestinationName != ''">
+                and bs.name_cn like CONCAT('%',#{classStationofdestinationName},'%')</if>
+        </where>
+    </select>
+    
+    <select id="selectTrackRunTimeCensusById" parameterType="Long" resultMap="TrackRunTimeCensusResult">
+        <include refid="selectTrackRunTimeCensusVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTrackRunTimeCensus" parameterType="TrackRunTimeCensus" useGeneratedKeys="true" keyProperty="id">
+        insert into track_run_time_census
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="classId != null  and classId != ''">class_id,</if>
+            <if test="planRunTime != null  and planRunTime != ''">plan_run_time,</if>
+            <if test="actualRunTime != null  and actualRunTime != ''">actual_run_time,</if>
+            <if test="domesticDay != null  and domesticDay != ''">domestic_day,</if>
+            <if test="arriveOneTime != null  and arriveOneTime != ''">arrive_one_time,</if>
+            <if test="oneStayDay != null  and oneStayDay != ''">one_stay_day,</if>
+            <if test="departOneTime != null  and departOneTime != ''">depart_one_time,</if>
+            <if test="oneTwoDay != null  and oneTwoDay != ''">one_two_day,</if>
+            <if test="arriveTwoTime != null  and arriveTwoTime != ''">arrive_two_time,</if>
+            <if test="twoStayDay != null  and twoStayDay != ''">two_stay_day,</if>
+            <if test="departTwoTime != null  and departTwoTime != ''">depart_two_time,</if>
+            <if test="twoThrDay != null  and twoThrDay != ''">two_thr_day,</if>
+            <if test="arriveThrTime != null  and arriveThrTime != ''">arrive_thr_time,</if>
+            <if test="thrStayDay != null  and thrStayDay != ''">thr_stay_day,</if>
+            <if test="departThrTime != null  and departThrTime != ''">depart_thr_time,</if>
+            <if test="thrFouDay != null  and thrFouDay != ''">thr_fou_day,</if>
+            <if test="arriveFouTime != null  and arriveFouTime != ''">arrive_fou_time,</if>
+            <if test="fouStayDay != null  and fouStayDay != ''">fou_stay_day,</if>
+            <if test="departFouTime != null  and departFouTime != ''">depart_fou_time,</if>
+            <if test="lastDestinationDate != null  and lastDestinationDate != ''">last_destination_date,</if>
+            <if test="destinationTime != null  and destinationTime != ''">destination_time,</if>
+            <if test="changePlace != null  and changePlace != ''">change_place,</if>
+            <if test="territoryDay != null  and territoryDay != ''">territory_day,</if>
+            <if test="totalDay != null  and totalDay != ''">total_day,</if>
+            <if test="isEdit != null ">is_edit,</if>
+            <if test="delayReason != null  and delayReason != ''">delay_reason,</if>
+            <if test="changeDate != null  and changeDate != ''">change_date,</if>
+            <if test="classDate != null  and classDate != ''">calss_date,</if>
+            <if test="port != null  and port != ''">port,</if>
+            <if test="classEastAndWest != null  and classEastAndWest != ''">class_east_and_west,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="delFlag != null ">del_flag,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="classId != null  and classId != ''">#{classId},</if>
+            <if test="planRunTime != null  and planRunTime != ''">#{planRunTime},</if>
+            <if test="actualRunTime != null  and actualRunTime != ''">#{actualRunTime},</if>
+            <if test="domesticDay != null  and domesticDay != ''">#{domesticDay},</if>
+            <if test="arriveOneTime != null  and arriveOneTime != ''">#{arriveOneTime},</if>
+            <if test="oneStayDay != null  and oneStayDay != ''">#{oneStayDay},</if>
+            <if test="departOneTime != null  and departOneTime != ''">#{departOneTime},</if>
+            <if test="oneTwoDay != null  and oneTwoDay != ''">#{oneTwoDay},</if>
+            <if test="arriveTwoTime != null  and arriveTwoTime != ''">#{arriveTwoTime},</if>
+            <if test="twoStayDay != null  and twoStayDay != ''">#{twoStayDay},</if>
+            <if test="departTwoTime != null  and departTwoTime != ''">#{departTwoTime},</if>
+            <if test="twoThrDay != null  and twoThrDay != ''">#{twoThrDay},</if>
+            <if test="arriveThrTime != null  and arriveThrTime != ''">#{arriveThrTime},</if>
+            <if test="thrStayDay != null  and thrStayDay != ''">#{thrStayDay},</if>
+            <if test="departThrTime != null  and departThrTime != ''">#{departThrTime},</if>
+            <if test="thrFouDay != null  and thrFouDay != ''">#{thrFouDay},</if>
+            <if test="arriveFouTime != null  and arriveFouTime != ''">#{arriveFouTime},</if>
+            <if test="fouStayDay != null  and fouStayDay != ''">#{fouStayDay},</if>
+            <if test="departFouTime != null  and departFouTime != ''">#{departFouTime},</if>
+            <if test="lastDestinationDate != null  and lastDestinationDate != ''">#{lastDestinationDate},</if>
+            <if test="destinationTime != null  and destinationTime != ''">#{destinationTime},</if>
+            <if test="changePlace != null  and changePlace != ''">#{changePlace},</if>
+            <if test="territoryDay != null  and territoryDay != ''">#{territoryDay},</if>
+            <if test="totalDay != null  and totalDay != ''">#{totalDay},</if>
+            <if test="isEdit != null ">#{isEdit},</if>
+            <if test="delayReason != null  and delayReason != ''">#{delayReason},</if>
+            <if test="changeDate != null  and changeDate != ''">#{changeDate},</if>
+            <if test="classDate != null  and classDate != ''">#{classDate},</if>
+            <if test="port != null  and port != ''">#{port},</if>
+            <if test="classEastAndWest != null  and classEastAndWest != ''">#{classEastAndWest},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="delFlag != null ">#{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTrackRunTimeCensus" parameterType="TrackRunTimeCensus">
+        update track_run_time_census
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="classId != null  and classId != ''">class_id = #{classId},</if>
+            <if test="planRunTime != null  and planRunTime != ''">plan_run_time = #{planRunTime},</if>
+            <if test="actualRunTime != null  and actualRunTime != ''">actual_run_time = #{actualRunTime},</if>
+            <if test="domesticDay != null  and domesticDay != ''">domestic_day = #{domesticDay},</if>
+            <if test="arriveOneTime != null  and arriveOneTime != ''">arrive_one_time = #{arriveOneTime},</if>
+            <if test="oneStayDay != null  and oneStayDay != ''">one_stay_day = #{oneStayDay},</if>
+            <if test="departOneTime != null  and departOneTime != ''">depart_one_time = #{departOneTime},</if>
+            <if test="oneTwoDay != null  and oneTwoDay != ''">one_two_day = #{oneTwoDay},</if>
+            <if test="arriveTwoTime != null  and arriveTwoTime != ''">arrive_two_time = #{arriveTwoTime},</if>
+            <if test="twoStayDay != null  and twoStayDay != ''">two_stay_day = #{twoStayDay},</if>
+            <if test="departTwoTime != null  and departTwoTime != ''">depart_two_time = #{departTwoTime},</if>
+            <if test="twoThrDay != null  and twoThrDay != ''">two_thr_day = #{twoThrDay},</if>
+            <if test="arriveThrTime != null  and arriveThrTime != ''">arrive_thr_time = #{arriveThrTime},</if>
+            <if test="thrStayDay != null  and thrStayDay != ''">thr_stay_day = #{thrStayDay},</if>
+            <if test="departThrTime != null  and departThrTime != ''">depart_thr_time = #{departThrTime},</if>
+            <if test="thrFouDay != null  and thrFouDay != ''">thr_fou_day = #{thrFouDay},</if>
+            <if test="arriveFouTime != null  and arriveFouTime != ''">arrive_fou_time = #{arriveFouTime},</if>
+            <if test="fouStayDay != null  and fouStayDay != ''">fou_stay_day = #{fouStayDay},</if>
+            <if test="departFouTime != null  and departFouTime != ''">depart_fou_time = #{departFouTime},</if>
+            <if test="lastDestinationDate != null  and lastDestinationDate != ''">last_destination_date = #{lastDestinationDate},</if>
+            <if test="destinationTime != null  and destinationTime != ''">destination_time = #{destinationTime},</if>
+            <if test="changePlace != null  and changePlace != ''">change_place = #{changePlace},</if>
+            <if test="territoryDay != null  and territoryDay != ''">territory_day = #{territoryDay},</if>
+            <if test="totalDay != null  and totalDay != ''">total_day = #{totalDay},</if>
+            <if test="isEdit != null ">is_edit = #{isEdit},</if>
+            <if test="delayReason != null  and delayReason != ''">delay_reason = #{delayReason},</if>
+            <if test="changeDate != null  and changeDate != ''">change_date = #{changeDate},</if>
+            <if test="classDate != null  and classDate != ''">calss_date = #{classDate},</if>
+            <if test="port != null  and port != ''">port = #{port},</if>
+            <if test="classEastAndWest != null  and classEastAndWest != ''">class_east_and_west = #{classEastAndWest},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="delFlag != null ">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTrackRunTimeCensusById" parameterType="Long">
+        delete from track_run_time_census where id = #{id}
+    </delete>
+
+    <delete id="deleteTrackRunTimeCensusByIds" parameterType="String">
+        delete from track_run_time_census where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectTrtcVoList" parameterType="TrackRunTimeCensusVo" resultMap="trtcVoResult">
+        select bc.class_ID,bc.class_bh,bc.class_number, bl.name_cn as class_BlockTrain,trtc.is_edit,bc.class_EastAndWest,
+        bc.class_StationOfDeparture,bc.class_StationOfDestination,bc.class_STime,bc.class_ETime  from busi_classes bc
+        left join track_run_time_census trtc on trtc.class_id= bc.class_ID
+        left join busi_site bs on bs.code=bc.class_StationOfDestination
+        left join busi_linesite bl on bl.id=bc.line_id
+        <where>
+            <if test="lineTypeId != null  and lineTypeId != ''"> and bc.line_typeid = #{lineTypeId}</if>
+            <if test="classBlockTrain != null and classBlockTrain != '' ">and  bl.name_cn= #{classBlockTrain}</if>
+            <if test="classEastAndWest != null  and classEastAndWest != ''">and bc.class_EastAndWest = #{classEastAndWest}</if>
+            <if test="startTime != null  and startTime != ''">and  DATE_FORMAT(bc.class_STime,'%Y-%m-%d') &gt;= #{startTime}</if>
+            <if test="endTime != null  and endTime != ''">and  DATE_FORMAT(bc.class_STime,'%Y-%m-%d') &lt;= #{endTime}</if>
+            <if test="classStationofdestinationName != null  and classStationofdestinationName != ''">
+                and bs.name_cn like CONCAT('%',#{classStationofdestinationName},'%')</if>
+        </where>
+        order by bc.class_bh desc
+    </select>
+
+    <select id="selectTrtcByClassId" parameterType="String" resultMap="TrackRunTimeCensusResult">
+        <include refid="selectTrackRunTimeCensusVo"/>
+        where class_id = #{classId}
+    </select>
+
+    <select id="selectBusiSiteVo" parameterType="String" resultMap="bsVoResult">
+        select code,name_cn,name_en from busi_site
+        where code = #{code}
+    </select>
+    
+</mapper>

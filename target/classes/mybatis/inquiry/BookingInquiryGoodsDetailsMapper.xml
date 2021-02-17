@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.inquiry.mapper.BookingInquiryGoodsDetailsMapper">
+    
+    <resultMap type="com.szhbl.project.inquiry.domain.BookingInquiryGoodsDetails" id="BookingInquiryGoodsDetailsResult">
+        <result property="id"    column="id"    />
+        <result property="inquiryId"    column="inquiry_id"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="goodsAmount"    column="goods_amount"    />
+        <result property="goodsWeight"    column="goods_weight"    />
+        <result property="goodsLength"    column="goods_length"    />
+        <result property="goodsWidth"    column="goods_width"    />
+        <result property="goodsHeight"    column="goods_height"    />
+    </resultMap>
+
+    <sql id="selectBookingInquiryGoodsDetailsVo">
+        select id, inquiry_id, goods_name, goods_amount, goods_weight, goods_length, goods_width, goods_height from booking_inquiry_goods_details
+    </sql>
+
+    <select id="selectBookingInquiryGoodsDetailsList" parameterType="BookingInquiryGoodsDetails" resultMap="BookingInquiryGoodsDetailsResult">
+        <include refid="selectBookingInquiryGoodsDetailsVo"/>
+        <where>  
+            <if test="inquiryId != null "> and inquiry_id = #{inquiryId}</if>
+            <if test="goodsName != null  and goodsName != ''"> and goods_name = #{goodsName}</if>
+            <if test="goodsAmount != null  and goodsAmount != ''"> and goods_amount = #{goodsAmount}</if>
+            <if test="goodsWeight != null  and goodsWeight != ''"> and goods_weight = #{goodsWeight}</if>
+            <if test="goodsLength != null  and goodsLength != ''"> and goods_length = #{goodsLength}</if>
+            <if test="goodsWidth != null  and goodsWidth != ''"> and goods_width = #{goodsWidth}</if>
+            <if test="goodsHeight != null  and goodsHeight != ''"> and goods_height = #{goodsHeight}</if>
+        </where>
+    </select>
+    
+    <select id="selectBookingInquiryGoodsDetailsById" parameterType="Long" resultMap="BookingInquiryGoodsDetailsResult">
+        <include refid="selectBookingInquiryGoodsDetailsVo"/>
+        where id = #{id}
+    </select>
+
+    <!--根据询价id查询询价拼箱详情-->
+    <select id="selectBookingInquiryGoodsDetailsWithInquiryId" parameterType="Long" resultMap="BookingInquiryGoodsDetailsResult">
+        <include refid="selectBookingInquiryGoodsDetailsVo"/>
+        where inquiry_id = #{inquiryId}
+    </select>
+    <insert id="insertBookingInquiryGoodsDetails" parameterType="BookingInquiryGoodsDetails" useGeneratedKeys="true" keyProperty="id">
+        insert into booking_inquiry_goods_details
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="inquiryId != null ">inquiry_id,</if>
+            <if test="goodsName != null  and goodsName != ''">goods_name,</if>
+            <if test="goodsAmount != null  and goodsAmount != ''">goods_amount,</if>
+            <if test="goodsWeight != null  and goodsWeight != ''">goods_weight,</if>
+            <if test="goodsLength != null  and goodsLength != ''">goods_length,</if>
+            <if test="goodsWidth != null  and goodsWidth != ''">goods_width,</if>
+            <if test="goodsHeight != null  and goodsHeight != ''">goods_height,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="inquiryId != null ">#{inquiryId},</if>
+            <if test="goodsName != null  and goodsName != ''">#{goodsName},</if>
+            <if test="goodsAmount != null  and goodsAmount != ''">#{goodsAmount},</if>
+            <if test="goodsWeight != null  and goodsWeight != ''">convert(#{goodsWeight},DECIMAL(10,2)),</if>
+            <if test="goodsLength != null  and goodsLength != ''">#{goodsLength},</if>
+            <if test="goodsWidth != null  and goodsWidth != ''">#{goodsWidth},</if>
+            <if test="goodsHeight != null  and goodsHeight != ''">#{goodsHeight},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBookingInquiryGoodsDetails" parameterType="BookingInquiryGoodsDetails">
+        update booking_inquiry_goods_details
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="inquiryId != null ">inquiry_id = #{inquiryId},</if>
+            <if test="goodsName != null  and goodsName != ''">goods_name = #{goodsName},</if>
+            <if test="goodsAmount != null  and goodsAmount != ''">goods_amount = #{goodsAmount},</if>
+            <if test="goodsWeight != null  and goodsWeight != ''">goods_weight = #{goodsWeight},</if>
+            <if test="goodsLength != null  and goodsLength != ''">goods_length = #{goodsLength},</if>
+            <if test="goodsWidth != null  and goodsWidth != ''">goods_width = #{goodsWidth},</if>
+            <if test="goodsHeight != null  and goodsHeight != ''">goods_height = #{goodsHeight},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBookingInquiryGoodsDetailsById" parameterType="Long">
+        delete from booking_inquiry_goods_details where id = #{id}
+    </delete>
+
+    <delete id="deleteBookingInquiryGoodsDetailsByIds" parameterType="String">
+        delete from booking_inquiry_goods_details where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectGoodsInfoByOrderId" parameterType="String" resultMap="BookingInquiryGoodsDetailsResult">
+        select bigd.inquiry_id, bigd.goods_name, bigd.goods_amount,
+            bigd.goods_weight, bigd.goods_length, bigd.goods_width, bigd.goods_height
+        from booking_inquiry_goods_details bigd
+        left join booking_inquiry_result bir on bir.inquiry_id = bigd.inquiry_id
+        left join busi_shippingorder bso on bso.inquiry_record_id = bir.id
+        where bso.order_ID = #{orderId}
+    </select>
+    
+</mapper>

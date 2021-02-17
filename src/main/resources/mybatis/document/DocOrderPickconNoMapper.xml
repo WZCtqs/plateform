@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.documentcenter.mapper.DocOrderPickconNoMapper">
+    
+    <resultMap type="com.szhbl.project.documentcenter.domain.DocOrderPickconNo" id="DocOrderPickconNoResult">
+        <result property="id"    column="id"    />
+        <result property="classNum"    column="class_num"    />
+        <result property="containerNum"    column="container_num"    />
+        <result property="pickNum"    column="pick_num"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectDocOrderPickconNoVo">
+        select id, class_num, container_num, pick_num, update_time from doc_order_pickcon_no
+    </sql>
+
+    <select id="selectDocOrderPickconNoList" parameterType="DocOrderPickconNo" resultMap="DocOrderPickconNoResult">
+        <include refid="selectDocOrderPickconNoVo"/>
+        <where>  
+            <if test="classNum != null  and classNum != ''"> and class_num = #{classNum}</if>
+            <if test="containerNum != null  and containerNum != ''"> and container_num = #{containerNum}</if>
+            <if test="pickNum != null  and pickNum != ''"> and pick_num like concat('%', #{pickNum}, '%')</if>
+            <if test="updateTime != null "> and update_time = #{updateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectDocOrderPickconNoById" parameterType="Long" resultMap="DocOrderPickconNoResult">
+        <include refid="selectDocOrderPickconNoVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectPickconNoByClassNumCon" resultMap="DocOrderPickconNoResult">
+        <include refid="selectDocOrderPickconNoVo"/>
+        where class_num = #{classNum} and container_num = #{containerNum}
+    </select>
+        
+    <insert id="insertDocOrderPickconNo" parameterType="DocOrderPickconNo" useGeneratedKeys="true" keyProperty="id">
+        insert into doc_order_pickcon_no
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="classNum != null  and classNum != ''">class_num,</if>
+            <if test="containerNum != null  and containerNum != ''">container_num,</if>
+            <if test="pickNum != null  and pickNum != ''">pick_num,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="classNum != null  and classNum != ''">#{classNum},</if>
+            <if test="containerNum != null  and containerNum != ''">#{containerNum},</if>
+            <if test="pickNum != null  and pickNum != ''">#{pickNum},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDocOrderPickconNo" parameterType="DocOrderPickconNo">
+        update doc_order_pickcon_no
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pickNum != null  and pickNum != ''">pick_num = #{pickNum},</if>
+        </trim>
+        where class_num = #{classNum} and container_num = #{containerNum}
+    </update>
+
+    <delete id="deleteDocOrderPickconNo" >
+        delete from doc_order_pickcon_no where class_num = #{classNum} and container_num = #{containerNum}
+    </delete>
+
+    <delete id="deleteDocOrderPickconNoByIds" parameterType="String">
+        delete from doc_order_pickcon_no where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

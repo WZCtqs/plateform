@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.customerservice.mapper.CustomerServiceMessageMapper">
+
+    <resultMap type="CustomerServiceMessage" id="CustomerServiceMessageResult">
+        <result property="id"    column="id"    />
+        <result property="orderNumber"    column="order_number"    />
+        <result property="orderId"    column="order_ID"    />
+        <result property="clientTjr"    column="client_tjr"    />
+        <result property="clientTjrId"    column="client_tjr_id"    />
+        <result property="general"    column="general"    />
+        <result property="clientUnit"    column="client_unit"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="goodsEnName"    column="goods_en_name"    />
+        <result property="goodsPacking"    column="goods_packing"    />
+        <result property="bookingService"    column="booking_service"    />
+        <result property="classEastandwest"    column="class_EastAndWest"    />
+        <result property="freightPay"    column="freight_pay"    />
+        <result property="freightNum"    column="freight_num"    />
+        <result property="complaintsType"    column="complaints_type"    />
+        <result property="isOverdue"    column="is_overdue"    />
+        <result property="situation"    column="situation"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="endDate"    column="end_date"    />
+        <result property="complaintsTime"    column="complaints_time"    />
+        <result property="ywb"    column="ywb"    />
+        <result property="client"    column="client"    />
+        <result property="road"    column="road"    />
+        <result property="lcl"    column="lcl"    />
+        <result property="operation"    column="operation"    />
+        <result property="jishu"    column="jishu"    />
+        <result property="plan"    column="plan"    />
+        <result property="programme"    column="programme"    />
+        <result property="measure"    column="measure"    />
+    </resultMap>
+
+    <sql id="selectCustomerServiceMessageVo">
+        select id, order_number, order_ID, client_tjr, client_tjr_id, general, client_unit, goods_name, goods_en_name, goods_packing, booking_service, class_EastAndWest, freight_pay,
+         freight_num, complaints_type, is_overdue, situation, status, create_by, create_time, update_by, update_time, del_flag, end_date, complaints_time, ywb, client, road, lcl,
+          operation, jishu, plan, programme ,measure from customer_service_message
+    </sql>
+
+    <select id="selectCustomerServiceMessageList" parameterType="CustomerServiceMessage" resultMap="CustomerServiceMessageResult">
+        <include refid="selectCustomerServiceMessageVo"/>
+        <where>
+            <if test="orderNumber != null  and orderNumber != ''"> and order_number like concat('%', #{orderNumber}, '%')</if>
+            <if test="orderId != null "> and order_ID = #{orderId}</if>
+            <if test="clientTjr != null  and clientTjr != ''"> and client_tjr like concat('%', #{clientTjr}, '%')</if>
+            <if test="clientTjrId != null  and clientTjrId != ''"> and client_tjr_id = #{clientTjrId}</if>
+            <if test="general != null  and general != ''"> and general like concat('%', #{general}, '%')</if>
+            <if test="clientUnit != null  and clientUnit != ''"> and client_unit like concat('%', #{clientUnit}, '%')</if>
+            <if test="goodsName != null  and goodsName != ''"> and goods_name like concat('%', #{goodsName}, '%')</if>
+            <if test="goodsEnName != null  and goodsEnName != ''"> and goods_en_name like concat('%', #{goodsEnName}, '%')</if>
+            <if test="goodsPacking != null  and goodsPacking != ''"> and goods_packing like concat('%', #{goodsPacking}, '%')</if>
+            <if test="bookingService != null  and bookingService != ''"> and booking_service = #{bookingService}</if>
+            <if test="classEastandwest != null  and classEastandwest != ''"> and class_EastAndWest = #{classEastandwest}</if>
+            <if test="freightPay != null  and freightPay != ''"> and freight_pay = #{freightPay}</if>
+            <if test="freightNum != null  and freightNum != ''"> and freight_num = #{freightNum}</if>
+            <if test="complaintsType != null  and complaintsType != ''"> and complaints_type = #{complaintsType}</if>
+            <if test="isOverdue != null  and isOverdue != ''"> and is_overdue = #{isOverdue}</if>
+            <if test="situation != null  and situation != ''"> and situation = #{situation}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="endDate != null "> and end_date = #{endDate}</if>
+            <if test="complaintsTime != null "> and complaints_time = #{complaintsTime}</if>
+            <if test="ywb != null  and ywb != ''"> and ywb like concat('%', #{ywb}, '%')</if>
+            <if test="client != null  and client != ''"> and client = #{client}</if>
+            <if test="road != null  and road != ''"> and road = #{road}</if>
+            <if test="lcl != null  and lcl != ''"> and lcl = #{lcl}</if>
+            <if test="operation != null  and operation != ''"> and operation = #{operation}</if>
+            <if test="jishu != null  and jishu != ''"> and jishu = #{jishu}</if>
+            <if test="plan != null  and plan != ''"> and plan = #{plan}</if>
+            <if test="programme != null  and programme != ''"> and programme = #{programme}</if>
+            and status != "3"
+            <if test="readType == '0'.toString()">
+                and client_tjr_id in (
+                SELECT
+                tjr_id
+                FROM
+                sys_user
+                WHERE
+                user_id = #{userId}
+                )
+            </if>
+            <if test="readType == '1'.toString()">
+                and client_tjr_id in (
+                SELECT
+                usr.tjr_id
+                FROM
+                sys_user usr
+                LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                WHERE
+                dept.dept_code LIKE concat('%', #{deptCode}, '%')
+                )
+            </if>
+            <if test="readType == '2'.toString()">
+                and client_tjr_id in (
+                SELECT
+                usr.tjr_id
+                FROM
+                sys_user usr
+                LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                WHERE
+                dept.dept_code like '%YWB1000100%' or dept.dept_code like '%YWB1000103%'
+                )
+            </if>
+            <if test="readType == '3'.toString()">
+                and client_tjr_id in (
+                SELECT
+                usr.tjr_id
+                FROM
+                sys_user usr
+                LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                WHERE
+                dept.dept_code like '%YWB1000101%' or dept.dept_code  like '%YWB1000104%'
+                )
+            </if>
+            <if test="readType == '4'.toString()">
+                and client_tjr_id in (
+                SELECT
+                usr.tjr_id
+                FROM
+                sys_user usr
+                LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                WHERE
+                dept.dept_code like '%YWB1000200%' or dept.dept_code like '%YWB1000202%'
+                )
+            </if>
+            <if test="readType == '5'.toString()">
+                and client_tjr_id in (
+                SELECT
+                usr.tjr_id
+                FROM
+                sys_user usr
+                LEFT JOIN sys_dept dept ON dept.dept_id = usr.dept_id
+                WHERE
+                dept.dept_code like '%YWB1000201%' or dept.dept_code like '%YWB1000203%'
+                )
+            </if>
+        </where>
+    </select>
+
+    <select id="selectCustomerServiceMessageById" parameterType="Long" resultMap="CustomerServiceMessageResult">
+        <include refid="selectCustomerServiceMessageVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertCustomerServiceMessage" parameterType="CustomerServiceMessage" useGeneratedKeys="true" keyProperty="id">
+        insert into customer_service_message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderNumber != null  and orderNumber != ''">order_number,</if>
+            <if test="orderId != null ">order_ID,</if>
+            <if test="clientTjr != null  and clientTjr != ''">client_tjr,</if>
+            <if test="clientTjrId != null  and clientTjrId != ''">client_tjr_id,</if>
+            <if test="general != null  and general != ''">general,</if>
+            <if test="clientUnit != null  and clientUnit != ''">client_unit,</if>
+            <if test="goodsName != null  and goodsName != ''">goods_name,</if>
+            <if test="goodsEnName != null  and goodsEnName != ''">goods_en_name,</if>
+            <if test="goodsPacking != null  and goodsPacking != ''">goods_packing,</if>
+            <if test="bookingService != null  and bookingService != ''">booking_service,</if>
+            <if test="classEastandwest != null  and classEastandwest != ''">class_EastAndWest,</if>
+            <if test="freightPay != null  and freightPay != ''">freight_pay,</if>
+            <if test="freightNum != null  and freightNum != ''">freight_num,</if>
+            <if test="complaintsType != null  and complaintsType != ''">complaints_type,</if>
+            <if test="isOverdue != null  and isOverdue != ''">is_overdue,</if>
+            <if test="situation != null  and situation != ''">situation,</if>
+            <if test="status != null  and status != ''">status,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="endDate != null ">end_date,</if>
+            <if test="complaintsTime != null ">complaints_time,</if>
+            <if test="ywb != null  and ywb != ''">ywb,</if>
+            <if test="client != null  and client != ''">client,</if>
+            <if test="road != null  and road != ''">road,</if>
+            <if test="lcl != null  and lcl != ''">lcl,</if>
+            <if test="operation != null  and operation != ''">operation,</if>
+            <if test="jishu != null  and jishu != ''">jishu,</if>
+            <if test="plan != null  and plan != ''">plan,</if>
+            <if test="programme != null  and programme != ''">programme,</if>
+            <if test="measure != null  and measure != ''">measure,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderNumber != null  and orderNumber != ''">#{orderNumber},</if>
+            <if test="orderId != null ">#{orderId},</if>
+            <if test="clientTjr != null  and clientTjr != ''">#{clientTjr},</if>
+            <if test="clientTjrId != null  and clientTjrId != ''">#{clientTjrId},</if>
+            <if test="general != null  and general != ''">#{general},</if>
+            <if test="clientUnit != null  and clientUnit != ''">#{clientUnit},</if>
+            <if test="goodsName != null  and goodsName != ''">#{goodsName},</if>
+            <if test="goodsEnName != null  and goodsEnName != ''">#{goodsEnName},</if>
+            <if test="goodsPacking != null  and goodsPacking != ''">#{goodsPacking},</if>
+            <if test="bookingService != null  and bookingService != ''">#{bookingService},</if>
+            <if test="classEastandwest != null  and classEastandwest != ''">#{classEastandwest},</if>
+            <if test="freightPay != null  and freightPay != ''">#{freightPay},</if>
+            <if test="freightNum != null  and freightNum != ''">#{freightNum},</if>
+            <if test="complaintsType != null  and complaintsType != ''">#{complaintsType},</if>
+            <if test="isOverdue != null  and isOverdue != ''">#{isOverdue},</if>
+            <if test="situation != null  and situation != ''">#{situation},</if>
+            <if test="status != null  and status != ''">#{status},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="endDate != null ">#{endDate},</if>
+            <if test="complaintsTime != null ">#{complaintsTime},</if>
+            <if test="ywb != null  and ywb != ''">#{ywb},</if>
+            <if test="client != null  and client != ''">#{client},</if>
+            <if test="road != null  and road != ''">#{road},</if>
+            <if test="lcl != null  and lcl != ''">#{lcl},</if>
+            <if test="operation != null  and operation != ''">#{operation},</if>
+            <if test="jishu != null  and jishu != ''">#{jishu},</if>
+            <if test="plan != null  and plan != ''">#{plan},</if>
+            <if test="programme != null  and programme != ''">#{programme},</if>
+            <if test="measure != null  and measure != ''">#{measure},</if>
+        </trim>
+    </insert>
+
+    <update id="updateCustomerServiceMessage" parameterType="CustomerServiceMessage">
+        update customer_service_message
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderNumber != null  and orderNumber != ''">order_number = #{orderNumber},</if>
+            <if test="orderId != null ">order_ID = #{orderId},</if>
+            <if test="clientTjr != null  and clientTjr != ''">client_tjr = #{clientTjr},</if>
+            <if test="clientTjrId != null  and clientTjrId != ''">client_tjr_id = #{clientTjrId},</if>
+            <if test="general != null  and general != ''">general = #{general},</if>
+            <if test="clientUnit != null  and clientUnit != ''">client_unit = #{clientUnit},</if>
+            <if test="goodsName != null  and goodsName != ''">goods_name = #{goodsName},</if>
+            <if test="goodsEnName != null  and goodsEnName != ''">goods_en_name = #{goodsEnName},</if>
+            <if test="goodsPacking != null  and goodsPacking != ''">goods_packing = #{goodsPacking},</if>
+            <if test="bookingService != null  and bookingService != ''">booking_service = #{bookingService},</if>
+            <if test="classEastandwest != null  and classEastandwest != ''">class_EastAndWest = #{classEastandwest},</if>
+            <if test="freightPay != null  and freightPay != ''">freight_pay = #{freightPay},</if>
+            <if test="freightNum != null  and freightNum != ''">freight_num = #{freightNum},</if>
+            <if test="complaintsType != null  and complaintsType != ''">complaints_type = #{complaintsType},</if>
+            <if test="isOverdue != null  and isOverdue != ''">is_overdue = #{isOverdue},</if>
+            <if test="situation != null  and situation != ''">situation = #{situation},</if>
+            <if test="status != null  and status != ''">status = #{status},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="endDate != null ">end_date = #{endDate},</if>
+            <if test="complaintsTime != null ">complaints_time = #{complaintsTime},</if>
+            <if test="ywb != null  and ywb != ''">ywb = #{ywb},</if>
+            <if test="client != null  and client != ''">client = #{client},</if>
+            <if test="road != null  and road != ''">road = #{road},</if>
+            <if test="lcl != null  and lcl != ''">lcl = #{lcl},</if>
+            <if test="operation != null  and operation != ''">operation = #{operation},</if>
+            <if test="jishu != null  and jishu != ''">jishu = #{jishu},</if>
+            <if test="plan != null  and plan != ''">plan = #{plan},</if>
+            <if test="programme != null  and programme != ''">programme = #{programme},</if>
+            <if test="measure != null  and measure != ''">measure = #{measure},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCustomerServiceMessageById" parameterType="Long">
+        delete from customer_service_message where id = #{id}
+    </delete>
+
+    <delete id="deleteCustomerServiceMessageByIds" parameterType="String">
+        delete from customer_service_message where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectOrderNum"  resultType="com.szhbl.project.customerservice.domain.CustomerServiceMessage">
+        select * from  customer_service_message where order_number = #{orderNumber}
+    </select>
+</mapper>

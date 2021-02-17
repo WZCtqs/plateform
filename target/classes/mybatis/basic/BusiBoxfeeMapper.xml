@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.basic.mapper.BusiBoxfeeMapper">
+    
+    <resultMap type="BusiBoxfee" id="BusiBoxfeeResult">
+        <result property="boxId"    column="Box_id"    />
+        <result property="boxType"    column="Box_type"    />
+        <result property="addressType"    column="address_type"    />
+        <result property="lineTypeid"    column="line_typeid"    />
+        <result property="address"    column="address"    />
+        <result property="addressEn"    column="address_en"    />
+        <result property="containerType"    column="container_type"    />
+        <result property="state"    column="state"    />
+        <result property="cost"    column="cost"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="createuserid"    column="createuserid"    />
+        <result property="createusername"    column="createusername"    />
+        <result property="createdate"    column="createdate"    />
+        <result property="intra"    column="intra"    />
+    </resultMap>
+
+    <sql id="selectBusiBoxfeeVo">
+        select Box_id, Box_type, address_type,line_typeid, address, address_en, container_type, state, cost, start_time, end_time, createuserid, createusername, createdate,intra from busi_boxfee
+    </sql>
+
+    <select id="selectBusiBoxfeeList" parameterType="BusiBoxfee" resultMap="BusiBoxfeeResult">
+        <include refid="selectBusiBoxfeeVo"/>
+        <where>  
+            <if test="boxType != null  and boxType != ''"> and Box_type = #{boxType}</if>
+            <if test="addressType != null  and addressType != ''"> and address_type = #{addressType}</if>
+            <if test="lineTypeid != null  and lineTypeid != ''"> and line_typeid like concat('%', #{lineTypeid}, '%')</if>
+            <if test="address != null  and address != ''"> and address like concat('%', #{address}, '%')</if>
+            <if test="addressEn != null  and addressEn != ''"> and address_en = #{addressEn}</if>
+            <if test="containerType != null  and containerType != ''"> and container_type = #{containerType}</if>
+            <if test="state != null  and state != ''"> and state = #{state}</if>
+            <if test="cost != null  and cost != ''"> and cost = #{cost}</if>
+            <if test="startTime != null ">and <![CDATA[start_time = #{startTime,jdbcType=DATE}]]></if>
+            <if test="endTime != null ">and <![CDATA[end_time = #{endTime,jdbcType=DATE}]]></if>
+            <if test="createuserid != null  and createuserid != ''"> and createuserid = #{createuserid}</if>
+            <if test="createusername != null  and createusername != ''"> and createusername = #{createusername}</if>
+            <if test="createdate != null "> and createdate = #{createdate}</if>
+        </where>
+        order by createdate desc
+    </select>
+    
+    <select id="selectBusiBoxfeeById" parameterType="String" resultMap="BusiBoxfeeResult">
+        <include refid="selectBusiBoxfeeVo"/>
+        where Box_id = #{boxId}
+    </select>
+
+    <!--查询还箱费用-->
+    <select id="selectBusiBoxfeeWithMap" parameterType="map" resultMap="BusiBoxfeeResult">
+        <include refid="selectBusiBoxfeeVo"/>
+        <where>
+             Box_type = #{boxType}
+             and address_type = #{addressType}
+             and Box_id = #{hxAddressId}
+
+
+        </where>
+        order by createdate desc
+    </select>
+    <!--查询提、还箱费用-->
+    <select id="selectBoxFeeWithMap" parameterType="map" resultMap="BusiBoxfeeResult">
+        <include refid="selectBusiBoxfeeVo"/>
+        <where>
+            state = '1'
+            and container_type = #{containerType}
+            and address_type = #{addressType}
+            and address = #{address}
+            and <![CDATA[(DATE_FORMAT(start_time, '%Y-%m-%d') <= DATE_FORMAT( now(), '%Y-%m-%d'))]]>
+            and <![CDATA[(DATE_FORMAT(end_time, '%Y-%m-%d') >= DATE_FORMAT( now(), '%Y-%m-%d'))]]>
+        </where>
+        order by createdate desc
+    </select>
+    <!--查询提、还箱费用（包含当月次月）-->
+    <select id="selectBoxFeeWithMap2" parameterType="map" resultMap="BusiBoxfeeResult">
+        <include refid="selectBusiBoxfeeVo"/>
+        <where>
+            state = '1'
+            and container_type = #{containerType}
+            and address_type = #{addressType}
+            and (address = #{address} or address_en = #{address})
+            <if test="bookingTimeFlag == null or bookingTimeFlag == '' or bookingTimeFlag == '0'.toString()">
+                and DATE_FORMAT(start_time,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(NOW(),'%Y-%m-%d')
+                and DATE_FORMAT(end_time,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(NOW(),'%Y-%m-%d')
+            </if>
+            <if test="bookingTimeFlag == '1'.toString()">
+                and DATE_FORMAT(start_time,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(date_add(curdate()-day(curdate())+1,interval 1 month),'%Y-%m-%d')
+                and DATE_FORMAT(end_time,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(date_add(curdate()-day(curdate())+1,interval 1 month),'%Y-%m-%d')
+            </if>
+        </where>
+        order by createdate desc
+    </select>
+    <select id="getAddressList" resultType="com.szhbl.project.basic.domain.BusiBoxfee">
+        <include refid="selectBusiBoxfeeVo"/>
+        <where>
+            container_type = #{containerType}
+            and address_type = '1'
+            and intra = '1'
+            and state = '1'
+            and <![CDATA[(DATE_FORMAT(start_time, '%Y-%m-%d') <= DATE_FORMAT( now(), '%Y-%m-%d'))]]>
+            and <![CDATA[(DATE_FORMAT(end_time, '%Y-%m-%d') >= DATE_FORMAT( now(), '%Y-%m-%d'))]]>
+        </where>
+    </select>
+    <select id="getPickUpList" resultType="com.szhbl.project.basic.domain.BusiBoxfee">
+        <include refid="selectBusiBoxfeeVo"/>
+        <where>
+            container_type = #{containerType}
+            and address_type = '0'
+            and intra = '1'
+            and state = '1'
+            <if test="bookingTimeFlag == null or bookingTimeFlag == '' or bookingTimeFlag == '0'.toString()">
+                and DATE_FORMAT(start_time,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(NOW(),'%Y-%m-%d')
+                and DATE_FORMAT(end_time,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(NOW(),'%Y-%m-%d')
+            </if>
+            <if test="bookingTimeFlag == '1'.toString()">
+                and DATE_FORMAT(start_time,'%Y-%m-%d') <![CDATA[<= ]]> DATE_FORMAT(date_add(curdate()-day(curdate())+1,interval 1 month),'%Y-%m-%d')
+                and DATE_FORMAT(end_time,'%Y-%m-%d') <![CDATA[>= ]]> DATE_FORMAT(date_add(curdate()-day(curdate())+1,interval 1 month),'%Y-%m-%d')
+            </if>
+        </where>
+    </select>
+    <select id="selectBoxFeeByAddress" resultMap="BusiBoxfeeResult">
+        <include refid="selectBusiBoxfeeVo"/>
+        where address = #{address} or address_en = #{address}
+    </select>
+    <insert id="insertBusiBoxfee" parameterType="BusiBoxfee">
+        insert into busi_boxfee
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="boxId != null  and boxId != ''">Box_id,</if>
+            <if test="boxType != null  and boxType != ''">Box_type,</if>
+            <if test="lineTypeid != null  and lineTypeid != ''">line_typeid,</if>
+            <if test="addressType != null  and addressType != ''">address_type,</if>
+            <if test="address != null  and address != ''">address,</if>
+            <if test="addressEn != null  and addressEn != ''">address_en,</if>
+            <if test="containerType != null  and containerType != ''">container_type,</if>
+            <if test="state != null  and state != ''">state,</if>
+            <if test="cost != null  and cost != ''">cost,</if>
+            <if test="startTime != null ">start_time,</if>
+            <if test="endTime != null ">end_time,</if>
+            <if test="createuserid != null  and createuserid != ''">createuserid,</if>
+            <if test="createusername != null  and createusername != ''">createusername,</if>
+            <if test="createdate != null ">createdate,</if>
+            <if test="intra != null  and intra != ''">intra,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="boxId != null  and boxId != ''">#{boxId},</if>
+            <if test="boxType != null  and boxType != ''">#{boxType},</if>
+            <if test="lineTypeid != null  and lineTypeid != ''">#{lineTypeid},</if>
+            <if test="addressType != null  and addressType != ''">#{addressType},</if>
+            <if test="address != null  and address != ''">#{address},</if>
+            <if test="addressEn != null  and addressEn != ''">#{addressEn},</if>
+            <if test="containerType != null  and containerType != ''">#{containerType},</if>
+            <if test="state != null  and state != ''">#{state},</if>
+            <if test="cost != null  and cost != ''">#{cost},</if>
+            <if test="startTime != null ">#{startTime},</if>
+            <if test="endTime != null ">#{endTime},</if>
+            <if test="createuserid != null  and createuserid != ''">#{createuserid},</if>
+            <if test="createusername != null  and createusername != ''">#{createusername},</if>
+            <if test="createdate != null ">#{createdate},</if>
+            <if test="intra != null  and intra != ''">#{intra},</if>
+         </trim>
+    </insert>
+
+    <insert id="insertBusiBoxfeeT" parameterType="BoxfeeT">
+        insert into busi_boxfee
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="boxId != null  and boxId != ''">Box_id,</if>
+            <if test="boxType != null  and boxType != ''">Box_type,</if>
+            <if test="lineTypeid != null  and lineTypeid != ''">line_typeid,</if>
+            <if test="addressType != null  and addressType != ''">address_type,</if>
+            <if test="address != null  and address != ''">address,</if>
+            <if test="addressEn != null  and addressEn != ''">address_en,</if>
+            <if test="containerType != null  and containerType != ''">container_type,</if>
+            <if test="state != null  and state != ''">state,</if>
+            <if test="cost != null  and cost != ''">cost,</if>
+            <if test="startTime != null ">start_time,</if>
+            <if test="endTime != null ">end_time,</if>
+            <if test="createuserid != null  and createuserid != ''">createuserid,</if>
+            <if test="createusername != null  and createusername != ''">createusername,</if>
+            <if test="createdate != null ">createdate,</if>
+            <if test="intra != null  and intra != ''">intra,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="boxId != null  and boxId != ''">#{boxId},</if>
+            <if test="boxType != null  and boxType != ''">#{boxType},</if>
+            <if test="lineTypeid != null  and lineTypeid != ''">#{lineTypeid},</if>
+            <if test="addressType != null  and addressType != ''">#{addressType},</if>
+            <if test="address != null  and address != ''">#{address},</if>
+            <if test="addressEn != null  and addressEn != ''">#{addressEn},</if>
+            <if test="containerType != null  and containerType != ''">#{containerType},</if>
+            <if test="state != null  and state != ''">#{state},</if>
+            <if test="cost != null  and cost != ''">#{cost},</if>
+            <if test="startTime != null ">#{startTime},</if>
+            <if test="endTime != null ">#{endTime},</if>
+            <if test="createuserid != null  and createuserid != ''">#{createuserid},</if>
+            <if test="createusername != null  and createusername != ''">#{createusername},</if>
+            <if test="createdate != null ">#{createdate},</if>
+            <if test="intra != null  and intra != ''">#{intra},</if>
+        </trim>
+    </insert>
+
+    <insert id="insertBusiBoxfeeP" parameterType="BoxfeeP">
+        insert into busi_boxfee
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="boxId != null  and boxId != ''">Box_id,</if>
+            <if test="boxType != null  and boxType != ''">Box_type,</if>
+            <if test="lineTypeid != null  and lineTypeid != ''">line_typeid,</if>
+            <if test="addressType != null  and addressType != ''">address_type,</if>
+            <if test="address != null  and address != ''">address,</if>
+            <if test="addressEn != null  and addressEn != ''">address_en,</if>
+            <if test="containerType != null  and containerType != ''">container_type,</if>
+            <if test="state != null  and state != ''">state,</if>
+            <if test="cost != null  and cost != ''">cost,</if>
+            <if test="startTime != null ">start_time,</if>
+            <if test="endTime != null ">end_time,</if>
+            <if test="createuserid != null  and createuserid != ''">createuserid,</if>
+            <if test="createusername != null  and createusername != ''">createusername,</if>
+            <if test="createdate != null ">createdate,</if>
+            <if test="intra != null  and intra != ''">intra,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="boxId != null  and boxId != ''">#{boxId},</if>
+            <if test="boxType != null  and boxType != ''">#{boxType},</if>
+            <if test="lineTypeid != null  and lineTypeid != ''">#{lineTypeid},</if>
+            <if test="addressType != null  and addressType != ''">#{addressType},</if>
+            <if test="address != null  and address != ''">#{address},</if>
+            <if test="addressEn != null  and addressEn != ''">#{addressEn},</if>
+            <if test="containerType != null  and containerType != ''">#{containerType},</if>
+            <if test="state != null  and state != ''">#{state},</if>
+            <if test="cost != null  and cost != ''">#{cost},</if>
+            <if test="startTime != null ">#{startTime},</if>
+            <if test="endTime != null ">#{endTime},</if>
+            <if test="createuserid != null  and createuserid != ''">#{createuserid},</if>
+            <if test="createusername != null  and createusername != ''">#{createusername},</if>
+            <if test="createdate != null ">#{createdate},</if>
+            <if test="intra != null  and intra != ''">#{intra},</if>
+        </trim>
+    </insert>
+
+    <update id="updateBusiBoxfee" parameterType="BusiBoxfee">
+        update busi_boxfee
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="boxType != null  and boxType != ''">Box_type = #{boxType},</if>
+            <if test="lineTypeid != null  and lineTypeid != ''">line_typeid = #{lineTypeid},</if>
+            <if test="addressType != null  and addressType != ''">address_type = #{addressType},</if>
+            <if test="address != null  and address != ''">address = #{address},</if>
+            <if test="addressEn != null  and addressEn != ''">address_en = #{addressEn},</if>
+            <if test="containerType != null  and containerType != ''">container_type = #{containerType},</if>
+            <if test="state != null  and state != ''">state = #{state},</if>
+            <if test="cost != null  and cost != ''">cost = #{cost},</if>
+            <if test="startTime != null ">start_time = #{startTime},</if>
+            <if test="endTime != null ">end_time = #{endTime},</if>
+            <if test="createuserid != null  and createuserid != ''">createuserid = #{createuserid},</if>
+            <if test="createusername != null  and createusername != ''">createusername = #{createusername},</if>
+            <if test="createdate != null ">createdate = #{createdate},</if>
+            <if test="intra != null  and intra != ''">intra = #{intra},</if>
+        </trim>
+        where Box_id = #{boxId}
+    </update>
+
+    <delete id="deleteBusiBoxfeeById" parameterType="String">
+        delete from busi_boxfee where Box_id = #{boxId}
+    </delete>
+
+    <delete id="deleteBusiBoxfeeByIds" parameterType="String">
+        delete from busi_boxfee where Box_id in 
+        <foreach item="boxId" collection="array" open="(" separator="," close=")">
+            #{boxId}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.documentcenter.mapper.DocOrderUnpackingagentMapper">
+
+    <resultMap type="com.szhbl.project.documentcenter.domain.DocOrderUnpackingagent" id="DocOrderUnpackingagentResult">
+        <result property="OrderId"    column="OrderId"    />
+        <result property="ClassDate"    column="ClassDate"    />
+        <result property="ClassNumber"    column="ClassNumber"    />
+        <result property="OrderNumber"    column="OrderNumber"    />
+        <result property="OrderNum_style"    column="OrderNum_style"    />
+        <result property="ContainerNum"    column="ContainerNum"    />
+        <result property="Referrer"    column="Referrer"    />
+        <result property="Merchandiser"    column="Merchandiser"    />
+        <result property="Cost"    column="Cost"    />
+        <result property="ContainerType"    column="ContainerType"    />
+        <result property="GoodsChsName"    column="GoodsChsName"    />
+        <result property="UnloadSite"    column="UnloadSite"    />
+        <result property="UnloadSite2"    column="UnloadSite2"    />
+        <result property="IsClearance"    column="IsClearance"    />
+        <result property="IsAllocate"    column="IsAllocate"    />
+        <result property="GoodsPackingMethod"    column="GoodsPackingMethod"    />
+        <result property="GoodsNumber"    column="GoodsNumber"    />
+        <result property="MeasuSpecifi"    column="MeasuSpecifi"    />
+        <result property="GoodsKGs"    column="GoodsKGs"    />
+        <result property="MeasuGroWei"    column="MeasuGroWei"    />
+        <result property="MeasuVolum"    column="MeasuVolum"    />
+        <result property="Sum"    column="Sum"    />
+        <result property="PriStaStorAgen"    column="PriStaStorAgen"    />
+        <result property="PriAgenId"    column="PriAgenId"    />
+        <result property="SecStaStorAgen"    column="SecStaStorAgen"    />
+        <result property="SecAgenId"    column="SecAgenId"    />
+        <result property="Remark"    column="Remark"    />
+        <result property="AgentFee"    column="AgentFee"    />
+        <result property="IsSplit"    column="IsSplit"    />
+        <result property="Remark2"    column="Remark2"    />
+        <result property="createTime"    column="createTime"    />
+    </resultMap>
+
+    <sql id="selectDocOrderUnpackingagentVo">
+        select OrderId, ClassDate, ClassNumber, OrderNumber, OrderNum_style, ContainerNum, Referrer, Merchandiser, Cost,
+        ContainerType, GoodsChsName, UnloadSite, UnloadSite2, IsClearance, IsAllocate, GoodsPackingMethod, GoodsNumber, MeasuSpecifi,
+        GoodsKGs, MeasuGroWei, MeasuVolum, Sum, PriStaStorAgen, PriAgenId, SecStaStorAgen, SecAgenId, Remark, AgentFee, IsSplit,
+        Remark2 from doc_order_unpackingagent
+    </sql>
+
+    <select id="selectOrderUnpackingagentByOrderId" parameterType="String" resultMap="DocOrderUnpackingagentResult ">
+        <include refid="selectDocOrderUnpackingagentVo"/>
+            where OrderId = #{OrderId}
+    </select>
+
+    <select id="selectDocOrderUnpackingagentList" parameterType="DocOrderUnpackingagent" resultMap="DocOrderUnpackingagentResult">
+        <include refid="selectDocOrderUnpackingagentVo"/>
+        <where>
+            <if test="OrderId != null  and OrderId != ''"> and OrderId = #{OrderId}</if>
+            <if test="ClassDate != null  and ClassDate != ''"> and ClassDate = #{ClassDate}</if>
+            <if test="ClassNumber != null  and ClassNumber != ''"> and ClassNumber = #{ClassNumber}</if>
+            <if test="OrderNumber != null  and OrderNumber != ''"> and OrderNumber = #{OrderNumber}</if>
+            <if test="OrderNum_style != null  and OrderNum_style != ''"> and OrderNum_style = #{OrderNum_style}</if>
+            <if test="ContainerNum != null  and ContainerNum != ''"> and ContainerNum = #{ContainerNum}</if>
+            <if test="ContainerType != null  and ContainerType != ''"> and ContainerType = #{ContainerType}</if>
+        </where>
+    </select>
+
+    <insert id="insertDocOrderUnpackingagentMatch" >
+        insert into doc_order_unpackingagent (
+        OrderId,ClassDate, ClassNumber,OrderNumber,OrderNum_style,ContainerNum,Referrer,Merchandiser,Cost,ContainerType,GoodsChsName,UnloadSite,
+        UnloadSite2,IsClearance,IsAllocate,GoodsPackingMethod,GoodsNumber,MeasuSpecifi,GoodsKGs,MeasuGroWei,MeasuVolum,Sum,PriStaStorAgen,PriAgenId,
+        SecStaStorAgen,SecAgenId,Remark,AgentFee,IsSplit,Remark2,createTime)values
+        <foreach collection="docOrderList" item="docOrder" separator=",">
+            (#{docOrder.OrderId},
+            #{docOrder.ClassDate},
+            #{docOrder.ClassNumber},
+            #{docOrder.OrderNumber},
+            #{docOrder.OrderNum_style},
+            #{docOrder.ContainerNum},
+            #{docOrder.Referrer},
+            #{docOrder.Merchandiser},
+            #{docOrder.Cost},
+            #{docOrder.ContainerType},
+            #{docOrder.GoodsChsName},
+            #{docOrder.UnloadSite},
+            #{docOrder.UnloadSite2},
+            #{docOrder.IsClearance},
+            #{docOrder.IsAllocate},
+            #{docOrder.GoodsPackingMethod},
+            #{docOrder.GoodsNumber},
+            #{docOrder.MeasuSpecifi},
+            #{docOrder.GoodsKGs},
+            #{docOrder.MeasuGroWei},
+            #{docOrder.MeasuVolum},
+            #{docOrder.Sum},
+            #{docOrder.PriStaStorAgen},
+            #{docOrder.PriAgenId},
+            #{docOrder.SecStaStorAgen},
+            #{docOrder.SecAgenId},
+            #{docOrder.Remark},
+            #{docOrder.AgentFee},
+            #{docOrder.IsSplit},
+            #{docOrder.Remark2},
+            #{docOrder.createTime})
+        </foreach>
+    </insert>
+
+    <insert id="insertDocOrderUnpackingagent" parameterType="DocOrderUnpackingagent" useGeneratedKeys="true" keyProperty="id">
+        insert into doc_order_unpackingagent
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="OrderId != null  and OrderId != ''">OrderId,</if>
+            <if test="ClassDate != null  and ClassDate != ''">ClassDate,</if>
+            <if test="classnumber != null  and classnumber != ''">ClassNumber,</if>
+            <if test="ordernumber != null  and ordernumber != ''">OrderNumber,</if>
+            <if test="ordernumStyle != null  and ordernumStyle != ''">OrderNum_style,</if>
+            <if test="containernum != null  and containernum != ''">ContainerNum,</if>
+            <if test="referrer != null  and referrer != ''">Referrer,</if>
+            <if test="merchandiser != null  and merchandiser != ''">Merchandiser,</if>
+            <if test="cost != null  and cost != ''">Cost,</if>
+            <if test="containertype != null  and containertype != ''">ContainerType,</if>
+            <if test="goodschsname != null  and goodschsname != ''">GoodsChsName,</if>
+            <if test="unloadsite != null  and unloadsite != ''">UnloadSite,</if>
+            <if test="unloadsite2 != null  and unloadsite2 != ''">UnloadSite2,</if>
+            <if test="isclearance != null  and isclearance != ''">IsClearance,</if>
+            <if test="isallocate != null  and isallocate != ''">IsAllocate,</if>
+            <if test="goodspackingmethod != null  and goodspackingmethod != ''">GoodsPackingMethod,</if>
+            <if test="goodsnumber != null  and goodsnumber != ''">GoodsNumber,</if>
+            <if test="measuspecifi != null  and measuspecifi != ''">MeasuSpecifi,</if>
+            <if test="goodskgs != null  and goodskgs != ''">GoodsKGs,</if>
+            <if test="measugrowei != null  and measugrowei != ''">MeasuGroWei,</if>
+            <if test="measuvolum != null ">MeasuVolum,</if>
+            <if test="sum != null  and sum != ''">Sum,</if>
+            <if test="pristastoragen != null  and pristastoragen != ''">PriStaStorAgen,</if>
+            <if test="priagenid != null  and priagenid != ''">PriAgenId,</if>
+            <if test="secstastoragen != null  and secstastoragen != ''">SecStaStorAgen,</if>
+            <if test="secagenid != null  and secagenid != ''">SecAgenId,</if>
+            <if test="remark != null  and remark != ''">Remark,</if>
+            <if test="agentfee != null  and agentfee != ''">AgentFee,</if>
+            <if test="issplit != null  and issplit != ''">IsSplit,</if>
+            <if test="remark2 != null  and remark2 != ''">Remark2,</if>
+            <if test="createTime != null  and createTime != ''">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderid != null  and orderid != ''">#{orderid},</if>
+            <if test="classdate != null  and classdate != ''">#{classdate},</if>
+            <if test="classnumber != null  and classnumber != ''">#{classnumber},</if>
+            <if test="ordernumber != null  and ordernumber != ''">#{ordernumber},</if>
+            <if test="ordernumStyle != null  and ordernumStyle != ''">#{ordernumStyle},</if>
+            <if test="containernum != null  and containernum != ''">#{containernum},</if>
+            <if test="referrer != null  and referrer != ''">#{referrer},</if>
+            <if test="merchandiser != null  and merchandiser != ''">#{merchandiser},</if>
+            <if test="cost != null  and cost != ''">#{cost},</if>
+            <if test="containertype != null  and containertype != ''">#{containertype},</if>
+            <if test="goodschsname != null  and goodschsname != ''">#{goodschsname},</if>
+            <if test="unloadsite != null  and unloadsite != ''">#{unloadsite},</if>
+            <if test="unloadsite2 != null  and unloadsite2 != ''">#{unloadsite2},</if>
+            <if test="isclearance != null  and isclearance != ''">#{isclearance},</if>
+            <if test="isallocate != null  and isallocate != ''">#{isallocate},</if>
+            <if test="goodspackingmethod != null  and goodspackingmethod != ''">#{goodspackingmethod},</if>
+            <if test="goodsnumber != null  and goodsnumber != ''">#{goodsnumber},</if>
+            <if test="measuspecifi != null  and measuspecifi != ''">#{measuspecifi},</if>
+            <if test="goodskgs != null  and goodskgs != ''">#{goodskgs},</if>
+            <if test="measugrowei != null  and measugrowei != ''">#{measugrowei},</if>
+            <if test="measuvolum != null ">#{measuvolum},</if>
+            <if test="sum != null  and sum != ''">#{sum},</if>
+            <if test="pristastoragen != null  and pristastoragen != ''">#{pristastoragen},</if>
+            <if test="priagenid != null  and priagenid != ''">#{priagenid},</if>
+            <if test="secstastoragen != null  and secstastoragen != ''">#{secstastoragen},</if>
+            <if test="secagenid != null  and secagenid != ''">#{secagenid},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="agentfee != null  and agentfee != ''">#{agentfee},</if>
+            <if test="issplit != null  and issplit != ''">#{issplit},</if>
+            <if test="remark2 != null  and remark2 != ''">#{remark2},</if>
+            <if test="createTime != null  ">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDocOrderUnpackingagent" parameterType="DocOrderUnpackingagent">
+        update doc_order_unpackingagent
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderid != null  and orderid != ''">OrderId = #{orderid},</if>
+            <if test="classdate != null  and classdate != ''">ClassDate = #{classdate},</if>
+            <if test="classnumber != null  and classnumber != ''">ClassNumber = #{classnumber},</if>
+            <if test="ordernumber != null  and ordernumber != ''">OrderNumber = #{ordernumber},</if>
+            <if test="ordernumStyle != null  and ordernumStyle != ''">OrderNum_style = #{ordernumStyle},</if>
+            <if test="containernum != null  and containernum != ''">ContainerNum = #{containernum},</if>
+            <if test="referrer != null  and referrer != ''">Referrer = #{referrer},</if>
+            <if test="merchandiser != null  and merchandiser != ''">Merchandiser = #{merchandiser},</if>
+            <if test="cost != null  and cost != ''">Cost = #{cost},</if>
+            <if test="containertype != null  and containertype != ''">ContainerType = #{containertype},</if>
+            <if test="goodschsname != null  and goodschsname != ''">GoodsChsName = #{goodschsname},</if>
+            <if test="unloadsite != null  and unloadsite != ''">UnloadSite = #{unloadsite},</if>
+            <if test="unloadsite2 != null  and unloadsite2 != ''">UnloadSite2 = #{unloadsite2},</if>
+            <if test="isclearance != null  and isclearance != ''">IsClearance = #{isclearance},</if>
+            <if test="isallocate != null  and isallocate != ''">IsAllocate = #{isallocate},</if>
+            <if test="goodspackingmethod != null  and goodspackingmethod != ''">GoodsPackingMethod = #{goodspackingmethod},</if>
+            <if test="goodsnumber != null  and goodsnumber != ''">GoodsNumber = #{goodsnumber},</if>
+            <if test="measuspecifi != null  and measuspecifi != ''">MeasuSpecifi = #{measuspecifi},</if>
+            <if test="goodskgs != null  and goodskgs != ''">GoodsKGs = #{goodskgs},</if>
+            <if test="measugrowei != null  and measugrowei != ''">MeasuGroWei = #{measugrowei},</if>
+            <if test="measuvolum != null ">MeasuVolum = #{measuvolum},</if>
+            <if test="sum != null  and sum != ''">Sum = #{sum},</if>
+            <if test="pristastoragen != null  and pristastoragen != ''">PriStaStorAgen = #{pristastoragen},</if>
+            <if test="priagenid != null  and priagenid != ''">PriAgenId = #{priagenid},</if>
+            <if test="secstastoragen != null  and secstastoragen != ''">SecStaStorAgen = #{secstastoragen},</if>
+            <if test="secagenid != null  and secagenid != ''">SecAgenId = #{secagenid},</if>
+            <if test="remark != null  and remark != ''">Remark = #{remark},</if>
+            <if test="agentfee != null  and agentfee != ''">AgentFee = #{agentfee},</if>
+            <if test="issplit != null  and issplit != ''">IsSplit = #{issplit},</if>
+            <if test="remark2 != null  and remark2 != ''">Remark2 = #{remark2},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDocOrderUnpackingagentByOrderId" parameterType="String">
+        delete from doc_order_unpackingagent where OrderId = #{orderId}
+    </delete>
+
+
+</mapper>

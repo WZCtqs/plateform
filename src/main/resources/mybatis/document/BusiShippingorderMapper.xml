@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.documentcenter.mapper.OrderNoticeFileMapper">
+
+    <resultMap type="BusiShippingorder" id="BusiShippingorderResult">
+        <result property="orderId"    column="order_ID"    />
+        <result property="orderNumber"    column="order_number"    />
+        <result property="classEastAndWest"    column="class_EastAndWest"    />
+        <result property="classDate"    column="Class_date"    />
+        <result property="orderUploadsite"    column="order_uploadSite"    />
+        <result property="orderUnloadsite"    column="order_unloadSite"    />
+        <result property="orderMerchandiserId"    column="order_merchandiser_id"    />
+        <result property="clientUnit"    column="client_unit"    />
+        <result property="clientEmail"    column="client_email"    />
+        <result property="clientOrderBindingWay"    column="client_order_bindingWay"    />
+        <result property="containerBoxamount"    column="container_boxAmount"    />
+        <result property="containerType"    column="container_type"    />
+        <result property="shipOrederName"    column="ship_oreder_name"    />
+        <result property="receiveOrderName"    column="receive_order_name"    />
+        <result property="goodsCannotpileup"    column="goods_cannotPileUp"    />
+        <result property="isConsolidation"    column="IsConsolidation"    />
+        <result property="goodsMark"    column="goods_mark"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="goodsPacking"    column="goods_packing"    />
+        <result property="goodsNumber"    column="goods_number"    />
+        <result property="goodsStandard"    column="goods_standard"    />
+        <result property="goodsKGS"    column="goods_KGS"    />
+        <result property="goodsCBM"    column="goods_CBM"    />
+        <result property="stationID"    column="stationID"    />
+        <result property="statioin"    column="statioin"    />
+        <result property="zxAddress"    column="zx_address"    />
+        <result property="pxAddress"    column="px_address"    />
+        <result property="pxYstype"    column="px_ystype"    />
+        <result property="contacts"    column="contacts"    />
+        <result property="cuntofftime"    column="cuntofftime"    />
+        <result property="clientYwNumber"    column="client_yw_number"    />
+        <result property="clientTjr"    column="client_tjr"    />
+
+        <result property="fclCustomsTime" column="fcl_customs_time"/>
+        <result property="fclCustomsNotTime" column="fcl_customs_not_time"/>
+        <result property="lclCustomsTime" column="lcl_customs_time"/>
+        <result property="lclCustomsNotTime" column="lcl_customs_not_time"/>
+    </resultMap>
+
+    <select id="selectBusiShippingorderById" parameterType="String" resultMap="BusiShippingorderResult">
+        select bso.order_ID, bso.order_number, bso.class_EastAndWest, bso.Class_date, bso.order_uploadSite, bso.order_unloadSite,
+        bso.client_unit,bso.client_email,bso.container_boxAmount, bso.container_type, bso.ship_oreder_name, bso.receive_order_name, IFNULL(bso.goods_cannotPileUp, '')goods_cannotPileUp,
+        bso.IsConsolidation,bsg.goods_mark,goods_name,bsg.goods_packing,bsg.goods_number,bsg.goods_standard,bsg.goods_KGS,bsg.goods_CBM, bso.client_yw_number,
+        bso.client_order_bindingWay, bso.stationID,
+        bs.statioin, bs.px_ystype, bs.contacts, bs.fcl_customs_time, bs.fcl_customs_not_time, bs.lcl_customs_time, bs.lcl_customs_not_time,
+        case bso.class_EastAndWest when '0' then bc.w_Merchandiser_id else bc.e_Merchandiser_id end as order_merchandiser_id,bc.client_tjr
+        from busi_shippingorder bso
+        left join busi_shippingorder_goods bsg on bsg.order_ID = bso.order_ID
+        left join busi_clients bc on bc.client_ID = bso.client_ID
+        left join busi_station bs on bs.station_id = bso.stationID
+        where bso.order_ID = #{orderId}
+    </select>
+
+    <select id="selectPortByOrderId" resultType="String" parameterType="String">
+        SELECT
+            bln.class_t_port
+        FROM
+            busi_shippingorder bso
+            LEFT JOIN busi_classes bcs ON bso.class_ID = bcs.class_ID
+            LEFT JOIN busi_linesite bln ON bln.id = bcs.line_id
+        WHERE
+            bso.order_ID = #{orderId}
+    </select>
+
+    <select id="selectOrderByClassBh" parameterType="String" resultMap="BusiShippingorderResult">
+        select order_ID, order_number from busi_shippingorder
+        where order_class_bh = #{classBh}
+    </select>
+
+</mapper>

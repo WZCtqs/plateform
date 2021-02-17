@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szhbl.project.documentcenter.mapper.DocPxGoodsInOutMapper">
+
+    <resultMap type="PxGoodsInOut" id="PxGoodsInOutResult">
+        <result property="id" column="id"/>
+        <result property="order_id" column="order_id"/>
+        <result property="order_number" column="order_number"/>
+        <result property="containerNum" column="containerNum"/>
+        <result property="Repatriate_time" column="Repatriate_time"/>
+        <result property="PlanCX_time" column="PlanCX_time"/>
+        <result property="CX_time" column="CX_time"/>
+        <result property="Store_station" column="Store_station"/>
+        <result property="car_number" column="car_number"/>
+        <result property="REPick_time" column="REPick_time"/>
+        <result property="Car_intime" column="Car_intime"/>
+        <result property="Car_outtime" column="Car_outtime"/>
+        <result property="Load_KP" column="Load_KP"/>
+        <result property="Storage_days" column="Storage_days"/>
+        <result property="createTime" column="create_time"/>
+
+    </resultMap>
+
+    <sql id="selectDocOrderVo">
+        select id, order_id, order_number, containerNum, Repatriate_time, PlanCX_time, CX_time, Store_station, car_number,
+        REPick_time, Car_intime, Car_outtime, Load_KP, Storage_days, create_time from doc_order_goodsinout
+    </sql>
+
+    <select id="selectDocPxGoodsInOutByOrderId" parameterType="String" resultMap="PxGoodsInOutResult">
+        <include refid="selectDocOrderVo"/>
+        where order_id = #{order_id} ORDER BY create_time desc limit 1
+    </select>
+
+    <insert id="insertDocPxGoodsInOut" parameterType="PxGoodsInOut" useGeneratedKeys="true" keyProperty="id">
+        insert into doc_order_goodsinout
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="order_id != null and order_id != ''">order_id,</if>
+            <if test="order_number != null and order_number != ''">order_number,</if>
+            <if test="containerNum != null and containerNum != ''">containerNum,</if>
+            <if test="Repatriate_time != null and Repatriate_time != ''">Repatriate_time,</if>
+            <if test="PlanCX_time != null and PlanCX_time != ''">PlanCX_time,</if>
+            <if test="CX_time != null and CX_time != ''">CX_time,</if>
+            <if test="Store_station != null and Store_station != ''">Store_station,</if>
+            <if test="car_number != null and car_number != ''">car_number,</if>
+            <if test="REPick_time != null and REPick_time != ''">REPick_time,</if>
+            <if test="Car_intime != null and Car_intime != ''">Car_intime,</if>
+            <if test="Car_outtime != null and Car_outtime != ''">Car_outtime,</if>
+            <if test="Load_KP != null and Load_KP != ''">Load_KP,</if>
+            <if test="Storage_days != null and Storage_days != ''">Storage_days,</if>
+            <if test="createTime != null ">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="order_id != null and order_id != ''">#{order_id},</if>
+            <if test="order_number != null and order_number != ''">#{order_number},</if>
+            <if test="containerNum != null and containerNum != ''">#{containerNum},</if>
+            <if test="Repatriate_time != null and Repatriate_time != ''">#{Repatriate_time},</if>
+            <if test="PlanCX_time != null and PlanCX_time != ''">#{PlanCX_time},</if>
+            <if test="CX_time != null and CX_time != ''">#{CX_time},</if>
+            <if test="Store_station != null and Store_station != ''">#{Store_station},</if>
+            <if test="car_number != null and car_number != ''">#{car_number},</if>
+            <if test="REPick_time != null and REPick_time != ''">#{REPick_time},</if>
+            <if test="Car_intime != null and Car_intime != ''">#{Car_intime},</if>
+            <if test="Car_outtime != null and Car_outtime != ''">#{Car_outtime},</if>
+            <if test="Load_KP != null and Load_KP != ''">#{Load_KP},</if>
+            <if test="Storage_days != null and Storage_days != ''">#{Storage_days},</if>
+            <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <delete id="deleteDocPxGoodsInOutByOrderId" parameterType="String">
+        delete from doc_order_goodsinout where order_id = #{order_id}
+    </delete>
+
+</mapper>
